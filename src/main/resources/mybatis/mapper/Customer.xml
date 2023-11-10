@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.customer">
+
+  <select id="custJoinCheck" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+    FROM CUSTOMER_TB
+    WHERE BSNS_NMBR = #{bsnsNmbr}
+  </select>
+  <select id="custJoinIdCheck" parameterType="String" resultType="int">
+    SELECT COUNT(*)
+    FROM customer_account_tb
+    WHERE cac_id = #{cacId}
+  </select>
+
+  <select id="custInfo" parameterType="int" resultType="custInfoResponse">
+    SELECT CUST_IDX, CUST_NM, CEO_NM, BSNS_NMBR
+    FROM CUSTOMER_TB
+    WHERE BSNS_NMBR = #{bsnsNmbr}
+  </select>
+
+  <select id="custAll" resultType="CustList">
+    SELECT CT.CEO_NM
+    FROM CUSTOMER_TB CT
+  </select>
+
+  <insert id="custJoin" parameterType="Customer">
+    INSERT INTO customer_account_tb (cust_idx, cac_id, cac_pw, cac_salt)
+    VALUES (#{custIdx}, #{cacId}, #{cacPw}, #{salt})
+  </insert>
+
+  <select id="getSalt" parameterType="Customer" resultType="String">
+    SELECT CAC_SALT
+    FROM CUSTOMER_ACCOUNT_TB
+    WHERE CAC_ID = #{cacId}
+  </select>
+
+  <select id="Login" parameterType="Customer" resultType="int">
+    SELECT COUNT(*)
+    FROM CUSTOMER_ACCOUNT_TB
+    WHERE CAC_ID = #{cacId}
+      AND CAC_PW = #{cacPw}
+  </select>
+
+  <select id="custLoginInfo" parameterType="Customer" resultType="custInfoResponse">
+    select cat.cac_idx,
+           cat.cac_id,
+           cat.cac_pw,
+           cat.cac_salt,
+           cat.cust_idx,
+           ct.cust_nm,
+           ct.ceo_nm,
+           ct.zip_cd,
+           ct.adr_1,
+           ct.adr_2,
+           ct.bsns_cndtn,
+           ct.bsns_typ,
+           ct.email,
+           ct.ph,
+           ct.ceo_brth,
+           ct.state,
+           ct.bsns_nmbr,
+           ct.bank,
+           ct.acnt_nmbr,
+           ct.acn_hld,
+           ct.memo
+    from customer_account_tb cat
+           LEFT JOIN customer_tb ct on cat.cust_idx = ct.cust_idx
+    where cat.cac_id = #{cacId}
+      and cat.cac_pw = #{cacPw}
+  </select>
+
+  <insert id="customerSave" parameterType="Customer">
+    INSERT INTO CUSTOMER_TB(CUST_NM, CEO_NM, ZIP_CD, ADR_1, ADR_2, BSNS_CNDTN, BSNS_TYP, EMAIL, PH, CEO_BRTH, STATE, BSNS_NMBR, BANK, ACNT_NMBR, ACN_HLD, MEMO, REG_DT)
+    VALUES (#{custNm}, #{ceoNm}, #{zipCd}, #{adr1}, #{adr2}, #{bsnsCndtn}, #{bsnsTyp}, #{email}, #{ph}, #{ceoBrth}, #{state}, #{bsnsNmbr}, #{bank}, #{acntNmbr}, #{acnHld}, #{memo}, now())
+  </insert>
+
+  <update id="customerUpdate" parameterType="Customer">
+    UPDATE CUSTOMER_TB
+    <trim prefix="SET" prefixOverrides=",">
+      <if test="custNm        !=null and custNm     !=''">CUST_NM= #{custNm}</if>
+      <if test="ceoNm         !=null and ceoNm      !=''">CEO_NM= #{ceoNm}</if>
+      <if test="zipCd         !=null and zipCd      !=''">ZIP_CD= #{zipCd}</if>
+      <if test="adr1          !=null and adr1       !=''">ADR_1= #{adr1}</if>
+      <if test="adr2          !=null and adr2       !=''">ADR_2= #{adr2}</if>
+      <if test="bsnsCndtn     !=null and bsnsCndtn  !=''">BSNS_CNDTN= #{bsnsCndtn}</if>
+      <if test="bsnsTyp       !=null and bsnsTyp    !=''">BSNS_TYP= #{bsnsTyp}</if>
+      <if test="email         !=null and email      !=''">EMAIL= #{email}</if>
+      <if test="ph            !=null and ph         !=''">PH= #{ph}</if>
+      <if test="ceoBrth       !=null and ceoBrth    !=''">CEO_BRTH= #{ceoBrth}</if>
+      <if test="state         !=null and state      !=''">STATE= #{state}</if>
+      <if test="bsnsNmbr      !=null and bsnsNmbr   !=''">BSNS_NMBR= #{bsnsNmbr}</if>
+      <if test="bank          !=null and bank       !=''">BANK= #{bank}</if>
+      <if test="acntNmbr      !=null and acntNmbr   !=''">ACNT_NMBR= #{acntNmbr}</if>
+      <if test="acnHld        !=null and acnHld     !=''">ACN_HLD= #{acnHld}</if>
+      <if test="memo          !=null and memo       !=''">MEMO= #{memo}</if>
+    </trim>
+    WHERE CUST_IDX = #{custIdx}
+  </update>
+
+  <!-- 프로젝트 내용 insert-->
+  <insert id="projInsert" parameterType="ProjDTO">
+    INSERT INTO customer_project_tb (PRJ_NM, REQ_SKILL, MEMO, PRJ_ADR, DEL_YN)
+    VALUES (#{prj_nm}, #{req_skill}, #{memo}, #{prj_adr}, 'N')
+  </insert>
+
+  <!--프로젝트 요청 등급 인원 insert  사용안함-->
+<!--  <insert id="projGradeInsert" parameterType="ProjDTO">
+    <selectKey keyProperty="cp_idx" resultType="int" order="BEFORE">
+      SELECT MAX(cp_idx) FROM customer_project_tb
+    </selectKey>
+    INSERT INTO customer_project_grade_tb (CP_IDX,LV_1,LV_2,LV_3) VALUES (#{cp_idx},#{lv_1},#{lv_2},#{lv_3});
+  </insert>-->
+
+    <!--직원 목록(가용인력) LIST-->
+    <select id="custAvailableList" resultType="custEmpList">
+        SELECT CAT.CUST_IDX                                                    AS custIdx,
+               CET.C_EMP_IDX                                                   AS cEmpIdx,
+               CET.C_EMP_NM                                                    AS cEmpNm,
+               CET.ADR1                                                        AS adr1,
+               (SELECT
+                    GROUP_CONCAT(DISTINCT (SIT.SKILL_NM))
+                FROM
+                    SKILL_INFO_TB SIT,
+                    CUSTOMER_EMPLOYEE_SKILL_TB CEST
+                WHERE
+                    SIT.SI_IDX = CEST.SI_IDX)                                  AS skill,
+               TIMESTAMPDIFF(YEAR, MIN(CRT.INP_DT), MAX(CRT.OUT_DT))           AS workYF,
+               MOD(TIMESTAMPDIFF(MONTH, MIN(CRT.INP_DT), MAX(CRT.OUT_DT)), 12) AS workMF,
+               MAX(CRT.OUT_DT)                                                 AS intrvDt,
+               MAX(CRT.OUT_DT)                                                 AS ableDt,
+               CET.OPEN_YN                                                     AS openYn
+        FROM
+            CUSTOMER_EMPLYEE_TB CET
+            LEFT JOIN CUSTOMER_ACCOUNT_TB CAT ON CET.cust_idx = CAT.cust_idx
+            LEFT JOIN CUSTOMER_RESUME_TB CRT ON CET.c_emp_idx = CRT.c_emp_idx
+            LEFT JOIN CUSTOMER_EMPLOYEE_SKILL_TB CEST on CET.c_emp_idx = CEST.c_emp_idx,
+            SKILL_INFO_TB SIT
+        WHERE
+            CEST.SI_IDX = SIT.SI_IDX
+        AND
+            CAT.CUST_IDX = #{custIdx}
+        <include refid="search"></include>
+
+    </select>
+    
+
+  <select id="projectSelectList" resultType="ProjDTO">
+    SELECT cpt.cp_idx,
+           cust_idx,
+           prj_nm,
+           req_skill,
+           memo,
+           prj_adr,
+           str_dt,
+           end_dt,
+           reg_dt,
+           del_yn
+    FROM customer_project_tb cpt
+  </select>
+
+    <!--프로젝트 투입중인 인력 count-->
+    <select id="inputManpowerCount" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CUSTOMER_EMPLYEE_TB CET, PERFORM_PROJECT_TB PPT , CUSTOMER_ACCOUNT_TB CAT
+        WHERE
+            PPT.C_EMP_IDX = CET.C_EMP_IDX
+        AND
+            CET.CUST_IDX = CAT.CUST_IDX
+        AND
+            PPT.INP_DT BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH) AND NOW()
+        AND
+            CAT.CUST_IDX = #{custIdx}
+    </select>
+
+    <!--프로젝트 철수 인력 count-->
+    <select id="evacuationManpowerCount" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CUSTOMER_EMPLYEE_TB CET, PERFORM_PROJECT_TB PPT , CUSTOMER_ACCOUNT_TB CAT
+        WHERE
+            PPT.C_EMP_IDX = CET.C_EMP_IDX
+        AND
+            CET.CUST_IDX = CAT.CUST_IDX
+        AND
+            PPT.OUT_DT > NOW()
+        AND
+            PPT.OUT_DT BETWEEN DATE_ADD(NOW(),INTERVAL -1 MONTH) AND NOW() /*한달*/
+        AND
+            CAT.CUST_IDX = #{custIdx}
+    </select>
+
+    <!--프로젝트 등록 건수 count-->
+    <select id="projectCount" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CUSTOMER_PROJECT_TB CPT, CUSTOMER_TB CT, CUSTOMER_ACCOUNT_TB CAT
+        WHERE
+            CPT.CUST_IDX = CT.CUST_IDX
+        AND
+            CAT.CUST_IDX = CT.CUST_IDX
+        AND
+            CAT.CUST_IDX = #{custIdx}  /*수정*/
+    </select>
+
+    <!--철수 예정인력 count(한 달)-->
+    <select id="withdrawalScheduledCount" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CUSTOMER_EMPLYEE_TB CET, PERFORM_PROJECT_TB PPT , CUSTOMER_ACCOUNT_TB CAT
+        WHERE
+            PPT.C_EMP_IDX = CET.C_EMP_IDX
+        AND
+            CET.CUST_IDX = CAT.CUST_IDX
+        AND
+            PPT.OUT_DT BETWEEN  NOW() AND DATE_ADD(NOW(),INTERVAL + 1 MONTH) /*한달*/
+        AND
+            CAT.CUST_IDX = #{custIdx}
+    </select>
+
+    <!--노출 미노출 UPDATE-->
+    <update id="statChange" parameterType="custEmpList">
+        UPDATE
+            CUSTOMER_EMPLYEE_TB
+        SET
+            OPEN_YN = #{openYn}
+        WHERE
+            C_EMP_IDX = #{cEmpIdx}
+    </update>
+
+    <!--인력검색 LIST-->
+    <select id="manpowerList" resultType="CustEmpList">
+        SELECT
+            ET.EMP_IDX													    AS custIdx,
+            ET.EMP_NM 													    AS cEmpNm,
+            ET.ADR_1 													    AS adr1,
+            (SELECT
+                GROUP_CONCAT(DISTINCT (SIT.SKILL_NM))
+            FROM
+                SKILL_INFO_TB SIT,
+                EMPLOYEE_SKILL_TB EST
+            WHERE
+                SIT.SI_IDX = EST.SI_IDX)                                  	AS skill,
+            TIMESTAMPDIFF(YEAR, MIN(ER.INP_DT), MAX(ER.OUT_DT))             AS workYF,
+            MOD(TIMESTAMPDIFF(MONTH, MIN(ER.INP_DT), MAX(ER.OUT_DT)), 12)   AS workMF,
+            MAX(ER.OUT_DT)                                                  AS intrvDt,
+            MAX(ER.OUT_DT)                                                  AS ableDt,
+            ET.OPEN_YN                                                      AS openYn
+        FROM
+            EMPLOYEE_TB ET
+            LEFT JOIN EXTERNAL_RESUME ER ON ET.emp_idx = ER.emp_idx
+            LEFT JOIN EMPLOYEE_SKILL_TB EST on ET.emp_idx = EST.emp_idx,
+            SKILL_INFO_TB SIT
+        WHERE
+            EST.SI_IDX = SIT.SI_IDX
+        AND
+            ET.`type` = 'E'
+        AND
+            OPEN_YN = 'Y'
+        <include refid="searchManpower"></include>
+        GROUP BY
+            ET.EMP_NM
+        UNION ALL
+        SELECT
+            CAT.CUST_IDX                                                    AS custIdx,
+            CET.C_EMP_NM                                                    AS cEmpNm,
+            CET.ADR1                                                        AS adr1,
+            (SELECT
+                GROUP_CONCAT(DISTINCT (SIT.SKILL_NM))
+            FROM
+                SKILL_INFO_TB SIT,
+                CUSTOMER_EMPLOYEE_SKILL_TB CEST
+            WHERE
+                SIT.SI_IDX = CEST.SI_IDX)                                   AS skill,
+            TIMESTAMPDIFF(YEAR, MIN(CRT.INP_DT), MAX(CRT.OUT_DT))           AS workYF,
+            MOD(TIMESTAMPDIFF(MONTH, MIN(CRT.INP_DT), MAX(CRT.OUT_DT)), 12) AS workMF,
+            MAX(CRT.OUT_DT)                                                 AS intrvDt,
+            MAX(CRT.OUT_DT)                                                 AS ableDt,
+            CET.OPEN_YN                                                     AS openYn
+        FROM
+            CUSTOMER_EMPLYEE_TB CET
+            LEFT JOIN CUSTOMER_ACCOUNT_TB CAT ON CET.cust_idx = CAT.cust_idx
+            LEFT JOIN CUSTOMER_RESUME_TB CRT ON CET.c_emp_idx = CRT.c_emp_idx
+            LEFT JOIN CUSTOMER_EMPLOYEE_SKILL_TB CEST on CET.c_emp_idx = CEST.c_emp_idx,
+            SKILL_INFO_TB SIT
+        WHERE
+            CEST.SI_IDX = SIT.SI_IDX
+        AND
+            CAT.CUST_IDX != #{custIdx}
+        AND
+            OPEN_YN = 'Y'
+        <include refid="search"></include>
+        GROUP BY
+            CET.C_EMP_NM
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+    <sql id="search">
+        <choose>
+            <when test="type == 'all'">
+                AND CET.C_EMP_NM LIKE CONCAT('%',#{keyword},'%')
+                OR  CET.ADR1 LIKE CONCAT('%',#{keyword},'%')
+                AND  CET.C_EMP_NM  IS NOT NULL
+            </when>
+            <when test="type == 'name'">
+                AND C_EMP_NM LIKE CONCAT('%',#{keyword},'%')
+            </when>
+            <when test="type == 'area'">
+                AND CET.ADR1 LIKE CONCAT('%',#{keyword},'%')
+            </when>
+        </choose>
+    </sql>
+
+
+    <sql id="searchManpower">
+        <choose>
+            <when test="type == 'all'">
+                AND ET.EMP_NM LIKE CONCAT('%',#{keyword},'%')
+                OR  ET.ADR_1 LIKE CONCAT('%',#{keyword},'%')
+                AND ET.EMP_NM  IS NOT NULL
+            </when>
+            <when test="type == 'name'">
+                AND ET.EMP_NM LIKE CONCAT('%',#{keyword},'%')
+            </when>
+            <when test="type == 'area'">
+                AND ET.ADR_1 LIKE CONCAT('%',#{keyword},'%')
+            </when>
+        </choose>
+    </sql>
+
+
+
+
+
+</mapper>

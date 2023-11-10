@@ -1,0 +1,45 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.calendar">
+    <!--프로젝트 투입일자(거래처)-->
+    <select id="getInDtCalendar" resultType="Calendar">
+        SELECT
+            CET.C_EMP_IDX as empIdx
+            , CONCAT(CET.C_EMP_NM, ' 투입') AS title
+            , CRT.INP_DT as start
+        FROM
+            CUSTOMER_EMPLYEE_TB CET,
+            CUSTOMER_RESUME_TB CRT,
+            CUSTOMER_ACCOUNT_TB CAT
+        WHERE
+            CET.C_EMP_IDX = CRT.C_EMP_IDX
+        AND
+            CAT.CUST_IDX = CET.CUST_IDX
+        AND
+            CRT.INP_DT IS NOT NULL
+        AND
+            CAT.CUST_IDX = #{custIdx}
+    </select>
+
+    <!--프로젝트 철수일자(거래처)-->
+    <select id="getOutDtCalendar" resultType="Calendar">
+        SELECT
+            CET.C_EMP_IDX as empIdx
+            , CONCAT(CET.C_EMP_NM, ' 철수') AS title
+            , CRT.OUT_DT as start
+        FROM
+            CUSTOMER_EMPLYEE_TB CET,
+            CUSTOMER_RESUME_TB CRT,
+            CUSTOMER_ACCOUNT_TB CAT
+        WHERE
+            CET.C_EMP_IDX = CRT.C_EMP_IDX
+        AND
+            CAT.CUST_IDX = CET.CUST_IDX
+        AND
+            CRT.OUT_DT IS NOT NULL
+        AND
+            CAT.CUST_IDX = #{custIdx}
+    </select>
+</mapper>

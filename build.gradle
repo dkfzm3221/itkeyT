@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'org.springframework.boot' version '2.6.2'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.itkey'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    //implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'com.google.guava:guava:11.0.2'
+    implementation group: 'org.bgee.log4jdbc-log4j2', name:'log4jdbc-log4j2-jdbc4.1', version: '1.16'
+
+
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+    implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
+    implementation 'org.apache.poi:poi:5.2.3'
+    implementation 'commons-io:commons-io:2.11.0'
+
+    implementation 'com.itextpdf:html2pdf:3.0.3'
+    implementation 'com.itextpdf:itext7-core:7.1.14'
+    implementation 'com.itextpdf.tool:xmlworker:5.5.11'
+    implementation 'com.itextpdf:itextpdf:5.5.13'
+
+    implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.4.6'
+    implementation 'org.springframework.boot:spring-boot-devtools'
+    implementation 'javax.servlet:jstl'
+    compileOnly 'org.projectlombok:lombok'
+    implementation 'com.mysql:mysql-connector-j:8.0.31'
+    annotationProcessor 'org.projectlombok:lombok'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation group: 'org.json', name: 'json', version: '20090211'
+    //testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+
+
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

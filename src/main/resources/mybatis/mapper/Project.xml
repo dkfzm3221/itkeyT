@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.project">
+  <select id="projectAll" resultType="ProjectList">
+    SELECT PT.PRJ_IDX
+         , PT.PRJ_NM
+         , PT.STR_DT
+         , PT.END_DT
+         , PT.MEMO
+         , CT.CUST_NM
+         , JSON_ARRAYAGG(ET.EMP_NM) AS EMP_NM
+         , CASE
+             WHEN PT.END_DT >= CURDATE()
+               THEN 'ING'
+             WHEN PT.END_DT &lt; CURDATE()
+               THEN 'END'
+      END                           AS STATUS
+    FROM PROJECT_TB PT
+           LEFT JOIN CUSTOMER_TB CT ON PT.CUST_IDX = CT.CUST_IDX
+           LEFT JOIN perform_project_tb PMT ON PT.PRJ_IDX = PMT.PRJ_IDX
+           LEFT JOIN EMPLOYEE_TB ET ON ET.EMP_IDX = PMT.EMP_IDX
+    GROUP BY PT.PRJ_IDX
+  </select>
+
+  <select id="projectProg" resultType="ProjectList">
+    SELECT PT.PRJ_IDX
+         , PT.PRJ_NM
+         , PT.STR_DT
+         , PT.END_DT
+         , PT.MEMO
+         , CT.CUST_NM
+         , JSON_ARRAYAGG(ET.EMP_NM) AS EMP_NM
+         , CASE
+             WHEN PT.END_DT >= CURDATE()
+               THEN 'ING'
+             WHEN PT.END_DT &lt; CURDATE()
+               THEN 'END'
+      END                           AS STATUS
+    FROM PROJECT_TB PT
+           LEFT JOIN CUSTOMER_TB CT ON PT.CUST_IDX = CT.CUST_IDX
+           LEFT JOIN perform_project_tb PMT ON PT.PRJ_IDX = PMT.PRJ_IDX
+           LEFT JOIN EMPLOYEE_TB ET ON ET.EMP_IDX = PMT.EMP_IDX
+    WHERE END_DT >= CURDATE()
+    GROUP BY PT.PRJ_IDX
+  </select>
+
+  <select id="projectEnd" resultType="ProjectList">
+    SELECT PT.PRJ_IDX
+         , PT.PRJ_NM
+         , PT.STR_DT
+         , PT.END_DT
+         , PT.MEMO
+         , CT.CUST_NM
+         , JSON_ARRAYAGG(ET.EMP_NM) AS EMP_NM
+         , CASE
+             WHEN PT.END_DT >= CURDATE()
+               THEN 'ING'
+             WHEN PT.END_DT &lt; CURDATE()
+               THEN 'END'
+      END                           AS STATUS
+    FROM PROJECT_TB PT
+           LEFT JOIN CUSTOMER_TB CT ON PT.CUST_IDX = CT.CUST_IDX
+           LEFT JOIN perform_project_tb PMT ON PT.PRJ_IDX = PMT.PRJ_IDX
+           LEFT JOIN EMPLOYEE_TB ET ON ET.EMP_IDX = PMT.EMP_IDX
+    WHERE END_DT &lt; CURDATE()
+    GROUP BY PT.PRJ_IDX
+  </select>
+
+  <select id="priceTable" parameterType="ProjectPrice" resultType="ProjectPrice">
+    SELECT CT.CUST_IDX AS CSTM_IDX, CT.CUST_NM AS CSTM_NM, ET.EMP_NM AS EMP_NM, TRUNCATE(PPT.SALES_PRICE, -2) AS SALES_PRICE, TRUNCATE(PPT.SALES_PRICE, -2) + TRUNCATE(PPT.SALES_PRICE, -2) / 10 AS TAX_PRICE, PT.PRJ_NM AS PRJ_NM
+    FROM PROJECT_PRICE_TB PPT
+           LEFT JOIN perform_project_tb PMT ON PPT.PMP_IDX = PMT.PMP_IDX
+           LEFT JOIN EMPLOYEE_TB ET ON PPT.EMP_IDX = ET.EMP_IDX
+           LEFT JOIN PROJECT_TB PT ON PMT.PRJ_IDX = PT.PRJ_IDX
+           LEFT JOIN CUSTOMER_TB CT ON PT.CUST_IDX = CT.CUST_IDX
+    WHERE PPT.COMP_IDX = #{compIdx}
+      AND INP_Y = #{inpY}
+      AND INP_M = #{inpM}
+    ORDER BY CT.CUST_IDX
+  </select>
+</mapper>

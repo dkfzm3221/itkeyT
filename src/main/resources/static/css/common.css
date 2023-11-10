@@ -1,0 +1,37 @@
+@media all and (min-width:1025px){
+	/* 데스크탑 CSS 작성 */
+}
+@media all and (min-width:768px) and (max-width:1024px){
+	/* 태블릿 및 노트북 CSS 작성 */
+}
+@media only screen and (max-width:480px){
+	/* 모바일 */
+}
+
+/*
+@ import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@ import url(http://fonts.googleapis.com/earlyaccess/nanumbrushscript.css);
+@ import url(http://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css);
+@ import url(http://fonts.googleapis.com/earlyaccess/nanummyeongjo.css);
+@ import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+*/
+
+/*
+	나눔브러쉬 (Nanum Brush Script)
+	나눔고딕(Nanum Gothic)
+	나눔고딕코딩(Nanum Gothic Coding)
+	나눔명조(Nanum Myeongjo)
+	나눔펜(Nanum Pen Script)
+*/
+
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+.ellip{
+	display:block;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	word-wrap:normal;
+	overflow:hidden;
+}
