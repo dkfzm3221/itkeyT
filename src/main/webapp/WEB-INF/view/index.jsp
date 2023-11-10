@@ -84,52 +84,7 @@
     </div>
 </div>
 
-<!-- Calendar info Modal -->
-<div class="modal fade" id="cld-info-Modal">
-    <div class="modal-xl modal-dialog2 modal-dialog2-centered">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title"><strong>홍길동</strong> 님 프로젝트 이력사항</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
 
-            <!-- Modal body -->
-            <div class="modal-body">
-                <div class="img-profile"></div>
-
-                <div class="project-info">
-                    <table class="text-center">
-                        <tr>
-                            <th>프로젝트</th>
-                            <td>영등포 한국전력 프로젝트</td>
-                        </tr>
-
-                        <tr>
-                            <th>연차</th>
-                            <td>2년 3개월</td>
-                        </tr>
-
-                        <tr>
-                            <th>지역</th>
-                            <td>인천</td>
-                        </tr>
-
-                        <tr>
-                            <th>기간</th>
-                            <td>21-12-31 ~ 22-12-31</td>
-                        </tr>
-
-                        <tr>
-                            <th>단가</th>
-                            <td>8,000,000</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- Footer  -->
 <jsp:include page="common/contentFooter.jsp"/>
 <!-- Footer END  -->
