@@ -13,7 +13,7 @@
             <div class="page-inner">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="card-title"><h3 style="font-size: 1.1rem;">이번달 현황(23-02-011 ~ 23-02-28)</h3></div>
+                        <div class="card-title"><h3 style="font-size: 1.1rem;">이번달dddd 현황(23-02-011 ~ 23-02-28)</h3></div>
                         <div class="row">
                             <div class="col-6">
                                 <div class="card card-stats card-round">
