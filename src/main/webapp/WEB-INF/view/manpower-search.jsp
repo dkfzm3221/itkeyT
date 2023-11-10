@@ -18,7 +18,7 @@
                         <div class="col-md-8" style="margin-bottom: 20px; padding: 0;">
                             <form class="form-inline">
                                 <select class="form-control" style="padding: 0.744rem 1rem;">
-                                    <option value="">--- 전체 ---</option>
+                                    <option value="">--- 전체 ---  </option>
                                     <option value="name">이름</option>
                                 </select>
                                 <div class="input-group m-search">
