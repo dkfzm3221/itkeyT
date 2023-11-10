@@ -1,10 +1,10 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: AHN
-  Date: 2023-02-23
-  Time: 오후 5:17
-  To change this template use File | Settings | File Templates.
---%>
+        Created by IntelliJ IDEA.
+        User: AHN
+        Date: 2023-02-23
+        Time: 오후 5:17
+        To change this template use File | Settings | File Templates.
+        --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -17,7 +17,6 @@
         <a href="index.jsp" class="logo">
             <img src="/resources/images/itkey-logo-white.png" alt="logo" class="navbar-brand" style="height: 28px;">
         </a>
-
         <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon">
 						<i class="icon-menu"></i>
@@ -27,7 +26,9 @@
         <div class="more bell-mobile">
             <ul class="navbar-nav topbar-nav align-items-center">
                 <li class="nav-item dropdown hidden-caret">
-
+                    <a class="nav-link dropdown-toggle" href="#">
+                        <i class="fa fa-bell"></i>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -42,13 +43,6 @@
     <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
 
         <div class="container-fluid">
-            <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-                <li class="nav-item dropdown hidden-caret">
-                    <a class="nav-link dropdown-toggle" href="#" id="login-button" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        login
-                    </a>
-                </li>
-            </ul>
         </div>
     </nav>
     <!-- End Navbar -->
@@ -66,7 +60,7 @@
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
 									안녕하세요.
-									<div style="font-size: 18px; color: #1572E8;">사용자 님</div>
+									<div style="font-size: 18px; color: #1572E8;">관리자 님</div>
 								</span>
                     </a>
                     <div class="clearfix"></div>
@@ -77,7 +71,21 @@
                 <li class="nav-item active">
                     <a href="index.jsp">
                         <i class="fas fa-home"></i>
-                        <p>게시판</p>
+                        <p>게시판 관리</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="proxy-upload.jsp">
+                        <i class="far fa-edit"></i>
+                        <p>회원 관리</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="proxy-upload.jsp">
+                        <i class="far fa-edit"></i>
+                        <p>메뉴 관리</p>
                     </a>
                 </li>
             </ul>
@@ -85,10 +93,5 @@
     </div>
 </div>
 <!-- End Sidebar -->
-<script>
-    function loginButton (){
-
-    }
-</script>
 </body>
 </html>
