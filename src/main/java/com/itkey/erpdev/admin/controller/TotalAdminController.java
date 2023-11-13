@@ -34,7 +34,7 @@ public class TotalAdminController {
 		ModelAndView mv = new ModelAndView("/login_admin");
 
 		System.out.println(mv);
-		if(session.getAttribute("/login_admin") == null || session.getAttribute("/login_admin") == "") {
+		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
 			mv.setViewName("/login_admin");
 			return mv;
 		}
@@ -105,5 +105,20 @@ public class TotalAdminController {
 
 		return mv;
 	}
-	
+
+	// 게시판 관리 페이지
+	@ResponseBody
+	@RequestMapping("/boardMgmg")
+	public ModelAndView boardMgmg(HttpServletRequest request) throws Exception{
+		HttpSession session = request.getSession();
+
+		ModelAndView mv = new ModelAndView("/boardMgmg");
+
+		System.out.println(mv);
+		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
+			mv.setViewName("/boardMgmg");
+			return mv;
+		}
+		return mv;
+	}
 }
