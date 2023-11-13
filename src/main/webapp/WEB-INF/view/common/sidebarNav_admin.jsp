@@ -6,6 +6,7 @@
         To change this template use File | Settings | File Templates.
         --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Title</title>
@@ -75,26 +76,24 @@
             </div>
 
             <ul class="nav nav-primary">
-                <li class="nav-item active">
-                    <a href="index.jsp">
-                        <i class="fas fa-home"></i>
-                        <p>게시판 관리</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="proxy-upload.jsp">
-                        <i class="far fa-edit"></i>
-                        <p>회원 관리</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="proxy-upload.jsp">
-                        <i class="far fa-edit"></i>
-                        <p>메뉴 관리</p>
-                    </a>
-                </li>
+                <c:forEach var="gnb" items="${sessionScope.gnbList}" varStatus="status">
+                    <li class="nav-item">
+                        <a href='/prj/${gnb.menuUrl}.do'>
+                            <c:choose>
+                                <c:when test="${gnb.menuCode == 'M0101'}">
+                                    <i class="fas fa-user-cog"></i>
+                                </c:when>
+                                <c:when test="${gnb.menuCode == 'M0201'}">
+                                    <i class="fas fa-server"></i>
+                                </c:when>
+                                <c:when test="${gnb.menuCode == 'M0301'}">
+                                    <i class="fas fa-laptop"></i>
+                                </c:when>
+                            </c:choose>
+                            <p>${gnb.menuName}</p>
+                        </a>
+                    </li>
+                </c:forEach>
             </ul>
         </div>
     </div>
