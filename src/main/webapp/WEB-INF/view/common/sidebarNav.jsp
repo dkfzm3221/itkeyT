@@ -44,7 +44,7 @@
         <div class="container-fluid">
             <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
                 <li class="nav-item dropdown hidden-caret">
-                    <a class="nav-link dropdown-toggle" href="#" id="login-button" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" onclick="loginButton()" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         login
                     </a>
                 </li>
@@ -87,7 +87,7 @@
 <!-- End Sidebar -->
 <script>
     function loginButton (){
-
+        window.location.href = "/totalAdmin/loginAdmin";
     }
 </script>
 </body>

@@ -6,6 +6,7 @@
         To change this template use File | Settings | File Templates.
         --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Title</title>
@@ -43,6 +44,13 @@
     <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
 
         <div class="container-fluid">
+            <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+                <li class="nav-item dropdown hidden-caret">
+                    <a class="nav-link dropdown-toggle" onclick="logoutButton()" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Logout
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
     <!-- End Navbar -->
@@ -68,30 +76,32 @@
             </div>
 
             <ul class="nav nav-primary">
-                <li class="nav-item active">
-                    <a href="/">
-                        <i class="fas fa-home"></i>
-                        <p>게시판 관리</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="proxy-upload.jsp">
-                        <i class="far fa-edit"></i>
-                        <p>회원 관리</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="proxy-upload.jsp">
-                        <i class="far fa-edit"></i>
-                        <p>메뉴 관리</p>
-                    </a>
-                </li>
+                <c:forEach var="gnb" items="${sessionScope.gnbList}" varStatus="status">
+                    <li class="nav-item">
+                        <a href='/totalAdmin/${gnb.menuUrl}'>
+                            <c:choose>
+                                <c:when test="${gnb.menuCode == 'M0101'}">
+                                    <i class="fas fa-user-cog"></i>
+                                </c:when>
+                                <c:when test="${gnb.menuCode == 'M0201'}">
+                                    <i class="fas fa-server"></i>
+                                </c:when>
+                                <c:when test="${gnb.menuCode == 'M0301'}">
+                                    <i class="fas fa-laptop"></i>
+                                </c:when>
+                            </c:choose>
+                            <p>${gnb.menuName}</p>
+                        </a>
+                    </li>
             </ul>
         </div>
     </div>
 </div>
 <!-- End Sidebar -->
+<script>
+    function logoutButton (){
+        window.location.href = "/totalAdmin/logout";
+    }
+</script>
 </body>
 </html>
