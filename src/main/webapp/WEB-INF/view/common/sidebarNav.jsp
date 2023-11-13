@@ -14,7 +14,7 @@
 <div class="main-header">
     <!-- Logo Header -->
     <div class="logo-header" data-background-color="blue">
-        <a href="index.jsp" class="logo">
+        <a href="/" class="logo">
             <img src="/resources/images/itkey-logo-white.png" alt="logo" class="navbar-brand" style="height: 28px;">
         </a>
 
@@ -75,7 +75,7 @@
 
             <ul class="nav nav-primary">
                 <li class="nav-item active">
-                    <a href="index.jsp">
+                    <a href="/">
                         <i class="fas fa-home"></i>
                         <p>게시판</p>
                     </a>

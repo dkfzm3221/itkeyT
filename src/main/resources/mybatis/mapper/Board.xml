@@ -3,26 +3,110 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.board">
-    <select id="boardList" resultType="Board">
+    <select id="boardList" parameterType="map" resultType="Board">
         SELECT
             BOARD_SEQ
-            , BOARD_TYPE
-            , BOARD_TITLE
+             , BOARD_TYPE
+             , BOARD_TITLE
+             , BOARD_CONTENT
+             , BOARD_SECRET_YN
+             , BOARD_DEL_YN
+             , REPLY_YN
+             , REPLY_CONTENT
+             , REPLY_MEMBER_ID
+             , REPLY_DT
+             , ATTCH_FILE_CNT
+             , COALESCE(INQ_CNT, 0) AS INQ_CNT
+             , REG_ID
+             , REG_NM
+             , REG_DT
+             , UPD_ID
+             , UPD_NM
+             , UPD_DT
+        FROM BOARD
+        ORDER BY BOARD_SEQ DESC
+        LIMIT #{startIdx}, #{countPerPage}
+    </select>
+    <insert id="writeBoard" parameterType="Board">
+        INSERT INTO BOARD
+            (BOARD_TITLE
             , BOARD_CONTENT
             , BOARD_SECRET_YN
+            , BOARD_TYPE
             , BOARD_DEL_YN
-            , REPLY_YN
-            , REPLY_CONTENT
-            , REPLY_MEMBER_ID
-            , REPLY_DT
-            , ATTCH_FILE_CNT
-            , INQ_CNT
-            , REG_ID
+            , password
             , REG_NM
+            , REG_ID
             , REG_DT
-            , UPD_ID
-            , UPD_NM
-            , UPD_DT
+            )
+        VALUES
+            ( #{boardTitle}
+            , #{boardContent}
+            , #{boardSecretYn}
+            , 1
+            , 'N'
+            , #{password}
+            , #{regNm}
+            , #{regNm}
+            , NOW()
+            )
+    </insert>
+    <select id="boardDetail" parameterType="Board" resultType="Board">
+        SELECT
+            BOARD_SEQ
+             , BOARD_TYPE
+             , BOARD_TITLE
+             , BOARD_CONTENT
+             , BOARD_SECRET_YN
+             , BOARD_DEL_YN
+             , REPLY_YN
+             , REPLY_CONTENT
+             , REPLY_MEMBER_ID
+             , REPLY_DT
+             , ATTCH_FILE_CNT
+             , INQ_CNT
+             , REG_ID
+             , REG_NM
+             , REG_DT
+             , UPD_ID
+             , UPD_NM
+             , UPD_DT
+             , PASSWORD
         FROM BOARD
+        WHERE BOARD_SEQ = #{boardSeq}
     </select>
+    <update id="updateInqCnt" parameterType="BOARD">
+        UPDATE BOARD
+        SET INQ_CNT = COALESCE(INQ_CNT, 0) + 1
+        WHERE BOARD_SEQ = #{boardSeq}
+    </update>
+
+    <select id="getTotalBoardCount" resultType="int">
+        SELECT COUNT(*) FROM board
+    </select>
+
+    <select id="selectPassword" parameterType="Board" resultType="Board">
+        SELECT
+            BOARD_SEQ
+             , PASSWORD
+        FROM BOARD
+        WHERE BOARD_SEQ = #{boardSeq}
+    </select>
+
+    <insert id="updateBoard" parameterType="Board">
+        UPDATE BOARD
+        SET
+            BOARD_TITLE = #{boardTitle}
+            , BOARD_CONTENT = #{boardContent}
+            , BOARD_SECRET_YN = #{boardSecretYn}
+            , BOARD_TYPE = 1
+            , BOARD_DEL_YN = 'N'
+            , password = #{password}
+            , UPD_NM = #{updNm}
+            , UPD_ID = #{updNm}
+            , UPD_DT = NOW()
+        WHERE BOARD_SEQ = #{boardSeq}
+    </insert>
+
+
 </mapper>
