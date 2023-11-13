@@ -78,7 +78,7 @@
             <ul class="nav nav-primary">
                 <c:forEach var="gnb" items="${sessionScope.gnbList}" varStatus="status">
                     <li class="nav-item">
-                        <a href='/prj/${gnb.menuUrl}.do'>
+                        <a href='/totalAdmin/${gnb.menuUrl}'>
                             <c:choose>
                                 <c:when test="${gnb.menuCode == 'M0101'}">
                                     <i class="fas fa-user-cog"></i>
