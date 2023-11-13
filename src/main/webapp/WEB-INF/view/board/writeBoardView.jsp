@@ -44,22 +44,38 @@
                             <tbody>
                             <tr>
                                 <th class="padding-lg">제 목</th>
-                                <td colspan="3"><input type="text"
-                                   class="form-control write-form" id="boardTitle"
-                                   placeholder="제목을 작성해 주세요." name="boardTitle"></td>
+                                <td colspan="3">
+                                    <input type="text"
+                                           class="form-control write-form" id="boardTitle"
+                                           placeholder="제목을 작성해 주세요." name="boardTitle">
+                                </td>
                             </tr>
                             <tr>
                                 <th class="padding-lg">작성자</th>
                                 <td colspan="3">
                                     <input type="text" class="form-control write-form" id="regNm" placeholder="작성자" name="regNm">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="boardSecretYn" id="boardSecretY" value="Y" checked>
+                                        <label class="form-check-label" for="boardSecretY">공개</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="boardSecretYn" id="boardSecretN" value="N">
+                                        <label class="form-check-label" for="boardSecretN">비공개</label>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
+                                <th class="padding-lg">비밀번호</th>
+                                <td colspan="3">
+                                    <input type="password" class="form-control write-form" id="password" placeholder="비밀번호" name="password" maxlength="4">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="padding-lg">내용</th>
                                 <td colspan="4">
                                     <div class="detail-content">
-                                        <textarea class="form-control write-form" rows="14"
-                                                  id="boardContent" placeholder="내용을 작성해 주세요."
-                                                  name="boardContent">
-                                        </textarea>
+                                    <textarea class="form-control write-form" rows="14"
+                                              id="boardContent" placeholder="내용을 작성해 주세요." name="boardContent"></textarea>
                                     </div>
                                 </td>
                             </tr>
@@ -78,16 +94,48 @@ function insertBoard(){
     let boardTitle = $("#boardTitle").val();
     let boardContent = $("#boardContent").val();
     let regName = $("#regNm").val();
+    let password = $("#password").val();
+    let boardSecretYn = $("input[name='boardSecretYn']:checked").val();
+
+    if (!boardTitle) {
+        alert("제목을 입력해주세요.");
+        return;
+    }
+
+    if (!boardContent) {
+        alert("내용을 입력해주세요.");
+        return;
+    }
+
+    if (!regName) {
+        alert("작성자를 입력해주세요.");
+        return;
+    }
+    if (!password) {
+        alert("비밀번호를 입력해주세요.");
+        return;
+    }
 
 
-    $.ajax({
-        type:"POST",
-        url: "writeBoard",
-        data: {},
-        success: function () {
-            // 요청, 통신이 성공했을 때 실행할 함수
-        }
-    })
+    let isConfirmed = confirm("등록하시겠습니까?");
+
+    if (isConfirmed) {
+        $.ajax({
+            type:"POST",
+            url: "/writeBoard",
+            data: {boardTitle : boardTitle,
+                boardContent : boardContent,
+                regNm : regName,
+                boardSecretYn : boardSecretYn,
+                password : password
+            },
+            success: function () {
+                window.location.href = "/";
+            }
+        });
+    } else {
+        alert("등록이 취소되었습니다.");
+    }
 }
 </script>
 
