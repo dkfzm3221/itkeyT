@@ -80,7 +80,7 @@
     <script src="/resources/assets/js/plugin/datepicker/bootstrap-datetimepicker.min.js"></script>
 
     <!-- Bootstrap Tagsinput -->
-    <script src="/resourcesassets/js/plugin/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+    <script src="/resources/assets/js/plugin/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
 
     <!-- Bootstrap Wizard -->
     <script src="/resources/assets/js/plugin/bootstrap-wizard/bootstrapwizard.js"></script>

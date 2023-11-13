@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!-- Header -->
 <jsp:include page="common/contentHeader.jsp"/>
 <!-- Header END -->
@@ -20,7 +22,7 @@
                                     <div class="card-body text-center" onclick="show_cnt_list('전체진행');">
                                         <div class="numbers">
                                             <h4 class="card-title">회원 수</h4>
-                                            <div class="num icon-big" style="color: #1572E8; font-weight: 600;" data-start="0" data-end="0" data-postfix="" data-duration="1500" data-delay="1200">0</div>
+                                            <div class="num icon-big" id="countAdmin" style="color: #1572E8; font-weight: 600;" data-start="0" data-end="0" data-postfix="" data-duration="1500" data-delay="1200"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -58,20 +60,24 @@
                                             <th>설정</th>
                                         </tr>
 
-                                        <tr>
-                                            <td>04</td>
-                                            <td>2년 3개월</td>
-                                            <td>연차</td>
-                                            <td>2023-11-10</td>
-                                            <td>ㅁㄴㅇㄹㄴㅇㄹ</td>
-                                            <td>2ㅁㄴㅇㄹ</td>
-                                            <td>ㅁㄴㅇㄹ</td>
-                                            <td>
-                                                <button class="btn-primary">로그인</button>
-                                                <button class="btn-primary">수정</button>
-                                                <button class="">탈퇴</button>
-                                            </td>
-                                        </tr>
+                                            <c:forEach items="${adminList}" var="adminList">
+                                                <c:if test="${adminList.seq != null}">
+                                            <tr>
+                                                <td>${adminList.seq}</td>
+                                                <td>${adminList.id}</td>
+                                                <td>${adminList.memberType}</td>
+                                                <td>${adminList.email}</td>
+                                                <td>${adminList.regDt}</td>
+                                                <td>${adminList.lastCntnDt}</td>
+                                                <td>${adminList.regNm}</td>
+                                                <td>
+                                                    <button class="btn-primary">로그인</button>
+                                                    <button class="btn-primary">수정</button>
+                                                    <button class="">탈퇴</button>
+                                                </td>
+                                            </tr>
+                                                </c:if>
+                                            </c:forEach>
                                     </table>
 
                                 </div>
@@ -99,7 +105,7 @@
             <div class="modal-body">
                 <div class="project-info">
                     <div class="card-title"></div>
-                    <form action="/admin/insertAdmin" method="post" id="insertAdminForm">
+                    <form action="/insertAdmin.ad" method="post" id="insertAdminForm">
                         <table class="text-center">
                             <tr>
                                 <th>아이디</th>
@@ -143,12 +149,28 @@
     </div>
 </div>
 <script>
+    function countAdmin() {
+        $.ajax({
+            url: "/countAdmin.ad",
+            success: function (result) {
+                console.log("회원수" + result)
+                $('#countAdmin').append(result);
+            }
+        })
+    }
+    $(function(){
+        countAdmin();
+    })
+
+
+
     $(document).on("click", "#insertAdminBtn", function() {
             let confirm_val = confirm("등록하시겠습니까?");
             if (confirm_val) {
                 $("#insertAdminForm").submit();
             }
     });
+
 </script>
 <!-- Footer  -->
 <jsp:include page="common/contentFooter.jsp"/>

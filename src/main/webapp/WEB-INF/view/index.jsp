@@ -28,63 +28,58 @@
                     <div class="col-md-6">
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col">
                         <div class="card">
                             <div class="card-body">
-                                <div class="card-header mb-4 pb-2" style="padding: 0;">
-                                    <div class="card-title"></div>
-                                </div>
 
+                                <div class="card-header mb-4 pb-2" style="padding: 0;">
+                                    <div class="card-title">
+                                    </div>
+                                </div>
                                 <div id="boardList">
                                     <table class="text-center boardTable">
+                                        <colgroup>
+                                            <col style="width:70px;">
+                                            <col style="width:auto">
+                                            <col span="4" style="width:120px">
+                                        </colgroup>
+                                        <thead>
                                         <tr>
-                                            <th>No.</th>
-                                            <th>제목</th>
-                                            <th>작성자</th>
-                                            <th>등록일</th>
+                                            <th style="width:10%;">No.</th>
+                                            <th style="width:10%;">작성자</th>
+                                            <th style="width:40%;">제목</th>
+                                            <th style="width:10%;">조회수</th>
+                                            <th style="width:30%;">등록일</th>
                                         </tr>
-
-                                        <tr>
-                                            <td>04</td>
-                                            <td>2년 3개월</td>
-                                            <td>연차</td>
-                                            <td>2023-11-10</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>03</td>
-                                            <td>2년 3개월</td>
-                                            <td>연차</td>
-                                            <td>2023-11-10</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>02</td>
-                                            <td>2년 3개월</td>
-                                            <td>연차</td>
-                                            <td>2023-11-10</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>01</td>
-                                            <td>2년 3개월</td>
-                                            <td>연차</td>
-                                            <td>2023-11-10</td>
-                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach items="${boardList}" var="item" varStatus="index">
+                                            <tr>
+                                                <td>${index.count}</td>
+                                                <td>${item.regNm}</td>
+                                                <td>${item.boardTitle}</td>
+                                                <td>${item.inqCnt}</td>
+                                                <td>${item.regDt}</td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
+                        <button onclick="moveToWriteBoard()" class="btn btn-black w-3" style="float: right;">글쓰기</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
+<script>
+    function moveToWriteBoard() {
+        window.location.href = "/writeBoardView";
+    }
+</script>
 <!-- Footer  -->
 <jsp:include page="common/contentFooter.jsp"/>
 <!-- Footer END  -->
