@@ -1,7 +1,9 @@
 package com.itkey.erpdev.admin.controller;
 
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
+import com.itkey.erpdev.admin.service.CommonService;
 import com.itkey.erpdev.admin.service.TotalAdminService;
+import com.itkey.erpdev.admin.dto.CommonDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 //import com.itkey.sam.pay.service.PointService;
 
 @Slf4j
@@ -21,6 +24,7 @@ import javax.servlet.http.HttpSession;
 public class TotalAdminController {
 
 	TotalAdminService adminService;
+	CommonService commonService;
 
 	// 관리자 로그인 화면
 	@GetMapping(value = "/loginAdmin")
@@ -63,10 +67,15 @@ public class TotalAdminController {
 		ModelAndView mv = new ModelAndView("/index_admin");
 
 		System.out.println(mv);
-		if(session.getAttribute("/index_admin") == null || session.getAttribute("/index_admin") == "") {
-			mv.setViewName("/index_admin");
+		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
+			mv.setViewName("/loginAdmin");
 			return mv;
 		}
+
+		List<CommonDTO> gnbMenuList = commonService.getGnbMenuListAjax();
+
+		session.setAttribute("gnbList", gnbMenuList);
+
 		return mv;
 	}
  	
