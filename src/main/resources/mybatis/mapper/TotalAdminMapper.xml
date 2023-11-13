@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.totalAdmin">
+
+	<select id="getAdminInfo" resultType="TotalAdminDTO" parameterType="TotalAdminDTO">
+		SELECT	SEQ
+			 , ID
+			 , NAME
+			 , AUTH_CODE
+			 , MEMBER_TYPE
+			 , MEMBER_STATUS
+			 , USE_YN
+		FROM	itkey_dev.member
+		WHERE 	ID = #{id}
+		  AND	PASSWORD = #{password}
+		  AND	USE_YN = 'Y'
+	</select>
+
+	<!-- gnb메뉴 리스트 -->
+	<select id="getGnbMenuListAjax" resultType="commonDTO">
+		/*fn : gnb메뉴 리스트 - getGnbMenuList */
+		SELECT A.MENU_SEQ AS menuSeq
+			 , A.MENU_CODE AS menuCode
+			 , A.MENU_SITE AS menuSite
+			 , A.MENU_NAME AS menuName
+			 , A.MENU_PARENT_CODE AS menuParentCode
+			 , A.MENU_LEVEL AS menuLevel
+			 , A.MENU_ORDER AS menuOrder
+			 , A.MENU_USE_YN AS menuUseYn
+			 , A.MENU_TYPE AS menuType
+			 , A.MENU_URL AS menuUrl
+			 , A.MENU_CONN_WAY AS menuConnWay
+			 , A.MENU_DESC AS menuDesc
+		FROM	MENU A
+		WHERE	A.MENU_LEVEL = 1
+		  AND 	A.MENU_SITE = 'A'
+		  AND		A.MENU_USE_YN = 'Y'
+		ORDER BY A.MENU_ORDER
+	</select>
+
+</mapper>
