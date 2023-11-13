@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.admin">
+    <!--관리자 리스트 -->
+    <select id="adminList" resultType="Admin">
+        SELECT SEQ, ID, MEMBER_TYPE, EMAIL, REG_DT, LAST_CNTN_DT, REG_NM
+        FROM MEMBER
+        WHERE USE_YN = 'Y'
+        <include refid="search"></include>
+    </select>
+
+
+    <!-- 관리자 카운트-->
+    <select id="countAdmin" resultType="_int">
+        SELECT COUNT(*)
+        FROM MEMBER
+        WHERE USE_YN ='Y';
+    </select>
+
+    <!-- 관리자 추가 -->
+    <insert id="insertAdmin" parameterType="Admin">
+       INSERT INTO MEMBER(ID, PASSWORD, NAME, HP, EMAIL, MEMBER_TYPE, USE_YN, REG_ID, REG_NM, REG_DT)
+       VALUES (#{id}, #{password}, #{name}, #{hp}, #{email}, #{memberType}, 'Y', #{regId}, #{regNm}, now());
+    </insert>
+
+    <sql id="search">
+        <choose>
+            <when test="type == 'all'">
+                AND M.ID LIKE CONCAT('%',#{keyword},'%')
+                OR  M.NAME LIKE CONCAT('%',#{keyword},'%')
+                AND  M.NAME  IS NOT NULL
+            </when>
+            <when test="type == 'name'">
+                AND M.NAME LIKE CONCAT('%',#{keyword},'%')
+            </when>
+            <when test="type == 'id'">
+                AND M.ID LIKE CONCAT('%',#{keyword},'%')
+            </when>
+        </choose>
+    </sql>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>
