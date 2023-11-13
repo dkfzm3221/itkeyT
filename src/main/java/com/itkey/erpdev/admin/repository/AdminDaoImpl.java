@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.itkey.erpdev.admin.domain.Admin;
 import com.itkey.erpdev.admin.dto.AdminInsert;
 import com.itkey.erpdev.admin.dto.SearchAdmin;
+import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.customer.domain.Customer;
 import lombok.AllArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -32,6 +33,16 @@ public class AdminDaoImpl implements AdminDao {
         PageHelper.startPage(pageNum, pageSize);
 
         return sql.selectList("mapper.admin.adminList", searchAdmin);
+    }
+
+    @Override
+    public TotalAdminDTO getLoginInfo(int adminIdx) {
+        return sql.selectOne("mapper.admin.getLoginInfo", adminIdx);
+    }
+
+    @Override
+    public int deleteAdmin(int adminIdx) {
+        return sql.update("mapper.admin.deleteAdmin", adminIdx);
     }
 
 
