@@ -51,14 +51,15 @@
                             <tr>
                                 <th class="padding-lg">작성자</th>
                                 <td colspan="3">
-                                    <input type="text" class="form-control write-form" id="boardWriter" placeholder="작성자" name="boardWriter">
+                                    <input type="text" class="form-control write-form" id="regNm" placeholder="작성자" name="regNm">
                             </tr>
                             <tr>
                                 <td colspan="4">
                                     <div class="detail-content">
                                         <textarea class="form-control write-form" rows="14"
-                                                  id="contents" placeholder="내용을 작성해 주세요."
-                                                  name="boardContents"></textarea>
+                                                  id="boardContent" placeholder="내용을 작성해 주세요."
+                                                  name="boardContent">
+                                        </textarea>
                                     </div>
                                 </td>
                             </tr>
@@ -66,10 +67,29 @@
                         </table>
                     </div>
                 </div>
+                <button onclick="insertBoard()" class="btn btn-black w-3" style="float: right;">등록</button>
             </div>
         </div>
     </div>
 </div>
+<script>
+function insertBoard(){
+
+    let boardTitle = $("#boardTitle").val();
+    let boardContent = $("#boardContent").val();
+    let regName = $("#regNm").val();
+
+
+    $.ajax({
+        type:"POST",
+        url: "writeBoard",
+        data: {},
+        success: function () {
+            // 요청, 통신이 성공했을 때 실행할 함수
+        }
+    })
+}
+</script>
 
 </body>
 </html>
