@@ -43,6 +43,13 @@
     <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
 
         <div class="container-fluid">
+            <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+                <li class="nav-item dropdown hidden-caret">
+                    <a class="nav-link dropdown-toggle" onclick="logoutButton()" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Logout
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
     <!-- End Navbar -->
@@ -93,5 +100,10 @@
     </div>
 </div>
 <!-- End Sidebar -->
+<script>
+    function logoutButton (){
+        window.location.href = "/totalAdmin/logout";
+    }
+</script>
 </body>
 </html>

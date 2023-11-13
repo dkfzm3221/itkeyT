@@ -29,5 +29,6 @@ public class ProjDTO {
   Integer lv2;
   Integer lv3;
   Integer cpIdx;
+
 }
 
