@@ -11,7 +11,13 @@ public interface TotalAdminDAO {
 
 	TotalAdminDTO getAdminInfo(TotalAdminDTO adminDTO);
 
+	List<Board> getAdminBoardList();
+
 	List<Board> getBoardList();
+
+	List<Board> boardTypeCnt();
+
+	void adminWriteBoard(Board board);
 
 	List<Visitor> mostVisitURL();
 

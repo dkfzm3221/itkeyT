@@ -41,6 +41,22 @@
 		ORDER BY A.MENU_ORDER
 	</select>
 
+	<select id="selectBoardTypeList" resultType="Board">
+		SELECT
+				ADMIN_BOARD_NUMBER  		AS adminBoardNumber
+				 , ADMIN_BOARD_NAME			AS adminBoardName
+				 , case BOARD_TYPE
+					   when '1' then 'NORMAL'
+					   when '2' then 'GALLERY2'
+					   else 'ETC'
+					end 					   boardType
+				 , count(BOARD_TYPE) -1		AS boardTypeCnt
+		FROM 		itkey_dev.board
+		WHERE		BOARD_DEL_YN IS NULL OR BOARD_DEL_YN = 'N'
+		GROUP BY 	ADMIN_BOARD_NAME
+		ORDER BY 	ADMIN_BOARD_NUMBER ASC
+	</select>
+
 	<select id="selectBoardList" resultType="Board">
 		SELECT
 			BOARD_SEQ				AS boardSeq

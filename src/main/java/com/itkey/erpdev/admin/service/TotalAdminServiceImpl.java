@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSessionEvent;
 import java.util.List;
 
 @Slf4j
@@ -24,8 +23,23 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     }
 
     @Override
+    public List<Board> getAdminBoardList() {
+        return totalAdminDAO.getAdminBoardList();
+    }
+
+    @Override
     public List<Board> getBoardList() {
         return totalAdminDAO.getBoardList();
+    }
+
+    @Override
+    public List<Board> boardTypeCnt() {
+        return totalAdminDAO.boardTypeCnt();
+    }
+
+    @Override
+    public void adminWriteBoard(Board board) {
+        totalAdminDAO.adminWriteBoard(board);
     }
 
     @Override
