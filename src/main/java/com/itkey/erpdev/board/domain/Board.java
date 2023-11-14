@@ -25,4 +25,6 @@ public class Board {
     Integer pageNum;
     Integer pageSize;
     String password;
+    String boardCategory;
+    Integer boardTypeCnt;
 }

@@ -93,6 +93,7 @@
                             <p>${gnb.menuName}</p>
                         </a>
                     </li>
+                </c:forEach>
             </ul>
         </div>
     </div>
