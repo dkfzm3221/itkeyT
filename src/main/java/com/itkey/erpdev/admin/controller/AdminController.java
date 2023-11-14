@@ -67,8 +67,8 @@ public class AdminController {
             mv.addObject("pageList", page);
             mv.addObject("search", searchAdmin);
 
-//        List<CommonDTO> gnbMenuList = commonService.getGnbMenuListAjax();
-//        session.setAttribute("gnbList", gnbMenuList);
+        List<CommonDTO> gnbMenuList = commonService.getGnbMenuListAjax();
+        session.setAttribute("gnbList", gnbMenuList);
 
             return mv;
         }
