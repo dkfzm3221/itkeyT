@@ -23,10 +23,10 @@
 	<select id="getGnbMenuListAjax" resultType="commonDTO">
 		/*fn : gnb메뉴 리스트 - getGnbMenuList */
 		SELECT A.MENU_SEQ AS menuSeq
-			 , A.MENU_CODE AS menuCode
+			-- , A.MENU_CODE AS menuCode
 			 , A.MENU_SITE AS menuSite
 			 , A.MENU_NAME AS menuName
-			 , A.MENU_PARENT_CODE AS menuParentCode
+			-- , A.MENU_PARENT_CODE AS menuParentCode
 			 , A.MENU_LEVEL AS menuLevel
 			 , A.MENU_ORDER AS menuOrder
 			 , A.MENU_USE_YN AS menuUseYn
