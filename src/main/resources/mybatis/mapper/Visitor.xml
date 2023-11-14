@@ -1,0 +1,64 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.visitor">
+
+    <insert id="saveVisitor" parameterType="Visitor">
+        INSERT
+        INTO VISITOR
+        (
+        VISIT_IP,
+        VISIT_TIME,
+        VISIT_REFER,
+        VISIT_AGENT
+        )
+        VALUES
+        (
+        #{visitIp},
+        NOW(),
+        #{visitRefer},
+        #{visitAgent}
+        )
+    </insert>
+    <select id="selectById" resultType="Visitor">
+        SELECT
+            id,
+            ip,
+            userAgent,
+            created_at
+        FROM visit_record
+        WHERE id = #{id}
+    </select>
+
+    <select id="mostVisitURL" resultType="Visitor">
+        SELECT
+               VISIT_REFER
+             , COUNT(VISIT_REFER) AS urlCount
+        FROM VISITOR v
+        GROUP BY VISIT_REFER
+        ORDER BY urlCount DESC
+        LIMIT 5
+    </select>
+
+    <select id="mostVisitIP" resultType="Visitor">
+        SELECT VISIT_IP
+             ,  COUNT(VISIT_IP) AS IPCount
+        FROM visitor v
+        GROUP BY VISIT_IP
+        ORDER BY IPCount DESC
+        LIMIT 5
+    </select>
+
+    <select id="mostVisitDate" resultType="Visitor">
+        SELECT
+        DATE(VISIT_TIME) AS visitTimeToDate
+          , COUNT(VISIT_TIME) AS visitDateCount
+        FROM visitor v
+        GROUP BY DATE(VISIT_TIME)
+        LIMIT 5
+    </select>
+
+
+
+</mapper>

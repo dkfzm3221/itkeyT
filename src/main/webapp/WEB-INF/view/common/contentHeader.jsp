@@ -112,6 +112,45 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="/resources/assets/css/demo.css">
+
+    <script>
+        function getIpAddress() {
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    logVisitRecord(data.ip);
+                })
+                .catch(error => {
+                });
+        }
+
+
+        function logVisitRecord(ipAddress) {
+            const userAgent = navigator.userAgent;
+            const fullUrl = new URL(window.location.href);
+            let visitRefer = fullUrl.pathname.split('?')[0];
+            if (visitRefer === "/"){
+                visitRefer = "/index";
+            }
+            fetch('/record/visitorLog', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    visitIp: ipAddress,
+                    visitAgent: userAgent,
+                    visitRefer : visitRefer
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                })
+                .catch(error => {
+                });
+        }
+        window.addEventListener('load', getIpAddress);
+    </script>
 </head>
 <body>
 
