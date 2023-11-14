@@ -30,6 +30,7 @@ import java.util.Map;
 @Slf4j
 @Controller
 @AllArgsConstructor
+@RequestMapping("/totalAdmin")
 public class AdminController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -38,7 +39,7 @@ public class AdminController {
     CommonService commonService;
 
     //회원관리 홈
-    @RequestMapping(value = "/adminHome.ad")
+    @RequestMapping(value = "/adminHome")
     public ModelAndView adminIndex(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "3")
             Integer pageSize, SearchAdmin searchAdmin, HttpSession session) {
 
@@ -77,7 +78,7 @@ public class AdminController {
 
     //회원수
     @ResponseBody
-    @RequestMapping(value="/countAdmin.ad", produces="application/json; charset=UTF-8")
+    @RequestMapping(value="/countAdmin", produces="application/json; charset=UTF-8")
     public Integer countAdmin(){
         Integer result = as.countAdmin();
         logger.info("CONTROLLER COUNT ADMIN {}", result);
@@ -85,7 +86,7 @@ public class AdminController {
     }
 
     //회원등록
-    @RequestMapping(value = "/insertAdmin.ad")
+    @RequestMapping(value = "/insertAdmin")
     public String insertAdmin(HttpSession session, AdminInsert aDTO) {
 
         TotalAdminDTO loginUser = ((TotalAdminDTO)session.getAttribute("admin"));
@@ -95,12 +96,12 @@ public class AdminController {
         logger.info("CONTROLLER INPUT insertAdmin{}", aDTO);
         int result = as.insertAdmin(aDTO);
 
-        return "redirect:/adminHome.ad";
+        return "redirect:/totalAdmin/adminHome";
     }
 
     //아이디 중복 체크
     @ResponseBody
-    @RequestMapping(value="/adminIdCheck.ad")
+    @RequestMapping(value="/adminIdCheck")
     public String adminIdCheck(String id){
 
         int result = as.adminIdCheck(id);
@@ -114,7 +115,7 @@ public class AdminController {
 
     //빠른 로그인
     @ResponseBody
-    @RequestMapping(value="/adminFastLogin.ad", produces="application/json; charset=UTF-8")
+    @RequestMapping(value="/adminFastLogin", produces="application/json; charset=UTF-8")
     public String adminFastLogin(HttpServletRequest request, HttpSession session, int adminIdx){
 
         //빠른 로그인
@@ -131,7 +132,7 @@ public class AdminController {
     
     //회원 정보 수정 폼
     @ResponseBody
-    @RequestMapping(value="/updateAdminForm.ad", produces="application/json; charset=UTF-8")
+    @RequestMapping(value="/updateAdminForm", produces="application/json; charset=UTF-8")
     public TotalAdminDTO updateAdminForm(int adminIdx){
         TotalAdminDTO adminDTO   = as.getLoginInfo(adminIdx);
         logger.info("CONTROLLER INPUT  updateAdmin{}", adminDTO);
@@ -139,7 +140,7 @@ public class AdminController {
     }
 
     //회원 정보 수정
-    @RequestMapping(value="/updateAdmin.ad")
+    @RequestMapping(value="/updateAdmin")
     public String updateAdmin(HttpServletRequest request, Admin aDTO){
 
         HttpSession session = request.getSession();
@@ -149,12 +150,12 @@ public class AdminController {
 
         int result = as.updateAdmin(aDTO);
 
-        return "redirect:/adminHome.ad";
+        return "redirect:/totalAdmin/adminHome";
     }
 
     //회원 탈퇴
     @ResponseBody
-    @RequestMapping(value="/deleteAdmin.ad", produces="application/json; charset=UTF-8")
+    @RequestMapping(value="/deleteAdmin", produces="application/json; charset=UTF-8")
     public String deleteAdmin(HttpSession session, int adminIdx){
 
         TotalAdminDTO loginUser = ((TotalAdminDTO)session.getAttribute("admin"));
@@ -173,7 +174,7 @@ public class AdminController {
     }
 
     //탈퇴 회원관리 홈
-    @RequestMapping(value = "/del_adminHome.ad")
+    @RequestMapping(value = "/del_adminHome")
     public ModelAndView del_adminIndex(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "3")
             Integer pageSize, SearchAdmin searchAdmin, HttpSession session) {
         ModelAndView mv = new ModelAndView("del_member_admin");
@@ -200,7 +201,7 @@ public class AdminController {
 
     //탈퇴 회원수
     @ResponseBody
-    @RequestMapping(value="/countDelAdmin.ad", produces="application/json; charset=UTF-8")
+    @RequestMapping(value="/countDelAdmin", produces="application/json; charset=UTF-8")
     public Integer countDelAdmin(){
         Integer result = as.countDelAdmin();
         logger.info("CONTROLLER COUNT ADMIN {}", result);
@@ -209,7 +210,7 @@ public class AdminController {
     
     //탈퇴 복귀
     @ResponseBody
-    @RequestMapping(value="/returnAdmin.ad", produces="application/json; charset=UTF-8")
+    @RequestMapping(value="/returnAdmin", produces="application/json; charset=UTF-8")
     public String returnAdmin(HttpSession session, int adminIdx){
         TotalAdminDTO loginUser = ((TotalAdminDTO)session.getAttribute("admin"));
         Admin aDTO = new Admin();

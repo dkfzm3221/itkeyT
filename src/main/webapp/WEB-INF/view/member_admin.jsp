@@ -134,7 +134,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <li class="page-item">
-                                                    <a class="page-link" id="previous" href="adminHome.ad?pageNum=${pageList.prePage}&type=${search.type}&keyword=${search.keyword}">Previous</a>
+                                                    <a class="page-link" id="previous" href="adminHome?pageNum=${pageList.prePage}&type=${search.type}&keyword=${search.keyword}">Previous</a>
                                                 </li>
                                             </c:otherwise>
                                         </c:choose>
@@ -144,7 +144,7 @@
                                                     <li class="page-item"><a disabled="ture" style="font-weight: bold">${idx}</a></li>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <li class="page-item"><a class="page-link" href="adminHome.ad?pageNum=${idx}&type=${search.type}&keyword=${search.keyword}">${idx}</a></li>
+                                                    <li class="page-item"><a class="page-link" href="adminHome?pageNum=${idx}&type=${search.type}&keyword=${search.keyword}">${idx}</a></li>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:forEach>
@@ -156,7 +156,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <li class="page-item">
-                                                    <a class="page-link" href="adminHome.ad?pageNum=${pageList.nextPage}&type=${search.type}&keyword=${search.keyword}">Next</a>
+                                                    <a class="page-link" href="adminHome?pageNum=${pageList.nextPage}&type=${search.type}&keyword=${search.keyword}">Next</a>
                                                 </li>
                                             </c:otherwise>
                                         </c:choose>
@@ -337,7 +337,7 @@
     //회원수 카운트
     function countAdmin() {
         $.ajax({
-            url: "/countAdmin.ad",
+            url: "/totalAdmin/countAdmin",
             success: function (result) {
                 $('#countAdmin').append(result);
             }
@@ -351,7 +351,7 @@
     $(document).on("click", "#insertAdminBtn", function() {
             let confirm_val = confirm("등록하시겠습니까?");
             if (confirm_val) {
-                $("#adminForm").attr("action", "/insertAdmin.ad").submit();
+                $("#adminForm").attr("action", "/totalAdmin/insertAdmin").submit();
             }
     });
     //빠른 로그인
@@ -362,7 +362,7 @@
         if (confirm_val) {
         console.log("시작")
            $.ajax({
-               url : "/adminFastLogin.ad",
+               url : "/totalAdmin/adminFastLogin",
                data : {adminIdx : adminIdx},
                dataType: "text",
                success : function(result){
@@ -380,7 +380,7 @@
     function updateAdminInfo(seq){
         let adminIdx = seq;
         $.ajax({
-            url : "/updateAdminForm.ad",
+            url : "/totalAdmin/updateAdminForm",
             data : {adminIdx : adminIdx},
             success : function(result){
                 $("#adminIdx").val(result.seq);
@@ -396,7 +396,7 @@
     $(document).on("click", "#updateAdminBtn", function() {
         let confirm_val = confirm("수정하시겠습니까?");
         if (confirm_val) {
-            $("#updateAdminForm").attr("action", "/updateAdmin.ad").submit();
+            $("#updateAdminForm").attr("action", "/totalAdmin/updateAdmin").submit();
         }
     });
 
@@ -406,7 +406,7 @@
         let confirm_val = confirm("탈퇴시키겠습니까?");
         if (confirm_val) {
             $.ajax({
-                url : "/deleteAdmin.ad",
+                url : "/totalAdmin/deleteAdmin",
                 data : {adminIdx : adminIdx},
                 dataType: "text",
                 success : function(result){
@@ -420,7 +420,7 @@
     }
     //탈퇴 회원 관리 페이지로
     $(document).on("click", "#del_adminHomeBtn", function() {
-        location.href = "/del_adminHome.ad"
+        location.href = "/totalAdmin/del_adminHome"
     });
 
     //검색어 빈값 처리
@@ -433,7 +433,7 @@
 
     //검색 기능
     $(document).on("click", "#adminSearchBtn", function() {
-            $("#member_list_main_search").attr("action", "/adminHome.ad").submit();
+            $("#member_list_main_search").attr("action", "/totalAdmin/adminHome").submit();
     });
 
     //아이디 중복 체크
@@ -443,7 +443,7 @@
         $idInput.keyup(function(){
             if($idInput.val().length >= 2){
                 $.ajax({
-                    url:"/adminIdCheck.ad",
+                    url:"/totalAdmin/adminIdCheck",
                     data:{
                         id : $idInput.val()
                     },
