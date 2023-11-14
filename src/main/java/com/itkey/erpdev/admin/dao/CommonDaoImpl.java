@@ -20,5 +20,9 @@ public class CommonDaoImpl implements CommonDao {
     return sql.selectList("mapper.totalAdmin.getGnbMenuListAjax");
   }
 
+  @Override
+  public List<CommonDTO> getMenuListAjax(){
+    return sql.selectList("mapper.totalAdmin.getMenuListAjax");
+  }
 }
 

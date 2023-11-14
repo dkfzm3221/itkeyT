@@ -20,4 +20,8 @@ public class CommonServiceImpl implements CommonService {
 	public List<CommonDTO> getGnbMenuListAjax() {
 		return commonDAO.getGnbMenuListAjax();
 	}
+
+	public List<CommonDTO> getMenuListAjax(){
+		return commonDAO.getMenuListAjax();
+	}
 }

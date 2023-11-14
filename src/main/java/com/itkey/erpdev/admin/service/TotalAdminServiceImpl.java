@@ -1,6 +1,7 @@
 package com.itkey.erpdev.admin.service;
 
 import com.itkey.erpdev.admin.dao.TotalAdminDAO;
+import com.itkey.erpdev.admin.domain.MenuEntity;
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.admin.dto.Visitor;
 import com.itkey.erpdev.board.domain.Board;
@@ -57,4 +58,9 @@ public class TotalAdminServiceImpl implements TotalAdminService {
         return totalAdminDAO.mostVisitDate();
     }
 
+
+    @Override
+    public int updMenuMgmtAjax(List<MenuEntity> menuEntityList) {
+        return totalAdminDAO.updMenuMgmtAjax(menuEntityList);
+    }
 }

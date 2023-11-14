@@ -26,20 +26,20 @@
         FROM BOARD
         WHERE BOARD_DEL_YN = 'N'
         ORDER BY BOARD_SEQ DESC
-        LIMIT #{startIdx}, #{countPerPage}
+            LIMIT #{startIdx}, #{countPerPage}
     </select>
     <insert id="writeBoard" parameterType="Board">
         INSERT INTO BOARD
-            (BOARD_TITLE
-            , BOARD_CONTENT
-            , BOARD_SECRET_YN
-            , BOARD_TYPE
-            , BOARD_DEL_YN
-            , password
-            , REG_NM
-            , REG_ID
-            , REG_DT
-            )
+        (BOARD_TITLE
+        , BOARD_CONTENT
+        , BOARD_SECRET_YN
+        , BOARD_TYPE
+        , BOARD_DEL_YN
+        , password
+        , REG_NM
+        , REG_ID
+        , REG_DT
+        )
         VALUES
             ( #{boardTitle}
             , #{boardContent}
@@ -98,21 +98,21 @@
         UPDATE BOARD
         SET
             BOARD_TITLE = #{boardTitle}
-            , BOARD_CONTENT = #{boardContent}
-            , BOARD_SECRET_YN = #{boardSecretYn}
-            , BOARD_TYPE = 1
-            , BOARD_DEL_YN = 'N'
-            , password = #{password}
-            , UPD_NM = #{updNm}
-            , UPD_ID = #{updNm}
-            , UPD_DT = NOW()
+          , BOARD_CONTENT = #{boardContent}
+          , BOARD_SECRET_YN = #{boardSecretYn}
+          , BOARD_TYPE = 1
+          , BOARD_DEL_YN = 'N'
+          , password = #{password}
+          , UPD_NM = #{updNm}
+          , UPD_ID = #{updNm}
+          , UPD_DT = NOW()
         WHERE BOARD_SEQ = #{boardSeq}
     </update>
 
     <update id="deleteBoard" parameterType="Board">
         UPDATE BOARD
         SET
-           BOARD_DEL_YN = 'Y'
+            BOARD_DEL_YN = 'Y'
         WHERE BOARD_SEQ = #{boardSeq}
     </update>
 

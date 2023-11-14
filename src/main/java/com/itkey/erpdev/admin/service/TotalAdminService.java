@@ -1,15 +1,15 @@
 package com.itkey.erpdev.admin.service;
 
 
+import com.itkey.erpdev.admin.domain.MenuEntity;
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.admin.dto.Visitor;
 import com.itkey.erpdev.board.domain.Board;
 
 import java.util.List;
 
-/**
- * Service for SAMPLE_BOARD_TB table : 寃뚯떆�뙋 �젙蹂�
-**/
+import java.util.List;
+
 public interface TotalAdminService {
 	// 로그인  
 	TotalAdminDTO getAdminInfo(TotalAdminDTO adminDTO);
@@ -31,4 +31,7 @@ public interface TotalAdminService {
 	List<Visitor> mostVisitIP();
 
     List<Visitor> mostVisitDate();
+
+	// 메뉴관리
+	public int updMenuMgmtAjax(List<MenuEntity> menuEntityList);
 }

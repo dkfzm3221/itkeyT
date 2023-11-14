@@ -1,5 +1,6 @@
 package com.itkey.erpdev.admin.controller;
 
+import com.itkey.erpdev.admin.domain.MenuEntity;
 import com.itkey.erpdev.admin.dto.CommonDTO;
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.admin.dto.Visitor;
@@ -7,6 +8,7 @@ import com.itkey.erpdev.admin.service.CommonService;
 import com.itkey.erpdev.admin.service.TotalAdminService;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.service.BoardService;
+import com.itkey.erpdev.common.page.Paging;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -107,9 +109,9 @@ public class TotalAdminController {
 	public ModelAndView index(HttpServletRequest request, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
 							  @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage) throws Exception{
 		HttpSession session = request.getSession();
-		
+
 		ModelAndView mv = new ModelAndView("/index");
-		
+
 		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
 			mv.setViewName("/index");
 
@@ -186,6 +188,32 @@ public class TotalAdminController {
 			return mv;
 		}
 		return mv;
+	}
+
+
+	@GetMapping(value = "/menuMgmt")
+	public ModelAndView menuMgmt() throws Exception {
+		ModelAndView mv = new ModelAndView("/menuMgmt");
+		return mv;
+	}
+
+	@ResponseBody
+	@PostMapping("/getMenuMgmtAjax")
+	public HashMap<String, Object> menuMgmt(Paging paging) throws Exception {
+		HashMap<String, Object> rMap = new HashMap<String, Object>();
+
+		List<CommonDTO> menuList = commonService.getMenuListAjax();
+
+		rMap.put("gnbMenuList", menuList);
+
+		return rMap;
+	}
+
+	@ResponseBody
+	@PostMapping("/updMenuMgmtAjax")
+	public int updMenuMgmtAjax(@RequestBody List< MenuEntity > menuEntityList) throws Exception {
+		int result = adminService.updMenuMgmtAjax(menuEntityList);
+		return result;
 	}
 
 	// 관리자 게시판 등록

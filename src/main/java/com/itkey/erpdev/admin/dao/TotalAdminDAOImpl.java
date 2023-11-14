@@ -1,6 +1,7 @@
 package com.itkey.erpdev.admin.dao;
 
 
+import com.itkey.erpdev.admin.domain.MenuEntity;
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.admin.dto.Visitor;
 import com.itkey.erpdev.board.domain.Board;
@@ -48,6 +49,10 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	}
 
 	@Override
+	public int updMenuMgmtAjax(List<MenuEntity> menuEntityList) {
+		return sql.update("mapper.totalAdmin.updMenuMgmtAjax", menuEntityList);
+
+  @Override  
 	public List<Board> boardTypeCnt() {
 		return sql.selectOne("mapper.totalAdmin.boardTypeCnt");
 	}
@@ -55,5 +60,6 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	@Override
 	public void adminWriteBoard(Board board) {
 		sql.insert("mapper.totalAdmin.adminWriteBoard", board);
+
 	}
 }
