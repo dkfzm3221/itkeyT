@@ -22,7 +22,22 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     }
 
     @Override
+    public List<Board> getAdminBoardList() {
+        return totalAdminDAO.getAdminBoardList();
+    }
+
+    @Override
     public List<Board> getBoardList() {
         return totalAdminDAO.getBoardList();
+    }
+
+    @Override
+    public List<Board> boardTypeCnt() {
+        return totalAdminDAO.boardTypeCnt();
+    }
+
+    @Override
+    public void adminWriteBoard(Board board) {
+        totalAdminDAO.adminWriteBoard(board);
     }
 }
