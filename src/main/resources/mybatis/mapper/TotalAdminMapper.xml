@@ -23,10 +23,8 @@
 	<select id="getGnbMenuListAjax" resultType="commonDTO">
 		/*fn : gnb메뉴 리스트 - getGnbMenuList */
 		SELECT A.MENU_SEQ AS menuSeq
-			 , A.MENU_CODE AS menuCode
 			 , A.MENU_SITE AS menuSite
 			 , A.MENU_NAME AS menuName
-			 , A.MENU_PARENT_CODE AS menuParentCode
 			 , A.MENU_LEVEL AS menuLevel
 			 , A.MENU_ORDER AS menuOrder
 			 , A.MENU_USE_YN AS menuUseYn
@@ -41,4 +39,58 @@
 		ORDER BY A.MENU_ORDER
 	</select>
 
+	<!-- 메뉴 리스트 -->
+	<select id="getMenuListAjax" resultType="commonDTO">
+		/*fn : 메뉴 리스트 - getMenuListAjax */
+		SELECT A.MENU_SEQ AS menuSeq
+			 , A.MENU_SITE AS menuSite
+			 , A.MENU_NAME AS menuName
+			 , A.MENU_LEVEL AS menuLevel
+			 , A.MENU_ORDER AS menuOrder
+			 , A.MENU_USE_YN AS menuUseYn
+			 , A.MENU_TYPE AS menuType
+			 , A.MENU_URL AS menuUrl
+			 , A.MENU_CONN_WAY AS menuConnWay
+			 , A.MENU_DESC AS menuDesc
+			 , A.MENU_PARENT_SEQ AS menuParentSeq
+			 , A.REG_ID AS regId
+			 , A.UPD_DT AS updDt
+		FROM	MENU A
+		WHERE	A.MENU_USE_YN = 'Y'
+		ORDER BY A.MENU_SEQ, A.MENU_PARENT_SEQ, MENU_ORDER
+	</select>
+
+	<insert id="updMenuMgmtAjax" parameterType="MenuEntity">
+		INSERT INTO MENU (
+			MENU_SEQ,
+			MENU_SITE,
+			MENU_NAME,
+			MENU_LEVEL,
+			MENU_TYPE,
+			MENU_URL,
+			MENU_PARENT_SEQ,
+			REG_ID,
+		    REG_DT
+		) VALUES
+		<foreach collection="list" item="menu" separator=",">
+			(
+				#{menu.menuSeq},
+				#{menu.menuSite},
+				#{menu.menuName},
+				#{menu.menuLevel},
+				#{menu.menuType},
+				#{menu.menuUrl},
+				#{menu.menuParentSeq},
+				'admin',
+			 	NOW()
+			)
+		</foreach>
+		ON DUPLICATE KEY UPDATE
+			MENU_SITE = VALUES(MENU_SITE),
+			MENU_NAME = VALUES(MENU_NAME),
+			MENU_LEVEL = VALUES(MENU_LEVEL),
+			MENU_TYPE = VALUES(MENU_TYPE),
+			MENU_URL = VALUES(MENU_URL),
+			MENU_PARENT_SEQ = VALUES(MENU_PARENT_SEQ)
+	</insert>
 </mapper>

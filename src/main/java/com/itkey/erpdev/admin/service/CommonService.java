@@ -9,4 +9,8 @@ public interface CommonService {
 
   // gnb메뉴
   public List<CommonDTO> getGnbMenuListAjax();
+
+  // 메뉴관리
+  public List<CommonDTO> getMenuListAjax();
+
 }
