@@ -190,23 +190,6 @@ public class TotalAdminController {
 		return mv;
 	}
 
-	// 관리자 게시판 등록
-	@PostMapping(value = "/adminWriteBoard")
-	public ModelAndView adminWriteBoard(HttpServletRequest request, Board board) throws Exception{
-		HttpSession session = request.getSession();
-
-		ModelAndView mv = new ModelAndView("/adminBoardReg");
-
-		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
-			mv.setViewName("/index");
-			return mv;
-		}
-
-		var boardNumber = session.getAttribute("listSize");
-		board.setAdminBoardNumber((Integer) boardNumber);
-		adminService.adminWriteBoard(board);
-		return mv;
-	}
 
 	@GetMapping(value = "/menuMgmt")
 	public ModelAndView menuMgmt() throws Exception {
@@ -232,4 +215,23 @@ public class TotalAdminController {
 		int result = adminService.updMenuMgmtAjax(menuEntityList);
 		return result;
 	}
+
+	// 관리자 게시판 등록
+	@PostMapping(value = "/adminWriteBoard")
+	public ModelAndView adminWriteBoard(HttpServletRequest request, Board board) throws Exception{
+		HttpSession session = request.getSession();
+
+		ModelAndView mv = new ModelAndView("/adminBoardReg");
+
+		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
+			mv.setViewName("/index");
+			return mv;
+		}
+
+		var boardNumber = session.getAttribute("listSize");
+		board.setAdminBoardNumber((Integer) boardNumber);
+		adminService.adminWriteBoard(board);
+		return mv;
+	}
+
 }

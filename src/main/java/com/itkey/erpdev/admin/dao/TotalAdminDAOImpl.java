@@ -49,6 +49,10 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	}
 
 	@Override
+	public int updMenuMgmtAjax(List<MenuEntity> menuEntityList) {
+		return sql.update("mapper.totalAdmin.updMenuMgmtAjax", menuEntityList);
+	}
+  	@Override
 	public List<Board> boardTypeCnt() {
 		return sql.selectOne("mapper.totalAdmin.boardTypeCnt");
 	}
@@ -56,10 +60,6 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	@Override
 	public void adminWriteBoard(Board board) {
 		sql.insert("mapper.totalAdmin.adminWriteBoard", board);
-	}
 
-	@Override
-	public int updMenuMgmtAjax(List<MenuEntity> menuEntityList) {
-		return sql.update("mapper.totalAdmin.updMenuMgmtAjax", menuEntityList);
 	}
 }
