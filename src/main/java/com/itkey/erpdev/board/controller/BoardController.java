@@ -114,6 +114,14 @@ public class BoardController {
         return mv;
     }
 
+    @PostMapping(value = "/deleteBoard")
+    public ModelAndView deleteBoard(Board board) throws Exception{
+        ModelAndView mv = new ModelAndView("/board/boardDetail");
+        bs.deleteBoard(board);
+
+        return mv;
+    }
+
 
 
 

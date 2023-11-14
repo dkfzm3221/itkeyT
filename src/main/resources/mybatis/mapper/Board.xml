@@ -24,6 +24,7 @@
              , UPD_NM
              , UPD_DT
         FROM BOARD
+        WHERE BOARD_DEL_YN = 'N'
         ORDER BY BOARD_SEQ DESC
         LIMIT #{startIdx}, #{countPerPage}
     </select>
@@ -93,7 +94,7 @@
         WHERE BOARD_SEQ = #{boardSeq}
     </select>
 
-    <insert id="updateBoard" parameterType="Board">
+    <update id="updateBoard" parameterType="Board">
         UPDATE BOARD
         SET
             BOARD_TITLE = #{boardTitle}
@@ -106,7 +107,14 @@
             , UPD_ID = #{updNm}
             , UPD_DT = NOW()
         WHERE BOARD_SEQ = #{boardSeq}
-    </insert>
+    </update>
+
+    <update id="deleteBoard" parameterType="Board">
+        UPDATE BOARD
+        SET
+           BOARD_DEL_YN = 'Y'
+        WHERE BOARD_SEQ = #{boardSeq}
+    </update>
 
 
 </mapper>

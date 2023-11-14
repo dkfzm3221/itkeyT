@@ -19,4 +19,6 @@ public interface BoardDao {
     Board selectPassword(Board board) throws Exception;
 
     void updateBoard(Board board) throws Exception;
+
+    void deleteBoard(Board board) throws Exception;
 }

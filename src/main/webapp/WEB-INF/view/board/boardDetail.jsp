@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <button onclick="returnToList()" class="btn btn-black w-3">목록</button>
-                <button onclick="modiBoard()" class="btn btn-black w-3" style="float: right;">수정</button>
+                <button onclick="modiBoard()" id="modiButton" class="btn btn-black w-3" style="float: right;">수정</button>
             </div>
         </div>
     </div>
@@ -110,6 +110,13 @@
                     $('#hiddenPassword').removeAttr('hidden');
                     $('#password').removeAttr('readonly');
                     $('button[onclick="modiBoard()"]').attr('onclick', 'updateBoard()');
+                    let deleteButton = $('<button/>', {
+                        text: '삭제',
+                        class: 'btn btn-danger',
+                        style: 'float: right; margin-right: 10px;',
+                        click: function () { deleteBoard(boardSeq); }
+                    });
+                    $('#modiButton').before(deleteButton);
                 }else{
                     alert("비밀번호가 일치하지 않습니다.")
                     return false;
@@ -118,6 +125,23 @@
         });
     }
 
+    function deleteBoard(seq){
+        let isConfirmed = confirm("삭제하시겠습니까?");
+        if (isConfirmed) {
+            $.ajax({
+                type:"POST",
+                url: "/deleteBoard",
+                data: {boardSeq : seq
+                },
+                success: function () {
+                    window.location.href = "/";
+                }
+            });
+        } else {
+            alert("삭제가 취소되었습니다.");
+        }
+
+    }
 
 
     function updateBoard(){

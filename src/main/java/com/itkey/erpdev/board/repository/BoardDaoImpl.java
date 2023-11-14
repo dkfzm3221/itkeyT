@@ -58,5 +58,10 @@ public class BoardDaoImpl implements BoardDao{
         sql.update("mapper.board.updateBoard", board);
     }
 
+    @Override
+    public void deleteBoard(Board board) throws Exception {
+        sql.update("mapper.board.deleteBoard", board);
+    }
+
 
 }
