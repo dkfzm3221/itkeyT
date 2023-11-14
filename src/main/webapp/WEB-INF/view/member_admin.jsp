@@ -94,7 +94,7 @@
                                             <th>아이디</th>
                                             <th>회원타입</th>
                                             <th>이메일</th>
-                                            <th>등록일</th>
+                                            <th>회원등록일</th>
                                             <th>등록자명</th>
                                             <th>최종수정일시</th>
                                             <th>수정자</th>
@@ -441,9 +441,7 @@
         //아이디 중복 체크
         const $idInput = $("#adminForm input[name=id]");
         $idInput.keyup(function(){
-
             if($idInput.val().length >= 2){
-
                 $.ajax({
                     url:"/adminIdCheck.ad",
                     data:{
@@ -451,13 +449,10 @@
                     },
                     dataType: "text",
                     success:function(result){
-                        console.log("결과값"+ result)
-
                         if(result == "NN"){ // 사용불가능
                             $("#checkResult").show();
                             $("#checkResult").css("color","red").text("X");
                             $("#insertAdminBtn").attr("disabled",true);
-
                         }else{ // 사용가능
                             $("#checkResult").show();
                             $("#checkResult").css("color","green").text("O");
