@@ -22,4 +22,9 @@ public class Board {
     String updId;
     String updNm;
     String updDt;
+    Integer pageNum;
+    Integer pageSize;
+    String password;
+    String boardCategory;
+    Integer boardTypeCnt;
 }

@@ -6,13 +6,13 @@
 <mapper namespace="mapper.totalAdmin">
 
 	<select id="getAdminInfo" resultType="TotalAdminDTO" parameterType="TotalAdminDTO">
-		SELECT	SEQ
-			 , ID
-			 , NAME
-			 , AUTH_CODE
-			 , MEMBER_TYPE
-			 , MEMBER_STATUS
-			 , USE_YN
+		SELECT	SEQ 			AS seq
+			 , ID				AS id
+			 , NAME				AS name
+			 , AUTH_CODE		AS authCode
+			 , MEMBER_TYPE		AS memberType
+			 , MEMBER_STATUS	AS memberStatus
+			 , USE_YN			AS useYn
 		FROM	itkey_dev.member
 		WHERE 	ID = #{id}
 		  AND	PASSWORD = #{password}
@@ -41,4 +41,27 @@
 		ORDER BY A.MENU_ORDER
 	</select>
 
+	<select id="selectBoardList" resultType="Board">
+		SELECT
+			BOARD_SEQ				AS boardSeq
+			 , BOARD_TYPE			AS boardType
+			 , BOARD_TITLE			AS boardTitle
+			 , BOARD_CONTENT		AS boardContent
+			 , BOARD_SECRET_YN		AS boardSecretYn
+			 , BOARD_DEL_YN			AS boardDelYn
+			 , REPLY_YN				AS replyYn
+			 , REPLY_CONTENT		AS replyContent
+			 , REPLY_MEMBER_ID		AS replyMemberId
+			 , REPLY_DT				AS replyDt
+			 , ATTCH_FILE_CNT		AS attchFileCnt
+			 , INQ_CNT				AS inqCnt
+			 , REG_ID				AS regId
+			 , REG_NM				AS regNm
+			 , REG_DT				AS regDt
+			 , UPD_ID				AS updId
+			 , UPD_NM				AS updNm
+			 , UPD_DT				AS updDt
+			 , BOARD_CATEGORY		AS boardCategory
+		FROM BOARD
+	</select>
 </mapper>
