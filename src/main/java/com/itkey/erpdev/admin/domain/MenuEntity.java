@@ -1,9 +1,9 @@
-package com.itkey.erpdev.admin.dto;
+package com.itkey.erpdev.admin.domain;
 
 import lombok.Data;
 
 @Data
-public class CommonDTO {
+public class MenuEntity {
 
 	private String menuSeq = "";
 	private String menuCode = "";
@@ -22,5 +22,9 @@ public class CommonDTO {
 	private String authList = "";
 	private String authDetail = "";
 	private String authUpdate = "";
+
+
+	private String regId = "";
+	private String updDt = "";
 }
 
