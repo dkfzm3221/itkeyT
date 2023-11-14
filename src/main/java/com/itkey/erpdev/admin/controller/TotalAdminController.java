@@ -2,6 +2,7 @@ package com.itkey.erpdev.admin.controller;
 
 import com.itkey.erpdev.admin.dto.CommonDTO;
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
+import com.itkey.erpdev.admin.dto.Visitor;
 import com.itkey.erpdev.admin.service.CommonService;
 import com.itkey.erpdev.admin.service.TotalAdminService;
 import com.itkey.erpdev.board.domain.Board;
@@ -31,6 +32,7 @@ public class TotalAdminController {
 	TotalAdminService adminService;
 	CommonService commonService;
 	BoardService bs;
+
 
 	// 관리자 로그인 화면
 	@GetMapping(value = "/loginAdmin")
@@ -72,13 +74,20 @@ public class TotalAdminController {
 
 		ModelAndView mv = new ModelAndView("/index_admin");
 
-		System.out.println(mv);
 		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
 			mv.setViewName("/loginAdmin");
 			return mv;
 		}
 
 		List<CommonDTO> gnbMenuList = commonService.getGnbMenuListAjax();
+
+		List<Visitor> mostVisitURL = adminService.mostVisitURL();
+		List<Visitor> mostVisitIP = adminService.mostVisitIP();
+		List<Visitor> mostVisitDate = adminService.mostVisitDate();
+
+		mv.addObject("mostVisitURL", mostVisitURL);
+		mv.addObject("mostVisitIP", mostVisitIP);
+		mv.addObject("mostVisitDate", mostVisitDate);
 
 		session.setAttribute("gnbList", gnbMenuList);
 
