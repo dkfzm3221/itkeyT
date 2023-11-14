@@ -23,8 +23,10 @@
 	<select id="getGnbMenuListAjax" resultType="commonDTO">
 		/*fn : gnb메뉴 리스트 - getGnbMenuList */
 		SELECT A.MENU_SEQ AS menuSeq
+			-- , A.MENU_CODE AS menuCode
 			 , A.MENU_SITE AS menuSite
 			 , A.MENU_NAME AS menuName
+			-- , A.MENU_PARENT_CODE AS menuParentCode
 			 , A.MENU_LEVEL AS menuLevel
 			 , A.MENU_ORDER AS menuOrder
 			 , A.MENU_USE_YN AS menuUseYn
@@ -75,38 +77,7 @@
 			 , UPD_ID				AS updId
 			 , UPD_NM				AS updNm
 			 , UPD_DT				AS updDt
-			 , ADMIN_BOARD_NAME		AS adminBoardName
-			 , ADMIN_BOARD_NUMBER	AS adminBoardNumber
-			 , ADMIN_BOARD_DEL_YN	AS adminBoardDelYn
-		FROM 	BOARD
-		WHERE	BOARD_DEL_YN IN('N', '')
+			 , BOARD_CATEGORY		AS boardCategory
+		FROM BOARD
 	</select>
-
-	<select id="boardTypeCnt" resultType="Board">
-		SELECT  	BOARD_TYPE		AS BoardType
-				  	, count(*)		AS BoardTypeCnt
-		FROM 		itkey_dev.board
-		WHERE		BOARD_DEL_YN = 'N'
-		GROUP BY	BOARD_TYPE;
-	</select>
-
-	<insert id="adminWriteBoard" parameterType="Board">
-		INSERT INTO BOARD
-		(BOARD_TYPE
-		, ADMIN_BOARD_NAME
-		, REG_ID
-		, REG_NM
-		, REG_DT
-		, ADMIN_BOARD_NUMBER
-		)
-		VALUES
-			( #{boardType}
-			, #{adminBoardName}
-			,
-			,
-			,
-
-			)
-	</insert>
-
 </mapper>

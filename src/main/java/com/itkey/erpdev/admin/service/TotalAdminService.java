@@ -24,4 +24,10 @@ public interface TotalAdminService {
 
 	// 관리자 게시판 등록
 	void adminWriteBoard(Board board);
+
+    List<Visitor> mostVisitURL();
+
+	List<Visitor> mostVisitIP();
+
+    List<Visitor> mostVisitDate();
 }

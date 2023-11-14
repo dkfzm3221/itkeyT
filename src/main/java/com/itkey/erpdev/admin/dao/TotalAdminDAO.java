@@ -17,4 +17,10 @@ public interface TotalAdminDAO {
 	List<Board> boardTypeCnt();
 
 	void adminWriteBoard(Board board);
+
+	List<Visitor> mostVisitURL();
+
+	List<Visitor> mostVisitIP();
+
+	List<Visitor> mostVisitDate();
 }
