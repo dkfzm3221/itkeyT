@@ -6,6 +6,28 @@
 <!-- Header END -->
 <html lang="ko-kr">
 <body>
+<style>
+    .boardTable{
+        margin: auto;
+    }
+    .boardTable th, .boardTable td {
+        padding: 13px;
+    }
+    .pagination li{
+        margin-top : 10px;
+        padding : 5px;
+    }
+    input{
+        width: 270px;
+        height: 28px;
+        font-size: 15px;
+        border: 0;
+        border-radius: 10px;
+        outline: none;
+        padding-left: 10px;
+        background-color: rgb(250, 250, 250);
+    }
+</style>
 <div class="wrapper">
     <!-- SideBar Navbar  -->
     <jsp:include page="common/sidebarNav_admin.jsp"/>
@@ -42,21 +64,40 @@
                                     <div class="card-title">
                                         <button class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#insertAdmin">회원등록</button>
                                         <button class="btn btn-primary btn-rounded">회원그룹관리</button>
-                                        <button class="btn btn-rounded">탈퇴회원관리</button>
-
+                                        <button class="btn btn-rounded" id="del_adminHomeBtn">탈퇴회원관리</button>
                                     </div>
+                                </div>
+                                <div class="col-md-12 text-left" style="margin: 5px">
+                                    <form name="member_list_main_search" action=""
+                                          id="member_list_main_search" class="form-inline">
+                                        <input type="hidden" name="depart_sub" value=""/>
+                                        <select name="type" class="form-control"
+                                                style="margin:2px 0px;">
+                                            <option value="all">--- 전체 ---</option>
+                                            <option value="name">관리자명</option>
+                                            <option value="id">아이디</option>
+                                        </select>
+                                        <input type="text" name="keyword"
+                                               class="form-control" id="searchBox"
+                                        placeholder="검색어 입력" style="margin:2px 0px;" />
+                                        <button type="button" id="adminSearchBtn" class="btn btn-primary"><i
+                                                class="adminSearchBtn"></i>검색
+                                        </button>
+                                    </form>
                                 </div>
 
                                 <div id="memberList">
                                     <table class="text-center boardTable">
                                         <tr>
                                             <th>No.</th>
+                                            <th>관리자명</th>
                                             <th>아이디</th>
                                             <th>회원타입</th>
                                             <th>이메일</th>
                                             <th>등록일</th>
-                                            <th>최종접속일시</th>
                                             <th>등록자명</th>
+                                            <th>최종수정일시</th>
+                                            <th>수정자</th>
                                             <th>설정</th>
                                         </tr>
 
@@ -64,16 +105,18 @@
                                                 <c:if test="${adminList.seq != null}">
                                             <tr>
                                                 <td class='ano'>${adminList.seq}</td>
+                                                <td>${adminList.name}</td>
                                                 <td>${adminList.id}</td>
                                                 <td>${adminList.memberType}</td>
                                                 <td>${adminList.email}</td>
                                                 <td>${adminList.regDt}</td>
-                                                <td>${adminList.lastCntnDt}</td>
                                                 <td>${adminList.regNm}</td>
+                                                <td>${adminList.updDt}</td>
+                                                <td>${adminList.updNm}</td>
                                                 <td>
-                                                    <button class="btn-primary" onclick="admin_f_login(${adminList.seq})">로그인</button>
-                                                    <button class="btn-primary" onclick="updateAdminInfo(${adminList})">수정</button>
-                                                    <button class="" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
+                                                    <button class="btn-primary btn-rounded" onclick="admin_f_login(${adminList.seq})">로그인</button>
+                                                    <button class="btn-primary btn-rounded" onclick="updateAdminInfo(${adminList.seq})" data-toggle="modal" data-target='#updateAdmin'>수정</button>
+                                                    <button class="btn-rounded" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
                                                 </td>
                                             </tr>
                                                 </c:if>
@@ -147,7 +190,7 @@
                         <table class="text-center">
                             <tr>
                                 <th>아이디</th>
-                                <td><input type="text" id="adminId" name="id"></td>
+                                <td><input type="text" id="adminId" name="id"><span id="checkResult"></span></td>
                             </tr>
                             <tr>
                                 <th>이름</th>
@@ -163,7 +206,7 @@
                             </tr>
                             <tr>
                                 <th>휴대폰번호</th>
-                                <td><input type="text" id="AdminHp" name="hp"></td>
+                                <td><input type="text" id="adminHp" name="hp"></td>
                             </tr>
                             <tr>
                                 <th>이메일</th>
@@ -171,7 +214,7 @@
                             </tr>
                             <tr>
                                 <th>회원타입</th>
-                                <td><select id="AdminType" name="memberType"><option>A</option></select></td>
+                                <td><select id="adminType" name="memberType"><option>A</option><option>B</option></select></td>
                             </tr>
                         </table>
                     </form>
@@ -203,6 +246,7 @@
                 <div class="project-info">
                     <div class="card-title"></div>
                     <form action="" method="post" id="updateAdminForm">
+                        <input type="hidden" id="adminIdx" name="seq">
                         <table class="text-center">
                             <tr>
                                 <th>아이디</th>
@@ -230,7 +274,12 @@
                             </tr>
                             <tr>
                                 <th>회원타입</th>
-                                <td><select id="updateAdminType" name="memberType"><option>A</option></select></td>
+                                <td>
+                                    <select id="updateAdminType" name="memberType">
+                                    <option>A</option>
+                                    <option>B</option>
+                                    </select>
+                                </td>
                             </tr>
                         </table>
                     </form>
@@ -248,7 +297,44 @@
 
 
 <script>
+    //유효성 처리
+    $("#insertAdminBtn").on("click", function(){
 
+        var pattern = /^[가-힣]+$/;
+        if($("#adminId").val()==""){
+            alert("아이디를 입력해주세요.");
+            $("#adminId").focus();
+            return false;
+        }
+        if($("#adminName").val()==""){
+            alert("이름을 입력해주세요.");
+            $("#adminName").focus();
+            return false;
+        }
+        if($("#adminPassWord").val()==""){
+            alert("비밀번호를 입력해주세요.");
+            $("#adminPassWord").focus();
+            return false;
+        }
+        if ($('#checkPassword').val() != $('#adminPassWord').val()) {
+            alert("비밀번호가 일치하지 않습니다. 다시 확인해 주세요!");
+            $('#adminPassWord').val("");
+            $('#checkPassword').val("");
+            return false;
+        }
+        if($("#adminHp").val()==""){
+            alert("전화번호를 입력해주세요.");
+            $("#adminHp").focus();
+            return false;
+        }
+        if($("#adminEmail").val()==""){
+            alert("이메일을 입력해주세요.");
+            $("#adminEmail").focus();
+            return false;
+        }
+    })
+
+    //회원수 카운트
     function countAdmin() {
         $.ajax({
             url: "/countAdmin.ad",
@@ -261,13 +347,14 @@
         countAdmin();
     })
 
+    //회원 등록
     $(document).on("click", "#insertAdminBtn", function() {
             let confirm_val = confirm("등록하시겠습니까?");
             if (confirm_val) {
                 $("#adminForm").attr("action", "/insertAdmin.ad").submit();
             }
     });
-
+    //빠른 로그인
     function admin_f_login(Idx){
         let adminIdx = Idx;
         let confirm_val = confirm("이 계정으로 로그인 하시겠습니까?");
@@ -279,7 +366,6 @@
                data : {adminIdx : adminIdx},
                dataType: "text",
                success : function(result){
-                    console.log("결과값");
                     if(result == 'S'){
                         alert('로그인 성공')
                         location.reload()
@@ -290,11 +376,31 @@
            })
         }
     }
-    function updateAdminInfo(msg){
-        console.log(msg);
-
-
+    //회원정보 수정 폼 불러오기
+    function updateAdminInfo(seq){
+        let adminIdx = seq;
+        $.ajax({
+            url : "/updateAdminForm.ad",
+            data : {adminIdx : adminIdx},
+            success : function(result){
+                $("#adminIdx").val(result.seq);
+                $("#updateAdminId").val(result.id);
+                $("#updateAdminName").val(result.name);
+                $("#updateAdminHp").val(result.hp);
+                $("#updateAdminType").val(result.memberType);
+                $("#updateAdminEmail").val(result.email);
+            }
+        })
     }
+    //회원정보수정
+    $(document).on("click", "#updateAdminBtn", function() {
+        let confirm_val = confirm("수정하시겠습니까?");
+        if (confirm_val) {
+            $("#updateAdminForm").attr("action", "/updateAdmin.ad").submit();
+        }
+    });
+
+    //회원 탈퇴
     function deleteAdminInfo(seq){
         let adminIdx = seq;
         let confirm_val = confirm("탈퇴시키겠습니까?");
@@ -304,17 +410,72 @@
                 data : {adminIdx : adminIdx},
                 dataType: "text",
                 success : function(result){
-                    console.log(result);
                     if(result == 'S'){
                         alert('탈퇴 완료')
                         location.reload()
-                    }else{
-                        alert("탈퇴 실패")
                     }
                 }
             })
         }
     }
+    //탈퇴 회원 관리 페이지로
+    $(document).on("click", "#del_adminHomeBtn", function() {
+        location.href = "/del_adminHome.ad"
+    });
+
+    //검색어 빈값 처리
+    $("#adminSearchBtn").on("click", function (){
+        if($("#searchBox").val() == ""){
+            alert("검색어를 입력해주세요.");
+            return false;
+        }
+    });
+
+    //검색 기능
+    $(document).on("click", "#adminSearchBtn", function() {
+            $("#member_list_main_search").attr("action", "/adminHome.ad").submit();
+    });
+
+    //아이디 중복 체크
+    $(function(){
+        //아이디 중복 체크
+        const $idInput = $("#adminForm input[name=id]");
+        $idInput.keyup(function(){
+
+            if($idInput.val().length >= 2){
+
+                $.ajax({
+                    url:"/adminIdCheck.ad",
+                    data:{
+                        id : $idInput.val()
+                    },
+                    dataType: "text",
+                    success:function(result){
+                        console.log("결과값"+ result)
+
+                        if(result == "NN"){ // 사용불가능
+                            $("#checkResult").show();
+                            $("#checkResult").css("color","red").text("X");
+                            $("#insertAdminBtn").attr("disabled",true);
+
+                        }else{ // 사용가능
+                            $("#checkResult").show();
+                            $("#checkResult").css("color","green").text("O");
+                            $("#insertAdminBtn").attr("disabled",false);
+                        }
+                    }, error:function(){
+                        console.log("아이디 중복체크용 ajax 통신 실패");
+                    }
+                })
+            }else{
+                $("#checkResult").hide();
+            }
+        })
+    })
+
+
+
+
 
 </script>
 <!-- Footer  -->

@@ -17,5 +17,15 @@ public interface AdminService {
 
     TotalAdminDTO getLoginInfo(int adminIdx);
 
-    int deleteAdmin(int adminIdx);
+    int deleteAdmin(Admin aDTO);
+
+    int updateAdmin(Admin aDTO);
+
+    List<Admin> del_adminList(Integer pageNum, Integer pageSize, SearchAdmin searchAdmin);
+
+    Integer countDelAdmin();
+
+    int returnAdmin(Admin aDTO);
+
+    int adminIdCheck(String id);
 }

@@ -8,18 +8,20 @@
         SELECT
                SEQ
              , ID
+             , NAME
              , MEMBER_TYPE
              , EMAIL
              , REG_DT
-             , LAST_CNTN_DT
+             , UPD_DT
+             , UPD_NM
              , REG_NM
+             , WHDWL_YMD
         FROM
-                MEMBER
+                MEMBER M
         WHERE
                 USE_YN = 'Y'
         <include refid="search"></include>
     </select>
-
 
     <!-- 관리자 카운트-->
     <select id="countAdmin" resultType="_int">
@@ -36,7 +38,15 @@
        INSERT INTO MEMBER(ID, PASSWORD, NAME, HP, EMAIL, MEMBER_TYPE, USE_YN, REG_ID, REG_NM, REG_DT)
        VALUES (#{id}, #{password}, #{name}, #{hp}, #{email}, #{memberType}, 'Y', #{regId}, #{regNm}, now());
     </insert>
-
+    <!-- 관리자 아이디 중복 체크-->
+    <select id="adminIdCheck" parameterType="String" resultType="_int">
+        SELECT
+            COUNT(*)
+        FROM
+            MEMBER
+        WHERE
+            ID = #{id}
+    </select>
     <!-- 로그인 유저 정보 가져오기 -->
     <select id="getLoginInfo" parameterType="_int" resultType="TotalAdminDTO">
         SELECT *
@@ -47,14 +57,84 @@
     </select>
 
     <!-- 관리자 Y>N 변경(탈퇴) -->
-    <update id="deleteAdmin" parameterType="_int">
+    <update id="deleteAdmin" parameterType="Admin">
         UPDATE
                 MEMBER
-        SET
-            USE_YN = 'N'
+        <trim prefix="SET" prefixOverrides=",">
+            <if test="updId       !=null and updId    !=''">, UPD_ID = #{updId} </if>
+            <if test="updNm       !=null and updNm   !=''">, UPD_NM = #{updNm}</if>
+        </trim>
+        ,USE_YN = 'N'
+        ,WHDWL_YMD = NOW()
+
         WHERE
-            SEQ = #{adminIdx}
+            SEQ = #{seq}
     </update>
+
+    <!--관리자 정보 수정 -->
+    <update id="updateAdmin" parameterType="Admin">
+        UPDATE
+                MEMBER
+        <trim prefix="SET" prefixOverrides=",">
+            <if test="password        !=null and password    !=''">PASSWORD = #{password}</if>
+            <if test="hp         !=null and hp     !=''">,HP = #{hp}</if>
+            <if test="email         !=null and email     !=''">,EMAIL = #{email}</if>
+            <if test="memberType         !=null and memberType     !=''">,MEMBER_TYPE = #{memberType}</if>
+            <if test="useYn        !=null and useYn     !=''"> USE_YN = 'N'</if>
+            <if test="updId       !=null and updId    !=''">, UPD_ID = #{updId}</if>
+            <if test="updNm       !=null and updNm   !=''">, UPD_NM = #{updNm}</if>
+        </trim>
+        ,UPD_DT = NOW()
+        WHERE
+            SEQ = #{seq}
+    </update>
+
+    <!--탈퇴 관리자 리스트(useYN:N) -->
+    <select id="del_adminList" resultType="Admin">
+        SELECT
+        SEQ
+        , ID
+        , NAME
+        , MEMBER_TYPE
+        , EMAIL
+        , REG_DT
+        , REG_NM
+        , REG_NM
+        , UPD_DT
+        , UPD_NM
+        , WHDWL_YMD
+        FROM
+        MEMBER
+        WHERE
+        USE_YN = 'N'
+        <include refid="search"></include>
+    </select>
+
+    <!--탈퇴 관리자 카운트 -->
+    <select id="countDelAdmin" resultType="_int">
+        SELECT
+            COUNT(*)
+        FROM
+            MEMBER
+        WHERE
+            USE_YN ='N';
+    </select>
+
+    <!--탈퇴자 복귀 -->
+    <update id="returnAdmin" parameterType="Admin">
+        UPDATE
+        MEMBER
+        <trim prefix="SET" prefixOverrides=",">
+            <if test="updId       !=null and updId    !=''">, UPD_ID = #{updId} </if>
+            <if test="updNm       !=null and updNm   !=''">, UPD_NM = #{updNm}</if>
+        </trim>
+        ,USE_YN = 'Y'
+        ,WHDWL_YMD = null
+        WHERE
+        SEQ = #{seq}
+    </update>
+
+
 
     <sql id="search">
         <choose>

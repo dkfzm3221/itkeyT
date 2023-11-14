@@ -31,7 +31,6 @@ public class AdminDaoImpl implements AdminDao {
     @Override
     public List<Admin> adminList(Integer pageNum, Integer pageSize, SearchAdmin searchAdmin) {
         PageHelper.startPage(pageNum, pageSize);
-
         return sql.selectList("mapper.admin.adminList", searchAdmin);
     }
 
@@ -41,8 +40,34 @@ public class AdminDaoImpl implements AdminDao {
     }
 
     @Override
-    public int deleteAdmin(int adminIdx) {
-        return sql.update("mapper.admin.deleteAdmin", adminIdx);
+    public int deleteAdmin(Admin aDTO) {
+        return sql.update("mapper.admin.deleteAdmin", aDTO);
+    }
+
+    @Override
+    public int updateAdmin(Admin aDTO) {
+        return sql.update("mapper.admin.updateAdmin", aDTO);
+    }
+
+    @Override
+    public List<Admin> del_adminList(Integer pageNum, Integer pageSize, SearchAdmin searchAdmin) {
+        PageHelper.startPage(pageNum, pageSize);
+        return sql.selectList("mapper.admin.del_adminList", searchAdmin);
+    }
+
+    @Override
+    public Integer countDelAdmin() {
+        return sql.selectOne("mapper.admin.countDelAdmin");
+    }
+
+    @Override
+    public int returnAdmin(Admin aDTO) {
+        return sql.update("mapper.admin.returnAdmin", aDTO);
+    }
+
+    @Override
+    public int adminIdCheck(String id) {
+        return sql.selectOne("mapper.admin.adminIdCheck", id);
     }
 
 

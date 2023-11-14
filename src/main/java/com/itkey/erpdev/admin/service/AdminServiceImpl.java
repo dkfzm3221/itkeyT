@@ -20,19 +20,16 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public int countAdmin() {
-        int result = dao.countAdmin();
-        return result;
+        return dao.countAdmin();
     }
 
     @Override
     public int insertAdmin(AdminInsert aDTO) {
-        int result = dao.insertAdmin(aDTO);
-        return result;
+        return dao.insertAdmin(aDTO);
     }
 
     @Override
     public List<Admin> adminList(Integer pageNum, Integer pageSize, SearchAdmin searchAdmin) {
-
         return dao.adminList(pageNum, pageSize, searchAdmin);
     }
 
@@ -42,8 +39,33 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public int deleteAdmin(int adminIdx) {
-        return dao.deleteAdmin(adminIdx);
+    public int deleteAdmin(Admin aDTO) {
+        return dao.deleteAdmin(aDTO);
+    }
+
+    @Override
+    public int updateAdmin(Admin aDTO) {
+        return dao.updateAdmin(aDTO);
+    }
+
+    @Override
+    public List<Admin> del_adminList(Integer pageNum, Integer pageSize, SearchAdmin searchAdmin) {
+        return dao.del_adminList(pageNum, pageSize, searchAdmin);
+    }
+
+    @Override
+    public Integer countDelAdmin() {
+        return dao.countDelAdmin();
+    }
+
+    @Override
+    public int returnAdmin(Admin aDTO) {
+        return dao.returnAdmin(aDTO);
+    }
+
+    @Override
+    public int adminIdCheck(String id) {
+        return dao.adminIdCheck(id);
     }
 
 }
