@@ -141,7 +141,7 @@
     //회원수 카운트
     function countAdmin() {
         $.ajax({
-            url: "/countDelAdmin.ad",
+            url: "totalAdmin/countDelAdmin",
             success: function (result) {
                 $('#countAdmin').append(result);
             }
@@ -152,7 +152,7 @@
     })
     //회원 관리 페이지로
     $(document).on("click", "#adminHomeBtn", function() {
-        location.href = "/adminHome.ad"
+        location.href = "/totalAdmin/adminHome"
     });
 
     //복귀
@@ -161,7 +161,7 @@
         let confirm_val = confirm("복귀시키겠습니까?");
         if (confirm_val) {
             $.ajax({
-                url : "/returnAdmin.ad",
+                url : "/totalAdmin/returnAdmin",
                 data : {adminIdx : adminIdx},
                 dataType: "text",
                 success : function(result){
