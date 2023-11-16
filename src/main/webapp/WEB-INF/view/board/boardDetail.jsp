@@ -15,6 +15,29 @@
     <title>Title</title>
 </head>
 <body>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $('#boardEditor').summernote({
+            lang: 'ko-KR',
+            height: 300,
+            placeholder: '내용을 입력하세요',
+            toolbar: [
+                ['fontsize', ['fontsize']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['picture', 'link']],
+                ['view', ['fullscreen', 'help']]
+            ],
+            fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30']
+        });
+
+        $('#boardEditor').summernote('disable');
+    });
+</script>
 <div class="wrapper">
     <!-- SideBar Navbar  -->
     <jsp:include page="../common/sidebarNav.jsp"/>
@@ -65,11 +88,8 @@
                             <tr>
                                 <th class="padding-lg">내용</th>
                                 <td colspan="4">
-                                    <div class="detail-content">
-                                    <textarea class="form-control write-form" rows="14"
-                                              id="boardContent" placeholder="내용을 작성해 주세요."
-                                              name="boardContent" readonly>${boardDetail.boardContent}
-                                    </textarea>
+                                    <div class="detail-content" id="boardEditor">
+                                        <c:out value="${boardDetail.boardContent}" escapeXml="false"/>
                                     </div>
                                 </td>
                             </tr>
@@ -87,6 +107,8 @@
     function returnToList(){
         window.location.href = "/";
     }
+
+
 
     function modiBoard(){
         let password = prompt("비밀번호를 입력하세요.");
@@ -110,6 +132,7 @@
                     $('#hiddenPassword').removeAttr('hidden');
                     $('#password').removeAttr('readonly');
                     $('button[onclick="modiBoard()"]').attr('onclick', 'updateBoard()');
+                    $('#boardEditor').summernote('enable');
                     let deleteButton = $('<button/>', {
                         text: '삭제',
                         class: 'btn btn-danger',
@@ -146,7 +169,7 @@
 
     function updateBoard(){
         let boardTitle = $("#boardTitle").val();
-        let boardContent = $("#boardContent").val();
+        let boardEditor = $("#boardEditor").summernote('code');
         let updNm = $("#regNm").val();
         let password = $("#password").val();
         let boardSecretYn = $("input[name='boardSecretYn']:checked").val();
@@ -157,7 +180,7 @@
             return;
         }
 
-        if (!boardContent) {
+        if (!boardEditor) {
             alert("내용을 입력해주세요.");
             return;
         }
@@ -178,7 +201,7 @@
                 type:"POST",
                 url: "/updateBoard",
                 data: {boardTitle : boardTitle,
-                    boardContent : boardContent,
+                    boardContent : boardEditor,
                     updNm : updNm,
                     boardSecretYn : boardSecretYn,
                     password : password,
