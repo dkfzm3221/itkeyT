@@ -147,8 +147,8 @@
     <sql id="search">
         <choose>
             <when test="type == 'all'">
-                AND M.NAME LIKE CONCAT('%',#{keyword},'%')
-                OR  M.ID LIKE CONCAT('%',#{keyword},'%')
+                AND (M.NAME LIKE CONCAT('%',#{keyword},'%')
+                OR  M.ID LIKE CONCAT('%',#{keyword},'%'))
                 AND  M.NAME  IS NOT NULL
             </when>
             <when test="type == 'name'">
