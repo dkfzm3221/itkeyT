@@ -29,4 +29,6 @@ public class Admin {
     String updId;//수정자Id
     String updNm;//수정자명
     Date updDt;//수정일자
+
+    Integer rowNum;
 }

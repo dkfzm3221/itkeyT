@@ -70,5 +70,10 @@ public class AdminDaoImpl implements AdminDao {
         return sql.selectOne("mapper.admin.adminIdCheck", id);
     }
 
+    @Override
+    public int realDeleteAdmin(int adminIdx) {
+        return sql.delete("mapper.admin.realDeleteAdmin", adminIdx);
+    }
+
 
 }

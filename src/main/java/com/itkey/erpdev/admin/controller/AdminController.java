@@ -226,4 +226,15 @@ public class AdminController {
             return "F";
         }
     }
+
+    @ResponseBody
+    @RequestMapping(value="/realDeleteAdmin", produces="application/json; charset=UTF-8")
+    public String realDeleteAdmin(int adminIdx){
+        int result = as.realDeleteAdmin(adminIdx);
+        if(result>0){
+            return "S";
+        }else{
+            return "F";
+        }
+    }
 }
