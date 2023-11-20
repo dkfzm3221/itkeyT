@@ -100,13 +100,13 @@
         <p class="text-center mb-4">가입 시 등록한 정보를 입력해주세요.</p>
         <div class="login-form">
             <div class="form-group form-floating-label">
-                <input id="findCustMngNm" name="custMngNm" type="text" class="form-control input-border-bottom" required>
-                <label for="findCustMngNm" class="placeholder">담당자명(이름)</label>
+                <input id="findMemNm" name="name" type="text" class="form-control input-border-bottom" required>
+                <label for="findMemNm" class="placeholder">이름</label>
             </div>
 
             <div class="form-group form-floating-label">
-                <input id="findBsnsNmbr" name="bsnsNmbr" type="text" class="form-control input-border-bottom" required>
-                <label for="findBsnsNmbr" class="placeholder">사업자등록번호</label>
+                <input id="findMemPh" name="ph" type="text" class="form-control input-border-bottom" required>
+                <label for="findMemPh" class="placeholder">전화번호</label>
             </div>
 
             <div class="false-box">
@@ -223,16 +223,16 @@
             $(".container-login").hide();
             $(".container-findid").css("display", 'block');
             $(".false-box .p-false").text("");
-            $("#findCustMngNm").val("");
-            $("#findBsnsNmbr").val("");
+            $("#findMemNm").val("");
+            $("#findMemPh").val("");
         });
 
         $("#goTofindPw").click(function () {
             $(".container-login").hide();
             $(".container-findpw").css("display", 'block');
             $(".false-box .p-false").text("");
-            $("#findCustMngNm").val("");
-            $("#findBsnsNmbr").val("");
+            $("#findMemNm").val("");
+            $("#findMemPh").val("");
         });
 
         $(".show-back").click(function () {
@@ -240,8 +240,8 @@
             $(".container-login").show();
             $(".container-findpw").hide();
             $(".false-box .p-false").text("");
-            $("#findCustMngNm").val("");
-            $("#findBsnsNmbr").val("");
+            $("#findMemNm").val("");
+            $("#findMemPh").val("");
         });
 
         $("#goToLogin").click(function () {
@@ -250,8 +250,8 @@
             $(".container-findpw").hide();
             $(".container-findidtrue").hide();
             $(".false-box .p-false").text("");
-            $("#findCustMngNm").val("");
-            $("#findBsnsNmbr").val("");
+            $("#findMemNm").val("");
+            $("#findMemPh").val("");
         });
 
         $("#findPw").click(function () {
@@ -260,21 +260,21 @@
             $(".container-findpw").show();
             $(".container-findidtrue").hide();
             $(".false-box .p-false").text("");
-            $("#findCustMngNm").val("");
-            $("#findBsnsNmbr").val("");
+            $("#findMemNm").val("");
+            $("#findMemPh").val("");
         });
 
     });
 
     /*아이디찾기*/
     function findId() {
-        var custMngNm = $("#findCustMngNm").val();
-        var bsnsNmbr = $("#findBsnsNmbr").val();
+        var findMemNm = $("#findMemNm").val();
+        var findeMemPh = $("#findMemPh").val();
 
         $.ajax({
             type: "POST",
             url: "findId",
-            data: {custMngNm: custMngNm, bsnsNmbr: bsnsNmbr},
+            data: {Name: findMemNm, hp: findeMemPh},
             dataType: "json",
             success: function (data) {
                 console.log("data  : " + JSON.stringify(data.result));
@@ -284,8 +284,8 @@
                     $(".container-login").hide();
                     $(".container-findpw").css("display", 'none');
                     $(".container-findid").hide();
-                    $("#findCustMngNm").val("");
-                    $("#findBsnsNmbr").val("");
+                    $("#findMemNm").val("");
+                    $("#findMemPh").val("");
                     $(".container-findidtrue").show();
                     $(".foundId").text(maskedId);
                 } else if (data.result === 'zero') {

@@ -13,4 +13,6 @@ public interface MemberDao {
     int memLogin(Member m);
     //로그인 유저 정보 불러오기
     MemberInfoResponse memLoginInfo(Member m);
+    //아이디 찾기
+    Member findId(Member mDTO);
 }

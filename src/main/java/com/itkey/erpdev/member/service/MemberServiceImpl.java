@@ -1,9 +1,6 @@
 package com.itkey.erpdev.member.service;
 
 import com.itkey.erpdev.common.encryption.SHA256;
-import com.itkey.erpdev.customer.domain.Customer;
-import com.itkey.erpdev.customer.dto.CustJoinForm;
-import com.itkey.erpdev.customer.dto.CustSaveForm;
 import com.itkey.erpdev.member.domain.Member;
 import com.itkey.erpdev.member.dto.MemberInfoResponse;
 import com.itkey.erpdev.member.dto.MemberInsert;
@@ -54,5 +51,10 @@ public class MemberServiceImpl implements MemberService{
         session.setAttribute("memInfo", response);
         return response;
 
+    }
+    // 아이디 찾기
+    @Override
+    public Member findId(Member mDTO) {
+        return dao.findId(mDTO);
     }
 }

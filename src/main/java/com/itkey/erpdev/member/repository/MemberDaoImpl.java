@@ -34,4 +34,10 @@ public class MemberDaoImpl implements MemberDao{
     public MemberInfoResponse memLoginInfo(Member m) {
         return sql.selectOne("mapper.member.memLoginInfo", m);
     }
+
+    @Override
+    public Member findId(Member mDTO) {
+        return sql.selectOne("mapper.member.findId", mDTO);
+
+    }
 }

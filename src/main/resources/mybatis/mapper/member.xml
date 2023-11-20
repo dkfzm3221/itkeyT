@@ -21,7 +21,7 @@
         WHERE ID = #{id}
           AND PASSWORD = #{password}
     </select>
-
+    <!-- 로그인 사용자 정보 불러오기 -->
     <select id="memLoginInfo" parameterType="Member" resultType="MemberInfoResponse">
         SELECT ID
                 , EMAIL
@@ -35,6 +35,17 @@
                 MEMBER
         WHERE ID = #{id}
           AND PASSWORD = #{password}
+    </select>
+    <!-- 아이디 찾기 -->
+    <select id="findId" parameterType="Member" resultType="Member">
+        SELECT
+            CONCAT(SUBSTRING(id, 1, LENGTH(id) - 3), '***') as ID, NAME
+        FROM
+            MEMBER
+        WHERE
+            NAME = #{name}
+        AND
+            HP = #{hp}
     </select>
 
 
