@@ -1,10 +1,7 @@
 package com.itkey.erpdev.board.controller;
 
-import com.github.pagehelper.PageInfo;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.service.BoardService;
-import com.itkey.erpdev.common.page.Paging;
-import com.itkey.erpdev.customer.dto.CustInfoResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
