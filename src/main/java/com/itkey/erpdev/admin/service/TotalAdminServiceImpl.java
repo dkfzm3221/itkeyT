@@ -68,4 +68,5 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     public int getMenuListCntAjax(){
         return totalAdminDAO.getMenuListCntAjax();
     }
+
 }
