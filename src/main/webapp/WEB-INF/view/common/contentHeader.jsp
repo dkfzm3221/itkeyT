@@ -129,9 +129,6 @@
             const userAgent = navigator.userAgent;
             const fullUrl = new URL(window.location.href);
             let visitRefer = fullUrl.pathname.split('?')[0];
-            if (visitRefer === "/"){
-                visitRefer = "/index";
-            }
             fetch('/record/visitorLog', {
                 method: 'POST',
                 headers: {
@@ -142,7 +139,7 @@
                     visitAgent: userAgent,
                     visitRefer : visitRefer
                 }),
-            })
+            })``
                 .then(response => response.json())
                 .then(data => {
                 })
