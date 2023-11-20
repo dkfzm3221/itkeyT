@@ -5,35 +5,39 @@
 <mapper namespace="mapper.board">
     <select id="boardList" parameterType="map" resultType="Board">
         SELECT
-            BOARD_SEQ
-             , BOARD_TYPE
-             , BOARD_TITLE
-             , BOARD_CONTENT
-             , BOARD_SECRET_YN
-             , BOARD_DEL_YN
-             , REPLY_YN
-             , REPLY_CONTENT
-             , REPLY_MEMBER_ID
-             , REPLY_DT
-             , ATTCH_FILE_CNT
-             , COALESCE(INQ_CNT, 0) AS INQ_CNT
-             , REG_ID
-             , REG_NM
-             , REG_DT
-             , UPD_ID
-             , UPD_NM
-             , UPD_DT
-        FROM BOARD
-        WHERE BOARD_DEL_YN = 'N'
-        ORDER BY BOARD_SEQ DESC
-            LIMIT #{startIdx}, #{countPerPage}
+            BO.BOARD_SEQ
+             , BO.BOARD_TYPE
+             , BO.BOARD_TITLE
+             , BO.BOARD_CONTENT
+             , BO.BOARD_SECRET_YN
+             , BO.BOARD_DEL_YN
+             , BO.REPLY_YN
+             , BO.REPLY_CONTENT
+             , BO.REPLY_MEMBER_ID
+             , BO.REPLY_DT
+             , BO.ATTCH_FILE_CNT
+             , COALESCE(BO.INQ_CNT, 0) AS INQ_CNT
+             , BO.REG_ID
+             , BO.REG_NM
+             , BO.REG_DT
+             , BO.UPD_ID
+             , BO.UPD_NM
+             , BO.UPD_DT
+             , M.MENU_SEQ
+             , M.MENU_NAME
+        FROM BOARD BO
+                 INNER JOIN MENU M on M.MENU_SEQ = BO.BOARD_TYPE
+        WHERE BO.BOARD_DEL_YN = 'N'
+          AND BO.BOARD_TYPE = #{boardType}
+        ORDER BY BO.BOARD_SEQ DESC
+            LIMIT 5
     </select>
     <insert id="writeBoard" parameterType="Board">
         INSERT INTO BOARD
         (BOARD_TITLE
         , BOARD_CONTENT
         , BOARD_SECRET_YN
-        , BOARD_TYPE
+        --, BOARD_TYPE
         , BOARD_DEL_YN
         , password
         , REG_NM
@@ -44,7 +48,7 @@
             ( #{boardTitle}
             , #{boardContent}
             , #{boardSecretYn}
-            , 1
+      --      , #{boardType}
             , 'N'
             , #{password}
             , #{regNm}
@@ -82,8 +86,10 @@
         WHERE BOARD_SEQ = #{boardSeq}
     </update>
 
-    <select id="getTotalBoardCount" resultType="int">
+    <select id="getTotalBoardCount" parameterType="String" resultType="int">
         SELECT COUNT(*) FROM board
+        WHERE BOARD_DEL_YN = 'N'
+        AND BOARD_TYPE = #{boardType}
     </select>
 
     <select id="selectPassword" parameterType="Board" resultType="Board">
@@ -100,7 +106,7 @@
             BOARD_TITLE = #{boardTitle}
           , BOARD_CONTENT = #{boardContent}
           , BOARD_SECRET_YN = #{boardSecretYn}
-          , BOARD_TYPE = 1
+         -- , BOARD_TYPE = #{boardType}
           , BOARD_DEL_YN = 'N'
           , password = #{password}
           , UPD_NM = #{updNm}
@@ -116,5 +122,25 @@
         WHERE BOARD_SEQ = #{boardSeq}
     </update>
 
+    <select id="getMenuList"  resultType="Board">
+        SELECT
+               MENU_SEQ
+             , MENU_NAME
+             , MENU_URL
+             , MENU_SITE
+        FROM MENU
+        WHERE MENU_SITE = 'U'
+        AND MENU_USE_YN = 'Y'
+        ORDER BY MENU_ORDER DESC
+    </select>
+
+    <select id="boardTypeList"  resultType="Board">
+        SELECT DISTINCT
+            BOARD_TYPE
+            , M.MENU_NAME
+        FROM BOARD BO
+                 INNER JOIN MENU M on M.MENU_SEQ = BO.BOARD_TYPE
+        WHERE BOARD_DEL_YN = 'N'
+    </select>
 
 </mapper>

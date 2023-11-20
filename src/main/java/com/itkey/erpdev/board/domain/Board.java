@@ -2,9 +2,16 @@ package com.itkey.erpdev.board.domain;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Board {
+public class Board implements Serializable {
     Integer boardSeq;
+    Integer menuSeq;
+    String menuName;
+    String menuUrl;
+    String menuSite;
+
     String boardType;
     String boardTitle;
     String boardContent;
