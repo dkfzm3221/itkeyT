@@ -111,7 +111,9 @@
 	</select>
 
 	<!-- 메뉴 등록/수정 -->
+	<!-- 메뉴 등록/수정 -->
 	<insert id="updMenuMgmtAjax" parameterType="MenuEntity">
+		/*fn : 메뉴 등록/수정 - updMenuMgmtAjax */
 		INSERT INTO MENU (
 			MENU_SEQ,
 			MENU_SITE,
@@ -121,7 +123,9 @@
 			MENU_URL,
 			MENU_PARENT_SEQ,
 			REG_ID,
-			REG_DT
+			REG_DT,
+			MENU_USE_YN,
+			MENU_ORDER
 		) VALUES
 		<foreach collection="list" item="menu" separator=",">
 			(
@@ -132,8 +136,10 @@
 			#{menu.menuType},
 			#{menu.menuUrl},
 			#{menu.menuParentSeq},
-			'admin',
-			NOW()
+			'ADMIN',
+			NOW(),
+			#{menu.menuUseYn},
+			#{menu.menuOrder}
 			)
 		</foreach>
 		ON DUPLICATE KEY UPDATE
@@ -142,6 +148,8 @@
 		MENU_LEVEL = VALUES(MENU_LEVEL),
 		MENU_TYPE = VALUES(MENU_TYPE),
 		MENU_URL = VALUES(MENU_URL),
-		MENU_PARENT_SEQ = VALUES(MENU_PARENT_SEQ)
+		MENU_PARENT_SEQ = VALUES(MENU_PARENT_SEQ),
+		MENU_USE_YN = VALUES(MENU_USE_YN),
+		MENU_ORDER = VALUES(MENU_ORDER)
 	</insert>
 </mapper>
