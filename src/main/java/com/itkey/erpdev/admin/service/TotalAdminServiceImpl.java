@@ -63,4 +63,9 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     public int updMenuMgmtAjax(List<MenuEntity> menuEntityList) {
         return totalAdminDAO.updMenuMgmtAjax(menuEntityList);
     }
+
+    @Override
+    public int getMenuListCntAjax(){
+        return totalAdminDAO.getMenuListCntAjax();
+    }
 }
