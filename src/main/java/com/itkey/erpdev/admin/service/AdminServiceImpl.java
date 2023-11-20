@@ -68,4 +68,9 @@ public class AdminServiceImpl implements AdminService {
         return dao.adminIdCheck(id);
     }
 
+    @Override
+    public int realDeleteAdmin(int adminIdx) {
+        return dao.realDeleteAdmin(adminIdx);
+    }
+
 }

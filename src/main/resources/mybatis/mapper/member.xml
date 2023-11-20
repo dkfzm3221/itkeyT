@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.member">
+    <!-- 사용자 회원 가입 -->
+    <insert id="memJoin" parameterType="Member">
+        INSERT INTO MEMBER(ID, PASSWORD, NAME, HP, EMAIL, MEMBER_TYPE, USE_YN, REG_DT, AUTH_CODE, SALT)
+        VALUES (#{id}, #{password}, #{name}, #{hp}, #{email}, #{memberType}, 'Y', now(), #{authCode}, #{salt});
+    </insert>
+    <!-- 사용자 SALT 가져오기 -->
+    <select id="getSalt" parameterType="Member" resultType="String">
+        SELECT SALT
+        FROM MEMBER
+        WHERE ID = #{id}
+    </select>
+    <!-- 사용자 로그인 -->
+    <select id="memLogin" parameterType="Member" resultType="int">
+        SELECT COUNT(*)
+        FROM MEMBER
+        WHERE ID = #{id}
+          AND PASSWORD = #{password}
+    </select>
+    <!-- 로그인 사용자 정보 불러오기 -->
+    <select id="memLoginInfo" parameterType="Member" resultType="MemberInfoResponse">
+        SELECT ID
+                , EMAIL
+                , HP
+                , NAME
+                , AUTH_CODE
+                , MEMBER_TYPE
+                , USE_YN
+                , SALT
+        FROM
+                MEMBER
+        WHERE ID = #{id}
+          AND PASSWORD = #{password}
+    </select>
+    <!-- 아이디 찾기 -->
+    <select id="findId" parameterType="Member" resultType="Member">
+        SELECT
+            CONCAT(SUBSTRING(id, 1, LENGTH(id) - 3), '***') as ID, NAME
+        FROM
+            MEMBER
+        WHERE
+            NAME = #{name}
+        AND
+            HP = #{hp}
+    </select>
+
+
+
+</mapper>
