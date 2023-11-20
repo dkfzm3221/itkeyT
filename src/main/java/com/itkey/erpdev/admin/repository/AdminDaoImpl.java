@@ -5,7 +5,6 @@ import com.itkey.erpdev.admin.domain.Admin;
 import com.itkey.erpdev.admin.dto.AdminInsert;
 import com.itkey.erpdev.admin.dto.SearchAdmin;
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
-import com.itkey.erpdev.customer.domain.Customer;
 import lombok.AllArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;

@@ -127,6 +127,8 @@
         window.location.href = "/writeBoardView";
     }
 
+
+
     function checkPassword(seq){
 
         let password = prompt("비밀번호를 입력하세요.");

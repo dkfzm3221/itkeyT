@@ -15,6 +15,27 @@
     <title>Title</title>
 </head>
 <body>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $('#boardEditor').summernote({
+            lang: 'ko-KR',
+            height: 300,
+            placeholder: '내용을 입력하세요',
+            toolbar: [
+                ['fontsize', ['fontsize']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['picture', 'link']],
+                ['view', ['fullscreen', 'help']]
+            ],
+            fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30']
+        });
+    });
+</script>
 <div class="wrapper">
     <!-- SideBar Navbar  -->
     <jsp:include page="../common/sidebarNav.jsp"/>
@@ -73,9 +94,7 @@
                             <tr>
                                 <th class="padding-lg">내용</th>
                                 <td colspan="4">
-                                    <div class="detail-content">
-                                    <textarea class="form-control write-form" rows="14"
-                                              id="boardContent" placeholder="내용을 작성해 주세요." name="boardContent"></textarea>
+                                    <div class="detail-content" id="boardEditor">
                                     </div>
                                 </td>
                             </tr>
@@ -92,7 +111,7 @@
 function insertBoard(){
 
     let boardTitle = $("#boardTitle").val();
-    let boardContent = $("#boardContent").val();
+    let boardEditor = $("#boardEditor").summernote('code');
     let regName = $("#regNm").val();
     let password = $("#password").val();
     let boardSecretYn = $("input[name='boardSecretYn']:checked").val();
@@ -102,7 +121,7 @@ function insertBoard(){
         return;
     }
 
-    if (!boardContent) {
+    if (!boardEditor) {
         alert("내용을 입력해주세요.");
         return;
     }
@@ -124,7 +143,7 @@ function insertBoard(){
             type:"POST",
             url: "/writeBoard",
             data: {boardTitle : boardTitle,
-                boardContent : boardContent,
+                boardContent : boardEditor,
                 regNm : regName,
                 boardSecretYn : boardSecretYn,
                 password : password
