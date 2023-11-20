@@ -142,10 +142,10 @@ public class TotalAdminController {
 			pageInfo.put("previousPage", previousPage);
 			pageInfo.put("nextPage", nextPage);
 
-			List<Board> boardList = bs.boardList(pageNum, countPerPage);
+			//List<Board> boardList = bs.boardList(pageNum, countPerPage);
 
 			mv.addObject("pageInfo", pageInfo);
-			mv.addObject("boardList", boardList);
+			//mv.addObject("boardList", boardList);
 
 			return mv;
 		}

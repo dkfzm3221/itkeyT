@@ -1,5 +1,6 @@
 package com.itkey.erpdev.board.service;
 
+import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.repository.BoardDao;
 import lombok.AllArgsConstructor;
@@ -17,8 +18,8 @@ public class BoardServiceImpl implements BoardService {
     BoardDao dao;
 
     @Override
-    public List<Board> boardList(int pageNum, int countPerPage) throws Exception {
-        return dao.boardList(pageNum, countPerPage);
+    public List<Board> boardList(int pageNum, int countPerPage, String boardType) throws Exception {
+        return dao.boardList(pageNum, countPerPage, boardType);
     }
 
     @Override
@@ -54,6 +55,16 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void deleteBoard(Board board) throws Exception {
         dao.deleteBoard(board);
+    }
+
+    @Override
+    public List<Board> getMenuList() throws Exception {
+        return dao.getMenuList();
+    }
+
+    @Override
+    public List<Board> boardTypeList() throws Exception {
+        return dao.boardTypeList();
     }
 
 }
