@@ -32,6 +32,7 @@ $(document).ready(function() {
 
 var removedMenuSeqs = [];   // 삭제 row
 var menu_number = 0;
+var max_number  = 1; // 현재 코드 상태에서는 부모코드 갯수
 
 // 페이지 셋팅
 function setMenuMgmt() {
@@ -91,6 +92,8 @@ function setMenuMgmt() {
                     } else {
                         $("#menu-box").append(listHtml);
                     }
+
+                    max_number++;
                 })
                 menu_number = data.menuCnt + 1;
             }
@@ -167,7 +170,7 @@ function create_box(info = {}) {
     if (info['menuParentSeq'] !== "") {
         info['menuOrder'] = $("#menu-box-" + info['menuParentSeq'] + " .child-menu").length + 1;
     } else {
-        info['menuOrder'] = (info['menuOrder'] == undefined || info['menuOrder'] == "") ? 1 : info['menuOrder'];
+        info['menuOrder'] = (info['menuOrder'] == undefined || info['menuOrder'] == "") ? max_number : info['menuOrder'];
     }
 
     var html = "";
