@@ -1,14 +1,12 @@
 package com.itkey.erpdev.common.interceptor;
 
-import com.itkey.erpdev.customer.domain.Customer;
-import com.itkey.erpdev.customer.dto.CustInfoResponse;
-import com.itkey.erpdev.employee.domain.Employee;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Slf4j
 public class WebInterceptor implements HandlerInterceptor {
@@ -21,8 +19,6 @@ public class WebInterceptor implements HandlerInterceptor {
     log.info("Request URI ==> " + request.getMethod() + " " + request.getRequestURI());
 
     HttpSession session = request.getSession();
-    CustInfoResponse customer = (CustInfoResponse) session.getAttribute("custInfo");
-    log.info("customer={}", customer);
     String url = request.getRequestURI();
     log.info("session={}", session.getAttribute("loginInfo"));
     log.info("url={}", url);
