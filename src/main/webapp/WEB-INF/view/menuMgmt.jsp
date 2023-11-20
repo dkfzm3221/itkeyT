@@ -31,8 +31,8 @@ $(document).ready(function() {
 });
 
 var removedMenuSeqs = [];   // 삭제 row
-var menu_number = 0;
-var max_number  = 1; // 현재 코드 상태에서는 부모코드 갯수
+var menu_number = 0;        // menuSeq에 사용
+var max_number  = 1;        // 현재 코드 상태에서는 부모코드 갯수
 
 // 페이지 셋팅
 function setMenuMgmt() {
@@ -55,7 +55,9 @@ function setMenuMgmt() {
                     listHtml += '<input type="hidden" name="menuSeq" value="' + val.menuSeq + '"/>';
                     listHtml += '<input type="hidden" name="menuParentSeq" value="' + val.menuParentSeq + '" />';
                     listHtml += '<input type="hidden" name="menuUseYn" value="' + val.menuUseYn + '" />';
-                    listHtml += '<input type="hidden" name="menuOrder" value="' + val.menuOrder + '" />'
+                    listHtml += '<input type="hidden" name="menuOrder" value="' + val.menuOrder + '" />';
+                    listHtml += '<input type="hidden" name="menuSite" value="U" />';
+                    listHtml += '<input type="hidden" name="menuType" value="0" />';
 //                    if (val.menuLevel == '1') {
 //                        listHtml += '<button type="button" class="btn btn-success btn-sm" onclick="create_box({\'menuOrder\':' + val.maxOrder + ', \'menuLevel\':' + val.menuLevel + ', \'menuParentSeq\':' + (val.menuParentSeq == '' ? val.menuSeq : val.menuParentSeq) + '});">';
 //                        listHtml += '<i class="fa fa-plus"></i> 하부 추가';
@@ -73,15 +75,12 @@ function setMenuMgmt() {
                     if (val.menuLevel != '1') {
                         listHtml += '<i class="fa fa-chevron-right" style="width:30px; margin-left:0px;"></i>';
                     }
-                    listHtml += '<select name="menuSite" class="form-control" style="">';
-                    listHtml += '<option value="U" selected="">사용자</option>';
-                    listHtml += '</select>';
                     listHtml += '<input type="text" name="menuName" class="form-control" ' +
                         'placeholder="메뉴명 입력" autocomplete="off" value="' + val.menuName + '">';
-                    listHtml += '<select name="menuType" class="form-control">';
-                    listHtml += '<option value="0" selected="">현재창</option>';
-                    // listHtml += '<option value="1">새창</option>';
-                    listHtml += '</select>';
+//                    listHtml += '<select name="menuType" class="form-control">';
+//                    listHtml += '<option value="0" selected="">현재창</option>';
+//                    listHtml += '<option value="1">새창</option>';
+//                    listHtml += '</select>';
                     listHtml += '<span id="type-span-' + val.menuSeq + '">';
                     listHtml += '<input type="text" name="menuUrl" class="form-control" placeholder="URL" autocomplete="off" value="' + val.menuUrl + '">';
                     listHtml += '</span>';
@@ -92,7 +91,6 @@ function setMenuMgmt() {
                     } else {
                         $("#menu-box").append(listHtml);
                     }
-
                     max_number++;
                 })
                 menu_number = data.menuCnt + 1;
@@ -155,7 +153,13 @@ function remove_box(obj) {
         info[key] = value;
     }
 
-    removedMenuSeqs.push(info);
+    if(info.menuName.trim() || info.menuUrl.trim()){
+        removedMenuSeqs.push(info);
+    }
+
+    // if(!info.menuName.trim() || !info.menuUrl.trim()){
+    //     menu_number = menu_number-1;
+    // }
 
     delDiv.remove();
 }
@@ -171,6 +175,7 @@ function create_box(info = {}) {
         info['menuOrder'] = $("#menu-box-" + info['menuParentSeq'] + " .child-menu").length + 1;
     } else {
         info['menuOrder'] = (info['menuOrder'] == undefined || info['menuOrder'] == "") ? max_number : info['menuOrder'];
+        max_number++;
     }
 
     var html = "";
@@ -185,6 +190,8 @@ function create_box(info = {}) {
     html +=     '<input type="hidden" name="menuParentSeq" value="' + info['menuParentSeq'] + '" />';
     html +=     '<input type="hidden" name="menuUseYn" value="Y" />';
     html +=     '<input type="hidden" name="menuOrder" value="' + info['menuOrder'] + '" />'
+    html +=     '<input type="hidden" name="menuSite" value="U" />';
+    html +=     '<input type="hidden" name="menuType" value="0" />';
 //    if(info['menuParentSeq'] == "" && info['menuLevel'] == 1){
 //        html += '<button type="button" class="btn btn-success btn-sm" onclick="create_box({\'menuOrder\':' + info['menuOrder'] + ', \'menuLevel\':' + info['menuLevel'] + ', \'menuParentSeq\':' + info['menuParentSeq'] + '});">';
 //        html += '<i class="fa fa-plus"></i> 하부 추가';
@@ -202,15 +209,8 @@ function create_box(info = {}) {
     if(info['menuParentSeq'] != "" && info['menuLevel'] != undefined) {
         html += '<i class="fa fa-chevron-right" style="width:30px; margin-left:0px;"></i>';
     }
-    html +=     '<select name="menuSite" class="form-control" style="">';
-    html +=         '<option value="U" selected="">사용자</option>';
-    html +=     '</select>';
     html +=     '<input type="text" name="menuName" class="form-control" ' +
         'placeholder="메뉴명 입력" autocomplete="off" value="">';
-    html +=     '<select name="menuType" class="form-control">';
-    html +=         '<option value="0" selected="">현재창</option>';
-    // html +=         '<option value="1">새창</option>';
-    html +=     '</select>';
     html +=     '<span id="type-span-' + info['menuSeq'] + '">';
     html +=     '<input type="text" name="menuUrl" class="form-control" placeholder="URL" autocomplete="off" value="">';
     html +=     '</span>';
@@ -256,7 +256,6 @@ function menu_save() {
 
     var jsonData = JSON.stringify(data);
 
-    debugger;
     $.ajax({
         type : 'post',
         url : '/totalAdmin/updMenuMgmtAjax',
