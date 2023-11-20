@@ -34,6 +34,6 @@ public interface TotalAdminDAO {
 	// 메뉴 수
 	int getMenuListCntAjax();
 	// 메뉴관리
-	public int updMenuMgmtAjax(List<MenuEntity> menuEntityList);
+	//public int updMenuMgmtAjax(List<MenuEntity> menuEntityList);
 
 }

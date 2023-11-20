@@ -68,7 +68,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<Board> boardDetailList(int pageNum, int countPerPage, int boardType) {
+    public List<Board> boardDetailList(int pageNum, int countPerPage, String boardType) {
         return dao.boardDetailList(pageNum,countPerPage,boardType);
     }
 

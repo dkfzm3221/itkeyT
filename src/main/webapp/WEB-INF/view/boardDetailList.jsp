@@ -90,6 +90,7 @@
                                                 <td>${item.boardSecretYn == 'Y' ? '공개' : '비공개'}</td>
                                                 <td>${item.inqCnt}</td>
                                                 <td>${item.regDt}</td>
+                                                <input type="hidden" id="boardType" value="${item.boardType}">
                                             </tr>
                                         </c:forEach>
                                         </tbody>
@@ -122,6 +123,12 @@
         </div>
     </div>
 </div>
+<script>
+  function moveToWriteBoard() {
+    let boardType = $("#boardType").val();
+     window.location.href = "/writeBoardView?boardType="+boardType;
+  }
+</script>
 <!-- Footer  -->
 <jsp:include page="common/contentFooter.jsp"/>
 <!-- Footer END  -->
