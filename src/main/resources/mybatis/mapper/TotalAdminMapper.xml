@@ -40,8 +40,7 @@
 	</select>
 
 	<select id="selectBoardTypeList" resultType="Board">
-		SELECT
-				ADMIN_BOARD_NUMBER  		AS adminBoardNumber
+		SELECT	ADMIN_BOARD_NUMBER  		AS adminBoardNumber
 				 , ADMIN_BOARD_NAME			AS adminBoardName
 				 , case BOARD_TYPE
 					   when '1' then 'NORMAL'

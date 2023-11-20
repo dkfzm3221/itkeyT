@@ -15,13 +15,15 @@
                 <div class="row">
                 </div>
 
-
-                <div style="margin:5px 0px;">
+                <form id="moveForm" method="GET">
+                    <input type="hidden" id="boardNum" name="adminBoardNumber">
+                </form>
+               <%-- <div style="margin:5px 0px;">
                     <div style="float:left;">
                         <a href="/totalAdmin/adminBoardReg" type="button" class="btn btn-success xbtn-sm"><i class="fa fa-plus"></i> 게시판 등록</a>
                     </div>
                     <div style="clear:both;"></div>
-                </div>
+                </div>--%>
                 <div style="clear:both;"></div>
                 <div class="box" style="margin-top:10px;">
                     <div class="box-body">
@@ -40,15 +42,14 @@
                                     <tbody id="board_list_tbody">
                                         <c:forEach items="${adminBoardList}" var="item" varStatus="index">
                                             <tr>
-                                                <td style="text-align:center;">${item.adminBoardNumber}</td>
+                                                <td style="text-align:center;">${index.index + 1}</td>
                                                 <td>${item.adminBoardName}</td>
                                                 <td class="text-center">${item.boardType}</td>
                                                 <td>${item.boardTypeCnt}</td>
                                                 <td style="text-align:center;padding:5px 0px;">
-                                                    <a href="board_list.php?board_key=${item.adminBoardNumber}" class="btn btn-sm btn-info"><i class="fa fa-list"></i> 리스트</a>
+<%--                                                    <a href="board_list.php?board_key=${item.adminBoardNumber}" class="btn btn-sm btn-info"><i class="fa fa-list"></i> 리스트</a>--%>
+                                                    <button class="btn btn-sm btn-info" onclick="goToPage(${item.adminBoardNumber});"><i class="fa fa-list"></i> 리스트</button>
                                                     <a href="board_write.php?board_key=${item.adminBoardNumber}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> 글쓰기</a>
-                                                    <a href="board_add.php?idx=${item.adminBoardNumber}" class="btn btn-sm btn-success"><i class="fa fa-edit"></i> 수정</a>
-                                                    <button class="btn btn-sm btn-danger" onclick="board_del('${item.adminBoardNumber}');"><i class="fa fa-eraser"></i> 삭제</button>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -58,7 +59,14 @@
                     </div>
 
                     <script type="text/javascript">
+                      let goToPage = function(typeCode) {
+                        let form = $("#moveForm");
 
+                            $("#boardNum").val(typeCode);
+
+                        form.attr("action", "boardDetailList");
+                        form.submit();
+                      }
                     </script>
                 </div>
 

@@ -234,4 +234,46 @@ public class TotalAdminController {
 		return mv;
 	}
 
+	@GetMapping(value = "/boardDetailList")
+	public ModelAndView moveToListNumber(HttpServletRequest request, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+		@RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage,Board board) throws Exception{
+		ModelAndView mv = new ModelAndView("/boardDetailList");
+
+		int totalCount = bs.getTotalBoardCount();
+		int startPage = (pageNum - 1) * countPerPage + 1;
+		int endPage = startPage + countPerPage - 1;
+		int currentPage = pageNum;
+		int previousPage = currentPage > 1 ? currentPage - 1 : 1;
+		int nextPage = currentPage < (totalCount / countPerPage) + 1 ? currentPage + 1 : (totalCount / countPerPage) + 1;
+
+		int pageGroupSize = 5;
+		int totalPage = (totalCount / countPerPage) + ((totalCount % countPerPage == 0) ? 0 : 1);
+		int currentGroup = (currentPage - 1) / pageGroupSize;
+		int startPageGroup = (currentGroup * pageGroupSize) + 1;
+		int endPageGroup = startPageGroup + pageGroupSize - 1;
+
+		if (endPageGroup > totalPage) {
+			endPageGroup = totalPage;
+		}
+
+		Map<String, Object> pageInfo = new HashMap<>();
+		pageInfo.put("startPageGroup", startPageGroup);
+		pageInfo.put("endPageGroup", endPageGroup);
+		pageInfo.put("totalCount", totalCount);
+		pageInfo.put("startPage", startPage);
+		pageInfo.put("endPage", endPage);
+		pageInfo.put("currentPage", currentPage);
+		pageInfo.put("previousPage", previousPage);
+		pageInfo.put("nextPage", nextPage);
+
+		Integer boardType= board.getAdminBoardNumber();
+		List<Board> boardDetailList = bs.boardDetailList(pageNum, countPerPage,boardType);
+
+		mv.addObject("pageInfo", pageInfo);
+		mv.addObject("boardDetailList", boardDetailList);
+
+
+		return mv;
+	}
+
 }

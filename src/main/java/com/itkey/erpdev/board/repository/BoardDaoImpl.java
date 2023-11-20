@@ -75,5 +75,16 @@ public class BoardDaoImpl implements BoardDao{
         return sql.selectList("mapper.board.boardTypeList");
     }
 
+    @Override
+    public List<Board> boardDetailList(int pageNum, int countPerPage, int boardType) {
+        int startIdx = (pageNum - 1) * countPerPage;
+        Map<String, Object> params = new HashMap<>();
+        params.put("startIdx", startIdx);
+        params.put("countPerPage", countPerPage);
+        params.put("boardType", boardType);
+
+        return sql.selectList("mapper.board.boardList", params);
+    }
+
 
 }

@@ -23,6 +23,8 @@ public interface BoardService {
 
     void deleteBoard(Board board) throws Exception;
 
+    List<Board> boardDetailList(int pageNum, int countPerPage,int boardType);
+
     List<Board> getMenuList() throws Exception;
 
     List<Board> boardTypeList() throws Exception;

@@ -30,4 +30,5 @@ public interface TotalAdminDAO {
 
 	// 메뉴관리
 	public int updMenuMgmtAjax(List<MenuEntity> menuEntityList);
+
 }
