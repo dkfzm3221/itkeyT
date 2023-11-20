@@ -77,12 +77,14 @@
 			 , BOARD_CATEGORY		AS boardCategory
 		FROM BOARD
 	</select>
+
 	<!-- 메뉴 리스트 -->
 	<select id="getMenuListAjax" resultType="commonDTO">
 		/*fn : 메뉴 리스트 - getMenuListAjax */
 		SELECT A.MENU_SEQ AS menuSeq
 			 , A.MENU_SITE AS menuSite
 			 , A.MENU_NAME AS menuName
+			 , A.MENU_PARENT_SEQ AS menuParentSeq
 			 , A.MENU_LEVEL AS menuLevel
 			 , A.MENU_ORDER AS menuOrder
 			 , A.MENU_USE_YN AS menuUseYn
@@ -95,10 +97,21 @@
 			 , A.UPD_DT AS updDt
 		FROM	MENU A
 		WHERE	A.MENU_USE_YN = 'Y'
-		ORDER BY A.MENU_SEQ, A.MENU_PARENT_SEQ, MENU_ORDER
+		AND		A.MENU_SITE = 'U'
+		AND 	A.MENU_LEVEL = '1'
+		ORDER BY A.MENU_LEVEL, A.MENU_PARENT_SEQ, A.MENU_ORDER
 	</select>
 
+	<!-- 메뉴 수 -->
+	<select id="getMenuListCntAjax" resultType="int">
+		/*fn : 메뉴 수 - getMenuListCntAjax */
+		SELECT 	count(*)
+		FROM	MENU
+	</select>
+
+	<!-- 메뉴 등록/수정 -->
 	<insert id="updMenuMgmtAjax" parameterType="MenuEntity">
+		/*fn : 메뉴 등록/수정 - updMenuMgmtAjax */
 		INSERT INTO MENU (
 			MENU_SEQ,
 			MENU_SITE,
@@ -108,7 +121,9 @@
 			MENU_URL,
 			MENU_PARENT_SEQ,
 			REG_ID,
-		    REG_DT
+		    REG_DT,
+		    MENU_USE_YN,
+			MENU_ORDER
 		) VALUES
 		<foreach collection="list" item="menu" separator=",">
 			(
@@ -119,8 +134,10 @@
 				#{menu.menuType},
 				#{menu.menuUrl},
 				#{menu.menuParentSeq},
-				'admin',
-			 	NOW()
+				'ADMIN',
+			 	NOW(),
+				#{menu.menuUseYn},
+				#{menu.menuOrder}
 			)
 		</foreach>
 		ON DUPLICATE KEY UPDATE
@@ -129,6 +146,8 @@
 			MENU_LEVEL = VALUES(MENU_LEVEL),
 			MENU_TYPE = VALUES(MENU_TYPE),
 			MENU_URL = VALUES(MENU_URL),
-			MENU_PARENT_SEQ = VALUES(MENU_PARENT_SEQ)
+			MENU_PARENT_SEQ = VALUES(MENU_PARENT_SEQ),
+			MENU_USE_YN = VALUES(MENU_USE_YN),
+			MENU_ORDER = VALUES(MENU_ORDER)
 	</insert>
 </mapper>

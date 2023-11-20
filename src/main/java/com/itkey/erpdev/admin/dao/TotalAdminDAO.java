@@ -28,6 +28,11 @@ public interface TotalAdminDAO {
 
 	List<Visitor> mostVisitDate();
 
+	// 메뉴 등록/수정
+	int updMenuMgmtAjax(List<MenuEntity> menuEntityList);
+
+	// 메뉴 수
+	int getMenuListCntAjax();
 	// 메뉴관리
 	public int updMenuMgmtAjax(List<MenuEntity> menuEntityList);
 

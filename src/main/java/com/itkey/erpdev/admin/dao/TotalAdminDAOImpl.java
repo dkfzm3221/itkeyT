@@ -63,4 +63,9 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 		sql.insert("mapper.totalAdmin.adminWriteBoard", board);
 
 	}
+
+	@Override
+	public int getMenuListCntAjax() {
+		return sql.selectOne("mapper.totalAdmin.getMenuListCntAjax");
+	}
 }
