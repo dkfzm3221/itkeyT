@@ -40,19 +40,15 @@
 	</select>
 
 	<select id="selectBoardTypeList" resultType="Board">
-		SELECT
-				ADMIN_BOARD_NUMBER  		AS adminBoardNumber
-				 , ADMIN_BOARD_NAME			AS adminBoardName
-				 , case BOARD_TYPE
-					   when '1' then 'NORMAL'
-					   when '2' then 'GALLERY2'
-					   else 'ETC'
-					end 					   boardType
-				 , count(BOARD_TYPE) -1		AS boardTypeCnt
-		FROM 		itkey_dev.board
-		WHERE		BOARD_DEL_YN IS NULL OR BOARD_DEL_YN = 'N'
-		GROUP BY 	ADMIN_BOARD_NAME
-		ORDER BY 	ADMIN_BOARD_NUMBER ASC
+		SELECT	itb.ADMIN_BOARD_NUMBER  		AS adminBoardNumber
+			 ,me.MENU_NAME as menuName
+			 ,itb.BOARD_TYPE as boardType
+			 , count(itb.BOARD_TYPE) -1		AS boardTypeCnt
+		FROM 		itkey_dev.board itb
+		 left join menu me on itb.BOARD_TYPE = me.MENU_SEQ
+		WHERE		itb.BOARD_DEL_YN IS NULL OR itb.BOARD_DEL_YN = 'N'
+		GROUP BY 	me.MENU_NAME
+		ORDER BY 	itb.ADMIN_BOARD_NUMBER asc
 	</select>
 
 	<select id="selectBoardList" resultType="Board">
@@ -113,7 +109,6 @@
 	<!-- 메뉴 등록/수정 -->
 	<!-- 메뉴 등록/수정 -->
 	<insert id="updMenuMgmtAjax" parameterType="MenuEntity">
-		/*fn : 메뉴 등록/수정 - updMenuMgmtAjax */
 		INSERT INTO MENU (
 			MENU_SEQ,
 			MENU_SITE,

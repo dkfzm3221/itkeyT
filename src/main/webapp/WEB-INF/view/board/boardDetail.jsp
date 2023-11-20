@@ -9,6 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Header -->
 <jsp:include page="../common/contentHeader.jsp"/>
+<jsp:include page="../common/sidebarNav_admin.jsp"/>
 <!-- Header END -->
 <html lang="ko-kr">
 <head>
@@ -17,7 +18,6 @@
 <body>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-
 <script>
     $(document).ready(function () {
 
@@ -78,6 +78,7 @@
                                     <input type="radio" name="boardSecretYn" id="boardSecretY" value="Y" class="radio" ${boardDetail.boardSecretYn == 'Y' ? 'checked' : ''} disabled />공개&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input type="radio" name="boardSecretYn" id="boardSecretN" value="N" class="radio" ${boardDetail.boardSecretYn == 'N' ? 'checked' : ''} disabled />비공개
                                     <input type="hidden" name="boardSeq" id="boardSeq" value="${boardDetail.boardSeq}"/>
+                                    <input type="hidden" name="boardSeq" id="boardType" value="${boardDetail.boardType}"/>
                             </tr>
                             <tr id="hiddenPassword" hidden>
                                 <th class="padding-lg">비밀번호</th>
@@ -174,6 +175,7 @@
         let password = $("#password").val();
         let boardSecretYn = $("input[name='boardSecretYn']:checked").val();
         let boardSeq = $("#boardSeq").val();
+        let boardType = $("#boardType").val();
 
         if (!boardTitle) {
             alert("제목을 입력해주세요.");
@@ -205,7 +207,8 @@
                     updNm : updNm,
                     boardSecretYn : boardSecretYn,
                     password : password,
-                    boardSeq : boardSeq
+                    boardSeq : boardSeq,
+                    boardType : boardType
                 },
                 success: function () {
                     window.location.href = "/";
@@ -216,5 +219,6 @@
         }
     }
 </script>
+<jsp:include page="../common/contentFooter.jsp"/>
 </body>
 </html>

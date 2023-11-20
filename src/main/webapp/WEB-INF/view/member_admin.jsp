@@ -17,7 +17,7 @@
         margin-top : 10px;
         padding : 5px;
     }
-    input{
+    .inputStyle1 {
         width: 270px;
         height: 28px;
         font-size: 15px;
@@ -27,6 +27,26 @@
         padding-left: 10px;
         background-color: rgb(250, 250, 250);
     }
+    .ulStyle1{
+        list-style-type: none;
+        font-size: 10px;
+        font-weight: bold;
+    }
+    .ulStyle1>li{
+        float: right;
+        margin : 5px;
+    }
+    .inputStyle2{
+        width: 100px;
+        height: 28px;
+        font-size: 10px;
+        border: 0;
+        border-radius: 10px;
+        outline: none;
+        padding-left: 10px;
+        background-color: rgb(250, 250, 250);
+    }
+
 </style>
 <div class="wrapper">
     <!-- SideBar Navbar  -->
@@ -62,8 +82,9 @@
                             <div class="card-body">
                                 <div class="card-header mb-4 pb-2" style="padding: 0;">
                                     <div class="card-title">
-                                        <button class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#insertAdmin">회원등록</button>
-                                        <button class="btn btn-primary btn-rounded">회원그룹관리</button>
+                                        <button class="btn btn-primary btn-rounded" data-toggle="modal" id="insertFormBtn">회원등록</button>
+                                        <button class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#manageAdminGroup">회원그룹관리</button>
+                                        <button class="btn btn-primary btn-rounded" id="block_adminHomeBtn">신고/차단회원관리</button>
                                         <button class="btn btn-rounded" id="del_adminHomeBtn">탈퇴회원관리</button>
                                     </div>
                                 </div>
@@ -78,7 +99,7 @@
                                             <option value="id">아이디</option>
                                         </select>
                                         <input type="text" name="keyword"
-                                               class="form-control" id="searchBox"
+                                               class="form-control inputStyle1" id="searchBox"
                                         placeholder="검색어 입력" style="margin:2px 0px;" />
                                         <button type="button" id="adminSearchBtn" class="btn btn-primary"><i
                                                 class="adminSearchBtn"></i>검색
@@ -104,7 +125,7 @@
                                             <c:forEach items="${adminList}" var="adminList">
                                                 <c:if test="${adminList.seq != null}">
                                             <tr>
-                                                <td class='ano'>${adminList.seq}</td>
+                                                <td class='ano'>${adminList.rowNum}</td>
                                                 <td>${adminList.name}</td>
                                                 <td>${adminList.id}</td>
                                                 <td>${adminList.memberType}</td>
@@ -114,9 +135,11 @@
                                                 <td>${adminList.updDt}</td>
                                                 <td>${adminList.updNm}</td>
                                                 <td>
+                                                    <c:if test="${admin.memberType == 'B'}">
                                                     <button class="btn-primary btn-rounded" onclick="admin_f_login(${adminList.seq})">로그인</button>
                                                     <button class="btn-primary btn-rounded" onclick="updateAdminInfo(${adminList.seq})" data-toggle="modal" data-target='#updateAdmin'>수정</button>
                                                     <button class="btn-rounded" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
+                                                    </c:if>
                                                 </td>
                                             </tr>
                                                 </c:if>
@@ -141,7 +164,7 @@
                                         <c:forEach begin= "${startPage}" end="${endPage}" var="idx">
                                             <c:choose>
                                                 <c:when test="${pageList.pageNum == idx}">
-                                                    <li class="page-item"><a disabled="ture" style="font-weight: bold">${idx}</a></li>
+                                                    <li class="page-item"><a class="page-link" disabled="true" style="font-weight: bold">${idx}</a></li>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <li class="page-item"><a class="page-link" href="adminHome?pageNum=${idx}&type=${search.type}&keyword=${search.keyword}">${idx}</a></li>
@@ -190,27 +213,27 @@
                         <table class="text-center">
                             <tr>
                                 <th>아이디</th>
-                                <td><input type="text" id="adminId" name="id"><span id="checkResult"></span></td>
+                                <td><input type="text" class="inputStyle1" id="adminId" name="id"><span id="checkResult"></span></td>
                             </tr>
                             <tr>
                                 <th>이름</th>
-                                <td><input type="text" id="adminName" name="name"></td>
+                                <td><input type="text" class="inputStyle1" id="adminName" name="name"></td>
                             </tr>
                             <tr>
                                 <th>비밀번호</th>
-                                <td><input type="password" id="adminPassWord" name="password"></td>
+                                <td><input type="password" class="inputStyle1" id="adminPassWord" name="password"></td>
                             </tr>
                             <tr>
                                 <th>비밀번호확인</th>
-                                <td><input type="password" id="checkPassword"></td>
+                                <td><input type="password" class="inputStyle1" id="checkPassword"></td>
                             </tr>
                             <tr>
                                 <th>휴대폰번호</th>
-                                <td><input type="text" id="adminHp" name="hp"></td>
+                                <td><input type="text" class="inputStyle1" id="adminHp" name="hp"></td>
                             </tr>
                             <tr>
                                 <th>이메일</th>
-                                <td><input type="email" id="adminEmail" name="email"></td>
+                                <td><input type="email" class="inputStyle1" id="adminEmail" name="email"></td>
                             </tr>
                             <tr>
                                 <th>회원타입</th>
@@ -250,27 +273,27 @@
                         <table class="text-center">
                             <tr>
                                 <th>아이디</th>
-                                <td><input type="text" id="updateAdminId" name="id" readonly></td>
+                                <td><input type="text" class="inputStyle1"  id="updateAdminId" name="id" readonly></td>
                             </tr>
                             <tr>
                                 <th>이름</th>
-                                <td><input type="text" id="updateAdminName" name="name" readonly></td>
+                                <td><input type="text" class="inputStyle1" id="updateAdminName" name="name" readonly></td>
                             </tr>
                             <tr>
                                 <th>비밀번호</th>
-                                <td><input type="password" id="updateAdminPassWord" name="password"></td>
+                                <td><input type="password" class="inputStyle1" id="updateAdminPassWord" name="password"></td>
                             </tr>
                             <tr>
                                 <th>비밀번호확인</th>
-                                <td><input type="password" id="updateCheckPassword"></td>
+                                <td><input type="password" class="inputStyle1" id="updateCheckPassword"></td>
                             </tr>
                             <tr>
                                 <th>휴대폰번호</th>
-                                <td><input type="text" id="updateAdminHp" name="hp"></td>
+                                <td><input type="text" class="inputStyle1" id="updateAdminHp" name="hp"></td>
                             </tr>
                             <tr>
                                 <th>이메일</th>
-                                <td><input type="email" id="updateAdminEmail" name="email"></td>
+                                <td><input type="email" class="inputStyle1" id="updateAdminEmail" name="email"></td>
                             </tr>
                             <tr>
                                 <th>회원타입</th>
@@ -288,6 +311,59 @@
                 <div class="manpower mb-3">
                     <div class="text-right mt-3">
                         <button type="button" class="btn btn-primary" style="padding: 6px 30px" id="updateAdminBtn">수정</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 회원 그룹 관리 -->
+<div class="modal fade" id="manageAdminGroup">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">회원 그룹 관리</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="project-info">
+                    <div class="card-title"></div>
+                    <div>
+                        <div>그룹명 <input type="text"  class="inputStyle1" name="id"></div>
+                    </div>
+                    <form action="" method="post" >
+                        <table class="text-center">
+                            <thead>
+                                <tr>
+                                    <th>레벨/그룹명/포인트</th>
+                                    <th>관리</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <ul class="ulStyle1">
+                                            <li>레벨 <input type="text" class="inputStyle2"></li>
+                                            <li>그룹명 <input type="text" class="inputStyle2"></li>
+                                            <li>포인트 <input type="text" class="inputStyle2"></li>
+                                        </ul>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+
+
+                        </table>
+                    </form>
+                </div>
+
+                <div class="manpower mb-3">
+                    <div class="text-right mt-3">
+                        <button type="button" class="btn btn-primary" style="padding: 6px 30px" id="">수정</button>
                     </div>
                 </div>
             </div>
@@ -346,13 +422,26 @@
     $(function(){
         countAdmin();
     })
+    $(document).on("click", "#insertFormBtn", function() {
+        let memberType = "${admin.memberType}";
+
+        if(memberType == "B"){
+            $('#insertAdmin').modal('show')
+        }else{
+
+            alert("권한이 없습니다.");
+            return false;
+        }
+
+    })
 
     //회원 등록
     $(document).on("click", "#insertAdminBtn", function() {
-            let confirm_val = confirm("등록하시겠습니까?");
-            if (confirm_val) {
-                $("#adminForm").attr("action", "/totalAdmin/insertAdmin").submit();
-            }
+
+        let confirm_val = confirm("등록하시겠습니까?");
+        if (confirm_val) {
+            $("#adminForm").attr("action", "/totalAdmin/insertAdmin").submit();
+        }
     });
     //빠른 로그인
     function admin_f_login(Idx){
