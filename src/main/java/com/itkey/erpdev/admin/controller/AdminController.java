@@ -85,7 +85,7 @@ public class AdminController {
         return result;
     }
 
-    //회원등록
+    //관리자 등록
     @RequestMapping(value = "/insertAdmin")
     public String insertAdmin(HttpSession session, AdminInsert aDTO) {
 
@@ -93,6 +93,8 @@ public class AdminController {
 
         aDTO.setRegId(loginUser.getId());
         aDTO.setRegNm(loginUser.getName());
+        aDTO.setAuthCode("admin");
+
         logger.info("CONTROLLER INPUT insertAdmin{}", aDTO);
         int result = as.insertAdmin(aDTO);
 

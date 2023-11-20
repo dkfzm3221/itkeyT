@@ -35,8 +35,8 @@
 
     <!-- 관리자 추가 -->
     <insert id="insertAdmin" parameterType="Admin">
-       INSERT INTO MEMBER(ID, PASSWORD, NAME, HP, EMAIL, MEMBER_TYPE, USE_YN, REG_ID, REG_NM, REG_DT)
-       VALUES (#{id}, #{password}, #{name}, #{hp}, #{email}, #{memberType}, 'Y', #{regId}, #{regNm}, now());
+       INSERT INTO MEMBER(ID, PASSWORD, NAME, HP, EMAIL, MEMBER_TYPE, AUTH_CODE, USE_YN, REG_ID, REG_NM, REG_DT)
+       VALUES (#{id}, #{password}, #{name}, #{hp}, #{email}, #{memberType}, #{authCode}, 'Y', #{regId}, #{regNm}, now());
     </insert>
     <!-- 관리자 아이디 중복 체크-->
     <select id="adminIdCheck" parameterType="String" resultType="_int">
