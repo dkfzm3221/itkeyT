@@ -1,5 +1,6 @@
 package com.itkey.erpdev.board.repository;
 
+import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,11 +20,12 @@ public class BoardDaoImpl implements BoardDao{
     SqlSessionTemplate sql;
 
     @Override
-    public List<Board> boardList(int pageNum, int countPerPage) throws Exception {
+    public List<Board> boardList(int pageNum, int countPerPage, String boardType) throws Exception {
         int startIdx = (pageNum - 1) * countPerPage;
         Map<String, Object> params = new HashMap<>();
         params.put("startIdx", startIdx);
         params.put("countPerPage", countPerPage);
+        params.put("boardType", boardType);
 
         return sql.selectList("mapper.board.boardList", params);
     }
@@ -61,6 +63,16 @@ public class BoardDaoImpl implements BoardDao{
     @Override
     public void deleteBoard(Board board) throws Exception {
         sql.update("mapper.board.deleteBoard", board);
+    }
+
+    @Override
+    public List<Board> getMenuList() throws Exception {
+        return sql.selectList("mapper.board.getMenuList");
+    }
+
+    @Override
+    public List<Board> boardTypeList() throws Exception {
+        return sql.selectList("mapper.board.boardTypeList");
     }
 
 
