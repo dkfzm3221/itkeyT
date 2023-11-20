@@ -1,10 +1,16 @@
-package com.itkey.erpdev.admin.domain;
+package com.itkey.erpdev.member.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import java.sql.Date;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+import java.sql.Date;
 @Data
-public class Admin {
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class MemberInfoResponse {
     Integer seq;
     String id;
     String password;
@@ -32,4 +38,5 @@ public class Admin {
 
     Integer rowNum;
     String salt;
+    String msg;
 }

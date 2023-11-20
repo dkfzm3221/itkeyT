@@ -85,7 +85,7 @@ public class AdminController {
         return result;
     }
 
-    //회원등록
+    //관리자 등록
     @RequestMapping(value = "/insertAdmin")
     public String insertAdmin(HttpSession session, AdminInsert aDTO) {
 
@@ -93,6 +93,8 @@ public class AdminController {
 
         aDTO.setRegId(loginUser.getId());
         aDTO.setRegNm(loginUser.getName());
+        aDTO.setAuthCode("admin");
+
         logger.info("CONTROLLER INPUT insertAdmin{}", aDTO);
         int result = as.insertAdmin(aDTO);
 
@@ -220,6 +222,17 @@ public class AdminController {
 
         int result = as.returnAdmin(aDTO);
 
+        if(result>0){
+            return "S";
+        }else{
+            return "F";
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/realDeleteAdmin", produces="application/json; charset=UTF-8")
+    public String realDeleteAdmin(int adminIdx){
+        int result = as.realDeleteAdmin(adminIdx);
         if(result>0){
             return "S";
         }else{

@@ -1,10 +1,10 @@
-package com.itkey.erpdev.admin.domain;
+package com.itkey.erpdev.member.domain;
 
 import lombok.Data;
-import java.sql.Date;
 
+import java.sql.Date;
 @Data
-public class Admin {
+public class Member {
     Integer seq;
     String id;
     String password;

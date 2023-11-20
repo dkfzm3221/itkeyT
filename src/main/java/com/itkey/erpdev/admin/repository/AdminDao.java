@@ -28,4 +28,6 @@ public interface AdminDao {
     int returnAdmin(Admin aDTO);
 
     int adminIdCheck(String id);
+
+    int realDeleteAdmin(int adminIdx);
 }

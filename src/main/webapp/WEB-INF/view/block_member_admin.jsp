@@ -61,7 +61,7 @@
                                             <select name="type" class="form-control"
                                                     style="margin:2px 0px;">
                                                 <option value="all">--- 전체 ---</option>
-                                                <option value="name">관리자명</option>
+                                                <option value="name">이름</option>
                                                 <option value="id">아이디</option>
                                             </select>
                                             <input type="text" name="keyword"
@@ -78,35 +78,31 @@
                                     <table class="text-center boardTable">
                                         <tr>
                                             <th>No.</th>
-                                            <th>관리자명</th>
-                                            <th>아이디</th>
-                                            <th>회원타입</th>
-                                            <th>이메일</th>
+                                            <th>신고자</th>
+                                            <th>신고당한사람</th>
+                                            <th>신고사유</th>
+                                            <th>차단사유</th>
                                             <th>등록일</th>
-                                            <th>탈퇴일자</th>
-                                            <th>등록자명</th>
                                             <th>설정</th>
                                         </tr>
-                                            <c:forEach items="${adminList}" var="adminList">
-                                                <c:if test="${adminList.seq != null}">
-                                                    <tr>
-                                                        <td class='ano'>${adminList.rowNum}</td>
-                                                        <td>${adminList.name}</td>
-                                                        <td>${adminList.id}</td>
-                                                        <td>${adminList.memberType}</td>
-                                                        <td>${adminList.email}</td>
-                                                        <td>${adminList.regDt}</td>
-                                                        <td>${adminList.whdwlYmd}</td>
-                                                        <td>${adminList.regNm}</td>
-                                                        <td>
-                                                            <c:if test="${admin.memberType == 'B'}">
-                                                            <button class="btn-primary btn-rounded" onclick="updateY(${adminList.seq})">복귀</button>
-                                                            <button class="btn-rounded" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
-                                                            </c:if>
-                                                        </td>
-                                                    </tr>
-                                                </c:if>
-                                            </c:forEach>
+                                        <c:forEach items="${List}" var="adminList">
+                                            <c:if test="${adminList.seq != null}">
+                                                <tr>
+                                                    <td class='ano'>${adminList.rowNum}</td>
+                                                    <td>${List.name}</td>
+                                                    <td>${List.id}</td>
+                                                    <td>${List.memberType}</td>
+                                                    <td>${List.email}</td>
+                                                    <td>${List.regDt}</td>
+                                                    <td>
+                                                        <c:if test="${admin.memberType == 'B'}">
+                                                            <button class="btn-primary btn-rounded" onclick="updateReport(${adminList.seq})">설정</button>
+
+                                                        </c:if>
+                                                    </td>
+                                                </tr>
+                                            </c:if>
+                                        </c:forEach>
                                     </table>
 
                                 </div>
@@ -157,80 +153,17 @@
     </div>
 </div>
 <script>
-    //회원수 카운트
-    function countAdmin() {
-        $.ajax({
-            url: "/totalAdmin/countDelAdmin",
-            success: function (result) {
-                $('#countAdmin').append(result);
-            }
-        })
-    }
-    $(function(){
-        countAdmin();
-    })
-    //회원 관리 페이지로
-    $(document).on("click", "#adminHomeBtn", function() {
-        location.href = "/totalAdmin/adminHome"
-    });
 
-    //검색어 빈값 처리
-    $("#adminSearchBtn").on("click", function (){
-        if($("#searchBox").val() == ""){
-            alert("검색어를 입력해주세요.");
-            return false;
-        }
-    });
-
-    //검색 기능
-    $(document).on("click", "#adminSearchBtn", function() {
-        $("#member_list_main_search").attr("action", "/totalAdmin/del_adminHome").submit();
-    });
-
-
-    //복귀
-    function updateY(seq){
-        let adminIdx = seq;
-        let confirm_val = confirm("복귀시키겠습니까?");
-        if (confirm_val) {
-            $.ajax({
-                url : "/totalAdmin/returnAdmin",
-                data : {adminIdx : adminIdx},
-                dataType: "text",
-                success : function(result){
-
-                    if(result == 'S'){
-                        alert('복귀 완료')
-                        location.reload()
-                    }else{
-                        alert("복귀 실패")
-                    }
-                }
-            })
-        }
+    function updateReport(seq){
+        let idx = seq
     }
 
-    //영구탈퇴
-    function realDeleteAdmin(seq){
-        let adminIdx = seq;
-        let confirm_val = confirm("영구탈퇴 시키겠습니까?");
-        if (confirm_val) {
-            $.ajax({
-                url : "/totalAdmin/realDeleteAdmin",
-                data : {adminIdx : adminIdx},
-                dataType: "text",
-                success : function(result){
 
-                    if(result == 'S'){
-                        alert('영구탈퇴 완료')
-                        location.reload()
-                    }else{
-                        alert("실패")
-                    }
-                }
-            })
-        }
-    }
+
+
+
+
+
 
 </script>
 
