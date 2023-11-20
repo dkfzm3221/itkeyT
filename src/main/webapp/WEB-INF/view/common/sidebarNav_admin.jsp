@@ -80,13 +80,13 @@
                     <li class="nav-item">
                         <a href='/totalAdmin/${gnb.menuUrl}'>
                             <c:choose>
-                                <c:when test="${gnb.menuCode == 'M0101'}">
+                                <c:when test="${gnb.menuName == '회원관리'}">
                                     <i class="fas fa-user-cog"></i>
                                 </c:when>
-                                <c:when test="${gnb.menuCode == 'M0201'}">
+                                <c:when test="${gnb.menuName == '메뉴관리'}">
                                     <i class="fas fa-server"></i>
                                 </c:when>
-                                <c:when test="${gnb.menuCode == 'M0301'}">
+                                <c:when test="${gnb.menuName == '게시판관리'}">
                                     <i class="fas fa-laptop"></i>
                                 </c:when>
                             </c:choose>

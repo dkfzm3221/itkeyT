@@ -77,6 +77,7 @@ public class TotalAdminController {
 			return mv;
 		}
 
+		// 메뉴 리스트
 		List<CommonDTO> gnbMenuList = commonService.getGnbMenuListAjax();
 
 		List<Visitor> mostVisitURL = adminService.mostVisitURL();
@@ -87,6 +88,7 @@ public class TotalAdminController {
 		mv.addObject("mostVisitIP", mostVisitIP);
 		mv.addObject("mostVisitDate", mostVisitDate);
 
+		// 세션에 메뉴 저장
 		session.setAttribute("gnbList", gnbMenuList);
 
 		return mv;
@@ -190,25 +192,31 @@ public class TotalAdminController {
 		return mv;
 	}
 
-
+	// 메뉴관리
 	@GetMapping(value = "/menuMgmt")
 	public ModelAndView menuMgmt() throws Exception {
 		ModelAndView mv = new ModelAndView("/menuMgmt");
 		return mv;
 	}
 
+	// 메뉴관리 - 리스트
 	@ResponseBody
 	@PostMapping("/getMenuMgmtAjax")
 	public HashMap<String, Object> menuMgmt(Paging paging) throws Exception {
 		HashMap<String, Object> rMap = new HashMap<String, Object>();
 
+		// 메뉴 리스트
 		List<CommonDTO> menuList = commonService.getMenuListAjax();
+		// 총 메뉴 수
+		int menuCnt = adminService.getMenuListCntAjax();
 
-		rMap.put("gnbMenuList", menuList);
+		rMap.put("menuList", menuList);
+		rMap.put("menuCnt", menuCnt);
 
 		return rMap;
 	}
 
+	// 메뉴 등록/수정
 	@ResponseBody
 	@PostMapping("/updMenuMgmtAjax")
 	public int updMenuMgmtAjax(@RequestBody List< MenuEntity > menuEntityList) throws Exception {
