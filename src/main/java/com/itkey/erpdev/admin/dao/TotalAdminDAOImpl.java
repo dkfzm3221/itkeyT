@@ -68,4 +68,9 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	public int getMenuListCntAjax() {
 		return sql.selectOne("mapper.totalAdmin.getMenuListCntAjax");
 	}
+
+	@Override
+	public int delBoardAjax(List<MenuEntity> menuEntityList) {
+		return sql.update("mapper.totalAdmin.delBoardAjax", menuEntityList);
+	}
 }
