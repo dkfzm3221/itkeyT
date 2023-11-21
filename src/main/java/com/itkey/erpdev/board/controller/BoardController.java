@@ -54,7 +54,12 @@ public class BoardController {
     @GetMapping(value = "/writeBoardView")
     public ModelAndView writeBoardView(Board board,HttpServletRequest request) throws Exception{
         ModelAndView mv = new ModelAndView("/board/writeBoardView");
-        String menuBoardType=board.getBoardType();
+        String menuBoardType;
+         if(board.getBoardType()== "" || board.getBoardType() == null){
+             menuBoardType=board.getMenuBoardType();
+         }else{
+             menuBoardType=board.getBoardType();
+         }
 
         mv.addObject("boardType",menuBoardType);
         return mv;
