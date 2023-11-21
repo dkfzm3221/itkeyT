@@ -59,7 +59,9 @@
                 <!-- Add more items here -->
             </ul>
         </div>
+        <c:if test="${ empty member }">
         <button class="btn btn-secondary" onclick="loginButton()">Login</button>
+        </c:if>
     </nav>
     <!-- End Navbar -->
 </div>
@@ -99,7 +101,7 @@
 </div><!-- End Sidebar -->
 <script>
     function loginButton (){
-        window.location.href = "/totalAdmin/loginAdmin";
+        window.location.href = "/mem/joinForm";
     }
 </script>
 </body>

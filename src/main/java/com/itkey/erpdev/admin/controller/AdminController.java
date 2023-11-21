@@ -40,7 +40,7 @@ public class AdminController {
 
     //회원관리 홈
     @RequestMapping(value = "/adminHome")
-    public ModelAndView adminIndex(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "3")
+    public ModelAndView adminIndex(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5")
             Integer pageSize, SearchAdmin searchAdmin, HttpSession session) {
 
         TotalAdminDTO loginUser = ((TotalAdminDTO)session.getAttribute("admin"));
@@ -73,7 +73,6 @@ public class AdminController {
 
             return mv;
         }
-
     }
 
     //회원수
@@ -94,6 +93,7 @@ public class AdminController {
         aDTO.setRegId(loginUser.getId());
         aDTO.setRegNm(loginUser.getName());
         aDTO.setAuthCode("admin");
+        aDTO.setMemberType("A");
 
         logger.info("CONTROLLER INPUT insertAdmin{}", aDTO);
         int result = as.insertAdmin(aDTO);
@@ -228,11 +228,27 @@ public class AdminController {
             return "F";
         }
     }
-
+    //영구 탈퇴
     @ResponseBody
     @RequestMapping(value="/realDeleteAdmin", produces="application/json; charset=UTF-8")
     public String realDeleteAdmin(int adminIdx){
         int result = as.realDeleteAdmin(adminIdx);
+        if(result>0){
+            return "S";
+        }else{
+            return "F";
+        }
+    }
+
+    //회원 차단
+    @ResponseBody
+    @RequestMapping(value="/blockMember", produces="application/json; charset=UTF-8")
+    public String blockMember(int memberIdx){
+
+        int result = as.blockMember(memberIdx);
+
+
+
         if(result>0){
             return "S";
         }else{

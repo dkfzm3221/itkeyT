@@ -83,8 +83,8 @@
                                 <div class="card-header mb-4 pb-2" style="padding: 0;">
                                     <div class="card-title">
                                         <button class="btn btn-primary btn-rounded" data-toggle="modal" id="insertFormBtn">회원등록</button>
-                                        <button class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#manageAdminGroup">회원그룹관리</button>
-                                        <button class="btn btn-primary btn-rounded" id="block_adminHomeBtn">신고/차단회원관리</button>
+                                      <%--  <button class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#manageAdminGroup">회원그룹관리</button>--%>
+                                        <button class="btn btn-primary btn-rounded" id="block_adminHomeBtn">차단회원관리</button>
                                         <button class="btn btn-rounded" id="del_adminHomeBtn">탈퇴회원관리</button>
                                     </div>
                                 </div>
@@ -95,7 +95,7 @@
                                         <select name="type" class="form-control"
                                                 style="margin:2px 0px;">
                                             <option value="all">--- 전체 ---</option>
-                                            <option value="name">관리자명</option>
+                                            <option value="name">이름</option>
                                             <option value="id">아이디</option>
                                         </select>
                                         <input type="text" name="keyword"
@@ -111,7 +111,7 @@
                                     <table class="text-center boardTable">
                                         <tr>
                                             <th>No.</th>
-                                            <th>관리자명</th>
+                                            <th>이름</th>
                                             <th>아이디</th>
                                             <th>회원타입</th>
                                             <th>이메일</th>
@@ -128,24 +128,39 @@
                                                 <td class='ano'>${adminList.rowNum}</td>
                                                 <td>${adminList.name}</td>
                                                 <td>${adminList.id}</td>
-                                                <td>${adminList.memberType}</td>
+                                                <c:if test="${adminList.memberType == 'U'}">
+                                                    <td>사용자</td>
+                                                </c:if>
+                                                <c:if test="${adminList.memberType == 'A' }">
+                                                    <td>관리자</td>
+                                                </c:if>
                                                 <td>${adminList.email}</td>
                                                 <td>${adminList.regDt}</td>
                                                 <td>${adminList.regNm}</td>
                                                 <td>${adminList.updDt}</td>
                                                 <td>${adminList.updNm}</td>
                                                 <td>
-                                                    <c:if test="${admin.memberType == 'B'}">
+                                                    <c:if test="${admin.memberType == 'A' && adminList.memberType == 'A'}">
                                                     <button class="btn-primary btn-rounded" onclick="admin_f_login(${adminList.seq})">로그인</button>
                                                     <button class="btn-primary btn-rounded" onclick="updateAdminInfo(${adminList.seq})" data-toggle="modal" data-target='#updateAdmin'>수정</button>
                                                     <button class="btn-rounded" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
+                                                    </c:if>
+                                                    <c:if test="${adminList.memberType == 'U'}">
+                                                        <c:choose>
+                                                            <c:when test="${adminList.authCode == 'B'}">
+                                                                <button class="btn-rounded" disabled>차단</button>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <button class="btn-rounded" onclick="blockMember(${adminList.seq})">차단</button>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                            <button class="btn-rounded" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
                                                     </c:if>
                                                 </td>
                                             </tr>
                                                 </c:if>
                                             </c:forEach>
                                     </table>
-
                                 </div>
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-center">
@@ -237,7 +252,7 @@
                             </tr>
                             <tr>
                                 <th>회원타입</th>
-                                <td><select id="adminType" name="memberType"><option>A</option><option>B</option></select></td>
+                                <td><select id="adminType" name="authCode"><option>A</option><option>B</option></select></td>
                             </tr>
                         </table>
                     </form>
@@ -298,7 +313,7 @@
                             <tr>
                                 <th>회원타입</th>
                                 <td>
-                                    <select id="updateAdminType" name="memberType">
+                                    <select id="updateAdminType" name="autoCode">
                                     <option>A</option>
                                     <option>B</option>
                                     </select>
@@ -318,6 +333,7 @@
     </div>
 </div>
 <!-- 회원 그룹 관리 -->
+<%--
 <div class="modal fade" id="manageAdminGroup">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -355,8 +371,6 @@
                                     <td></td>
                                 </tr>
                             </tbody>
-
-
                         </table>
                     </form>
                 </div>
@@ -370,13 +384,14 @@
         </div>
     </div>
 </div>
+--%>
 
 
 <script>
     //유효성 처리
     $("#insertAdminBtn").on("click", function(){
 
-        var pattern = /^[가-힣]+$/;
+        let pattern = /^[가-힣]+$/;
         if($("#adminId").val()==""){
             alert("아이디를 입력해주세요.");
             $("#adminId").focus();
@@ -425,7 +440,7 @@
     $(document).on("click", "#insertFormBtn", function() {
         let memberType = "${admin.memberType}";
 
-        if(memberType == "B"){
+        if(memberType == "A"){
             $('#insertAdmin').modal('show')
         }else{
 
@@ -434,7 +449,6 @@
         }
 
     })
-
     //회원 등록
     $(document).on("click", "#insertAdminBtn", function() {
 
@@ -443,6 +457,12 @@
             $("#adminForm").attr("action", "/totalAdmin/insertAdmin").submit();
         }
     });
+
+    //하이픈(-) 자동 입력, 클래스에 phoneNumber 추가
+    $(document).on("keyup", "#adminHp", function() {
+        $(this).val($(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, "$1-$2-$3").replace("--", "-"));
+    });
+
     //빠른 로그인
     function admin_f_login(Idx){
         let adminIdx = Idx;
@@ -556,6 +576,28 @@
             }
         })
     })
+
+    //회원 차단 처리
+    function blockMember(seq){
+        let memberIdx = seq;
+        let confirm_val = confirm("차단하시겠습니까?");
+        if (confirm_val) {
+            $.ajax({
+                url : "/totalAdmin/blockMember",
+                data : {memberIdx : memberIdx},
+                dataType: "text",
+                success : function(result){
+                    if(result == 'S'){
+                        alert('차단 완료')
+                        location.reload()
+                    }
+                }
+
+            })
+        }
+
+    }
+
 
 
 

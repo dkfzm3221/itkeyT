@@ -30,4 +30,6 @@ public interface AdminDao {
     int adminIdCheck(String id);
 
     int realDeleteAdmin(int adminIdx);
+
+    int blockMember(int memberIdx);
 }
