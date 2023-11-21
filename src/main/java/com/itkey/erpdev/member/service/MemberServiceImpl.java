@@ -24,7 +24,7 @@ public class MemberServiceImpl implements MemberService{
         mDTO.setSalt(SHA256.generateSalt());
         String encPw = SHA256.getEncrypt(mDTO.getPassword(), mDTO.getSalt());
         mDTO.setPassword(encPw);
-        mDTO.setAuthCode("member");
+        mDTO.setMemberType("U");
 
         return dao.memJoin(mDTO);
 
@@ -48,7 +48,6 @@ public class MemberServiceImpl implements MemberService{
             return response;
         }
         response = dao.memLoginInfo(m);
-        session.setAttribute("memInfo", response);
         return response;
 
     }
@@ -57,4 +56,29 @@ public class MemberServiceImpl implements MemberService{
     public Member findId(Member mDTO) {
         return dao.findId(mDTO);
     }
+    //비밀번호 찾기
+    @Override
+    public Member findPw(Member mDTO) {
+        return dao.findPw(mDTO);
+    }
+    //비밀번호 재발급
+    @Override
+    public int newPw(String salt, String newPw, Integer seq) {
+        log.info("--new");
+        String encPw = SHA256.getEncrypt(newPw, salt);
+
+        MemberInsert mDTO = MemberInsert.builder()
+                        .password(encPw)
+                        .seq(seq)
+                        .build();
+        log.info("---MemberInsert---{}", mDTO);
+        return dao.newPw(mDTO);
+    }
+    //사용자 아이디 중복체크
+    @Override
+    public int memberIdCheck(String id) {
+        return dao.memberIdCheck(id);
+    }
+
+
 }

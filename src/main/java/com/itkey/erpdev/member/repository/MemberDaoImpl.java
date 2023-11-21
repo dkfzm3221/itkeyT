@@ -34,10 +34,22 @@ public class MemberDaoImpl implements MemberDao{
     public MemberInfoResponse memLoginInfo(Member m) {
         return sql.selectOne("mapper.member.memLoginInfo", m);
     }
-
+    //아이디 찾기
     @Override
-    public Member findId(Member mDTO) {
-        return sql.selectOne("mapper.member.findId", mDTO);
-
+    public Member findId(Member mDTO) {return sql.selectOne("mapper.member.findId", mDTO);}
+    //비밀번호 찾기
+    @Override
+    public Member findPw(Member mDTO) {
+        return sql.selectOne("mapper.member.findPw", mDTO);
+    }
+    //비밀번호 재발급
+    @Override
+    public int newPw(MemberInsert mDTO) {
+        return sql.update("mapper.member.newPw", mDTO);
+    }
+    //사용자 아이디 중복체크
+    @Override
+    public int memberIdCheck(String id) {
+        return sql.selectOne("mapper.member.memberIdCheck", id);
     }
 }
