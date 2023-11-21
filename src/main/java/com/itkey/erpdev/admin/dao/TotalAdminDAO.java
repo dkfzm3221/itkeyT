@@ -33,7 +33,8 @@ public interface TotalAdminDAO {
 
 	// 메뉴 수
 	int getMenuListCntAjax();
-	// 메뉴관리
-	//public int updMenuMgmtAjax(List<MenuEntity> menuEntityList);
+	
+	// 메뉴 삭제시, 해당 게시글 삭제처리
+	int delBoardAjax(List<MenuEntity> menuEntityList);
 
 }
