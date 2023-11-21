@@ -23,7 +23,14 @@
 </style>
 <div class="wrapper">
     <!-- SideBar Navbar  -->
-    <jsp:include page="common/sidebarNav_admin.jsp"/>
+    <c:choose>
+        <c:when test="${memberType == 'A'}">
+            <jsp:include page="common/sidebarNav_admin.jsp"/>
+        </c:when>
+        <c:otherwise>
+            <jsp:include page="common/sidebarNav.jsp"/>
+        </c:otherwise>
+    </c:choose>
     <!-- SideBar Navbar END  -->
     <div class="main-panel">
         <div class="container">
@@ -72,6 +79,11 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        <div class="card-header mb-4 pb-2" style="padding: 0;">
+                                            <div class="card-title">
+                                                ${boardDetailList[0].menuName}
+                                            </div>
+                                        </div>
                                         <c:forEach items="${boardDetailList}" var="item" varStatus="index">
                                             <tr>
                                                 <td style="text-align:center;">${index.index + 1}</td>
