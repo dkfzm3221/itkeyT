@@ -63,6 +63,7 @@
                                                 <col span="4" style="width:120px">
                                             </colgroup>
                                             <thead>
+                                            <c:set var="section" value="${pageContext.request.getAttribute('section_'.concat(boardType))}" />
                                             <tr>
                                                 <th style="width:10%;">No.</th>
                                                 <th style="width:10%;">작성자</th>
@@ -73,24 +74,40 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <c:set var="section" value="${pageContext.request.getAttribute('section_'.concat(boardType))}" />
-                                            <c:forEach items="${section}" var="board">
-                                                <tr>
-                                                    <td id="boardSeq">${board.boardSeq}</td>
-                                                    <td>${board.regNm}</td>
-                                                    <td>
-                                                        <c:if test="${board.boardSecretYn == 'N'}">
-                                                            <a onclick="checkPassword('${board.boardSeq}')">비공개글입니다.</a>
-                                                        </c:if>
-                                                        <c:if test="${board.boardSecretYn == 'Y'}">
-                                                            <a href="/boardDetail?boardSeq=${board.boardSeq}">${board.boardTitle}</a>
-                                                        </c:if>
-                                                    </td>
-                                                    <td>${board.boardSecretYn == 'Y' ? '공개' : '비공개'}</td>
-                                                    <td>${board.inqCnt}</td>
-                                                    <td>${board.regDt}</td>
-                                                </tr>
-                                            </c:forEach>
+
+                                            <c:if test="${empty section}">
+                                            <tr>
+                                                <td colspan="6">게시글이 없습니다.</td>
+                                            </tr>
+                                            </c:if>
+                                            <c:if test="${not empty section}">
+                                                <c:forEach items="${section}" var="board">
+                                                    <tr>
+                                                        <td id="boardSeq">
+                                                            <c:choose>
+                                                                <c:when test="${empty board}">
+                                                                    빈 게시글입니다.
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    ${board.boardSeq}
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                        <td>${board.regNm}</td>
+                                                        <td>
+                                                            <c:if test="${board.boardSecretYn == 'N'}">
+                                                                <a onclick="checkPassword('${board.boardSeq}')">비공개글입니다.</a>
+                                                            </c:if>
+                                                            <c:if test="${board.boardSecretYn == 'Y'}">
+                                                                <a href="/boardDetail?boardSeq=${board.boardSeq}">${board.boardTitle}</a>
+                                                            </c:if>
+                                                        </td>
+                                                        <td>${board.boardSecretYn == 'Y' ? '공개' : '비공개'}</td>
+                                                        <td>${board.inqCnt}</td>
+                                                        <td>${board.regDt}</td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </c:if>
                                             </tbody>
                                         </table>
                                     </div>

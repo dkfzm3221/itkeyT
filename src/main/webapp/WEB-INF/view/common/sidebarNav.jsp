@@ -65,36 +65,38 @@
 </div>
 
 <!-- Sidebar -->
-<%--<div class="sidebar sidebar-style-2">
-    &lt;%&ndash;<div class="sidebar-wrapper scrollbar scrollbar-inner">
+<div class="sidebar sidebar-style-2">
+    <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <div class="user">
-                <div class="avatar-sm float-left mr-2" style="margin-right: 0.75rem!important;">
-                    <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle">
-                </div>
                 <div class="info">
-                    <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-								<span>
-									안녕하세요.
-									<div style="font-size: 18px; color: #1572E8;">사용자 님</div>
-								</span>
-                    </a>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a data-toggle="collapse" href="#collapseExample1" aria-expanded="true">
+                                <img src="/resources/images/test.png" alt="logo" class="navbar-brand" style="width: 100%;">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a data-toggle="collapse" href="#collapseExample2" aria-expanded="true">
+                                stest
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a data-toggle="collapse" href="#collapseExample3" aria-expanded="true">
+                                setset
+                            </a>
+                        </div>
+                    </div>
                     <div class="clearfix"></div>
                 </div>
             </div>
-
-            <ul class="nav nav-primary">
-                <li class="nav-item active">
-                    <a href="/">
-                        <i class="fas fa-home"></i>
-                        <p>게시판</p>
-                    </a>
-                </li>
-            </ul>
         </div>
-    </div>&ndash;%&gt;
-</div>--%>
-<!-- End Sidebar -->
+    </div>
+</div><!-- End Sidebar -->
 <script>
     function loginButton (){
         window.location.href = "/totalAdmin/loginAdmin";
