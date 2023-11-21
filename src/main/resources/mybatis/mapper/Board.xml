@@ -41,6 +41,7 @@
         , BOARD_SECRET_YN
         , BOARD_TYPE
         , BOARD_DEL_YN
+        , PASSWORD
         , REG_NM
         , REG_ID
         , REG_DT
@@ -51,6 +52,7 @@
             , #{boardSecretYn}
             , #{boardType}
             , 'N'
+            , #{password}
             , #{regNm}
             , #{regNm}
             , NOW()
