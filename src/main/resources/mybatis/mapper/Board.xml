@@ -25,9 +25,11 @@
              , BO.UPD_DT
              , M.MENU_SEQ
              , M.MENU_NAME
+             , M.MENU_BOARD_TYPE AS boardType
         FROM BOARD BO
-                 INNER JOIN MENU M on M.MENU_SEQ = BO.BOARD_TYPE
+                 LEFT JOIN MENU M on M.MENU_BOARD_TYPE = BO.BOARD_TYPE
         WHERE BO.BOARD_DEL_YN = 'N'
+          AND MENU_USE_YN = 'Y'
           AND BO.BOARD_TYPE = #{boardType}
         ORDER BY BO.BOARD_SEQ DESC
             LIMIT 5
@@ -127,6 +129,7 @@
              , MENU_NAME
              , MENU_URL
              , MENU_SITE
+             , MENU_BOARD_TYPE
         FROM MENU
         WHERE MENU_SITE = 'U'
         AND MENU_USE_YN = 'Y'
@@ -134,12 +137,14 @@
     </select>
 
     <select id="boardTypeList"  resultType="Board">
-        SELECT DISTINCT
-            BOARD_TYPE
-            , M.MENU_NAME
-        FROM BOARD BO
-                 INNER JOIN MENU M on M.MENU_SEQ = BO.BOARD_TYPE
-        WHERE BOARD_DEL_YN = 'N'
+        SELECT
+            M.MENU_BOARD_TYPE AS BOARDTYPE
+             , M.MENU_NAME
+        FROM  MENU M
+        LEFT JOIN BOARD BO ON M.MENU_BOARD_TYPE = BO.BOARD_TYPE
+        WHERE M.MENU_USE_YN = 'Y'
+          AND M.MENU_SITE  = 'U'
+        GROUP BY M.MENU_BOARD_TYPE
     </select>
 
     <select id="boardDetailList" parameterType="map" resultType="Board">
