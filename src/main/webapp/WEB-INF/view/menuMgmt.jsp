@@ -64,28 +64,35 @@ function setMenuMgmt() {
 //                        listHtml += '<i class="fa fa-plus"></i> 하부 추가';
 //                        listHtml += '</button>';
 //                    }
-                    listHtml += '<button type="button" class="btn btn-danger btn-sm" onclick=\"remove_box(this);\">';
-                    listHtml += '<i class="fa fa-minus"></i> 삭제';
+                    listHtml += '<button type="button" class="btn btn-danger btn-sm" style="margin-top: 20px; onclick=\"remove_box(this);\">';
+                    listHtml +=     '<i class="fa fa-minus"></i> 삭제';
                     listHtml += '</button>';
-                    listHtml += '<button type="button" class="btn btn-info btn-sm" onclick="move(\'up\', ' + val.menuSeq + ', this);">';
-                    listHtml += '<i class="fa fa-arrow-up"></i>';
+                    listHtml += '<button type="button" class="btn btn-info btn-sm" style="margin-top: 20px; onclick="move(\'up\', ' + val.menuSeq + ', this);">';
+                    listHtml +=     '<i class="fa fa-arrow-up"></i>';
                     listHtml += '</button>';
-                    listHtml += '<button type="button" class="btn btn-orange btn-sm" onclick="move(\'down\', ' + val.menuSeq + ', this);">';
-                    listHtml += '<i class="fa fa-arrow-down"></i>';
+                    listHtml += '<button type="button" class="btn btn-orange btn-sm" style="margin-top: 20px; onclick="move(\'down\', ' + val.menuSeq + ', this);">';
+                    listHtml +=     '<i class="fa fa-arrow-down"></i>';
                     listHtml += '</button>';
                     if (val.menuLevel != '1') {
                         listHtml += '<i class="fa fa-chevron-right" style="width:30px; margin-left:0px;"></i>';
-                    }
-                    listHtml += '<input type="text" name="menuName" class="form-control" ' +
-                        'placeholder="메뉴명 입력" autocomplete="off" value="' + val.menuName + '">';
+                    };
+                    listHtml += '<span>';
+                    listHtml +=     '<label for="menu-name-input">메뉴명</label>';
+                    listHtml +=     '<input type="text" name="menuName" class="form-control" ' +
+                                        'placeholder="메뉴명 입력" autocomplete="off" value="' + val.menuName + '">';
 //                    listHtml += '<select name="menuType" class="form-control">';
 //                    listHtml += '<option value="0" selected="">현재창</option>';
 //                    listHtml += '<option value="1">새창</option>';
 //                    listHtml += '</select>';
-                    listHtml += '<span id="type-span-' + val.menuSeq + '">';
-                    listHtml += '<input type="text" name="menuUrl" class="form-control" placeholder="URL" autocomplete="off" value="' + val.menuUrl + '">';
                     listHtml += '</span>';
-                    listHtml += '<input type="text" name="menuBoardType" class="form-control" placeholder="menuBoardType" autocomplete="off" value="' + val.menuBoardType + '">';
+                    listHtml += '<span>';
+                    listHtml +=     '<label for="menu-name-input">URL</label>';
+                    listHtml +=     '<input type="text" name="menuUrl" class="form-control" placeholder="URL" autocomplete="off" value="' + val.menuUrl + '">';
+                    listHtml += '</span>';
+                    listHtml += '<span>';
+                    listHtml +=     '<label for="menu-name-input">게시판 타입</label>';
+                    listHtml +=     '<input type="text" name="menuBoardType" class="form-control" placeholder="menuBoardType" autocomplete="off" value="' + val.menuBoardType + '">';
+                    listHtml += '</span>';
                     listHtml += '</div>';
 
                     if (val.menuParentSeq !== '') {
@@ -200,24 +207,31 @@ function create_box(info = {}) {
 //        html += '<i class="fa fa-plus"></i> 하부 추가';
 //        html += '</button>';
 //    }
-    html +=     '<button type="button" class="btn btn-danger btn-sm" onclick=\"remove_box(this);\">';
+    html +=     '<button type="button" class="btn btn-danger btn-sm" style="margin-top: 20px; onclick=\"remove_box(this);\">';
     html +=         '<i class="fa fa-minus"></i> 삭제';
     html +=     '</button>';
-    html +=     '<button type="button" class="btn btn-info btn-sm" onclick="move(\'up\', ' + info['menuSeq'] + ', this);">';
+    html +=     '<button type="button" class="btn btn-info btn-sm" style="margin-top: 20px; onclick="move(\'up\', ' + info['menuSeq'] + ', this);">';
     html +=         '<i class="fa fa-arrow-up"></i>';
     html +=     '</button>';
-    html +=     '<button type="button" class="btn btn-orange btn-sm" onclick="move(\'down\', ' + info['menuSeq'] + ', this);">';
+    html +=     '<button type="button" class="btn btn-orange btn-sm" style="margin-top: 20px; onclick="move(\'down\', ' + info['menuSeq'] + ', this);">';
     html +=         '<i class="fa fa-arrow-down"></i>';
     html +=     '</button>';
     if(info['menuParentSeq'] != "" && info['menuLevel'] != undefined) {
         html += '<i class="fa fa-chevron-right" style="width:30px; margin-left:0px;"></i>';
     }
-    html +=     '<input type="text" name="menuName" class="form-control" ' +
-        'placeholder="메뉴명 입력" autocomplete="off" value="">';
-    html +=     '<span id="type-span-' + info['menuSeq'] + '">';
-    html +=     '<input type="text" name="menuUrl" class="form-control" placeholder="URL" autocomplete="off" value="">';
+    html +=     '<span>';
+    html +=         '<label for="menu-name-input">메뉴명</label>';
+    html +=         '<input type="text" name="menuName" class="form-control" ' +
+                        'placeholder="메뉴명 입력" autocomplete="off" value="">';
     html +=     '</span>';
-    html +=     '<input type="text" name="menuBoardType" class="form-control" placeholder="menuBoardType" autocomplete="off" value="">';
+    html +=     '<span>';
+    html +=         '<label for="menu-name-input">URL</label>';
+    html +=         '<input type="text" name="menuUrl" class="form-control" placeholder="URL" autocomplete="off" value="">';
+    html +=     '</span>';
+    html +=     '<span>';
+    html +=         '<label for="menu-name-input">게시판 타입</label>';
+    html +=         '<input type="text" name="menuBoardType" class="form-control" placeholder="menuBoardType" autocomplete="off" value="">';
+    html +=     '</span>';
     html += '</div>';
 
     menu_number++;
@@ -268,6 +282,7 @@ function menu_save() {
         dataType : "json",
         contentType: 'application/json; charset=utf-8',
         success : function(data) {
+            debugger;
             alert("저장되었습니다.");
             location.reload();
         }
