@@ -76,7 +76,7 @@
 	</select>
 
 	<!-- 메뉴 리스트 -->
-	<select id="getMenuListAjax" resultType="commonDTO">
+	<select id="getMenuListAjax" resultType="menuDTO">
 		/*fn : 메뉴 리스트 - getMenuListAjax */
 		SELECT A.MENU_SEQ AS menuSeq
 			 , A.MENU_SITE AS menuSite
@@ -90,6 +90,7 @@
 			 , A.MENU_CONN_WAY AS menuConnWay
 			 , A.MENU_DESC AS menuDesc
 			 , A.MENU_PARENT_SEQ AS menuParentSeq
+			 , A.MENU_BOARD_TYPE AS menuBoardType
 			 , A.REG_ID AS regId
 			 , A.UPD_DT AS updDt
 		FROM	MENU A
@@ -107,7 +108,6 @@
 	</select>
 
 	<!-- 메뉴 등록/수정 -->
-	<!-- 메뉴 등록/수정 -->
 	<insert id="updMenuMgmtAjax" parameterType="MenuEntity">
 		INSERT INTO MENU (
 			MENU_SEQ,
@@ -120,7 +120,8 @@
 			REG_ID,
 			REG_DT,
 			MENU_USE_YN,
-			MENU_ORDER
+			MENU_ORDER,
+			MENU_BOARD_TYPE
 		) VALUES
 		<foreach collection="list" item="menu" separator=",">
 			(
@@ -134,7 +135,8 @@
 			'ADMIN',
 			NOW(),
 			#{menu.menuUseYn},
-			#{menu.menuOrder}
+			#{menu.menuOrder},
+			#{menu.menuBoardType}
 			)
 		</foreach>
 		ON DUPLICATE KEY UPDATE
@@ -145,6 +147,7 @@
 		MENU_URL = VALUES(MENU_URL),
 		MENU_PARENT_SEQ = VALUES(MENU_PARENT_SEQ),
 		MENU_USE_YN = VALUES(MENU_USE_YN),
-		MENU_ORDER = VALUES(MENU_ORDER)
+		MENU_ORDER = VALUES(MENU_ORDER),
+		MENU_BOARD_TYPE  = VALUES(MENU_BOARD_TYPE)
 	</insert>
 </mapper>

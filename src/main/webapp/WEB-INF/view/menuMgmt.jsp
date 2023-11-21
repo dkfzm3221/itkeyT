@@ -19,6 +19,7 @@
                         </button><button type="button" class="btn btn-success btn-lg" onclick="menu_save();"><i class="fa fa-database"></i> 저장</button>
                     </div>
                 </div>
+
                 <div id="menu-box">
                 </div>
             </div>
@@ -84,6 +85,7 @@ function setMenuMgmt() {
                     listHtml += '<span id="type-span-' + val.menuSeq + '">';
                     listHtml += '<input type="text" name="menuUrl" class="form-control" placeholder="URL" autocomplete="off" value="' + val.menuUrl + '">';
                     listHtml += '</span>';
+                    listHtml += '<input type="text" name="menuBoardType" class="form-control" placeholder="menuBoardType" autocomplete="off" value="' + val.menuBoardType + '">';
                     listHtml += '</div>';
 
                     if (val.menuParentSeq !== '') {
@@ -144,7 +146,8 @@ function remove_box(obj) {
         "menuName",
         "menuType",
         "menuUrl",
-        "menuUseYn"
+        "menuUseYn",
+        "menuBoardType"
     ];
 
     for (var i = 0; i < input.length; i++) {
@@ -214,6 +217,7 @@ function create_box(info = {}) {
     html +=     '<span id="type-span-' + info['menuSeq'] + '">';
     html +=     '<input type="text" name="menuUrl" class="form-control" placeholder="URL" autocomplete="off" value="">';
     html +=     '</span>';
+    html +=     '<input type="text" name="menuBoardType" class="form-control" placeholder="menuBoardType" autocomplete="off" value="">';
     html += '</div>';
 
     menu_number++;
@@ -237,7 +241,8 @@ function menu_save() {
         "menuType",
         "menuUrl",
         "menuUseYn",
-        "menuOrder"
+        "menuOrder",
+        "menuBoardType"
     ];
 
     var data = [];
