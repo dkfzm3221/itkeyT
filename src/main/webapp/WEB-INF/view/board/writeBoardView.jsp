@@ -89,12 +89,12 @@
                                     </div>
                                 </td>
                             </tr>
-                          <%--  <tr>
+                            <tr>
                                 <th class="padding-lg">비밀번호</th>
                                 <td colspan="3">
                                     <input type="password" class="form-control write-form" id="password" placeholder="비밀번호" name="password" maxlength="4">
                                 </td>
-                            </tr>--%>
+                            </tr>
                             <tr>
                                 <th class="padding-lg">내용</th>
                                 <td colspan="4">
@@ -116,7 +116,7 @@ function insertBoard(boardType){
     let boardTitle = $("#boardTitle").val();
     let boardEditor = $("#boardEditor").summernote('code');
     let regName = $("#regNm").val();
-   // let password = $("#password").val();
+    let password = $("#password").val();
 
     let boardSecretYn = $("input[name='boardSecretYn']:checked").val();
 
@@ -134,10 +134,10 @@ function insertBoard(boardType){
         alert("작성자를 입력해주세요.");
         return;
     }
-    /*if (!password) {
+    if (!password) {
         alert("비밀번호를 입력해주세요.");
         return;
-    }*/
+    }
 
 
     let isConfirmed = confirm("등록하시겠습니까?");
@@ -150,7 +150,7 @@ function insertBoard(boardType){
                 boardContent : boardEditor,
                 regNm : regName,
                 boardSecretYn : boardSecretYn,
-               // password : password,
+                password : password,
                 boardType : boardType
             },
             success: function () {
