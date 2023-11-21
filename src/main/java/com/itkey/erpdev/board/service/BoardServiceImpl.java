@@ -38,8 +38,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public int getTotalBoardCount() throws Exception {
-        return dao.getTotalBoardCount();
+    public int getTotalBoardCount(String boardType) throws Exception {
+        return dao.getTotalBoardCount(boardType);
     }
 
     @Override
