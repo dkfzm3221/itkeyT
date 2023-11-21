@@ -129,6 +129,7 @@
              , MENU_NAME
              , MENU_URL
              , MENU_SITE
+             , MENU_BOARD_TYPE
         FROM MENU
         WHERE MENU_SITE = 'U'
         AND MENU_USE_YN = 'Y'

@@ -52,7 +52,7 @@
                                 <div class="card-body">
                                     <div class="card-header mb-4 pb-2" style="padding: 0;">
                                         <div class="card-title">
-                                               ${boardType.menuName}
+                                            <a href="/boardDetailList?menuBoardType=${boardType.boardType}">${boardType.menuName}</a>
                                         </div>
                                     </div>
                                     <div id="boardList_${boardType}">

@@ -52,7 +52,7 @@
             <ul class="navbar-nav">
                 <c:forEach items="${sessionScope.menuList}" var="menu">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/${menu.menuUrl}">${menu.menuName}</a>
+                        <a class="nav-link" href="/boardDetailList?menuBoardType=${menu.menuBoardType}">${menu.menuName}</a>
                     </li>
                 </c:forEach>
 
