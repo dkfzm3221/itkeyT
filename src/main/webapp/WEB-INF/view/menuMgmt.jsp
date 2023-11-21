@@ -20,8 +20,16 @@
                     </div>
                 </div>
 
-                <div id="menu-box">
-                </div>
+                <table class="table table-bordered">
+                    <tr style="background-color:#F1F1F1;">
+                        <th style="text-align:center;width:70px"></th>
+                        <th style="text-align:center;width:150px">메뉴명</th>
+                        <th style="text-align:center;width:150px;">URL</th>
+                        <th style="text-align:center;width:200px;">게시판 타입</th>
+                    </tr>
+                    <tbody id="menu-box">
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -37,6 +45,7 @@
 
     // 페이지 셋팅
     function setMenuMgmt() {
+        menu_number = 0;  // 초기화 추가
         $.ajax({
             type: 'post',
             url: '/totalAdmin/getMenuMgmtAjax',
@@ -45,73 +54,59 @@
                 if (data.menuList.length > 0) {
                     var menuList = data.menuList;
                     $(menuList).each(function (idx, val) {
-                        var listHtml = "";
-                        listHtml += '<div class="menu-box form-inline';
-                        if (val.menuParentSeq !== "") {
-                            listHtml += ' child-menu" data-parent-seq="' + val.menuParentSeq + '">';
-                        } else {
-                            listHtml += ' parent-menu" id="menu-box-' + val.menuSeq + '">';
-                        }
-                        listHtml += '<input type="hidden" name="menuLevel" value="' + val.menuLevel + '" />';
-                        listHtml += '<input type="hidden" name="menuSeq" value="' + val.menuSeq + '"/>';
-                        listHtml += '<input type="hidden" name="menuParentSeq" value="' + val.menuParentSeq + '" />';
-                        listHtml += '<input type="hidden" name="menuUseYn" value="' + val.menuUseYn + '" />';
-                        listHtml += '<input type="hidden" name="menuOrder" value="' + val.menuOrder + '" />';
-                        listHtml += '<input type="hidden" name="menuSite" value="U" />';
-                        listHtml += '<input type="hidden" name="menuType" value="0" />';
-//                    if (val.menuLevel == '1') {
-//                        listHtml += '<button type="button" class="btn btn-success btn-sm" onclick="create_box({\'menuOrder\':' + val.maxOrder + ', \'menuLevel\':' + val.menuLevel + ', \'menuParentSeq\':' + (val.menuParentSeq == '' ? val.menuSeq : val.menuParentSeq) + '});">';
-//                        listHtml += '<i class="fa fa-plus"></i> 하부 추가';
-//                        listHtml += '</button>';
-//                    }
-                        listHtml += '<button type="button" class="btn btn-danger btn-sm" onclick=\"remove_box(this);\">';
-                        listHtml += '<i class="fa fa-minus"></i> 삭제';
-                        listHtml += '</button>';
-                        listHtml += '<button type="button" class="btn btn-info btn-sm" onclick="move(\'up\', ' + val.menuSeq + ', this);">';
-                        listHtml += '<i class="fa fa-arrow-up"></i>';
-                        listHtml += '</button>';
-                        listHtml += '<button type="button" class="btn btn-orange btn-sm" onclick="move(\'down\', ' + val.menuSeq + ', this);">';
-                        listHtml += '<i class="fa fa-arrow-down"></i>';
-                        listHtml += '</button>';
-                        if (val.menuLevel != '1') {
-                            listHtml += '<i class="fa fa-chevron-right" style="width:30px; margin-left:0px;"></i>';
-                        }
-                        listHtml += '<input type="text" name="menuName" class="form-control" ' +
-                            'placeholder="메뉴명 입력" autocomplete="off" value="' + val.menuName + '">';
-//                    listHtml += '<select name="menuType" class="form-control">';
-//                    listHtml += '<option value="0" selected="">현재창</option>';
-//                    listHtml += '<option value="1">새창</option>';
-//                    listHtml += '</select>';
-                        listHtml += '<span id="type-span-' + val.menuSeq + '">';
-                        listHtml += '<input type="text" name="menuUrl" class="form-control" placeholder="URL" autocomplete="off" value="' + val.menuUrl + '">';
-                        listHtml += '</span>';
-                        listHtml += '<input type="text" name="menuBoardType" class="form-control" placeholder="menuBoardType" autocomplete="off" value="' + val.menuBoardType + '">';
-                        listHtml += '</div>';
-
-                        if (val.menuParentSeq !== '') {
-                            $("#menu-box-" + val.menuParentSeq).append(listHtml);
-                        } else {
-                            $("#menu-box").append(listHtml);
-                        }
+                        addMenuRow(val);
                         max_number++;
-                    })
+                    });
                     menu_number = data.menuCnt + 1;
                 }
             }
         });
     }
 
+    // 페이지 셋팅2
+    function addMenuRow(menuData) {
+        var listHtml = '<tr>';
+        listHtml += '<input type="hidden" name="menuLevel" value="' + menuData.menuLevel + '" />';
+        listHtml += '<input type="hidden" name="menuSeq" value="' + menuData.menuSeq + '"/>';
+        listHtml += '<input type="hidden" name="menuParentSeq" value="' + menuData.menuParentSeq + '" />';
+        listHtml += '<input type="hidden" name="menuUseYn" value="' + menuData.menuUseYn + '" />';
+        listHtml += '<input type="hidden" name="menuOrder" value="' + menuData.menuOrder + '" />';
+        listHtml += '<input type="hidden" name="menuSite" value="U" />';
+        listHtml += '<input type="hidden" name="menuType" value="0" />';
+        listHtml += '<td>';
+        listHtml += '<button type="button" class="btn btn-danger btn-sm" onclick="removeMenuRow(this);">';
+        listHtml += '<i class="fa fa-minus"></i> 삭제</button>';
+        listHtml += '<button type="button" class="btn btn-info btn-sm" onclick="move(\'up\', ' + menuData.menuSeq + ', this.parentNode.parentNode);">';
+        listHtml += '<i class="fa fa-arrow-up"></i>';
+        listHtml += '</button>';
+        listHtml += '<button type="button" class="btn btn-orange btn-sm" onclick="move(\'down\', ' + menuData.menuSeq + ', this.parentNode.parentNode);">';
+        listHtml += '<i class="fa fa-arrow-down"></i>';
+        listHtml += '</button>';
+        listHtml += '</td>';
+        listHtml += '<td><input type="text" name="menuName" class="form-control" ' +
+            'placeholder="메뉴명 입력" autocomplete="off" value="' + menuData.menuName + '"></td>';
+        listHtml += '<td><input type="text" name="menuUrl" class="form-control" placeholder="URL" autocomplete="off" value="' + menuData.menuUrl + '"></td>';
+        listHtml += '<td><input type="text" name="menuBoardType" class="form-control" placeholder="게시판 타입" autocomplete="off" value="' + menuData.menuBoardType + '"></td>';
+        listHtml += '</tr>';
+
+        max_number++;
+
+        $("#menu-box").append(listHtml);
+    }
+
     // 이동
     function move(type, number, obj) {
+        var currentRow = $(obj).closest('tr');
+
         if (type == "up") {
-            if ($("#menu-box-" + number).prev("div").attr("id") != undefined) {
-                var prevDiv = $("#menu-box-" + number).prev("div");
-                swapMenuOrder(prevDiv, $("#menu-box-" + number));
+            var prevRow = currentRow.prev('tr');
+            if (prevRow.length > 0) {
+                swapMenuOrder(currentRow, prevRow);
             }
         } else if (type == "down") {
-            if ($("#menu-box-" + number).next("div").attr("id") != undefined) {
-                var nextDiv = $("#menu-box-" + number).next("div");
-                swapMenuOrder($("#menu-box-" + number), nextDiv);
+            var nextRow = currentRow.next('tr');
+            if (nextRow.length > 0) {
+                swapMenuOrder(currentRow, nextRow);
             }
         }
     }
@@ -132,9 +127,9 @@
     }
 
     // 삭제
-    function remove_box(obj) {
-        var delDiv = $(obj).parent("div");
-        delDiv.find("[name='menuUseYn']").val("N");
+    function removeMenuRow(obj) {
+        var delRow = $(obj).closest("tr");
+        delRow.find("[name='menuUseYn']").val("N");
 
         // 해당 메뉴의 정보를 추출하여 배열에 추가
         var info = {};
@@ -152,7 +147,7 @@
 
         for (var i = 0; i < input.length; i++) {
             var key = input[i];
-            var value = delDiv.find("[name=" + key + "]").val();
+            var value = delRow.find("[name=" + key + "]").val();
             info[key] = value;
         }
 
@@ -160,11 +155,7 @@
             removedMenuSeqs.push(info);
         }
 
-        // if(!info.menuName.trim() || !info.menuUrl.trim()){
-        //     menu_number = menu_number-1;
-        // }
-
-        delDiv.remove();
+        delRow.remove();
     }
 
     // 등록
@@ -182,56 +173,44 @@
         }
 
         var html = "";
-        html += '<div class="menu-box form-inline';
-        if (info['menuParentSeq'] !== "") {
-            html += ' child-menu" data-parent-seq="' + info['menuParentSeq'] + '">';
-        } else {
-            html += ' parent-menu" id="menu-box-' + info['menuSeq'] + '">';
+        html += '<tr id="menu-box-' + info['menuSeq'] + '">';
+        html += '<input type="hidden" name="menuLevel" value="' + info['menuLevel'] + '" />';
+        html += '<input type="hidden" name="menuSeq" value="' + info['menuSeq'] + '"/>';
+        html += '<input type="hidden" name="menuParentSeq" value="' + info['menuParentSeq'] + '" />';
+        html += '<input type="hidden" name="menuUseYn" value="Y" />';
+        html += '<input type="hidden" name="menuOrder" value="' + info['menuOrder'] + '" />'
+        html += '<input type="hidden" name="menuSite" value="U" />';
+        html += '<input type="hidden" name="menuType" value="0" />';
+        html += '<td>';
+        html += '<button type="button" class="btn btn-danger btn-sm" onclick="removeMenuRow(this);">';
+        html += '<i class="fa fa-minus"></i> 삭제';
+        html += '</button>';
+        html += '<button type="button" class="btn btn-info btn-sm" onclick="move(\'up\', ' + info['menuSeq'] + ', this);">';
+        html += '<i class="fa fa-arrow-up"></i>';
+        html += '</button>';
+        html += '<button type="button" class="btn btn-orange btn-sm" onclick="move(\'down\', ' + info['menuSeq'] + ', this);">';
+        html += '<i class="fa fa-arrow-down"></i>';
+        html += '</button>';
+        html += '</td>';
+        if (info['menuParentSeq'] != "" && info['menuLevel'] != undefined) {
+            html += '<td><i class="fa fa-chevron-right" style="width:30px; margin-left:0px;"></i></td>';
         }
-        html +=     '<input type="hidden" name="menuLevel" value="' + info['menuLevel'] + '" />';
-        html +=     '<input type="hidden" name="menuSeq" id="menuSeq" value="' + info['menuSeq'] + '"/>';
-        html +=     '<input type="hidden" name="menuParentSeq" value="' + info['menuParentSeq'] + '" />';
-        html +=     '<input type="hidden" name="menuUseYn" value="Y" />';
-        html +=     '<input type="hidden" name="menuOrder" value="' + info['menuOrder'] + '" />'
-        html +=     '<input type="hidden" name="menuSite" value="U" />';
-        html +=     '<input type="hidden" name="menuType" value="0" />';
-//    if(info['menuParentSeq'] == "" && info['menuLevel'] == 1){
-//        html += '<button type="button" class="btn btn-success btn-sm" onclick="create_box({\'menuOrder\':' + info['menuOrder'] + ', \'menuLevel\':' + info['menuLevel'] + ', \'menuParentSeq\':' + info['menuParentSeq'] + '});">';
-//        html += '<i class="fa fa-plus"></i> 하부 추가';
-//        html += '</button>';
-//    }
-        html +=     '<button type="button" class="btn btn-danger btn-sm" onclick=\"remove_box(this);\">';
-        html +=         '<i class="fa fa-minus"></i> 삭제';
-        html +=     '</button>';
-        html +=     '<button type="button" class="btn btn-info btn-sm" onclick="move(\'up\', ' + info['menuSeq'] + ', this);">';
-        html +=         '<i class="fa fa-arrow-up"></i>';
-        html +=     '</button>';
-        html +=     '<button type="button" class="btn btn-orange btn-sm" onclick="move(\'down\', ' + info['menuSeq'] + ', this);">';
-        html +=         '<i class="fa fa-arrow-down"></i>';
-        html +=     '</button>';
-        if(info['menuParentSeq'] != "" && info['menuLevel'] != undefined) {
-            html += '<i class="fa fa-chevron-right" style="width:30px; margin-left:0px;"></i>';
-        }
-        html +=     '<input type="text" name="menuName" class="form-control" ' +
-            'placeholder="메뉴명 입력" autocomplete="off" value="">';
-        html +=     '<span id="type-span-' + info['menuSeq'] + '">';
-        html +=     '<input type="text" name="menuUrl" class="form-control" placeholder="URL" autocomplete="off" value="">';
-        html +=     '</span>';
-        html +=     '<input type="text" name="menuBoardType" class="form-control" placeholder="menuBoardType" autocomplete="off" value="">';
-        html += '</div>';
+        html += '<td><input type="text" name="menuName" class="form-control" placeholder="메뉴명 입력" autocomplete="off" value=""></td>';
+        html += '<td><input type="text" name="menuUrl" class="form-control" placeholder="URL" autocomplete="off" value=""></td>';
+        html += '<td><input type="text" name="menuBoardType" class="form-control" placeholder="menuBoardType" autocomplete="off" value=""></td>';
+        html += '</tr>';
 
         menu_number++;
 
-        if(info['menuParentSeq'] != ""){
-            $("#menu-box-"+info['menuParentSeq']).append(html);
-        } else{
+        if (info['menuParentSeq'] != "") {
+            $("#menu-box-" + info['menuParentSeq']).append(html);
+        } else {
             $("#menu-box").append(html);
         }
     }
 
     // 저장
     function menu_save() {
-
         var input = [
             "menuSite",
             "menuLevel",
@@ -246,34 +225,62 @@
         ];
 
         var data = [];
-        $(".menu-box").each(function() {
+        var menuBoardTypes = []; // 중복 체크를 위한 배열
+        var menuUrls = []; // 중복 체크를 위한 배열
+        var hasDuplicate = true; // 중복 체크를 위한 변수
+
+        $("#menu-box tr").each(function() {
+            var row = $(this);
             var info = {};
             for (var i = 0; i < input.length; i++) {
                 var key = input[i];
-                var value = $(this).find("[name="+key+"]").val();
+                var value = row.find("[name="+key+"]").val();
                 info[key] = value;
             }
+
+            // 게시판 타입 중복 체크
+            if (menuBoardTypes.includes(info["menuBoardType"])) {
+                alert("중복된 게시판 타입이 있습니다. 다시 확인해주세요.");
+                hasDuplicate = false;
+                return false;
+            } else {
+                menuBoardTypes.push(info["menuBoardType"]);
+            }
+
+            // URL 중복 체크
+            if (menuUrls.includes(info["menuUrl"])) {
+                alert("중복된 URL이 있습니다. 다시 확인해주세요.");
+                hasDuplicate = false;
+                return false;
+            } else {
+                menuUrls.push(info["menuUrl"]);
+            }
+
             data.push(info);
         });
+
 
         // 삭제된 메뉴의 정보를 data에 추가
         data = data.concat(removedMenuSeqs);
 
         var jsonData = JSON.stringify(data);
 
-        $.ajax({
-            type : 'post',
-            url : '/totalAdmin/updMenuMgmtAjax',
-            data : jsonData,
-            dataType : "json",
-            contentType: 'application/json; charset=utf-8',
-            success : function(data) {
-                alert("저장되었습니다.");
-                location.reload();
-            }
-        });
+        if (hasDuplicate) {
+            $.ajax({
+                type : 'post',
+                url : '/totalAdmin/updMenuMgmtAjax',
+                data : jsonData,
+                dataType : "json",
+                contentType: 'application/json; charset=utf-8',
+                success : function(data) {
+                    alert("저장되었습니다.");
+                    location.reload();
+                }
+            });
+        }
     }
 </script>
+
 <!-- Footer  -->
 <jsp:include page="common/contentFooter.jsp"/>
 <!-- Footer END  -->

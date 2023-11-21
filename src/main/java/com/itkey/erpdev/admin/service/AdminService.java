@@ -30,4 +30,6 @@ public interface AdminService {
     int adminIdCheck(String id);
 
     int realDeleteAdmin(int adminIdx);
+
+    int blockMember(int memberIdx);
 }

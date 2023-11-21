@@ -73,4 +73,9 @@ public class AdminServiceImpl implements AdminService {
         return dao.realDeleteAdmin(adminIdx);
     }
 
+    @Override
+    public int blockMember(int memberIdx) {
+        return dao.blockMember(memberIdx);
+    }
+
 }

@@ -99,7 +99,7 @@
                                                         <td>${adminList.whdwlYmd}</td>
                                                         <td>${adminList.regNm}</td>
                                                         <td>
-                                                            <c:if test="${admin.memberType == 'B'}">
+                                                            <c:if test="${admin.memberType == 'A'}">
                                                             <button class="btn-primary btn-rounded" onclick="updateY(${adminList.seq})">복귀</button>
                                                             <button class="btn-rounded" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
                                                             </c:if>

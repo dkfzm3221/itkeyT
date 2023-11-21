@@ -15,4 +15,10 @@ public interface MemberDao {
     MemberInfoResponse memLoginInfo(Member m);
     //아이디 찾기
     Member findId(Member mDTO);
+    //비밀번호 찾기
+    Member findPw(Member mDTO);
+    //비밀번호 재발급
+    int newPw(MemberInsert mDTO);
+
+    int memberIdCheck(String id);
 }
