@@ -103,7 +103,7 @@ public class TotalAdminController {
 			request.getSession().invalidate();
 		}
 		
-		return "redirect:/totalAdmin/index";
+		return "redirect:/";
 	}
 	
 	// 대시보드

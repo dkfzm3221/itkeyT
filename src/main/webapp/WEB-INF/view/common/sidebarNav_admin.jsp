@@ -46,9 +46,14 @@
         <div class="container-fluid">
             <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
                 <li class="nav-item dropdown hidden-caret">
-                    <a class="nav-link dropdown-toggle" onclick="logoutButton()" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <form id="logout" action="/totalAdmin/logout" method="post">
+                        <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"onclick="logoutButton()" >
+                            Logout
+                        </a>
+                    </form>
+                    <%--<a class="nav-link dropdown-toggle" onclick="logoutButton()" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Logout
-                    </a>
+                    </a>--%>
                 </li>
             </ul>
         </div>
@@ -104,7 +109,7 @@
 <!-- End Sidebar -->
 <script>
     function logoutButton (){
-        window.location.href = "/totalAdmin/logout";
+      document.getElementById('logout').submit();
     }
 </script>
 </body>

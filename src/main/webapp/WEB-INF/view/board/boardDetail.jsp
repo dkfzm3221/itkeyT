@@ -9,7 +9,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Header -->
 <jsp:include page="../common/contentHeader.jsp"/>
-<jsp:include page="../common/sidebarNav_admin.jsp"/>
 <!-- Header END -->
 <html lang="ko-kr">
 <head>
@@ -21,6 +20,20 @@
 <script>
     $(document).ready(function () {
 
+        const memberType =$("#memberType").val();
+        const userId =$("#userId").val();
+        const regNm =$("#regNm").val();
+        if(memberType === 'A' && userId !== regNm){
+          $("#modiButton").hide();
+        }else if (memberType === 'A' && userId === regNm){
+          $("#modiButton").show();
+        }
+
+      if(memberType === 'A'){
+        $("#delBtn").show();
+      }else{
+        $("#delBtn").hide();
+      }
         $('#boardEditor').summernote({
             lang: 'ko-KR',
             height: 300,
@@ -40,11 +53,21 @@
 </script>
 <div class="wrapper">
     <!-- SideBar Navbar  -->
-    <jsp:include page="../common/sidebarNav.jsp"/>
+    <c:choose>
+        <c:when test="${memberType == 'A'}">
+            <jsp:include page="../common/sidebarNav_admin.jsp"/>
+        </c:when>
+        <c:otherwise>
+            <jsp:include page="../common/sidebarNav.jsp"/>
+        </c:otherwise>
+    </c:choose>
     <!-- SideBar Navbar END  -->
     <div class="main-panel">
+
         <form id="moveForm" method="GET">
             <input type="hidden" id="boardNum" name="menuBoardType">
+            <input type="hidden" id="memberType" name="memberType" value="${memberType}">
+            <input type="hidden" id="userId" name="userId" value="${userId}">
         </form>
         <div class="container">
             <div class="page-inner">
@@ -104,6 +127,7 @@
                 </div>
                 <button onclick="returnToList()" class="btn btn-black w-3">목록</button>
                 <button onclick="modiBoard()" id="modiButton" class="btn btn-black w-3" style="float: right;">수정</button>
+                <button onclick="deleteBoard(${boardDetail.boardSeq})" id="delBtn" class="btn btn-black w-3" style="float: right;">삭제</button>
             </div>
         </div>
     </div>
@@ -112,7 +136,7 @@
     function returnToList(){
       let form = $("#moveForm");
 
-      $("#boardNum").val(boardType);
+      $("#boardNum").val($("#boardType").val());
 
       form.attr("action", "/boardDetailList");
       form.submit();
@@ -130,6 +154,7 @@
                 boardSeq : boardSeq
             },
             success: function (data) {
+              const memberType =$("#memberType").val();
                 if(password === data.password) {
                     $("#password").val(data.password);
                     $('#boardTitle').removeAttr('readonly');
@@ -141,12 +166,14 @@
                     $('#password').removeAttr('readonly');
                     $('button[onclick="modiBoard()"]').attr('onclick', 'updateBoard()');
                     $('#boardEditor').summernote('enable');
-                    let deleteButton = $('<button/>', {
+                    if(memberType !== 'A'){
+                      let deleteButton = $('<button/>', {
                         text: '삭제',
                         class: 'btn btn-danger',
                         style: 'float: right; margin-right: 10px;',
                         click: function () { deleteBoard(boardSeq); }
-                    });
+                      });
+                    }
                     $('#modiButton').before(deleteButton);
                 }else{
                     alert("비밀번호가 일치하지 않습니다.")
@@ -158,6 +185,7 @@
 
     function deleteBoard(seq){
         let isConfirmed = confirm("삭제하시겠습니까?");
+      let boardType = $("#boardType").val();
         if (isConfirmed) {
             $.ajax({
                 type:"POST",
@@ -165,7 +193,13 @@
                 data: {boardSeq : seq
                 },
                 success: function () {
-                    window.location.href = "/";
+                  alert("삭제 완료하였습니다.");
+                  let form = $("#moveForm");
+
+                  $("#boardNum").val(boardType);
+
+                  form.attr("action", "/boardDetailList");
+                  form.submit();
                 }
             });
         } else {

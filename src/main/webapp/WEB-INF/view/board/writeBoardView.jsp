@@ -9,7 +9,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Header -->
 <jsp:include page="../common/contentHeader.jsp"/>
-<jsp:include page="../common/sidebarNav_admin.jsp"/>
 <!-- Header END -->
 <html lang="ko-kr">
 <head>
@@ -39,7 +38,14 @@
 </script>
 <div class="wrapper">
     <!-- SideBar Navbar  -->
-    <jsp:include page="../common/sidebarNav.jsp"/>
+    <c:choose>
+        <c:when test="${memberType == 'A'}">
+            <jsp:include page="../common/sidebarNav_admin.jsp"/>
+        </c:when>
+        <c:otherwise>
+            <jsp:include page="../common/sidebarNav.jsp"/>
+        </c:otherwise>
+    </c:choose>
     <!-- SideBar Navbar END  -->
     <div class="main-panel">
         <form id="moveForm" method="GET">
@@ -78,7 +84,12 @@
                             <tr>
                                 <th class="padding-lg">작성자</th>
                                 <td colspan="3">
-                                    <input type="text" class="form-control write-form" id="regNm" placeholder="작성자" name="regNm">
+                                    <c:if test="${userId == null or userId == ''}">
+                                        <input type="text" class="form-control write-form" id="regNm" placeholder="작성자" name="regNm">
+                                    </c:if>
+                                    <c:if test="${userId != null or userId != ''}">
+                                        <input type="text" class="form-control write-form" id="regNm" placeholder="작성자" name="regNm" value="${userId}" readonly>
+                                    </c:if>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="boardSecretYn" id="boardSecretY" value="Y" checked>
                                         <label class="form-check-label" for="boardSecretY">공개</label>
