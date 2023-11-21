@@ -2,12 +2,15 @@ package com.itkey.erpdev.admin.dao;
 
 
 import com.itkey.erpdev.admin.domain.MenuEntity;
+import com.itkey.erpdev.admin.dto.Banner;
+import com.itkey.erpdev.admin.dto.FileDto;
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.admin.dto.Visitor;
 import com.itkey.erpdev.board.domain.Board;
 import lombok.AllArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSessionEvent;
 import java.util.List;
@@ -72,5 +75,30 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	@Override
 	public int delBoardAjax(List<MenuEntity> menuEntityList) {
 		return sql.update("mapper.totalAdmin.delBoardAjax", menuEntityList);
+	}
+
+	@Override
+	public List<Banner> getBannerList() throws Exception {
+		return sql.selectList("mapper.totalAdmin.getBannerList");
+	}
+
+	@Override
+	public void saveBanner(Banner banner) throws Exception {
+		sql.insert("mapper.totalAdmin.saveBanner", banner);
+	}
+
+	@Override
+	public void saveFile(FileDto fileDto) {
+		sql.insert("mapper.totalAdmin.saveFile", fileDto);
+	}
+
+	@Override
+	public void updateFile(FileDto fileDto) throws Exception {
+		sql.update("mapper.totalAdmin.updateFile", fileDto);
+	}
+
+	@Override
+	public void updateBanner(Banner newBanner) throws Exception {
+		sql.update("mapper.totalAdmin.updateBanner", newBanner);
 	}
 }

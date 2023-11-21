@@ -2,9 +2,12 @@ package com.itkey.erpdev.admin.dao;
 
 
 import com.itkey.erpdev.admin.domain.MenuEntity;
+import com.itkey.erpdev.admin.dto.Banner;
+import com.itkey.erpdev.admin.dto.FileDto;
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.admin.dto.Visitor;
 import com.itkey.erpdev.board.domain.Board;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -37,4 +40,13 @@ public interface TotalAdminDAO {
 	// 메뉴 삭제시, 해당 게시글 삭제처리
 	int delBoardAjax(List<MenuEntity> menuEntityList);
 
+    List<Banner> getBannerList() throws Exception;
+
+	void saveBanner(Banner banner) throws Exception;
+
+	void saveFile(FileDto fileDto);
+
+	void updateFile(FileDto fileDto) throws Exception;
+
+	void updateBanner(Banner newBanner) throws Exception;
 }
