@@ -46,8 +46,8 @@ public class BoardDaoImpl implements BoardDao{
     }
 
     @Override
-    public int getTotalBoardCount() throws Exception {
-        return sql.selectOne("mapper.board.getTotalBoardCount");
+    public int getTotalBoardCount(String boardType) throws Exception {
+        return sql.selectOne("mapper.board.getTotalBoardCount",boardType);
     }
 
     @Override

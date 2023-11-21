@@ -90,7 +90,6 @@
                                                 <td>${item.boardSecretYn == 'Y' ? '공개' : '비공개'}</td>
                                                 <td>${item.inqCnt}</td>
                                                 <td>${item.regDt}</td>
-                                                <input type="hidden" id="boardType" value="${item.boardType}">
                                             </tr>
                                         </c:forEach>
                                         </tbody>
@@ -108,7 +107,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <li class="page-item">
-                                                    <a class="page-link" href="/?pageNum=${pageNumber}">${pageNumber}</a>
+                                                    <a class="page-link" href="?menuBoardType=${pageInfo.boardType}&pageNum=${pageNumber}">${pageNumber}</a>
                                                 </li>
                                             </c:otherwise>
                                         </c:choose>
@@ -116,7 +115,8 @@
                                 </ul>
                             </nav>
                         </div>
-                        <button onclick="moveToWriteBoard()" class="btn btn-black w-3" style="float: right;">글쓰기</button>
+<%--                        <input type="hidden" id="boardType" value="${item.boardType}">--%>
+                        <button onclick="moveToWriteBoard(${boardType})" class="btn btn-black w-3" style="float: right;">글쓰기</button>
                     </div>
                 </div>
             </div>
@@ -124,8 +124,8 @@
     </div>
 </div>
 <script>
-  function moveToWriteBoard() {
-    let boardType = $("#boardType").val();
+  function moveToWriteBoard(boardType) {
+    // let boardType = $("#boardType").val();
      window.location.href = "/writeBoardView?boardType="+boardType;
   }
 </script>

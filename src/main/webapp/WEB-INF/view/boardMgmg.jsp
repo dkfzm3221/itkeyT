@@ -16,7 +16,7 @@
                 </div>
 
                 <form id="moveForm" method="GET">
-                    <input type="hidden" id="boardNum" name="boardType">
+                    <input type="hidden" id="menuBoardType" name="menuBoardType">
                 </form>
                <%-- <div style="margin:5px 0px;">
                     <div style="float:left;">
@@ -48,8 +48,9 @@
                                                 <td>${item.boardTypeCnt}</td>
                                                 <td style="text-align:center;padding:5px 0px;">
 <%--                                                    <a href="board_list.php?board_key=${item.adminBoardNumber}" class="btn btn-sm btn-info"><i class="fa fa-list"></i> 리스트</a>--%>
-                                                    <button class="btn btn-sm btn-info" onclick="goToPage(${item.boardType});"><i class="fa fa-list"></i> 리스트</button>
-                                                    <a href="board_write.php?board_key=${item.adminBoardNumber}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> 글쓰기</a>
+                                                    <button class="btn btn-sm btn-info" onclick="goToPage(${item.menuBoardType});"><i class="fa fa-list"></i> 리스트</button>
+<%--                                                    //<a href="board_write.php?board_key=${item.adminBoardNumber}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> 글쓰기</a>--%>
+                                                    <button class="btn btn-sm btn-primary" onclick="moveToWriteBoard(${item.menuBoardType});"><i class="fa fa-edit"></i> 글쓰기</button>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -59,13 +60,16 @@
                     </div>
 
                     <script type="text/javascript">
-                      let goToPage = function(typeCode) {
+                      let goToPage = function(menuBoardType) {
                         let form = $("#moveForm");
-
-                            $("#boardNum").val(typeCode);
+                            $("#menuBoardType").val(menuBoardType);
 
                         form.attr("action", "/boardDetailList");
                         form.submit();
+                      }
+
+                      function moveToWriteBoard(menuBoardType) {
+                        window.location.href = "/writeBoardView?menuBoardType="+menuBoardType;
                       }
                     </script>
                 </div>

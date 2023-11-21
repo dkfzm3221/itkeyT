@@ -15,7 +15,7 @@ public interface BoardDao {
 
     void updateInqCnt(Board board) throws Exception;
 
-    int getTotalBoardCount() throws Exception;
+    int getTotalBoardCount(String boardType) throws Exception;
 
     Board selectPassword(Board board) throws Exception;
 
