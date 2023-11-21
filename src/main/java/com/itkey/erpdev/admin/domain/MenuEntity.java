@@ -15,6 +15,7 @@ public class MenuEntity {
 	private String menuUrl = "";		// 메뉴 URL
 	private String menuConnWay = "";	// 메뉴 연결방식연결방식(0 : 현재창, 1 : 새창, 2 : 팝업창)
 	private String menuParentSeq = "";	// 부모 메뉴 번호
+	private String menuBoardType = "";	// 메뉴 게시판 타입
 
 	private String regId = "";
 	private String updDt = "";
