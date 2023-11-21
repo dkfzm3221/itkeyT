@@ -117,7 +117,9 @@ public class BoardController {
     public ModelAndView moveToListNumber(HttpServletRequest request, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
         @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage, Board board, HttpSession session) throws Exception{
 
-        TotalAdminDTO memberType = (TotalAdminDTO) session.getAttribute("admin");
+        TotalAdminDTO member = (TotalAdminDTO) session.getAttribute("admin");
+
+        String memberType = member.getMemberType();
 
         ModelAndView mv = new ModelAndView("/boardDetailList");
 
