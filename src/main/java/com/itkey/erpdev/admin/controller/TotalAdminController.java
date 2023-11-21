@@ -81,7 +81,7 @@ public class TotalAdminController {
 		ModelAndView mv = new ModelAndView("/index_admin");
 
 		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
-			mv.setViewName("/index");
+			mv.setViewName("/login_admin");
 			return mv;
 		}
 
@@ -106,12 +106,9 @@ public class TotalAdminController {
 	@RequestMapping(value="/logout")
 	public String logout(HttpServletRequest request) {
 
-		TotalAdminDTO loginDTO = (TotalAdminDTO) request.getSession().getAttribute("admin");
-		if(loginDTO != null) {
-			request.getSession().invalidate();
-		}
-		
-		return "redirect:/totalAdmin/index";
+		request.getSession().invalidate();
+
+		return "redirect:/totalAdmin/loginAdmin";
 	}
 	
 	// 대시보드
@@ -173,7 +170,7 @@ public class TotalAdminController {
 		ModelAndView mv = new ModelAndView("/boardMgmg");
 
 		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
-			mv.setViewName("/index");
+			mv.setViewName("/login_admin");
 			return mv;
 		}
 
@@ -195,7 +192,7 @@ public class TotalAdminController {
 		ModelAndView mv = new ModelAndView("/adminBoardReg");
 
 		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
-			mv.setViewName("/index");
+			mv.setViewName("/login_admin");
 			return mv;
 		}
 		return mv;
@@ -203,8 +200,16 @@ public class TotalAdminController {
 
 	// 메뉴관리
 	@GetMapping(value = "/menuMgmt")
-	public ModelAndView menuMgmt() throws Exception {
+	public ModelAndView menuMgmt(HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+
 		ModelAndView mv = new ModelAndView("/menuMgmt");
+
+		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
+			mv.setViewName("/login_admin");
+			return mv;
+		}
+
 		return mv;
 	}
 
@@ -241,7 +246,7 @@ public class TotalAdminController {
 		ModelAndView mv = new ModelAndView("/adminBoardReg");
 
 		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
-			mv.setViewName("/index");
+			mv.setViewName("/login_admin");
 			return mv;
 		}
 

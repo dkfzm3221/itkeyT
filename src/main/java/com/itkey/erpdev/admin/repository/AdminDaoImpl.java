@@ -74,5 +74,10 @@ public class AdminDaoImpl implements AdminDao {
         return sql.delete("mapper.admin.realDeleteAdmin", adminIdx);
     }
 
+    @Override
+    public int blockMember(int memberIdx) {
+        return sql.update("mapper.admin.blockMember", memberIdx);
+    }
+
 
 }

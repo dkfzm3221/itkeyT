@@ -225,6 +225,10 @@
         ];
 
         var data = [];
+        var menuBoardTypes = []; // 중복 체크를 위한 배열
+        var menuUrls = []; // 중복 체크를 위한 배열
+        var hasDuplicate = true; // 중복 체크를 위한 변수
+
         $("#menu-box tr").each(function() {
             var row = $(this);
             var info = {};
@@ -233,25 +237,47 @@
                 var value = row.find("[name="+key+"]").val();
                 info[key] = value;
             }
+
+            // 게시판 타입 중복 체크
+            if (menuBoardTypes.includes(info["menuBoardType"])) {
+                alert("중복된 게시판 타입이 있습니다. 다시 확인해주세요.");
+                hasDuplicate = false;
+                return false;
+            } else {
+                menuBoardTypes.push(info["menuBoardType"]);
+            }
+
+            // URL 중복 체크
+            if (menuUrls.includes(info["menuUrl"])) {
+                alert("중복된 URL이 있습니다. 다시 확인해주세요.");
+                hasDuplicate = false;
+                return false;
+            } else {
+                menuUrls.push(info["menuUrl"]);
+            }
+
             data.push(info);
         });
+
 
         // 삭제된 메뉴의 정보를 data에 추가
         data = data.concat(removedMenuSeqs);
 
         var jsonData = JSON.stringify(data);
 
-        $.ajax({
-            type : 'post',
-            url : '/totalAdmin/updMenuMgmtAjax',
-            data : jsonData,
-            dataType : "json",
-            contentType: 'application/json; charset=utf-8',
-            success : function(data) {
-                alert("저장되었습니다.");
-                location.reload();
-            }
-        });
+        if (hasDuplicate) {
+            $.ajax({
+                type : 'post',
+                url : '/totalAdmin/updMenuMgmtAjax',
+                data : jsonData,
+                dataType : "json",
+                contentType: 'application/json; charset=utf-8',
+                success : function(data) {
+                    alert("저장되었습니다.");
+                    location.reload();
+                }
+            });
+        }
     }
 </script>
 

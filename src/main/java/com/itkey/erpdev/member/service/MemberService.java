@@ -12,4 +12,10 @@ public interface MemberService {
     MemberInfoResponse memlogin(Member m, HttpSession session);
 
     Member findId(Member mDTO);
+
+    Member findPw(Member mDTO);
+
+    int newPw(String salt, String newPw, Integer seq);
+
+    int memberIdCheck(String id);
 }

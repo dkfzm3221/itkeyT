@@ -10,6 +10,7 @@
         , ID
         , M.NAME
         , MEMBER_TYPE
+        , AUTH_CODE
         , EMAIL
         , REG_DT
         , UPD_DT
@@ -141,6 +142,16 @@
         WHERE
             SEQ = #{adminIdx}
     </delete>
+
+    <!--회원 차단-->
+    <update id="blockMember" parameterType="_int">
+       UPDATE
+            MEMBER
+       SET
+            AUTH_CODE = 'B'
+       WHERE
+            SEQ = #{memberIdx}
+    </update>
 
 
     <!-- 검색 기능 -->
