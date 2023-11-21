@@ -14,7 +14,21 @@
             <div class="main-content" xstyle="xwidth:1440px">
                 <div class="row">
                 </div>
+                    <div class="col-md-6">
+                        <div class="card-title"><h2 style="font-size: 1.1rem;">전체 게시판</h2></div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="card card-stats card-round">
+                                </div>
+                            </div>
 
+                            <div class="col-4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                    </div>
                 <form id="moveForm" method="GET">
                     <input type="hidden" id="menuBoardType" name="menuBoardType">
                 </form>
@@ -31,12 +45,11 @@
                             <table class="table table-bordered table-hover">
                                 <thead id="board_list_thead">
                                 <tr style="background-color:#F1F1F1;">
-                                    <th style="text-align:center;width:80px">고유번호</th>
+                                    <th style="text-align:center;width:80px">No</th>
                                     <th style="text-align:center;xwidth:150px;">게시판명</th>
-                                    <!--<th style="text-align:center;xwidth:200px;">권한</th>-->
                                     <th style="text-align:center;xwidth:100px;">게시판 타입</th>
                                     <th style="text-align:center;xwidth:70px">게시글 수</th>
-                                    <th style="text-align:center;xwidth:200px"><i class="fa fa-gear"></i></th>
+                                    <th style="text-align:center;xwidth:200px"><i class="fa fa-gear">이동</i></th>
                                 </tr>
                                 </thead>
                                     <tbody id="board_list_tbody">
@@ -44,7 +57,7 @@
                                             <tr>
                                                 <td style="text-align:center;">${index.index + 1}</td>
                                                 <td>${item.menuName}</td>
-                                                <td class="text-center">${item.boardType}</td>
+                                                <td class="text-center">${item.menuBoardType}</td>
                                                 <td>${item.boardTypeCnt}</td>
                                                 <td style="text-align:center;padding:5px 0px;">
 <%--                                                    <a href="board_list.php?board_key=${item.adminBoardNumber}" class="btn btn-sm btn-info"><i class="fa fa-list"></i> 리스트</a>--%>

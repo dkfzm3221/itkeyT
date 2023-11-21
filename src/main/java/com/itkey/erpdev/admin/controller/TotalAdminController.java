@@ -106,9 +106,12 @@ public class TotalAdminController {
 	@RequestMapping(value="/logout")
 	public String logout(HttpServletRequest request) {
 
-		request.getSession().invalidate();
-
-		return "redirect:/totalAdmin/loginAdmin";
+		TotalAdminDTO loginDTO = (TotalAdminDTO) request.getSession().getAttribute("admin");
+		if(loginDTO != null) {
+			request.getSession().invalidate();
+		}
+		
+		return "redirect:/";
 	}
 	
 	// 대시보드
