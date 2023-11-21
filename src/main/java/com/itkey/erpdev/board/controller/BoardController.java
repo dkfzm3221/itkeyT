@@ -53,8 +53,15 @@ public class BoardController {
         return mv;
     }
     @GetMapping(value = "/writeBoardView")
-    public ModelAndView writeBoardView(Board board,HttpServletRequest request) throws Exception{
+    public ModelAndView writeBoardView(Board board,HttpServletRequest request, HttpSession session) throws Exception{
         ModelAndView mv = new ModelAndView("/board/writeBoardView");
+        TotalAdminDTO member = (TotalAdminDTO) session.getAttribute("admin");
+
+        String memberType = member.getMemberType();
+        String userId = member.getId();
+
+        mv.addObject("userId", userId);
+        mv.addObject("memberType", memberType);
         String menuBoardType;
          if(board.getBoardType()== "" || board.getBoardType() == null){
              menuBoardType=board.getMenuBoardType();
@@ -74,13 +81,19 @@ public class BoardController {
     }
 
     @GetMapping(value = "/boardDetail")
-    public ModelAndView boardDetail(Board board) throws Exception{
-        ModelAndView mv = new ModelAndView("/board/boardDetail");
+    public ModelAndView boardDetail(Board board, HttpSession session) throws Exception{
 
+        ModelAndView mv = new ModelAndView("/board/boardDetail");
+        if(session.getAttribute("admin") != null ){
+            TotalAdminDTO member = (TotalAdminDTO) session.getAttribute("admin");
+            String userId = member.getId();
+
+            mv.addObject("userId", userId);
+            String memberType = member.getMemberType();
+            mv.addObject("memberType", memberType);
+        }
         bs.updateInqCnt(board);
         Board boardDetail = bs.boardDetail(board);
-
-
         mv.addObject("boardDetail", boardDetail);
 
         return mv;
@@ -116,12 +129,13 @@ public class BoardController {
     @GetMapping(value = "/boardDetailList")
     public ModelAndView moveToListNumber(HttpServletRequest request, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
         @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage, Board board, HttpSession session) throws Exception{
-
-        TotalAdminDTO member = (TotalAdminDTO) session.getAttribute("admin");
-
-        String memberType = member.getMemberType();
-
         ModelAndView mv = new ModelAndView("/boardDetailList");
+
+        if(session.getAttribute("admin") != null ){
+            TotalAdminDTO member = (TotalAdminDTO) session.getAttribute("admin");
+            String memberType = member.getMemberType();
+            mv.addObject("memberType", memberType);
+        }
 
         String boardType= board.getMenuBoardType();
         int totalCount = bs.getTotalBoardCount(boardType);
@@ -156,7 +170,7 @@ public class BoardController {
         mv.addObject("pageInfo", pageInfo);
         mv.addObject("boardDetailList", boardDetailList);
         mv.addObject("boardType", boardType);
-        mv.addObject("memberType", memberType);
+
 
 
         return mv;
