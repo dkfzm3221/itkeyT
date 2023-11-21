@@ -52,10 +52,11 @@ public class BoardController {
         return mv;
     }
     @GetMapping(value = "/writeBoardView")
-    public ModelAndView writeBoardView(Board board) throws Exception{
+    public ModelAndView writeBoardView(Board board,HttpServletRequest request) throws Exception{
         ModelAndView mv = new ModelAndView("/board/writeBoardView");
-        String boardType=board.getBoardType();
-        mv.addObject("boardType",boardType);
+        String menuBoardType=board.getBoardType();
+
+        mv.addObject("boardType",menuBoardType);
         return mv;
     }
 
@@ -111,7 +112,8 @@ public class BoardController {
         @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage,Board board) throws Exception{
         ModelAndView mv = new ModelAndView("/boardDetailList");
 
-        int totalCount = bs.getTotalBoardCount();
+        String boardType= board.getMenuBoardType();
+        int totalCount = bs.getTotalBoardCount(boardType);
         int startPage = (pageNum - 1) * countPerPage + 1;
         int endPage = startPage + countPerPage - 1;
         int currentPage = pageNum;
@@ -137,13 +139,12 @@ public class BoardController {
         pageInfo.put("currentPage", currentPage);
         pageInfo.put("previousPage", previousPage);
         pageInfo.put("nextPage", nextPage);
-
-        String boardType= board.getBoardType();
+        pageInfo.put("boardType", boardType);
 
         List<Board> boardDetailList = bs.boardDetailList(pageNum, countPerPage,boardType);
-
         mv.addObject("pageInfo", pageInfo);
         mv.addObject("boardDetailList", boardDetailList);
+        mv.addObject("boardType", boardType);
 
 
         return mv;

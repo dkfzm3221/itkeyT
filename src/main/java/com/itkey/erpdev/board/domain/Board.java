@@ -11,6 +11,7 @@ public class Board implements Serializable {
     String menuName;
     String menuUrl;
     String menuSite;
+    String menuBoardType;
 
     String boardType;
     String boardTitle;

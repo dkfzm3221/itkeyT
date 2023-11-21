@@ -39,7 +39,6 @@
         , BOARD_SECRET_YN
         , BOARD_TYPE
         , BOARD_DEL_YN
-        , password
         , REG_NM
         , REG_ID
         , REG_DT
@@ -50,7 +49,6 @@
             , #{boardSecretYn}
             , #{boardType}
             , 'N'
-            , #{password}
             , #{regNm}
             , #{regNm}
             , NOW()
@@ -96,6 +94,7 @@
         SELECT
             BOARD_SEQ
              , PASSWORD
+             , REG_ID
         FROM BOARD
         WHERE BOARD_SEQ = #{boardSeq}
     </select>
@@ -170,7 +169,7 @@
         WHERE BO.BOARD_DEL_YN = 'N'
           AND BO.BOARD_TYPE = #{boardType}
         ORDER BY BO.BOARD_SEQ DESC
-            LIMIT 5
+            LIMIT #{startIdx}, #{countPerPage}
     </select>
 
 </mapper>

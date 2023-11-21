@@ -43,11 +43,18 @@
 		SELECT	itb.ADMIN_BOARD_NUMBER  		AS adminBoardNumber
 			 ,me.MENU_NAME as menuName
 			 ,itb.BOARD_TYPE as boardType
-			 , count(itb.BOARD_TYPE) -1		AS boardTypeCnt
-		FROM 		itkey_dev.board itb
-		 left join menu me on itb.BOARD_TYPE = me.MENU_SEQ
-		WHERE		itb.BOARD_DEL_YN IS NULL OR itb.BOARD_DEL_YN = 'N'
-		GROUP BY 	me.MENU_NAME
+			 ,(select count(itb.BOARD_TYPE)
+			   from itkey_dev.board itb
+			   where itb.BOARD_TYPE = me.MENU_BOARD_TYPE
+				 and itb.BOARD_DEL_YN='N')AS boardTypeCnt
+			 ,me.MENU_SITE
+			 ,me.MENU_BOARD_TYPE
+			 ,me.MENU_TYPE
+		FROM 	menu me
+					left join itkey_dev.board itb on me.MENU_BOARD_TYPE = itb.BOARD_TYPE
+		WHERE me.MENU_USE_YN = 'Y'
+		  and me.MENU_SITE  = 'U'
+		GROUP BY 	me.MENU_BOARD_TYPE
 		ORDER BY 	itb.ADMIN_BOARD_NUMBER asc
 	</select>
 
