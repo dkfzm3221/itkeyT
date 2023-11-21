@@ -14,16 +14,6 @@
             <div class="main-content" xstyle="xwidth:1440px">
                 <div class="row">
                 </div>
-
-                <form id="moveForm" method="GET">
-                    <input type="hidden" id="menuBoardType" name="menuBoardType">
-                </form>
-               <%-- <div style="margin:5px 0px;">
-                    <div style="float:left;">
-                        <a href="/totalAdmin/adminBoardReg" type="button" class="btn btn-success xbtn-sm"><i class="fa fa-plus"></i> 게시판 등록</a>
-                    </div>
-                    <div style="clear:both;"></div>
-                </div>--%>
                 <div style="clear:both;"></div>
                 <div class="box" style="margin-top:10px;">
                     <div class="box-body">
@@ -42,15 +32,13 @@
                                     <tbody id="board_list_tbody">
                                         <c:forEach items="${adminBoardList}" var="item" varStatus="index">
                                             <tr>
-                                                <td style="text-align:center;">${index.index + 1}</td>
-                                                <td>${item.menuName}</td>
+                                                <td style="text-align:center;">${item.adminBoardNumber}</td>
+                                                <td>${item.adminBoardName}</td>
                                                 <td class="text-center">${item.boardType}</td>
                                                 <td>${item.boardTypeCnt}</td>
                                                 <td style="text-align:center;padding:5px 0px;">
-<%--                                                    <a href="board_list.php?board_key=${item.adminBoardNumber}" class="btn btn-sm btn-info"><i class="fa fa-list"></i> 리스트</a>--%>
-                                                    <button class="btn btn-sm btn-info" onclick="goToPage(${item.menuBoardType});"><i class="fa fa-list"></i> 리스트</button>
-<%--                                                    //<a href="board_write.php?board_key=${item.adminBoardNumber}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> 글쓰기</a>--%>
-                                                    <button class="btn btn-sm btn-primary" onclick="moveToWriteBoard(${item.menuBoardType});"><i class="fa fa-edit"></i> 글쓰기</button>
+                                                    <a href="board_list.php?board_key=${item.adminBoardNumber}" class="btn btn-sm btn-info"><i class="fa fa-list"></i> 리스트</a>
+                                                    <a href="board_write.php?board_key=${item.adminBoardNumber}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> 글쓰기</a>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -60,31 +48,11 @@
                     </div>
 
                     <script type="text/javascript">
-                      let goToPage = function(menuBoardType) {
-                        let form = $("#moveForm");
-                            $("#menuBoardType").val(menuBoardType);
 
-                        form.attr("action", "/boardDetailList");
-                        form.submit();
-                      }
-
-                      function moveToWriteBoard(menuBoardType) {
-                        window.location.href = "/writeBoardView?menuBoardType="+menuBoardType;
-                      }
                     </script>
                 </div>
 
                 <script>
-                    //게시판 삭제
-                    function board_del(idx){
-                        if(confirm("삭제하시겠습니까?")){
-                            $.post("/act/?c=board&f=board_del", { "idx" : idx }, function(res){
-                                if(res.result){
-                                    board_list();
-                                }
-                            }, "json");
-                        }
-                    }
                 </script>
             </div>
         </div>

@@ -15,13 +15,15 @@ public interface BoardService {
 
     void updateInqCnt(Board board) throws Exception;
 
-    int getTotalBoardCount() throws Exception;
+    int getTotalBoardCount(String boardType) throws Exception;
 
     Board selectPassword(Board board) throws Exception;
 
     void updateBoard(Board board) throws Exception;
 
     void deleteBoard(Board board) throws Exception;
+
+    List<Board> boardDetailList(int pageNum, int countPerPage,String boardType);
 
     List<Board> getMenuList() throws Exception;
 

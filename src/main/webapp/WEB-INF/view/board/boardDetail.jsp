@@ -9,6 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Header -->
 <jsp:include page="../common/contentHeader.jsp"/>
+<jsp:include page="../common/sidebarNav_admin.jsp"/>
 <!-- Header END -->
 <html lang="ko-kr">
 <head>
@@ -17,7 +18,6 @@
 <body>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-
 <script>
     $(document).ready(function () {
 
@@ -43,6 +43,9 @@
     <jsp:include page="../common/sidebarNav.jsp"/>
     <!-- SideBar Navbar END  -->
     <div class="main-panel">
+        <form id="moveForm" method="GET">
+            <input type="hidden" id="boardNum" name="menuBoardType">
+        </form>
         <div class="container">
             <div class="page-inner">
                 <div class="row">
@@ -78,6 +81,8 @@
                                     <input type="radio" name="boardSecretYn" id="boardSecretY" value="Y" class="radio" ${boardDetail.boardSecretYn == 'Y' ? 'checked' : ''} disabled />공개&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input type="radio" name="boardSecretYn" id="boardSecretN" value="N" class="radio" ${boardDetail.boardSecretYn == 'N' ? 'checked' : ''} disabled />비공개
                                     <input type="hidden" name="boardSeq" id="boardSeq" value="${boardDetail.boardSeq}"/>
+                                    <input type="hidden" name="boardType" id="boardType" value="${boardDetail.boardType}"/>
+                                    <input type="hidden" name="regId" id="regId" value="${boardDetail.regId}"/>
                             </tr>
                             <tr id="hiddenPassword" hidden>
                                 <th class="padding-lg">비밀번호</th>
@@ -105,14 +110,17 @@
 </div>
 <script>
     function returnToList(){
-        window.location.href = "/";
+      let form = $("#moveForm");
+
+      $("#boardNum").val(boardType);
+
+      form.attr("action", "/boardDetailList");
+      form.submit();
     }
-
-
 
     function modiBoard(){
         let password = prompt("비밀번호를 입력하세요.");
-
+        let regId = $("#regId").val();
         let boardSeq = $("#boardSeq").val();
 
         $.ajax({
@@ -174,6 +182,7 @@
         let password = $("#password").val();
         let boardSecretYn = $("input[name='boardSecretYn']:checked").val();
         let boardSeq = $("#boardSeq").val();
+        let boardType = $("#boardType").val();
 
         if (!boardTitle) {
             alert("제목을 입력해주세요.");
@@ -205,10 +214,17 @@
                     updNm : updNm,
                     boardSecretYn : boardSecretYn,
                     password : password,
-                    boardSeq : boardSeq
+                    boardSeq : boardSeq,
+                    boardType : boardType
                 },
                 success: function () {
-                    window.location.href = "/";
+                  alert("수정 완료하였습니다.");
+                  let form = $("#moveForm");
+
+                  $("#boardNum").val(boardType);
+
+                  form.attr("action", "/boardDetailList");
+                  form.submit();
                 }
             });
         } else {
@@ -216,5 +232,6 @@
         }
     }
 </script>
+<jsp:include page="../common/contentFooter.jsp"/>
 </body>
 </html>

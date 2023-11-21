@@ -9,6 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Header -->
 <jsp:include page="../common/contentHeader.jsp"/>
+<jsp:include page="../common/sidebarNav_admin.jsp"/>
 <!-- Header END -->
 <html lang="ko-kr">
 <head>
@@ -41,6 +42,9 @@
     <jsp:include page="../common/sidebarNav.jsp"/>
     <!-- SideBar Navbar END  -->
     <div class="main-panel">
+        <form id="moveForm" method="GET">
+            <input type="hidden" id="boardNum" name="menuBoardType">
+        </form>
         <div class="container">
             <div class="page-inner">
                 <div class="row">
@@ -102,18 +106,18 @@
                         </table>
                     </div>
                 </div>
-                <button onclick="insertBoard()" class="btn btn-black w-3" style="float: right;">등록</button>
+                <button onclick="insertBoard(${boardType})" class="btn btn-black w-3" style="float: right;">등록</button>
             </div>
         </div>
     </div>
 </div>
 <script>
-function insertBoard(){
-
+function insertBoard(boardType){
     let boardTitle = $("#boardTitle").val();
     let boardEditor = $("#boardEditor").summernote('code');
     let regName = $("#regNm").val();
     let password = $("#password").val();
+
     let boardSecretYn = $("input[name='boardSecretYn']:checked").val();
 
     if (!boardTitle) {
@@ -146,10 +150,17 @@ function insertBoard(){
                 boardContent : boardEditor,
                 regNm : regName,
                 boardSecretYn : boardSecretYn,
-                password : password
+                password : password,
+                boardType : boardType
             },
             success: function () {
-                window.location.href = "/";
+              alert("등록완료하였습니다.");
+              let form = $("#moveForm");
+
+              $("#boardNum").val(boardType);
+
+              form.attr("action", "/boardDetailList");
+              form.submit();
             }
         });
     } else {
@@ -157,6 +168,6 @@ function insertBoard(){
     }
 }
 </script>
-
+<jsp:include page="../common/contentFooter.jsp"/>
 </body>
 </html>

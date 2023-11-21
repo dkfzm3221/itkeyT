@@ -25,9 +25,11 @@
              , BO.UPD_DT
              , M.MENU_SEQ
              , M.MENU_NAME
+             , M.MENU_BOARD_TYPE AS boardType
         FROM BOARD BO
-                 INNER JOIN MENU M on M.MENU_SEQ = BO.BOARD_TYPE
+                 LEFT JOIN MENU M on M.MENU_BOARD_TYPE = BO.BOARD_TYPE
         WHERE BO.BOARD_DEL_YN = 'N'
+          AND MENU_USE_YN = 'Y'
           AND BO.BOARD_TYPE = #{boardType}
         ORDER BY BO.BOARD_SEQ DESC
             LIMIT 5
@@ -37,9 +39,9 @@
         (BOARD_TITLE
         , BOARD_CONTENT
         , BOARD_SECRET_YN
-        --, BOARD_TYPE
+        , BOARD_TYPE
         , BOARD_DEL_YN
-        , password
+        , PASSWORD
         , REG_NM
         , REG_ID
         , REG_DT
@@ -48,7 +50,7 @@
             ( #{boardTitle}
             , #{boardContent}
             , #{boardSecretYn}
-      --      , #{boardType}
+            , #{boardType}
             , 'N'
             , #{password}
             , #{regNm}
@@ -96,6 +98,7 @@
         SELECT
             BOARD_SEQ
              , PASSWORD
+             , REG_ID
         FROM BOARD
         WHERE BOARD_SEQ = #{boardSeq}
     </select>
@@ -106,7 +109,7 @@
             BOARD_TITLE = #{boardTitle}
           , BOARD_CONTENT = #{boardContent}
           , BOARD_SECRET_YN = #{boardSecretYn}
-         -- , BOARD_TYPE = #{boardType}
+          , BOARD_TYPE = #{boardType}
           , BOARD_DEL_YN = 'N'
           , password = #{password}
           , UPD_NM = #{updNm}
@@ -128,6 +131,7 @@
              , MENU_NAME
              , MENU_URL
              , MENU_SITE
+             , MENU_BOARD_TYPE
         FROM MENU
         WHERE MENU_SITE = 'U'
         AND MENU_USE_YN = 'Y'
@@ -135,12 +139,44 @@
     </select>
 
     <select id="boardTypeList"  resultType="Board">
-        SELECT DISTINCT
-            BOARD_TYPE
-            , M.MENU_NAME
+        SELECT
+            M.MENU_BOARD_TYPE AS BOARDTYPE
+             , M.MENU_NAME
+        FROM  MENU M
+        LEFT JOIN BOARD BO ON M.MENU_BOARD_TYPE = BO.BOARD_TYPE
+        WHERE M.MENU_USE_YN = 'Y'
+          AND M.MENU_SITE  = 'U'
+        GROUP BY M.MENU_BOARD_TYPE
+    </select>
+
+    <select id="boardDetailList" parameterType="map" resultType="Board">
+        SELECT
+            BO.BOARD_SEQ
+             , BO.BOARD_TYPE
+             , BO.BOARD_TITLE
+             , BO.BOARD_CONTENT
+             , BO.BOARD_SECRET_YN
+             , BO.BOARD_DEL_YN
+             , BO.REPLY_YN
+             , BO.REPLY_CONTENT
+             , BO.REPLY_MEMBER_ID
+             , BO.REPLY_DT
+             , BO.ATTCH_FILE_CNT
+             , COALESCE(BO.INQ_CNT, 0) AS INQ_CNT
+             , BO.REG_ID
+             , BO.REG_NM
+             , BO.REG_DT
+             , BO.UPD_ID
+             , BO.UPD_NM
+             , BO.UPD_DT
+             , M.MENU_SEQ
+             , M.MENU_NAME
         FROM BOARD BO
                  INNER JOIN MENU M on M.MENU_SEQ = BO.BOARD_TYPE
-        WHERE BOARD_DEL_YN = 'N'
+        WHERE BO.BOARD_DEL_YN = 'N'
+          AND BO.BOARD_TYPE = #{boardType}
+        ORDER BY BO.BOARD_SEQ DESC
+            LIMIT #{startIdx}, #{countPerPage}
     </select>
 
 </mapper>

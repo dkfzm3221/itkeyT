@@ -38,8 +38,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public int getTotalBoardCount() throws Exception {
-        return dao.getTotalBoardCount();
+    public int getTotalBoardCount(String boardType) throws Exception {
+        return dao.getTotalBoardCount(boardType);
     }
 
     @Override
@@ -65,6 +65,11 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<Board> boardTypeList() throws Exception {
         return dao.boardTypeList();
+    }
+
+    @Override
+    public List<Board> boardDetailList(int pageNum, int countPerPage, String boardType) {
+        return dao.boardDetailList(pageNum,countPerPage,boardType);
     }
 
 }

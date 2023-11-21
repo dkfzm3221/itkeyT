@@ -1,6 +1,7 @@
 package com.itkey.erpdev.board.controller;
 
 import com.itkey.erpdev.admin.dto.MenuDTO;
+import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.service.BoardService;
 import lombok.AllArgsConstructor;
@@ -52,9 +53,16 @@ public class BoardController {
         return mv;
     }
     @GetMapping(value = "/writeBoardView")
-    public ModelAndView writeBoardView() throws Exception{
+    public ModelAndView writeBoardView(Board board,HttpServletRequest request) throws Exception{
         ModelAndView mv = new ModelAndView("/board/writeBoardView");
+        String menuBoardType;
+         if(board.getBoardType()== "" || board.getBoardType() == null){
+             menuBoardType=board.getMenuBoardType();
+         }else{
+             menuBoardType=board.getBoardType();
+         }
 
+        mv.addObject("boardType",menuBoardType);
         return mv;
     }
 
@@ -105,6 +113,54 @@ public class BoardController {
         return mv;
     }
 
+    @GetMapping(value = "/boardDetailList")
+    public ModelAndView moveToListNumber(HttpServletRequest request, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+        @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage, Board board, HttpSession session) throws Exception{
+
+        TotalAdminDTO member = (TotalAdminDTO) session.getAttribute("admin");
+
+        String memberType = member.getMemberType();
+
+        ModelAndView mv = new ModelAndView("/boardDetailList");
+
+        String boardType= board.getMenuBoardType();
+        int totalCount = bs.getTotalBoardCount(boardType);
+        int startPage = (pageNum - 1) * countPerPage + 1;
+        int endPage = startPage + countPerPage - 1;
+        int currentPage = pageNum;
+        int previousPage = currentPage > 1 ? currentPage - 1 : 1;
+        int nextPage = currentPage < (totalCount / countPerPage) + 1 ? currentPage + 1 : (totalCount / countPerPage) + 1;
+
+        int pageGroupSize = 5;
+        int totalPage = (totalCount / countPerPage) + ((totalCount % countPerPage == 0) ? 0 : 1);
+        int currentGroup = (currentPage - 1) / pageGroupSize;
+        int startPageGroup = (currentGroup * pageGroupSize) + 1;
+        int endPageGroup = startPageGroup + pageGroupSize - 1;
+
+        if (endPageGroup > totalPage) {
+            endPageGroup = totalPage;
+        }
+
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("startPageGroup", startPageGroup);
+        pageInfo.put("endPageGroup", endPageGroup);
+        pageInfo.put("totalCount", totalCount);
+        pageInfo.put("startPage", startPage);
+        pageInfo.put("endPage", endPage);
+        pageInfo.put("currentPage", currentPage);
+        pageInfo.put("previousPage", previousPage);
+        pageInfo.put("nextPage", nextPage);
+        pageInfo.put("boardType", boardType);
+
+        List<Board> boardDetailList = bs.boardDetailList(pageNum, countPerPage,boardType);
+        mv.addObject("pageInfo", pageInfo);
+        mv.addObject("boardDetailList", boardDetailList);
+        mv.addObject("boardType", boardType);
+        mv.addObject("memberType", memberType);
+
+
+        return mv;
+    }
 
 
 

@@ -46,8 +46,8 @@ public class BoardDaoImpl implements BoardDao{
     }
 
     @Override
-    public int getTotalBoardCount() throws Exception {
-        return sql.selectOne("mapper.board.getTotalBoardCount");
+    public int getTotalBoardCount(String boardType) throws Exception {
+        return sql.selectOne("mapper.board.getTotalBoardCount",boardType);
     }
 
     @Override
@@ -73,6 +73,17 @@ public class BoardDaoImpl implements BoardDao{
     @Override
     public List<Board> boardTypeList() throws Exception {
         return sql.selectList("mapper.board.boardTypeList");
+    }
+
+    @Override
+    public List<Board> boardDetailList(int pageNum, int countPerPage, String boardType) {
+        int startIdx = (pageNum - 1) * countPerPage;
+        Map<String, Object> params = new HashMap<>();
+        params.put("startIdx", startIdx);
+        params.put("countPerPage", countPerPage);
+        params.put("boardType", boardType);
+
+        return sql.selectList("mapper.board.boardDetailList", params);
     }
 
 

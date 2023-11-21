@@ -40,19 +40,22 @@
 	</select>
 
 	<select id="selectBoardTypeList" resultType="Board">
-		SELECT
-				ADMIN_BOARD_NUMBER  		AS adminBoardNumber
-				 , ADMIN_BOARD_NAME			AS adminBoardName
-				 , case BOARD_TYPE
-					   when '1' then 'NORMAL'
-					   when '2' then 'GALLERY2'
-					   else 'ETC'
-					end 					   boardType
-				 , count(BOARD_TYPE) -1		AS boardTypeCnt
-		FROM 		itkey_dev.board
-		WHERE		BOARD_DEL_YN IS NULL OR BOARD_DEL_YN = 'N'
-		GROUP BY 	ADMIN_BOARD_NAME
-		ORDER BY 	ADMIN_BOARD_NUMBER ASC
+		SELECT	itb.ADMIN_BOARD_NUMBER  		AS adminBoardNumber
+			 ,me.MENU_NAME as menuName
+			 ,itb.BOARD_TYPE as boardType
+			 ,(select count(itb.BOARD_TYPE)
+			   from itkey_dev.board itb
+			   where itb.BOARD_TYPE = me.MENU_BOARD_TYPE
+				 and itb.BOARD_DEL_YN='N')AS boardTypeCnt
+			 ,me.MENU_SITE
+			 ,me.MENU_BOARD_TYPE
+			 ,me.MENU_TYPE
+		FROM 	menu me
+					left join itkey_dev.board itb on me.MENU_BOARD_TYPE = itb.BOARD_TYPE
+		WHERE me.MENU_USE_YN = 'Y'
+		  and me.MENU_SITE  = 'U'
+		GROUP BY 	me.MENU_BOARD_TYPE
+		ORDER BY 	itb.ADMIN_BOARD_NUMBER asc
 	</select>
 
 	<select id="selectBoardList" resultType="Board">
@@ -80,7 +83,7 @@
 	</select>
 
 	<!-- 메뉴 리스트 -->
-	<select id="getMenuListAjax" resultType="commonDTO">
+	<select id="getMenuListAjax" resultType="menuDTO">
 		/*fn : 메뉴 리스트 - getMenuListAjax */
 		SELECT A.MENU_SEQ AS menuSeq
 			 , A.MENU_SITE AS menuSite
@@ -94,6 +97,7 @@
 			 , A.MENU_CONN_WAY AS menuConnWay
 			 , A.MENU_DESC AS menuDesc
 			 , A.MENU_PARENT_SEQ AS menuParentSeq
+			 , A.MENU_BOARD_TYPE AS menuBoardType
 			 , A.REG_ID AS regId
 			 , A.UPD_DT AS updDt
 		FROM	MENU A
@@ -112,6 +116,7 @@
 
 	<!-- 메뉴 등록/수정 -->
 	<insert id="updMenuMgmtAjax" parameterType="MenuEntity">
+		/*fn : 메뉴 등록/수정 - getMenuListCntAjax */
 		INSERT INTO MENU (
 			MENU_SEQ,
 			MENU_SITE,
@@ -121,7 +126,10 @@
 			MENU_URL,
 			MENU_PARENT_SEQ,
 			REG_ID,
-			REG_DT
+			REG_DT,
+			MENU_USE_YN,
+			MENU_ORDER,
+			MENU_BOARD_TYPE
 		) VALUES
 		<foreach collection="list" item="menu" separator=",">
 			(
@@ -132,8 +140,11 @@
 			#{menu.menuType},
 			#{menu.menuUrl},
 			#{menu.menuParentSeq},
-			'admin',
-			NOW()
+			'ADMIN',
+			NOW(),
+			#{menu.menuUseYn},
+			#{menu.menuOrder},
+			#{menu.menuBoardType}
 			)
 		</foreach>
 		ON DUPLICATE KEY UPDATE
@@ -142,6 +153,19 @@
 		MENU_LEVEL = VALUES(MENU_LEVEL),
 		MENU_TYPE = VALUES(MENU_TYPE),
 		MENU_URL = VALUES(MENU_URL),
-		MENU_PARENT_SEQ = VALUES(MENU_PARENT_SEQ)
+		MENU_PARENT_SEQ = VALUES(MENU_PARENT_SEQ),
+		MENU_USE_YN = VALUES(MENU_USE_YN),
+		MENU_ORDER = VALUES(MENU_ORDER),
+		MENU_BOARD_TYPE  = VALUES(MENU_BOARD_TYPE)
 	</insert>
+
+	<!-- 메뉴 삭제시, 해당 게시글 삭제처리 -->
+	<update id="delBoardAjax" parameterType="java.util.List">
+		UPDATE BOARD
+		SET BOARD_DEL_YN = 'Y'
+		WHERE BOARD_TYPE IN
+		<foreach collection="list" item="menu" open="(" separator="," close=")">
+			#{menu.menuBoardType}
+		</foreach>
+	</update>
 </mapper>
