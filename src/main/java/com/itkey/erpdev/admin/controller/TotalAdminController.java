@@ -117,7 +117,8 @@ public class TotalAdminController {
 		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
 			mv.setViewName("/index");
 
-			int totalCount = bs.getTotalBoardCount();
+			//int totalCount = bs.getTotalBoardCount();
+			int totalCount = 0;
 			int startPage = (pageNum - 1) * countPerPage + 1;
 			int endPage = startPage + countPerPage - 1;
 			int currentPage = pageNum;
