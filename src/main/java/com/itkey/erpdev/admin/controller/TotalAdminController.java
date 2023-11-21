@@ -243,4 +243,21 @@ public class TotalAdminController {
 		return mv;
 	}
 
+	@GetMapping(value = "/banner")
+	public ModelAndView banner() throws Exception{
+		ModelAndView mv = new ModelAndView("/banner");
+
+		// 메뉴 리스트
+		List<CommonDTO> menuList = commonService.getMenuListAjax();
+		// 총 메뉴 수
+		int menuCnt = adminService.getMenuListCntAjax();
+
+		mv.addObject("menuList", menuList);
+		mv.addObject("menuCnt", menuCnt);
+
+		return mv;
+	}
+
+
+
 }

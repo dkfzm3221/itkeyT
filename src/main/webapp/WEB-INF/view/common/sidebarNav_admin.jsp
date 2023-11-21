@@ -89,6 +89,9 @@
                                 <c:when test="${gnb.menuName == '게시판관리'}">
                                     <i class="fas fa-laptop"></i>
                                 </c:when>
+                                <c:when test="${gnb.menuName == '배너관리'}">
+                                    <i class="fas fa-adjust"></i>
+                                </c:when>
                             </c:choose>
                             <p>${gnb.menuName}</p>
                         </a>

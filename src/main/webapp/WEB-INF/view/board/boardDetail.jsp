@@ -43,6 +43,9 @@
     <jsp:include page="../common/sidebarNav.jsp"/>
     <!-- SideBar Navbar END  -->
     <div class="main-panel">
+        <form id="moveForm" method="GET">
+            <input type="hidden" id="boardNum" name="menuBoardType">
+        </form>
         <div class="container">
             <div class="page-inner">
                 <div class="row">
@@ -107,13 +110,17 @@
 </div>
 <script>
     function returnToList(){
-        window.location.href = "/";
+      let form = $("#moveForm");
+
+      $("#boardNum").val(boardType);
+
+      form.attr("action", "/boardDetailList");
+      form.submit();
     }
 
     function modiBoard(){
-       // let password = prompt("비밀번호를 입력하세요.");
+        let password = prompt("비밀번호를 입력하세요.");
         let regId = $("#regId").val();
-        console.log("asdasd==="+regId);
         let boardSeq = $("#boardSeq").val();
 
         $.ajax({
@@ -123,8 +130,7 @@
                 boardSeq : boardSeq
             },
             success: function (data) {
-              console.log("Asdasd=="+data.regId);
-               // if(password === data.password) {
+                if(password === data.password) {
                     $("#password").val(data.password);
                     $('#boardTitle').removeAttr('readonly');
                     $('#regNm').removeAttr('readonly');
@@ -142,10 +148,10 @@
                         click: function () { deleteBoard(boardSeq); }
                     });
                     $('#modiButton').before(deleteButton);
-              /*  }else{
+                }else{
                     alert("비밀번호가 일치하지 않습니다.")
                     return false;
-                }*/
+                }
             }
         });
     }
@@ -192,11 +198,11 @@
             alert("작성자를 입력해주세요.");
             return;
         }
-       /* if (!password) {
+        if (!password) {
             alert("비밀번호를 입력해주세요.");
             return;
         }
-*/
+
 
         let isConfirmed = confirm("수정하시겠습니까?");
         if (isConfirmed) {
@@ -207,12 +213,18 @@
                     boardContent : boardEditor,
                     updNm : updNm,
                     boardSecretYn : boardSecretYn,
-                    // password : password,
+                    password : password,
                     boardSeq : boardSeq,
                     boardType : boardType
                 },
                 success: function () {
-                    window.location.href = "/";
+                  alert("수정 완료하였습니다.");
+                  let form = $("#moveForm");
+
+                  $("#boardNum").val(boardType);
+
+                  form.attr("action", "/boardDetailList");
+                  form.submit();
                 }
             });
         } else {

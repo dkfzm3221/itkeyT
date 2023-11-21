@@ -1,6 +1,7 @@
 package com.itkey.erpdev.board.controller;
 
 import com.itkey.erpdev.admin.dto.MenuDTO;
+import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.service.BoardService;
 import lombok.AllArgsConstructor;
@@ -54,7 +55,12 @@ public class BoardController {
     @GetMapping(value = "/writeBoardView")
     public ModelAndView writeBoardView(Board board,HttpServletRequest request) throws Exception{
         ModelAndView mv = new ModelAndView("/board/writeBoardView");
-        String menuBoardType=board.getBoardType();
+        String menuBoardType;
+         if(board.getBoardType()== "" || board.getBoardType() == null){
+             menuBoardType=board.getMenuBoardType();
+         }else{
+             menuBoardType=board.getBoardType();
+         }
 
         mv.addObject("boardType",menuBoardType);
         return mv;
@@ -109,7 +115,10 @@ public class BoardController {
 
     @GetMapping(value = "/boardDetailList")
     public ModelAndView moveToListNumber(HttpServletRequest request, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-        @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage,Board board) throws Exception{
+        @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage, Board board, HttpSession session) throws Exception{
+
+        TotalAdminDTO memberType = (TotalAdminDTO) session.getAttribute("admin");
+
         ModelAndView mv = new ModelAndView("/boardDetailList");
 
         String boardType= board.getMenuBoardType();
@@ -145,10 +154,12 @@ public class BoardController {
         mv.addObject("pageInfo", pageInfo);
         mv.addObject("boardDetailList", boardDetailList);
         mv.addObject("boardType", boardType);
+        mv.addObject("memberType", memberType);
 
 
         return mv;
     }
+
 
 
 }
