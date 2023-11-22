@@ -112,7 +112,7 @@
                                         <colgroup>
                                             <col style="width:70px;">
                                             <col style="width:auto">
-                                            <col span="4" style="width:120px">
+                                            <col span="5" style="width:120px">
                                         </colgroup>
                                         <thead>
                                         <tr>
@@ -122,7 +122,6 @@
                                             <th>회원타입</th>
                                             <th>이메일</th>
                                             <th>회원등록일</th>
-                                            <th>등록자명</th>
                                             <th>최종수정일시</th>
                                             <th>수정자</th>
                                             <th>설정</th>
@@ -143,7 +142,6 @@
                                                 </c:if>
                                                 <td>${adminList.email}</td>
                                                 <td>${adminList.regDt}</td>
-                                                <td>${adminList.regNm}</td>
                                                 <td>${adminList.updDt}</td>
                                                 <td>${adminList.updNm}</td>
                                                 <td>

@@ -93,7 +93,12 @@
                                                         <td class='ano'>${adminList.rowNum}</td>
                                                         <td>${adminList.name}</td>
                                                         <td>${adminList.id}</td>
-                                                        <td>${adminList.memberType}</td>
+                                                        <c:if test="${adminList.memberType == 'U'}">
+                                                            <td>사용자</td>
+                                                        </c:if>
+                                                        <c:if test="${adminList.memberType == 'A' }">
+                                                            <td>관리자</td>
+                                                        </c:if>
                                                         <td>${adminList.email}</td>
                                                         <td>${adminList.regDt}</td>
                                                         <td>${adminList.whdwlYmd}</td>
@@ -120,7 +125,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <li class="page-item">
-                                                    <a class="page-link" id="previous" href="adminHome.ad?pageNum=${pageList.prePage}&type=${search.type}&keyword=${search.keyword}">Previous</a>
+                                                    <a class="page-link" id="previous" href="del_adminHome?pageNum=${pageList.prePage}&type=${search.type}&keyword=${search.keyword}">Previous</a>
                                                 </li>
                                             </c:otherwise>
                                         </c:choose>
@@ -130,7 +135,7 @@
                                                     <li class="page-item"><a class="page-link" disabled="true" style="font-weight: bold">${idx}</a></li>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <li class="page-item"><a class="page-link" href="adminHome.ad?pageNum=${idx}&type=${search.type}&keyword=${search.keyword}">${idx}</a></li>
+                                                    <li class="page-item"><a class="page-link" href="del_adminHome?pageNum=${idx}&type=${search.type}&keyword=${search.keyword}">${idx}</a></li>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:forEach>
@@ -142,7 +147,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <li class="page-item">
-                                                    <a class="page-link" href="adminHome.ad?pageNum=${pageList.nextPage}&type=${search.type}&keyword=${search.keyword}">Next</a>
+                                                    <a class="page-link" href="del_adminHome?pageNum=${pageList.nextPage}&type=${search.type}&keyword=${search.keyword}">Next</a>
                                                 </li>
                                             </c:otherwise>
                                         </c:choose>

@@ -87,7 +87,7 @@
                                             <th>이름</th>
                                             <th>아이디</th>
                                             <th>차단사유</th>
-                                            <th>차단일</th>
+                                            <th style="width:30%;">차단일</th>
                                             <th>수정자</th>
                                             <th>설정</th>
                                         </tr>
@@ -124,7 +124,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <li class="page-item">
-                                                    <a class="page-link" id="previous" href="adminHome.ad?pageNum=${pageList.prePage}&type=${search.type}&keyword=${search.keyword}">Previous</a>
+                                                    <a class="page-link" id="previous" href="block_adminHome?pageNum=${pageList.prePage}&type=${search.type}&keyword=${search.keyword}">Previous</a>
                                                 </li>
                                             </c:otherwise>
                                         </c:choose>
@@ -134,7 +134,7 @@
                                                     <li class="page-item"><a class="page-link" disabled="true" style="font-weight: bold">${idx}</a></li>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <li class="page-item"><a class="page-link" href="adminHome.ad?pageNum=${idx}&type=${search.type}&keyword=${search.keyword}">${idx}</a></li>
+                                                    <li class="page-item"><a class="page-link" href="block_adminHome?pageNum=${idx}&type=${search.type}&keyword=${search.keyword}">${idx}</a></li>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:forEach>
@@ -146,7 +146,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <li class="page-item">
-                                                    <a class="page-link" href="adminHome.ad?pageNum=${pageList.nextPage}&type=${search.type}&keyword=${search.keyword}">Next</a>
+                                                    <a class="page-link" href="block_adminHome?pageNum=${pageList.nextPage}&type=${search.type}&keyword=${search.keyword}">Next</a>
                                                 </li>
                                             </c:otherwise>
                                         </c:choose>
