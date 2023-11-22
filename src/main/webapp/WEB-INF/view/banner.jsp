@@ -29,7 +29,7 @@
                         <th style="text-align:center;width:70px">순번</th>
                         <th style="text-align:center;width:150px">배너 이미지</th>
                         <th style="text-align:center;width:150px;">배너명</th>
-                        <th style="text-align:center;width:200px;">배너/링크 https://www.google.com"</th>
+                        <th style="text-align:center;width:200px;">배너/링크 ex)https://www.google.com</th>
                         <th style="text-align:center;width:200px;">저장/삭제</th>
                     </tr>
                     <c:forEach items="${bannerList}" var="item">
@@ -37,7 +37,12 @@
                         <td><input type="text" class="form-control" name="bannerOrder" id="bannerOrder${item.bannerSeq}" placeholder="순번 입력" value="${item.bannerOrder}" ></td>
                         <td>
                             <input type="file" id="fileInput${item.bannerSeq}" class="form-control banner-image-input" onchange="previewImage(this)" name="file" placeholder="배너이미지 등록">
-                            <img id="imgPreview${item.bannerSeq}" src="../resources/images/${item.saveNm}" class="banner-image-preview"/>
+                            <c:if test="${empty item.fileIdx }">
+                                이미지가 없습니다.
+                            </c:if>
+                            <c:if test="${not empty item.fileIdx }">
+                                <img id="imgPreview${item.bannerSeq}" src="${item.filePath}" class="banner-image-preview"/>
+                            </c:if>
                         </td>
                         <input type="hidden" name="fileIdx" id="fileIdx${item.bannerSeq}" value="${item.fileIdx}">
                         <input type="hidden" name="bannerSeq" id="boardSeq${item.bannerSeq}" value="${item.bannerSeq}">

@@ -193,7 +193,7 @@
              , FT.save_nm
              , FT.FILE_PATH
         FROM BANNER BN
-        JOIN FILE FT ON BN.FILE_IDX = FT.FILE_IDX
+        LEFT JOIN FILE FT ON BN.FILE_IDX = FT.FILE_IDX
         ORDER BY BANNER_ORDER ASC
     </select>
     <select id="selectName"  resultType="Board">

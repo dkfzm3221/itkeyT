@@ -9,6 +9,7 @@ import com.itkey.erpdev.admin.dto.Visitor;
 import com.itkey.erpdev.board.domain.Board;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,13 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class TotalAdminServiceImpl implements TotalAdminService {
+
+    public static String uploadDir;
+
+    @Value("${spring.servlet.multipart.location}")
+    public void setKey(String value) {
+        uploadDir = value;
+    }
 
     TotalAdminDAO totalAdminDAO;
 
@@ -115,43 +123,49 @@ public class TotalAdminServiceImpl implements TotalAdminService {
 
             FileDto fileDto = new FileDto();
 
-            if (file != null) {
-                MultipartFile multipartFile = file;
-                if (!multipartFile.isEmpty()) {
-                    String originalFileName = multipartFile.getOriginalFilename();
-                    String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        if (file != null) {
+            MultipartFile multipartFile = file;
+            if (!multipartFile.isEmpty()) {
+                String originalFileName = multipartFile.getOriginalFilename();
+                String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
-                    String newFileName = UUID.randomUUID().toString() + fileExtension;
+                String newFileName = UUID.randomUUID().toString() + fileExtension;
 
-                    String rootPath = System.getProperty("user.dir");
-                    File staticDir = new File(rootPath, "src/main/resources/static/images");
+                File dir = new File(uploadDir);
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
 
-                    if (!staticDir.exists()) {
-                        staticDir.mkdirs();
-                    }
+                File newFile = new File(dir, newFileName);
 
-                    File newFile = new File(staticDir, newFileName);
+                Path filePath = Paths.get(newFile.getAbsolutePath());
 
-                    Path filePath = Paths.get(newFile.getAbsolutePath());
+                String fileUrl = "/images/" + newFileName;
 
-                    String fileUrl = "/images/" + newFileName;
+                Files.write(filePath, multipartFile.getBytes());
 
-                    Files.write(filePath, multipartFile.getBytes());
-
-                    if (fileDto.getFileIdx() != null) {
-                        fileDto.setSaveNm(newFileName);
-                        fileDto.setOriNm(originalFileName);
-                        fileDto.setFilePath(fileUrl);
-                        totalAdminDAO.updateFile(fileDto);
-                    } else {
-                        fileDto.setSaveNm(newFileName);
-                        fileDto.setOriNm(originalFileName);
-                        fileDto.setFilePath(fileUrl);
-                        totalAdminDAO.saveFile(fileDto);
-                    }
-
+                if (fileDto.getFileIdx() != null) {
+                    fileDto.setSaveNm(newFileName);
+                    fileDto.setOriNm(originalFileName);
+                    fileDto.setFilePath(fileUrl);
+                    totalAdminDAO.updateFile(fileDto);
+                } else {
+                    fileDto.setSaveNm(newFileName);
+                    fileDto.setOriNm(originalFileName);
+                    fileDto.setFilePath(fileUrl);
+                    totalAdminDAO.saveFile(fileDto);
                 }
             }
+        }
+
+            String fileIdx = "";
+
+            if(file == null){
+                fileIdx = banner.getFileIdx();
+            }else{
+                fileIdx = fileDto.getFileIdx();
+            }
+
 
             if (banner.getBannerSeq() != null) {
                 Banner newBanner = new Banner();
@@ -159,14 +173,14 @@ public class TotalAdminServiceImpl implements TotalAdminService {
                 newBanner.setBannerName(banner.getBannerName());
                 newBanner.setBannerUrl(banner.getBannerUrl());
                 newBanner.setBannerOrder(banner.getBannerOrder());
-                newBanner.setFileIdx(fileDto.getFileIdx());
+                newBanner.setFileIdx(fileIdx);
                 totalAdminDAO.updateBanner(newBanner);
             } else {
                 Banner newBanner = new Banner();
                 newBanner.setBannerName(banner.getBannerName());
                 newBanner.setBannerUrl(banner.getBannerUrl());
                 newBanner.setBannerOrder(banner.getBannerOrder());
-                newBanner.setFileIdx(fileDto.getFileIdx());
+                newBanner.setFileIdx(fileIdx);
                 totalAdminDAO.saveBanner(newBanner);
             }
 

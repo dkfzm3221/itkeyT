@@ -191,7 +191,7 @@
 			 , FT.save_nm
 			 , FT.FILE_PATH
 		FROM BANNER BN
-		JOIN FILE FT ON BN.FILE_IDX = FT.FILE_IDX
+		LEFT JOIN FILE FT ON BN.FILE_IDX = FT.FILE_IDX
 		ORDER BY BANNER_ORDER ASC
 	</select>
 	<insert id="saveBanner" parameterType="Banner">
@@ -239,7 +239,7 @@
 			, NOW()
 			)
 	</insert>
-	<update id="updateFile" parameterType="FileDto">
+	<update id="updateFile" parameterType="FileDto" useGeneratedKeys="true" keyProperty="fileIdx" keyColumn="file_idx">
 		UPDATE FILE
 		SET
 			ORI_NM = #{oriNm}
@@ -259,7 +259,7 @@
 		  , BANNER_USE_YN = #{bannerUseYn}
 		  , BANNER_TYPE = #{bannerType}
 		  , BANNER_URL = #{bannerUrl}
-		  , FILE_IDX = #{fileIdx}
+			<if test="fileIdx     !=null and fileIdx  !=''">,FILE_IDX = #{fileIdx}</if>
 		  , BANNER_CONN_WAY = #{bannerConnWay}
 		  , BANNER_DESC = #{bannerDesc}
 		  , UPD_DT = NOW()

@@ -85,12 +85,20 @@
                     <div class="row">
                         <c:forEach items="${sessionScope.bannerList}" var="item">
                             <div class="col-md-12">
-                                <a href="${item.bannerUrl}" target="_blank">
-                                    <img src="../resources/images/${item.saveNm}" class="navbar-brand" style="width: 100%;">
-                                </a>
+                                <c:if test="${empty item.fileIdx}">
+                                    <a href="${item.bannerUrl}" target="_blank">
+                                        <div>
+                                            ${item.bannerName}
+                                        </div>
+                                    </a>
+                                </c:if>
+                                <c:if test="${not empty item.fileIdx}">
+                                    <a href="${item.bannerUrl}" target="_blank">
+                                        <img src="${item.filePath}" class="navbar-brand" style="width: 100%;">
+                                    </a>
+                                </c:if>
                             </div>
                         </c:forEach>
-
                     </div>
                 </div>
             </div>
