@@ -66,18 +66,24 @@
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <div class="user">
+               <%--
                 <div class="avatar-sm float-left mr-2" style="margin-right: 0.75rem!important;">
                     <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle">
                 </div>
-                <div class="info">
-                    <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+                --%>
+                <c:if test="${sessionScope.admin != null}">
+                    <div class="info">
+                        <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
 									안녕하세요.
-									<div style="font-size: 18px; color: #1572E8;">${admin.name} 님</div>
+									<div style="font-size: 18px; color: #1572E8;">
+                                        ${sessionScope.admin.name}님
+                                    </div>
 								</span>
-                    </a>
-                    <div class="clearfix"></div>
-                </div>
+                        </a>
+                        <div class="clearfix"></div>
+                    </div>
+                </c:if>
             </div>
 
             <ul class="nav nav-primary">

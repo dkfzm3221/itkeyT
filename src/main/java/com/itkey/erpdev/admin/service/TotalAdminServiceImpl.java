@@ -154,18 +154,18 @@ public class TotalAdminServiceImpl implements TotalAdminService {
             }
 
             if (banner.getBannerSeq() != null) {
-                String[] bannerSeqs = banner.getBannerSeq().split(",");
                 Banner newBanner = new Banner();
-                newBanner.setBannerSeq(String.valueOf(bannerSeqs));
-                newBanner.setBannerName(bannerNames[i]);
-                newBanner.setBannerUrl(bannerUrls[i]);
-                newBanner.setBannerOrder(bannerOrders[i]);
+                newBanner.setBannerSeq(banner.getBannerSeq());
+                newBanner.setBannerName(banner.getBannerName());
+                newBanner.setBannerUrl(banner.getBannerUrl());
+                newBanner.setBannerOrder(banner.getBannerOrder());
+                newBanner.setFileIdx(fileDto.getFileIdx());
                 totalAdminDAO.updateBanner(newBanner);
             } else {
                 Banner newBanner = new Banner();
-                newBanner.setBannerName(bannerNames[i]);
-                newBanner.setBannerUrl(bannerUrls[i]);
-                newBanner.setBannerOrder(bannerOrders[i]);
+                newBanner.setBannerName(banner.getBannerName());
+                newBanner.setBannerUrl(banner.getBannerUrl());
+                newBanner.setBannerOrder(banner.getBannerOrder());
                 newBanner.setFileIdx(fileDto.getFileIdx());
                 totalAdminDAO.saveBanner(newBanner);
             }

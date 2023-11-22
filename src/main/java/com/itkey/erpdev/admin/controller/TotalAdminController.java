@@ -108,7 +108,9 @@ public class TotalAdminController {
 
 		TotalAdminDTO loginDTO = (TotalAdminDTO) request.getSession().getAttribute("admin");
 		if(loginDTO != null) {
-			request.getSession().invalidate();
+//			request.getSession().invalidate();
+			request.getSession().removeAttribute("admin");
+			request.getSession().removeAttribute("gnbList");
 		}
 		
 		return "redirect:/";
@@ -260,8 +262,13 @@ public class TotalAdminController {
 	}
 
 	@GetMapping(value = "/banner")
-	public ModelAndView banner() throws Exception{
+	public ModelAndView banner(HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("/banner");
+		HttpSession session = request.getSession();
+		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
+			mv.setViewName("/login_admin");
+			return mv;
+		}
 
 		// 메뉴 리스트
 		List<CommonDTO> menuList = commonService.getMenuListAjax();
@@ -279,7 +286,7 @@ public class TotalAdminController {
 	}
 
 	@PostMapping(value = "/saveBanner")
-	public ModelAndView saveBanner(Banner banner, @RequestParam("file") MultipartFile[] file) throws Exception{
+	public ModelAndView saveBanner(Banner banner, @RequestParam("file") MultipartFile file) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
 		adminService.saveBanner(banner, file);
 		return mv;
