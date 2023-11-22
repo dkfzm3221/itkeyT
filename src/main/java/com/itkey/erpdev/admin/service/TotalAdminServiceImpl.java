@@ -106,17 +106,12 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     }
 
     @Override
-    public void saveBanner(Banner banner, MultipartFile[] file) throws Exception {
+    public void saveBanner(Banner banner, MultipartFile file) throws Exception {
 
-        String[] bannerNames = banner.getBannerName().split(",");
-        String[] bannerUrls = banner.getBannerUrl().split(",");
-        String[] bannerOrders = banner.getBannerOrder().split(",");
-
-        for (int i = 0; i < bannerNames.length; i++) {
             FileDto fileDto = new FileDto();
 
-            if (file != null && file.length > 0) {
-                MultipartFile multipartFile = file[i];
+            if (file != null) {
+                MultipartFile multipartFile = file;
                 if (!multipartFile.isEmpty()) {
                     String originalFileName = multipartFile.getOriginalFilename();
                     String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
@@ -138,8 +133,7 @@ public class TotalAdminServiceImpl implements TotalAdminService {
 
                     Files.write(filePath, multipartFile.getBytes());
 
-                    if (banner.getFileIdx() != null) {
-                        fileDto.setFileIdx(String.valueOf(banner.getFileIdx()));
+                    if (fileDto.getFileIdx() != null) {
                         fileDto.setSaveNm(newFileName);
                         fileDto.setOriNm(originalFileName);
                         fileDto.setFilePath(fileUrl);
@@ -155,24 +149,21 @@ public class TotalAdminServiceImpl implements TotalAdminService {
             }
 
             if (banner.getBannerSeq() != null) {
-                String[] bannerSeqs = banner.getBannerSeq().split(",");
                 Banner newBanner = new Banner();
-                newBanner.setBannerSeq(String.valueOf(bannerSeqs));
-                newBanner.setBannerName(bannerNames[i]);
-                newBanner.setBannerUrl(bannerUrls[i]);
-                newBanner.setBannerOrder(bannerOrders[i]);
+                newBanner.setBannerSeq(banner.getBannerSeq());
+                newBanner.setBannerName(banner.getBannerName());
+                newBanner.setBannerUrl(banner.getBannerUrl());
+                newBanner.setBannerOrder(banner.getBannerOrder());
+                newBanner.setFileIdx(fileDto.getFileIdx());
                 totalAdminDAO.updateBanner(newBanner);
             } else {
                 Banner newBanner = new Banner();
-                newBanner.setBannerName(bannerNames[i]);
-                newBanner.setBannerUrl(bannerUrls[i]);
-                newBanner.setBannerOrder(bannerOrders[i]);
+                newBanner.setBannerName(banner.getBannerName());
+                newBanner.setBannerUrl(banner.getBannerUrl());
+                newBanner.setBannerOrder(banner.getBannerOrder());
                 newBanner.setFileIdx(fileDto.getFileIdx());
                 totalAdminDAO.saveBanner(newBanner);
             }
 
-
-
         }
     }
-}

@@ -16,7 +16,6 @@
                 <div class="text-center" style="margin:10px 0px;">
                     <div class="btn btn-group">
                         <button type="button" class="btn btn-info btn-lg" onclick="addBanner();"><i class="fa fa-plus"></i> 배너 추가</button>
-                        <button type="button" class="btn btn-success btn-lg" onclick="saveBanner();"><i class="fa fa-database"></i> 저장</button>
                     </div>
                 </div>
 
@@ -31,19 +30,21 @@
                         <th style="text-align:center;width:150px">배너 이미지</th>
                         <th style="text-align:center;width:150px;">배너명</th>
                         <th style="text-align:center;width:200px;">배너/링크</th>
-                        <th style="text-align:center;width:150px"><i class="fa fa-gear"></i></th>
+                        <th style="text-align:center;width:200px;">저장/삭제</th>
                     </tr>
                     <c:forEach items="${bannerList}" var="item">
                     <tr>
-                        <td><input type="text" class="form-control" name="bannerOrder" placeholder="순번 입력" value="${item.bannerOrder}" ></td>
+                        <td><input type="text" class="form-control" name="bannerOrder" id="bannerOrder${item.bannerSeq}" placeholder="순번 입력" value="${item.bannerOrder}" ></td>
                         <td>
-                            <input type="file" id="' + fileInputID + '" class="form-control banner-image-input" onchange="previewImage(this)" name="file" placeholder="배너이미지 등록">
-                            <img id="' + fileInputID + 'Preview" src="../resources/images/${item.saveNm}" class="banner-image-preview"/>
+                            <input type="file" id="fileInput${item.bannerSeq}" class="form-control banner-image-input" onchange="previewImage(this)" name="file" placeholder="배너이미지 등록">
+                            <img id="imgPreview${item.bannerSeq}" src="../resources/images/${item.saveNm}" class="banner-image-preview"/>
                         </td>
-                        <input type="hidden" name="fileIdx" value="${item.fileIdx}">
-                        <td><input type="text" class="form-control" name="bannerName" placeholder="배너명 입력" value="${item.bannerName}"></td>
-                        <td><input type="text" class="form-control" name="bannerUrl" placeholder="배너/링크 입력" value="${item.bannerUrl}"></td>
-                        <td><button style="float: right;" class="btn-red" onclick="removeBanner(this)">배너 삭제</button></td>
+                        <input type="hidden" name="fileIdx" id="fileIdx${item.bannerSeq}" value="${item.fileIdx}">
+                        <input type="hidden" name="bannerSeq" id="boardSeq${item.bannerSeq}" value="${item.bannerSeq}">
+                        <td><input type="text" class="form-control" id="bannerName${item.bannerSeq}" name="bannerName" placeholder="배너명 입력" value="${item.bannerName}"></td>
+                        <td><input type="text" class="form-control" id="bannerUrl${item.bannerSeq}" name="bannerUrl" placeholder="배너/링크 입력" value="${item.bannerUrl}"></td>
+                        <td colspan="2"><button type="button" class="btn btn-success btn-lg" onclick="updateBanner(${item.bannerSeq});">저장</button>
+                        <button style="float: right;" class="btn btn-warning btn-lg" onclick="removeSaveBanner(this)">삭제</button></td>
                     </tr>
                     </c:forEach>
                 </table>
@@ -62,40 +63,98 @@
         var cell4 = row.insertCell(3);
         var cell5 = row.insertCell(4);
 
-        var fileInputID = 'bannerImage' + table.rows.length;
+        var bannerId = table.rows.length;
 
-        cell1.innerHTML = '<input type="text" name="bannerOrder" class="form-control" placeholder="순번 입력">';
-        cell2.innerHTML = '<input type="file" id="' + fileInputID + '"' +
-            'class="form-control banner-image-input" name="file" onchange="previewImage(this)" placeholder="배너이미지 등록">' +
-            '<img id="' + fileInputID + 'Preview" class="banner-image-preview" />';
-        cell3.innerHTML = '<input type="text" name="bannerName" class="form-control" placeholder="배너명 입력">' +
-            '<input type="hidden" name="fileIdx" value="${item.fileIdx}">';
-        cell4.innerHTML = '<input type="text" name="bannerUrl" class="form-control" placeholder="배너/링크 입력">';
-        cell5.innerHTML = '<button style="float: right;" class="btn-red" onclick="removeBanner(this)">배너 삭제</button>';
+        cell1.innerHTML = '<input type="text" name="bannerOrder" id="bannerOrder' + bannerId + '" class="form-control" placeholder="순번 입력">';
+        cell2.innerHTML = '<input type="file" id="fileInput' + bannerId + '" class="form-control banner-image-input" name="file" onchange="previewImage(this)" placeholder="배너이미지 등록">' +
+            '<img id="imgPreview' + bannerId + '" class="banner-image-preview" />';
+        cell3.innerHTML = '<input type="text" name="bannerName" id="bannerName' + bannerId + '" class="form-control" placeholder="배너명 입력">' +
+            '<input type="hidden" name="fileIdx">';
+        cell4.innerHTML = '<input type="text" name="bannerUrl" id="bannerUrl' + bannerId + '" class="form-control" placeholder="배너/링크 입력">';
+        cell5.innerHTML = '<td colspan="2"><button type="button" class="btn btn-success btn-lg" onclick="saveBanner(' + bannerId + ');">저장</button>'
+            +'<button class="btn btn-warning btn-lg" onclick="removeBanner(this)">삭제</button><td>';
     }
 
     function previewImage(input) {
-        var preview = document.getElementById(input.id + 'Preview');
-
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
-            reader.onload = function(e) {
-                preview.src = e.target.result;
+            reader.onload = function (e) {
+                var imgId = '#imgPreview' + input.id.replace('fileInput', '');
+                $(imgId).attr('src', e.target.result);
             }
 
             reader.readAsDataURL(input.files[0]);
         }
     }
 
+
+    function removeSaveBanner(btn) {
+        var row = btn.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+
+
     function removeBanner(btn) {
         var row = btn.parentNode.parentNode;
         row.parentNode.removeChild(row);
     }
 
-    function saveBanner() {
-        var formElement = document.getElementById("bannerForm");
-        var formData = new FormData(formElement);
+    function saveBanner(bannerId) {
+        var formData = new FormData();
+        var bannerOrder = $("#bannerOrder" + bannerId).val();
+        console.log("sdsfa " + $("#fileInput" + bannerId).val())
+        if($("#fileInput"+ bannerId).val() != ""){
+            var fileInput = document.getElementById("fileInput" + bannerId).files[0];
+            formData.append("file", fileInput);
+        }else{
+            formData.append("file", "");
+        }
+        var bannerName = $("#bannerName" + bannerId).val();
+        var bannerUrl = $("#bannerUrl" + bannerId).val();
+
+        // FormData 객체 생성 및 데이터 추가
+
+        formData.append("bannerOrder", bannerOrder);
+
+        formData.append("bannerName", bannerName);
+        formData.append("bannerUrl", bannerUrl);
+
+        $.ajax({
+            url: '/totalAdmin/saveBanner', // 요청을 보낼 URL
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                location.reload();
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+    function updateBanner(bannerSeq) {
+        var formData = new FormData();
+        var bannerOrder = $("#bannerOrder" + bannerSeq).val();
+        if($("#fileInput"+ bannerSeq).val() != ""){
+            var fileInput = document.getElementById("fileInput" + bannerSeq).files[0];
+            formData.append("file", fileInput);
+        }else{
+            formData.append("file", "");
+        }
+        var bannerName = $("#bannerName" + bannerSeq).val();
+        var bannerUrl = $("#bannerUrl" + bannerSeq).val();
+        var fileIdx = $("#fileIdx" + bannerSeq).val();
+
+        // FormData 객체 생성 및 데이터 추가
+
+        formData.append("bannerOrder", bannerOrder);
+
+        formData.append("bannerName", bannerName);
+        formData.append("bannerUrl", bannerUrl);
+        formData.append("bannerSeq", bannerSeq);
+        formData.append("fileIdx", fileIdx);
 
         $.ajax({
             url: '/totalAdmin/saveBanner',
@@ -104,13 +163,14 @@
             processData: false,
             contentType: false,
             success: function(data) {
-               // location.reload();
+                 location.reload();
             },
             error: function(error) {
                 console.error('Error:', error);
             }
         });
     }
+
 
 
 

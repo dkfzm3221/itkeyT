@@ -104,7 +104,7 @@
 		WHERE	A.MENU_USE_YN = 'Y'
 		AND		A.MENU_SITE = 'U'
 		AND 	A.MENU_LEVEL = '1'
-		ORDER BY A.MENU_LEVEL, A.MENU_PARENT_SEQ, A.MENU_ORDER
+		ORDER BY A.MENU_LEVEL, A.MENU_PARENT_SEQ, CAST(A.MENU_ORDER AS SIGNED)
 	</select>
 
 	<!-- 메뉴 수 -->
@@ -191,7 +191,8 @@
 			 , FT.save_nm
 			 , FT.FILE_PATH
 		FROM BANNER BN
-		join file_tb ft on bn.FILE_IDX = FT.file_idx
+		JOIN FILE FT ON BN.FILE_IDX = FT.FILE_IDX
+		ORDER BY BANNER_ORDER ASC
 	</select>
 	<insert id="saveBanner" parameterType="Banner">
 		INSERT INTO BANNER
@@ -224,7 +225,7 @@
 		)
 	</insert>
 	<insert id="saveFile" parameterType="FileDto" useGeneratedKeys="true" keyProperty="fileIdx" keyColumn="file_idx">
-		INSERT INTO FILE_TB
+		INSERT INTO FILE
 		(
 		 ORI_NM
 		, SAVE_NM
@@ -238,4 +239,31 @@
 			, NOW()
 			)
 	</insert>
+	<update id="updateFile" parameterType="FileDto">
+		UPDATE FILE
+		SET
+			ORI_NM = #{oriNm}
+		  , SAVE_NM = #{saveNm}
+		  , FILE_PATH = #{filePath}
+		  , REG_DT = NOW()
+		WHERE FILE_IDX = #{fileIdx}
+	</update>
+
+	<update id="updateBanner" parameterType="Banner">
+		UPDATE BANNER
+		SET
+			BANNER_NAME = #{bannerName}
+		  , BANNER_PARENT_SEQ = #{bannerParentSeq}
+		  , BANNER_LEVEL = #{bannerLevel}
+		  , BANNER_ORDER = #{bannerOrder}
+		  , BANNER_USE_YN = #{bannerUseYn}
+		  , BANNER_TYPE = #{bannerType}
+		  , BANNER_URL = #{bannerUrl}
+		  , FILE_IDX = #{fileIdx}
+		  , BANNER_CONN_WAY = #{bannerConnWay}
+		  , BANNER_DESC = #{bannerDesc}
+		  , UPD_DT = NOW()
+		WHERE BANNER_SEQ = #{bannerSeq}
+	</update>
+
 </mapper>
