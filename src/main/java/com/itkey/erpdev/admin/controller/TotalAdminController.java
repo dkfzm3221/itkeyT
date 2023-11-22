@@ -113,7 +113,7 @@ public class TotalAdminController {
 			request.getSession().removeAttribute("gnbList");
 		}
 		
-		return "redirect:/totalAdmin/loginAdmin";
+		return "redirect:/";
 	}
 	
 	// 대시보드
