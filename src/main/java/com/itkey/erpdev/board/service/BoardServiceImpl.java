@@ -1,5 +1,6 @@
 package com.itkey.erpdev.board.service;
 
+import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.repository.BoardDao;
@@ -65,6 +66,11 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<Board> boardTypeList() throws Exception {
         return dao.boardTypeList();
+    }
+
+    @Override
+    public List<Banner> bannerList() throws Exception {
+        return dao.bannerList();
     }
 
     @Override

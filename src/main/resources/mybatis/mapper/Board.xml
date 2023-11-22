@@ -179,4 +179,18 @@
             LIMIT #{startIdx}, #{countPerPage}
     </select>
 
+    <select id="bannerList"  resultType="Banner">
+        SELECT
+            BANNER_SEQ
+             , BANNER_URL
+             , BN.FILE_IDX
+             , REG_ID
+             , BN.REG_DT
+             , FT.ori_nm
+             , FT.save_nm
+             , FT.FILE_PATH
+        FROM BANNER BN
+        JOIN FILE FT ON BN.FILE_IDX = FT.FILE_IDX
+        ORDER BY BANNER_ORDER ASC
+    </select>
 </mapper>

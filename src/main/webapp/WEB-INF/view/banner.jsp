@@ -29,7 +29,7 @@
                         <th style="text-align:center;width:70px">순번</th>
                         <th style="text-align:center;width:150px">배너 이미지</th>
                         <th style="text-align:center;width:150px;">배너명</th>
-                        <th style="text-align:center;width:200px;">배너/링크</th>
+                        <th style="text-align:center;width:200px;">배너/링크 https://www.google.com"</th>
                         <th style="text-align:center;width:200px;">저장/삭제</th>
                     </tr>
                     <c:forEach items="${bannerList}" var="item">
@@ -42,7 +42,7 @@
                         <input type="hidden" name="fileIdx" id="fileIdx${item.bannerSeq}" value="${item.fileIdx}">
                         <input type="hidden" name="bannerSeq" id="boardSeq${item.bannerSeq}" value="${item.bannerSeq}">
                         <td><input type="text" class="form-control" id="bannerName${item.bannerSeq}" name="bannerName" placeholder="배너명 입력" value="${item.bannerName}"></td>
-                        <td><input type="text" class="form-control" id="bannerUrl${item.bannerSeq}" name="bannerUrl" placeholder="배너/링크 입력" value="${item.bannerUrl}"></td>
+                        <td><input type="text" class="form-control" id="bannerUrl${item.bannerSeq}" name="bannerUrl" placeholder="배너/링크 입력 ex)https://www.google.com" value="${item.bannerUrl}"></td>
                         <td colspan="2"><button type="button" class="btn btn-success btn-lg" onclick="updateBanner(${item.bannerSeq});">저장</button>
                         <button style="float: right;" class="btn btn-warning btn-lg" onclick="removeSaveBanner(this)">삭제</button></td>
                     </tr>
@@ -70,7 +70,7 @@
             '<img id="imgPreview' + bannerId + '" class="banner-image-preview" />';
         cell3.innerHTML = '<input type="text" name="bannerName" id="bannerName' + bannerId + '" class="form-control" placeholder="배너명 입력">' +
             '<input type="hidden" name="fileIdx">';
-        cell4.innerHTML = '<input type="text" name="bannerUrl" id="bannerUrl' + bannerId + '" class="form-control" placeholder="배너/링크 입력">';
+        cell4.innerHTML = '<input type="text" name="bannerUrl" id="bannerUrl' + bannerId + '" class="form-control" placeholder="배너/링크 입력 ex)https://www.google.com">';
         cell5.innerHTML = '<td colspan="2"><button type="button" class="btn btn-success btn-lg" onclick="saveBanner(' + bannerId + ');">저장</button>'
             +'<button class="btn btn-warning btn-lg" onclick="removeBanner(this)">삭제</button><td>';
     }

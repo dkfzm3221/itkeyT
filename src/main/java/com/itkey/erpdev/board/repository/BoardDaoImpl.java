@@ -1,5 +1,6 @@
 package com.itkey.erpdev.board.repository;
 
+import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
 import lombok.AllArgsConstructor;
@@ -73,6 +74,11 @@ public class BoardDaoImpl implements BoardDao{
     @Override
     public List<Board> boardTypeList() throws Exception {
         return sql.selectList("mapper.board.boardTypeList");
+    }
+
+    @Override
+    public List<Banner> bannerList() throws Exception {
+        return sql.selectList("mapper.board.bannerList");
     }
 
     @Override
