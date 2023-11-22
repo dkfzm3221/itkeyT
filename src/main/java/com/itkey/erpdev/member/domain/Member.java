@@ -11,10 +11,10 @@ public class Member {
     String name;
     String hp;
     String email;
-    String authCode;
-    String memberType;
-    String memberStatus;
-    String useYn;
+    String authCode;//권한그룹
+    String memberType;//회원타입 A : 관리자 U : 사용자
+    String memberStatus;//회원상태 B: 차단, D : 디폴트
+    String useYn;//사용여부
     Date passwordUpdDt;//비밀번호 변경일시
     Date lastCntnDt;//최종접속일시
 
@@ -29,6 +29,9 @@ public class Member {
     String updId;//수정자Id
     String updNm;//수정자명
     Date updDt;//수정일자
+
+    String blockRsn;//차단사유
+    String blockYmd;//차단일자
 
     Integer rowNum;
     String salt;

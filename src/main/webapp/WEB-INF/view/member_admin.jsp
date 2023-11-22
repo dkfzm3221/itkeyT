@@ -109,6 +109,12 @@
 
                                 <div id="memberList">
                                     <table class="text-center boardTable">
+                                        <colgroup>
+                                            <col style="width:70px;">
+                                            <col style="width:auto">
+                                            <col span="4" style="width:120px">
+                                        </colgroup>
+                                        <thead>
                                         <tr>
                                             <th>No.</th>
                                             <th>이름</th>
@@ -121,8 +127,9 @@
                                             <th>수정자</th>
                                             <th>설정</th>
                                         </tr>
-
-                                            <c:forEach items="${adminList}" var="adminList">
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach items="${adminList}" var="adminList">
                                                 <c:if test="${adminList.seq != null}">
                                             <tr>
                                                 <td class='ano'>${adminList.rowNum}</td>
@@ -147,7 +154,7 @@
                                                     </c:if>
                                                     <c:if test="${adminList.memberType == 'U'}">
                                                         <c:choose>
-                                                            <c:when test="${adminList.authCode == 'B'}">
+                                                            <c:when test="${adminList.memberStatus == 'B'}">
                                                                 <button class="btn-rounded" disabled>차단</button>
                                                             </c:when>
                                                             <c:otherwise>
@@ -160,6 +167,7 @@
                                             </tr>
                                                 </c:if>
                                             </c:forEach>
+                                        </tbody>
                                     </table>
                                 </div>
                                 <nav aria-label="Page navigation example">
@@ -250,10 +258,6 @@
                                 <th>이메일</th>
                                 <td><input type="email" class="inputStyle1" id="adminEmail" name="email"></td>
                             </tr>
-                            <tr>
-                                <th>회원타입</th>
-                                <td><select id="adminType" name="authCode"><option>A</option><option>B</option></select></td>
-                            </tr>
                         </table>
                     </form>
                 </div>
@@ -309,15 +313,6 @@
                             <tr>
                                 <th>이메일</th>
                                 <td><input type="email" class="inputStyle1" id="updateAdminEmail" name="email"></td>
-                            </tr>
-                            <tr>
-                                <th>회원타입</th>
-                                <td>
-                                    <select id="updateAdminType" name="autoCode">
-                                    <option>A</option>
-                                    <option>B</option>
-                                    </select>
-                                </td>
                             </tr>
                         </table>
                     </form>
@@ -558,17 +553,17 @@
                     },
                     dataType: "text",
                     success:function(result){
-                        if(result == "NN"){ // 사용불가능
+                        if(result == "NN"){
                             $("#checkResult").show();
                             $("#checkResult").css("color","red").text("X");
                             $("#insertAdminBtn").attr("disabled",true);
-                        }else{ // 사용가능
+                        }else{
                             $("#checkResult").show();
                             $("#checkResult").css("color","green").text("O");
                             $("#insertAdminBtn").attr("disabled",false);
                         }
                     }, error:function(){
-                        console.log("아이디 중복체크용 ajax 통신 실패");
+                       console.log("error")
                     }
                 })
             }else{
@@ -579,12 +574,17 @@
 
     //회원 차단 처리
     function blockMember(seq){
-        let memberIdx = seq;
+        let blockRsn = prompt('차단 사유를 입력해주세요');
         let confirm_val = confirm("차단하시겠습니까?");
+
+        let memberIdx = seq;
         if (confirm_val) {
             $.ajax({
                 url : "/totalAdmin/blockMember",
-                data : {memberIdx : memberIdx},
+                data : {
+                    seq : memberIdx,
+                    blockRsn : blockRsn
+                },
                 dataType: "text",
                 success : function(result){
                     if(result == 'S'){
@@ -592,11 +592,13 @@
                         location.reload()
                     }
                 }
-
             })
         }
-
     }
+    //차단 회원 관리 페이지 이동
+    $(document).on("click", "#block_adminHomeBtn", function() {
+        location.href = "/totalAdmin/block_adminHome"
+    });
 
 
 

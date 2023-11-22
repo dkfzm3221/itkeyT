@@ -1,12 +1,12 @@
 package com.itkey.erpdev.admin.dao;
 
 
+import com.github.pagehelper.PageHelper;
+import com.itkey.erpdev.admin.domain.Admin;
 import com.itkey.erpdev.admin.domain.MenuEntity;
-import com.itkey.erpdev.admin.dto.Banner;
-import com.itkey.erpdev.admin.dto.FileDto;
-import com.itkey.erpdev.admin.dto.TotalAdminDTO;
-import com.itkey.erpdev.admin.dto.Visitor;
+import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.board.domain.Board;
+import com.itkey.erpdev.member.domain.Member;
 import lombok.AllArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -100,5 +100,80 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	@Override
 	public void updateBanner(Banner newBanner) throws Exception {
 		sql.update("mapper.totalAdmin.updateBanner", newBanner);
+	}
+
+	@Override
+	public int countAdmin() {
+		return sql.selectOne("mapper.totalAdmin.countAdmin");
+	}
+
+	@Override
+	public int insertAdmin(AdminInsert aDTO) {
+		return sql.insert("mapper.totalAdmin.insertAdmin", aDTO);
+	}
+
+	@Override
+	public List<Admin> adminList(Integer pageNum, Integer pageSize, SearchAdmin searchAdmin) {
+		PageHelper.startPage(pageNum, pageSize);
+		return sql.selectList("mapper.totalAdmin.adminList", searchAdmin);
+	}
+
+	@Override
+	public TotalAdminDTO getLoginInfo(int adminIdx) {
+		return sql.selectOne("mapper.totalAdmin.getLoginInfo", adminIdx);
+	}
+
+	@Override
+	public int deleteAdmin(Admin aDTO) {
+		return sql.update("mapper.totalAdmin.deleteAdmin", aDTO);
+	}
+
+	@Override
+	public int updateAdmin(Admin aDTO) {
+		return sql.update("mapper.totalAdmin.updateAdmin", aDTO);
+	}
+
+	@Override
+	public List<Admin> del_adminList(Integer pageNum, Integer pageSize, SearchAdmin searchAdmin) {
+		PageHelper.startPage(pageNum, pageSize);
+		return sql.selectList("mapper.totalAdmin.del_adminList", searchAdmin);
+	}
+
+	@Override
+	public Integer countDelAdmin() {
+		return sql.selectOne("mapper.totalAdmin.countDelAdmin");
+	}
+
+	@Override
+	public int returnAdmin(Admin aDTO) {
+		return sql.update("mapper.totalAdmin.returnAdmin", aDTO);
+	}
+
+	@Override
+	public int adminIdCheck(String id) {
+		return sql.selectOne("mapper.totalAdmin.adminIdCheck", id);
+	}
+
+	@Override
+	public int realDeleteAdmin(int adminIdx) {
+		return sql.delete("mapper.totalAdmin.realDeleteAdmin", adminIdx);
+	}
+
+	@Override
+	public int blockMember(Member m) {
+		return sql.update("mapper.totalAdmin.blockMember", m);
+	}
+
+	@Override
+	public List<Member> block_adminList(Integer pageNum, Integer pageSize, SearchAdmin searchAdmin) {
+		PageHelper.startPage(pageNum, pageSize);
+		return sql.selectList("mapper.totalAdmin.block_adminList", searchAdmin);
+	}
+	@Override
+	public Integer countBlockAdmin() {return sql.selectOne("mapper.totalAdmin.countBlockAdmin");}
+
+	@Override
+	public int releaseMember(int memberIdx) {
+		return sql.update("mapper.totalAdmin.releaseMember", memberIdx);
 	}
 }

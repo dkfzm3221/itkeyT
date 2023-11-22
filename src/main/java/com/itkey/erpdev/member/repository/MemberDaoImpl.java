@@ -52,4 +52,10 @@ public class MemberDaoImpl implements MemberDao{
     public int memberIdCheck(String id) {
         return sql.selectOne("mapper.member.memberIdCheck", id);
     }
+    //최종 로그인 날짜 업데이트
+    @Override
+    public void lastLoginDt(Integer seq) {
+        sql.update("mapper.member.lastLoginDt", seq);
+    }
+    
 }

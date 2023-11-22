@@ -53,13 +53,14 @@ public class MemberController {
 
         ModelAndView mv = new ModelAndView();
 
-        MemberInfoResponse login = ms.memlogin(m, session);
+        MemberInfoResponse login = ms.memlogin(m);
+        ms.lastLoginDt(login.getSeq());//최종 로그인 날짜 업데이트
 
         if (login.getSalt() == null) {
             mv.setViewName("memLoginForm");
             session.setAttribute("errorMsg", "아이디 혹은 비밀번호가 일치하지 않습니다.");
             return mv;
-        }else if("B".equals(login.getAuthCode())){
+        }else if("B".equals(login.getMemberStatus())){
             mv.setViewName("memLoginForm");
             session.setAttribute("errorMsg", "차단된 회원입니다.");
             return mv;
@@ -172,14 +173,7 @@ public class MemberController {
     @ResponseBody
     @RequestMapping(value="/memberIdCheck")
     public String adminIdCheck(String id){
-
-        int result = ms.memberIdCheck(id);
-
-        if(result>0){
-            return "NN";
-        }else{
-            return "YY";
-        }
+        return ms.memberIdCheck(id) > 0 ? "NN" : "YY";
     }
 
 }

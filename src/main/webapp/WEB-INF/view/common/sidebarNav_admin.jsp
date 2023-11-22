@@ -73,7 +73,7 @@
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
 									안녕하세요.
-									<div style="font-size: 18px; color: #1572E8;">관리자 님</div>
+									<div style="font-size: 18px; color: #1572E8;">${admin.name} 님</div>
 								</span>
                     </a>
                     <div class="clearfix"></div>
