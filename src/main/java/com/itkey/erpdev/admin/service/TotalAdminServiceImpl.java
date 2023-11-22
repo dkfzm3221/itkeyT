@@ -12,7 +12,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -105,7 +107,10 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     }
 
     @Override
-    public void saveBanner(Banner banner, MultipartFile file) throws Exception {
+    public void saveBanner(Banner banner, HttpServletRequest request) throws Exception {
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+
+        MultipartFile file = multipartRequest.getFile("file");
 
         FileDto fileDto = new FileDto();
 

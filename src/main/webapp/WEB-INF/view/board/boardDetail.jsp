@@ -173,8 +173,9 @@
                         style: 'float: right; margin-right: 10px;',
                         click: function () { deleteBoard(boardSeq); }
                       });
+                      $('#modiButton').before(deleteButton);
                     }
-                    $('#modiButton').before(deleteButton);
+
                 }else{
                     alert("비밀번호가 일치하지 않습니다.")
                     return false;
