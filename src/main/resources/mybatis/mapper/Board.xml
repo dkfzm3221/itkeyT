@@ -175,8 +175,46 @@
                  INNER JOIN MENU M on M.MENU_SEQ = BO.BOARD_TYPE
         WHERE BO.BOARD_DEL_YN = 'N'
           AND BO.BOARD_TYPE = #{boardType}
+        <if test="searchBoardTitle !=null and searchBoardTitle !=''">
+            AND BO.BOARD_TITLE LIKE CONCAT('%',#{searchBoardTitle},'%')
+        </if>
         ORDER BY BO.BOARD_SEQ DESC
             LIMIT #{startIdx}, #{countPerPage}
     </select>
+
+    <select id="selectName"  resultType="Board">
+        SELECT M.MENU_NAME
+         FROM MENU M
+        WHERE  M.MENU_BOARD_TYPE = #{boardType}
+    </select>
+
+    <update id="updateFile" parameterType="FileDto">
+        UPDATE FILE
+        SET
+            ORI_NM = #{oriNm}
+          , SAVE_NM = #{saveNm}
+          , FILE_PATH = #{filePath}
+          , REG_DT = NOW()
+        WHERE FILE_IDX = #{fileIdx}
+    </update>
+
+    <update id="updateBanner" parameterType="Banner">
+        UPDATE BOARD
+        SET
+            BANNER_NAME = #{bannerName}
+          , BANNER_PARENT_SEQ = #{bannerParentSeq}
+          , BANNER_LEVEL = #{bannerLevel}
+          , BANNER_ORDER = #{bannerOrder}
+          , BANNER_USE_YN = #{bannerUseYn}
+          , BANNER_TYPE = #{bannerType}
+          , BANNER_URL = #{bannerUrl}
+          , BANNER_CONN_WAY = #{bannerConnWay}
+          , BANNER_DESC = #{bannerDesc}
+          , UPD_DT = NOW()
+        WHERE BANNER_SEQ = #{bannerSeq}
+    </update>
+
+
+
 
 </mapper>
