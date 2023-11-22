@@ -33,6 +33,10 @@
     </c:choose>
     <!-- SideBar Navbar END  -->
     <div class="main-panel">
+        <form id="moveForm" method="GET">
+            <input type="hidden" id="menuBoardType" name="menuBoardType" value="${boardType}">
+            <input type="hidden" id="searchBoardTitle" name="searchBoardTitle">
+        </form>
         <div class="container">
             <div class="page-inner">
                 <div class="row">
@@ -76,48 +80,73 @@
                                             <th style="width:10%;">공개/비공개</th>
                                             <th style="width:10%;">조회수</th>
                                             <th style="width:30%;">등록일</th>
+                                            <c:if test="${memberType == 'A'}">
+                                                <th style="width:30%;">설정</th>
+                                            </c:if>
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        <form id="searchForm" method="GET" id="searchForm">
+                                            <div class="flex">
+                                                <input type="text" id="searchTitle"  title="검색어" placeholder="제목">
+                                                <button type="button" class="btn" id="searchButton" onclick="openSearch(${boardType})">검색</button>
+                                            </div>
+                                        </form>
                                         <div class="card-header mb-4 pb-2" style="padding: 0;">
                                             <div class="card-title">
-                                                ${boardDetailList[0].menuName}
+                                                ${selectName}
                                             </div>
                                         </div>
+
                                         <c:choose>
                                             <c:when test="${memberType == 'A'}">
-                                                <c:forEach items="${boardDetailList}" var="item" varStatus="index">
+                                                <c:if test="${ empty boardDetailList }">
                                                     <tr>
-                                                        <td style="text-align:center;">${index.index + 1}</td>
-                                                        <td>${item.regNm}</td>
-                                                        <td><a href="/boardDetail?boardSeq=${item.boardSeq}">${item.boardTitle}</a></td>
-                                                        <td>${item.boardSecretYn == 'Y' ? '공개' : '비공개'}</td>
-                                                        <td>${item.inqCnt}</td>
-                                                        <td>${item.regDt}</td>
+                                                        <td colspan="6">게시된 글이 없습니다.</td>
                                                     </tr>
-                                                </c:forEach>
+                                                </c:if>
+                                                <c:if test="${!empty boardDetailList }">
+                                                    <c:forEach items="${boardDetailList}" var="item" varStatus="index">
+                                                        <tr>
+                                                            <td style="text-align:center;">${index.index + 1}</td>
+                                                            <td>${item.regNm}</td>
+                                                            <td><a href="/boardDetail?boardSeq=${item.boardSeq}">${item.boardTitle}</a></td>
+                                                            <td>${item.boardSecretYn == 'Y' ? '공개' : '비공개'}</td>
+                                                            <td>${item.inqCnt}</td>
+                                                            <td>${item.regDt}</td>
+                                                            <td><button onclick="deleteBoard(${item.boardSeq},${boardType})" id="delBtn" class="btn btn-black w-3" style="float: right;">삭제</button></td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </c:if>
                                             </c:when>
                                             <c:otherwise>
-                                                <c:forEach items="${boardDetailList}" var="item" varStatus="index">
+                                                <c:if test="${ empty boardDetailList }">
                                                     <tr>
-                                                        <td style="text-align:center;">${index.index + 1}</td>
-                                                        <td>
-                                                            <c:choose>
-                                                                <c:when test="${item.boardSecretYn == 'N'}">비공개</c:when>
-                                                                <c:otherwise>${item.regNm}</c:otherwise>
-                                                            </c:choose>
-                                                        </td>
-                                                        <td>
-                                                            <c:choose>
-                                                                <c:when test="${item.boardSecretYn == 'N'}"><a onclick="checkPassword('${item.boardSeq}')">비공개글입니다.</a></c:when>
-                                                                <c:otherwise><a href="/boardDetail?boardSeq=${item.boardSeq}">${item.boardTitle}</a></c:otherwise>
-                                                            </c:choose>
-                                                        </td>
-                                                        <td>${item.boardSecretYn == 'Y' ? '공개' : '비공개'}</td>
-                                                        <td>${item.inqCnt}</td>
-                                                        <td>${item.regDt}</td>
+                                                        <td colspan="6">게시된 글이 없습니다.</td>
                                                     </tr>
-                                                </c:forEach>
+                                                </c:if>
+                                                <c:if test="${!empty boardDetailList }">
+                                                    <c:forEach items="${boardDetailList}" var="item" varStatus="index">
+                                                        <tr>
+                                                            <td style="text-align:center;">${index.index + 1}</td>
+                                                            <td>
+                                                                <c:choose>
+                                                                    <c:when test="${item.boardSecretYn == 'N'}">비공개</c:when>
+                                                                    <c:otherwise>${item.regNm}</c:otherwise>
+                                                                </c:choose>
+                                                            </td>
+                                                            <td>
+                                                                <c:choose>
+                                                                    <c:when test="${item.boardSecretYn == 'N'}"><a onclick="checkPassword('${item.boardSeq}')">비공개글입니다.</a></c:when>
+                                                                    <c:otherwise><a href="/boardDetail?boardSeq=${item.boardSeq}">${item.boardTitle}</a></c:otherwise>
+                                                                </c:choose>
+                                                            </td>
+                                                            <td>${item.boardSecretYn == 'Y' ? '공개' : '비공개'}</td>
+                                                            <td>${item.inqCnt}</td>
+                                                            <td>${item.regDt}</td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </c:if>
                                             </c:otherwise>
                                         </c:choose>
 
@@ -153,9 +182,46 @@
     </div>
 </div>
 <script>
+  $(document).ready(function () {
+    $("#searchTitle").keypress(function(event) {
+      if (event.which === 13) { // 13 is the key code for Enter
+        event.preventDefault();
+      }
+    });
+  })
+
   function moveToWriteBoard(boardType) {
-    // let boardType = $("#boardType").val();
      window.location.href = "/writeBoardView?boardType="+boardType;
+  }
+
+  let openSearch = function(menuBoardType) {
+    let form = $("#moveForm");
+    $("#menuBoardType").val(menuBoardType);
+    $("#searchBoardTitle").val($("#searchTitle").val());
+
+    form.attr("action", "/boardDetailList");
+    form.submit();
+  }
+
+  function deleteBoard(seq,boardType){
+    let isConfirmed = confirm("삭제하시겠습니까?");
+    if (isConfirmed) {
+      $.ajax({
+        type:"POST",
+        url: "/deleteBoard",
+        data: {boardSeq : seq},
+        success: function () {
+          alert("삭제 완료하였습니다.");
+          let form = $("#moveForm");
+
+          $("#boardNum").val(boardType);
+          window.location.href = "/boardDetailList?menuBoardType="+boardType;
+        }
+      });
+    } else {
+      alert("삭제가 취소되었습니다.");
+    }
+
   }
 </script>
 <!-- Footer  -->

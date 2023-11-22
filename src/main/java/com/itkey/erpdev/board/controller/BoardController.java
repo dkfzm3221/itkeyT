@@ -4,7 +4,10 @@ import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.board.domain.Board;
+import com.itkey.erpdev.board.domain.SearchBoard;
 import com.itkey.erpdev.board.service.BoardService;
+import com.itkey.erpdev.member.domain.Member;
+import com.itkey.erpdev.member.dto.MemberInfoResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -58,13 +61,23 @@ public class BoardController {
     @GetMapping(value = "/writeBoardView")
     public ModelAndView writeBoardView(Board board,HttpServletRequest request, HttpSession session) throws Exception{
         ModelAndView mv = new ModelAndView("/board/writeBoardView");
-        TotalAdminDTO member = (TotalAdminDTO) session.getAttribute("admin");
 
-        String memberType = member.getMemberType();
-        String userId = member.getId();
+        if(session.getAttribute("admin") != null ){
+            TotalAdminDTO member = (TotalAdminDTO) session.getAttribute("admin");
 
-        mv.addObject("userId", userId);
-        mv.addObject("memberType", memberType);
+            String memberType = member.getMemberType();
+            String userId = member.getId();
+            mv.addObject("userId", userId);
+            mv.addObject("memberType", memberType);
+        }else if(session.getAttribute("member") != null ){
+
+            MemberInfoResponse member = (MemberInfoResponse) session.getAttribute("member");
+            String memberType = member.getMemberType();
+            String userId = member.getId();
+            mv.addObject("userId", userId);
+            mv.addObject("memberType", memberType);
+        }
+
         String menuBoardType;
          if(board.getBoardType()== "" || board.getBoardType() == null){
              menuBoardType=board.getMenuBoardType();
@@ -93,6 +106,13 @@ public class BoardController {
 
             mv.addObject("userId", userId);
             String memberType = member.getMemberType();
+            mv.addObject("memberType", memberType);
+        }else if(session.getAttribute("member") != null ){
+
+            MemberInfoResponse member = (MemberInfoResponse) session.getAttribute("member");
+            String memberType = member.getMemberType();
+            String userId = member.getId();
+            mv.addObject("userId", userId);
             mv.addObject("memberType", memberType);
         }
         bs.updateInqCnt(board);
@@ -131,16 +151,24 @@ public class BoardController {
 
     @GetMapping(value = "/boardDetailList")
     public ModelAndView moveToListNumber(HttpServletRequest request, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-        @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage, Board board, HttpSession session) throws Exception{
+        @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage, Board board, HttpSession session, SearchBoard searchBoard) throws Exception{
         ModelAndView mv = new ModelAndView("/boardDetailList");
 
         if(session.getAttribute("admin") != null ){
             TotalAdminDTO member = (TotalAdminDTO) session.getAttribute("admin");
             String memberType = member.getMemberType();
             mv.addObject("memberType", memberType);
+        }else if(session.getAttribute("member") != null ){
+
+            MemberInfoResponse member = (MemberInfoResponse) session.getAttribute("member");
+            String memberType = member.getMemberType();
+            String userId = member.getId();
+            mv.addObject("userId", userId);
+            mv.addObject("memberType", memberType);
         }
 
         String boardType= board.getMenuBoardType();
+        log.info("ASdasd=="+boardType);
         int totalCount = bs.getTotalBoardCount(boardType);
         int startPage = (pageNum - 1) * countPerPage + 1;
         int endPage = startPage + countPerPage - 1;
@@ -169,16 +197,17 @@ public class BoardController {
         pageInfo.put("nextPage", nextPage);
         pageInfo.put("boardType", boardType);
 
-        List<Board> boardDetailList = bs.boardDetailList(pageNum, countPerPage,boardType);
+//        List<Board> boardDetailList = bs.boardDetailList(pageNum, countPerPage,boardType);
+        log.info("Asdas=="+searchBoard.getSearchBoardTitle());
+        List<Board> boardDetailList = bs.boardDetailList(pageNum, countPerPage,boardType,searchBoard);
+        Board selectName = bs.selectName(boardType);
+
         mv.addObject("pageInfo", pageInfo);
         mv.addObject("boardDetailList", boardDetailList);
         mv.addObject("boardType", boardType);
-
-
+        mv.addObject("selectName", selectName.getMenuName());
 
         return mv;
     }
-
-
 
 }
