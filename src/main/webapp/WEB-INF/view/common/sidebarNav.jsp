@@ -39,6 +39,7 @@
             </ul>
         </div>
 
+
       <%--  <div class="nav-toggle">
             <button class="btn btn-toggle toggle-sidebar"><i class="icon-menu"></i></button>
         </div>--%>
@@ -64,9 +65,7 @@
                 <button class="btn btn-secondary" onclick="loginButton()">Login</button>
             </c:when>
             <c:otherwise>
-                <form id="logout" action="/mem/logout" method="post">
                 <button class="btn btn-secondary" onclick="logoutButton()">logout</button>
-                </form>
             </c:otherwise>
         </c:choose>
 

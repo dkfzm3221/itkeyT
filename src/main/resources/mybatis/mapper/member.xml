@@ -28,11 +28,13 @@
     <!-- 로그인 사용자 정보 불러오기 -->
     <select id="memLoginInfo" parameterType="Member" resultType="MemberInfoResponse">
         SELECT ID
+                , SEQ
                 , EMAIL
                 , HP
                 , NAME
                 , AUTH_CODE
                 , MEMBER_TYPE
+                , MEMBER_STATUS
                 , USE_YN
                 , SALT
         FROM
@@ -84,6 +86,16 @@
         WHERE
             ID = #{id}
     </select>
+
+    <!-- 최종 로그인 날짜 접속 체크-->
+    <update id="lastLoginDt" parameterType="_int">
+        UPDATE
+            MEMBER
+        SET
+            LAST_CNTN_DT = NOW()
+        WHERE
+            SEQ = #{seq}
+    </update>
 
 
 </mapper>
