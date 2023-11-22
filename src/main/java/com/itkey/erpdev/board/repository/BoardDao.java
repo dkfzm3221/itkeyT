@@ -31,4 +31,6 @@ public interface BoardDao {
     List<Board> boardTypeList() throws Exception;
 
     Board selectName(String boardType);
+
+    List<Banner> bannerList() throws Exception;
 }
