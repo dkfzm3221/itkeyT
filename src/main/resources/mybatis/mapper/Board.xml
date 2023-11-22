@@ -178,33 +178,5 @@
         ORDER BY BO.BOARD_SEQ DESC
             LIMIT #{startIdx}, #{countPerPage}
     </select>
-    <update id="updateFile" parameterType="FileDto">
-        UPDATE FILE
-        SET
-            ORI_NM = #{oriNm}
-          , SAVE_NM = #{saveNm}
-          , FILE_PATH = #{filePath}
-          , REG_DT = NOW()
-        WHERE FILE_IDX = #{fileIdx}
-    </update>
-
-    <update id="updateBanner" parameterType="Banner">
-        UPDATE BOARD
-        SET
-            BANNER_NAME = #{bannerName}
-          , BANNER_PARENT_SEQ = #{bannerParentSeq}
-          , BANNER_LEVEL = #{bannerLevel}
-          , BANNER_ORDER = #{bannerOrder}
-          , BANNER_USE_YN = #{bannerUseYn}
-          , BANNER_TYPE = #{bannerType}
-          , BANNER_URL = #{bannerUrl}
-          , BANNER_CONN_WAY = #{bannerConnWay}
-          , BANNER_DESC = #{bannerDesc}
-          , UPD_DT = NOW()
-        WHERE BANNER_SEQ = #{bannerSeq}
-    </update>
-
-
-
 
 </mapper>

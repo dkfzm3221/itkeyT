@@ -42,5 +42,5 @@ public interface TotalAdminService {
 
 	List<Banner> getBannerList() throws Exception;
 
-	void saveBanner(Banner banner, MultipartFile[] file) throws Exception;
+	void saveBanner(Banner banner, MultipartFile file) throws Exception;
 }
