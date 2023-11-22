@@ -59,9 +59,19 @@
                 <!-- Add more items here -->
             </ul>
         </div>
-        <c:if test="${ empty member }">
-        <button class="btn btn-secondary" onclick="loginButton()">Login</button>
-        </c:if>
+        <c:choose>
+            <c:when test="${empty member}">
+                <button class="btn btn-secondary" onclick="loginButton()">Login</button>
+            </c:when>
+            <c:otherwise>
+                <form id="logout" action="/mem/logout" method="post">
+                <button class="btn btn-secondary" onclick="logoutButton()">logout</button>
+                </form>
+            </c:otherwise>
+        </c:choose>
+
+
+
     </nav>
     <!-- End Navbar -->
 </div>
@@ -102,6 +112,11 @@
 <script>
     function loginButton (){
         window.location.href = "/mem/joinForm";
+    }
+
+    function logoutButton(){
+        window.location.href = "/mem/logout";
+
     }
 </script>
 </body>
