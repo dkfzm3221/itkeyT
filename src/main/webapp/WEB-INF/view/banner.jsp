@@ -137,24 +137,26 @@
     function updateBanner(bannerSeq) {
         var formData = new FormData();
         var bannerOrder = $("#bannerOrder" + bannerSeq).val();
-        if($("#fileInput"+ bannerSeq).val() != ""){
-            var fileInput = document.getElementById("fileInput" + bannerSeq).files[0];
-            formData.append("file", fileInput);
-        }else{
-            formData.append("file", "");
-        }
         var bannerName = $("#bannerName" + bannerSeq).val();
         var bannerUrl = $("#bannerUrl" + bannerSeq).val();
         var fileIdx = $("#fileIdx" + bannerSeq).val();
 
         // FormData 객체 생성 및 데이터 추가
-
         formData.append("bannerOrder", bannerOrder);
-
         formData.append("bannerName", bannerName);
         formData.append("bannerUrl", bannerUrl);
         formData.append("bannerSeq", bannerSeq);
         formData.append("fileIdx", fileIdx);
+
+        // 파일이 업로드된 경우에만 추가
+        if ($("#fileInput" + bannerSeq).val() !== "") {
+            var fileInput = document.getElementById("fileInput" + bannerSeq).files[0];
+            formData.append("file", fileInput);
+        }
+
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
 
         $.ajax({
             url: '/totalAdmin/saveBanner',
@@ -162,14 +164,15 @@
             data: formData,
             processData: false,
             contentType: false,
-            success: function(data) {
-                 location.reload();
+            success: function (data) {
+                location.reload();
             },
-            error: function(error) {
+            error: function (error) {
                 console.error('Error:', error);
             }
         });
     }
+
 
 
 
