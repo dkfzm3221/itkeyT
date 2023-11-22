@@ -1,10 +1,9 @@
 package com.itkey.erpdev.board.repository;
 
-import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
+import com.itkey.erpdev.board.domain.SearchBoard;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -76,12 +75,18 @@ public class BoardDaoImpl implements BoardDao{
     }
 
     @Override
-    public List<Board> boardDetailList(int pageNum, int countPerPage, String boardType) {
+    public Board selectName(String boardType) {
+        return sql.selectOne("mapper.board.selectName",boardType);
+    }
+
+    @Override
+    public List<Board> boardDetailList(int pageNum, int countPerPage, String boardType, SearchBoard searchBoard) {
         int startIdx = (pageNum - 1) * countPerPage;
         Map<String, Object> params = new HashMap<>();
         params.put("startIdx", startIdx);
         params.put("countPerPage", countPerPage);
         params.put("boardType", boardType);
+        params.put("searchBoardTitle", searchBoard.getSearchBoardTitle());
 
         return sql.selectList("mapper.board.boardDetailList", params);
     }

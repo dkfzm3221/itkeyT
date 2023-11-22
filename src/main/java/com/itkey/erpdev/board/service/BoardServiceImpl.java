@@ -1,11 +1,10 @@
 package com.itkey.erpdev.board.service;
 
-import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
+import com.itkey.erpdev.board.domain.SearchBoard;
 import com.itkey.erpdev.board.repository.BoardDao;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -68,8 +67,13 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<Board> boardDetailList(int pageNum, int countPerPage, String boardType) {
-        return dao.boardDetailList(pageNum,countPerPage,boardType);
+    public Board selectName(String boardType) {
+        return dao.selectName(boardType);
+    }
+
+    @Override
+    public List<Board> boardDetailList(int pageNum, int countPerPage, String boardType, SearchBoard searchBoard) {
+        return dao.boardDetailList(pageNum,countPerPage,boardType,searchBoard);
     }
 
 }

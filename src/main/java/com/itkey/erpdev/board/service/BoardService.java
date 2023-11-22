@@ -1,8 +1,7 @@
 package com.itkey.erpdev.board.service;
 
-import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
-import org.apache.ibatis.session.RowBounds;
+import com.itkey.erpdev.board.domain.SearchBoard;
 
 import java.util.List;
 
@@ -23,9 +22,11 @@ public interface BoardService {
 
     void deleteBoard(Board board) throws Exception;
 
-    List<Board> boardDetailList(int pageNum, int countPerPage,String boardType);
+    List<Board> boardDetailList(int pageNum, int countPerPage, String boardType, SearchBoard searchBoard);
 
     List<Board> getMenuList() throws Exception;
 
     List<Board> boardTypeList() throws Exception;
+
+    Board selectName(String boardType);
 }

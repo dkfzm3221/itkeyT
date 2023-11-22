@@ -175,9 +175,19 @@
                  INNER JOIN MENU M on M.MENU_SEQ = BO.BOARD_TYPE
         WHERE BO.BOARD_DEL_YN = 'N'
           AND BO.BOARD_TYPE = #{boardType}
+        <if test="searchBoardTitle !=null and searchBoardTitle !=''">
+            AND BO.BOARD_TITLE LIKE CONCAT('%',#{searchBoardTitle},'%')
+        </if>
         ORDER BY BO.BOARD_SEQ DESC
             LIMIT #{startIdx}, #{countPerPage}
     </select>
+
+    <select id="selectName"  resultType="Board">
+        SELECT M.MENU_NAME
+         FROM MENU M
+        WHERE  M.MENU_BOARD_TYPE = #{boardType}
+    </select>
+
     <update id="updateFile" parameterType="FileDto">
         UPDATE FILE
         SET
