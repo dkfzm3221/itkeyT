@@ -247,8 +247,6 @@ public class AdminController {
 
         int result = as.blockMember(memberIdx);
 
-
-
         if(result>0){
             return "S";
         }else{

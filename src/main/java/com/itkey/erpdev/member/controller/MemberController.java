@@ -1,5 +1,6 @@
 package com.itkey.erpdev.member.controller;
 
+import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.member.domain.Member;
 import com.itkey.erpdev.member.dto.MemberInfoResponse;
 import com.itkey.erpdev.member.dto.MemberInsert;
@@ -58,7 +59,7 @@ public class MemberController {
             mv.setViewName("memLoginForm");
             session.setAttribute("errorMsg", "아이디 혹은 비밀번호가 일치하지 않습니다.");
             return mv;
-        }else if(login.getAuthCode().equals("B")){
+        }else if("B".equals(login.getAuthCode())){
             mv.setViewName("memLoginForm");
             session.setAttribute("errorMsg", "차단된 회원입니다.");
             return mv;
@@ -69,6 +70,13 @@ public class MemberController {
         mv.setViewName("redirect:/");
         return mv;
     }
+    //로그아웃
+    @RequestMapping(value="/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
+
     //아이디 찾기
     @RequestMapping(value="/findId")
     public ModelAndView findId(Member mDTO){
