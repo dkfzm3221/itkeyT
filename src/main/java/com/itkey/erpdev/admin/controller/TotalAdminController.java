@@ -111,7 +111,7 @@ public class TotalAdminController {
 			request.getSession().invalidate();
 		}
 		
-		return "redirect:/";
+		return "redirect:/totalAdmin/loginAdmin";
 	}
 	
 	// 대시보드
