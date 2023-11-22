@@ -108,7 +108,9 @@ public class TotalAdminController {
 
 		TotalAdminDTO loginDTO = (TotalAdminDTO) request.getSession().getAttribute("admin");
 		if(loginDTO != null) {
-			request.getSession().invalidate();
+//			request.getSession().invalidate();
+			request.getSession().removeAttribute("admin");
+			request.getSession().removeAttribute("gnbList");
 		}
 		
 		return "redirect:/totalAdmin/loginAdmin";
