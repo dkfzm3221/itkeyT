@@ -168,4 +168,74 @@
 			#{menu.menuBoardType}
 		</foreach>
 	</update>
+
+	<select id="getBannerList" resultType="Banner">
+		SELECT
+			BANNER_SEQ
+			 , BANNER_NAME
+			 , BANNER_PARENT_SEQ
+			 , BANNER_LEVEL
+			 , BANNER_ORDER
+			 , BANNER_USE_YN
+			 , BANNER_TYPE
+			 , BANNER_URL
+			 , BANNER_CONN_WAY
+			 , BANNER_DESC
+			 , BN.FILE_IDX
+			 , REG_ID
+			 , BN.REG_DT
+			 , UPD_ID
+			 , UPD_NM
+			 , UPD_DT
+			 , FT.ori_nm
+			 , FT.save_nm
+			 , FT.FILE_PATH
+		FROM BANNER BN
+		join file_tb ft on bn.FILE_IDX = FT.file_idx
+	</select>
+	<insert id="saveBanner" parameterType="Banner">
+		INSERT INTO BANNER
+		(BANNER_NAME
+		, BANNER_PARENT_SEQ
+		, BANNER_LEVEL
+		, BANNER_ORDER
+		, BANNER_USE_YN
+		, BANNER_TYPE
+		, BANNER_URL
+		, BANNER_CONN_WAY
+		, BANNER_DESC
+		, FILE_IDX
+		, REG_ID
+		, REG_DT
+		)
+		VALUES
+		( #{bannerName}
+		, #{bannerParentSeq}
+		, #{bannerLevel}
+		, #{bannerOrder}
+		, #{bannerUseYn}
+		, #{bannerType}
+		, #{bannerUrl}
+		, #{bannerConnWay}
+		, #{bannerDesc}
+		, #{fileIdx}
+		, #{regId}
+		, NOW()
+		)
+	</insert>
+	<insert id="saveFile" parameterType="FileDto" useGeneratedKeys="true" keyProperty="fileIdx" keyColumn="file_idx">
+		INSERT INTO FILE_TB
+		(
+		 ORI_NM
+		, SAVE_NM
+		, FILE_PATH
+		, REG_DT
+		)
+		VALUES
+			( #{oriNm}
+			, #{saveNm}
+			, #{filePath}
+			, NOW()
+			)
+	</insert>
 </mapper>

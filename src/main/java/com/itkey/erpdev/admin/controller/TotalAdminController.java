@@ -1,6 +1,7 @@
 package com.itkey.erpdev.admin.controller;
 
 import com.itkey.erpdev.admin.domain.MenuEntity;
+import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.CommonDTO;
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.admin.dto.Visitor;
@@ -11,15 +12,22 @@ import com.itkey.erpdev.board.service.BoardService;
 import com.itkey.erpdev.common.page.Paging;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 //import com.itkey.sam.pay.service.PointService;
 
 @Slf4j
@@ -98,9 +106,12 @@ public class TotalAdminController {
 	@RequestMapping(value="/logout")
 	public String logout(HttpServletRequest request) {
 
-		request.getSession().invalidate();
-
-		return "redirect:/totalAdmin/loginAdmin";
+		TotalAdminDTO loginDTO = (TotalAdminDTO) request.getSession().getAttribute("admin");
+		if(loginDTO != null) {
+			request.getSession().invalidate();
+		}
+		
+		return "redirect:/";
 	}
 	
 	// 대시보드
@@ -257,11 +268,23 @@ public class TotalAdminController {
 		// 총 메뉴 수
 		int menuCnt = adminService.getMenuListCntAjax();
 
+		List<Banner> bannerList = adminService.getBannerList();
+
+
 		mv.addObject("menuList", menuList);
 		mv.addObject("menuCnt", menuCnt);
+		mv.addObject("bannerList", bannerList);
 
 		return mv;
 	}
+
+	@PostMapping(value = "/saveBanner")
+	public ModelAndView saveBanner(Banner banner, @RequestParam("file") MultipartFile[] file) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+		adminService.saveBanner(banner, file);
+		return mv;
+	}
+
 
 
 

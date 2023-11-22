@@ -84,26 +84,43 @@
                                                 ${boardDetailList[0].menuName}
                                             </div>
                                         </div>
-                                        <c:forEach items="${boardDetailList}" var="item" varStatus="index">
-                                            <tr>
-                                                <td style="text-align:center;">${index.index + 1}</td>
-                                                <td>
-                                                    <c:choose>
-                                                        <c:when test="${item.boardSecretYn == 'N'}">비공개</c:when>
-                                                        <c:otherwise>${item.regNm}</c:otherwise>
-                                                    </c:choose>
-                                                </td>
-                                                <td>
-                                                    <c:choose>
-                                                        <c:when test="${item.boardSecretYn == 'N'}"><a onclick="checkPassword('${item.boardSeq}')">비공개글입니다.</a></c:when>
-                                                        <c:otherwise><a href="/boardDetail?boardSeq=${item.boardSeq}">${item.boardTitle}</a></c:otherwise>
-                                                    </c:choose>
-                                                </td>
-                                                <td>${item.boardSecretYn == 'Y' ? '공개' : '비공개'}</td>
-                                                <td>${item.inqCnt}</td>
-                                                <td>${item.regDt}</td>
-                                            </tr>
-                                        </c:forEach>
+                                        <c:choose>
+                                            <c:when test="${memberType == 'A'}">
+                                                <c:forEach items="${boardDetailList}" var="item" varStatus="index">
+                                                    <tr>
+                                                        <td style="text-align:center;">${index.index + 1}</td>
+                                                        <td>${item.regNm}</td>
+                                                        <td><a href="/boardDetail?boardSeq=${item.boardSeq}">${item.boardTitle}</a></td>
+                                                        <td>${item.boardSecretYn == 'Y' ? '공개' : '비공개'}</td>
+                                                        <td>${item.inqCnt}</td>
+                                                        <td>${item.regDt}</td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:forEach items="${boardDetailList}" var="item" varStatus="index">
+                                                    <tr>
+                                                        <td style="text-align:center;">${index.index + 1}</td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${item.boardSecretYn == 'N'}">비공개</c:when>
+                                                                <c:otherwise>${item.regNm}</c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${item.boardSecretYn == 'N'}"><a onclick="checkPassword('${item.boardSeq}')">비공개글입니다.</a></c:when>
+                                                                <c:otherwise><a href="/boardDetail?boardSeq=${item.boardSeq}">${item.boardTitle}</a></c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                        <td>${item.boardSecretYn == 'Y' ? '공개' : '비공개'}</td>
+                                                        <td>${item.inqCnt}</td>
+                                                        <td>${item.regDt}</td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </c:otherwise>
+                                        </c:choose>
+
                                         </tbody>
                                     </table>
                                 </div>

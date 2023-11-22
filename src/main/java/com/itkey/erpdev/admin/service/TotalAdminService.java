@@ -2,9 +2,11 @@ package com.itkey.erpdev.admin.service;
 
 
 import com.itkey.erpdev.admin.domain.MenuEntity;
+import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.admin.dto.Visitor;
 import com.itkey.erpdev.board.domain.Board;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -37,4 +39,8 @@ public interface TotalAdminService {
 
 	// 메뉴 수
 	int getMenuListCntAjax();
+
+	List<Banner> getBannerList() throws Exception;
+
+	void saveBanner(Banner banner, MultipartFile[] file) throws Exception;
 }
