@@ -105,75 +105,67 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     }
 
     @Override
-    public void saveBanner(Banner banner, MultipartFile[] file) throws Exception {
+    public void saveBanner(Banner banner, MultipartFile file) throws Exception {
 
-        String[] bannerNames = banner.getBannerName().split(",");
-        String[] bannerUrls = banner.getBannerUrl().split(",");
-        String[] bannerOrders = banner.getBannerOrder().split(",");
+        FileDto fileDto = new FileDto();
 
-        for (int i = 0; i < bannerNames.length; i++) {
-            FileDto fileDto = new FileDto();
+        if (file != null) {
+            MultipartFile multipartFile = file;
+            if (!multipartFile.isEmpty()) {
+                String originalFileName = multipartFile.getOriginalFilename();
+                String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
-            if (file != null && file.length > 0) {
-                MultipartFile multipartFile = file[i];
-                if (!multipartFile.isEmpty()) {
-                    String originalFileName = multipartFile.getOriginalFilename();
-                    String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+                String newFileName = UUID.randomUUID().toString() + fileExtension;
 
-                    String newFileName = UUID.randomUUID().toString() + fileExtension;
+                String rootPath = System.getProperty("user.dir");
+                File staticDir = new File(rootPath, "src/main/resources/static/images");
 
-                    String rootPath = System.getProperty("user.dir");
-                    File staticDir = new File(rootPath, "src/main/resources/static/images");
-
-                    if (!staticDir.exists()) {
-                        staticDir.mkdirs();
-                    }
-
-                    File newFile = new File(staticDir, newFileName);
-
-                    Path filePath = Paths.get(newFile.getAbsolutePath());
-
-                    String fileUrl = "/images/" + newFileName;
-
-                    Files.write(filePath, multipartFile.getBytes());
-
-                    if (banner.getFileIdx() != null) {
-                        fileDto.setFileIdx(String.valueOf(banner.getFileIdx()));
-                        fileDto.setSaveNm(newFileName);
-                        fileDto.setOriNm(originalFileName);
-                        fileDto.setFilePath(fileUrl);
-                        totalAdminDAO.updateFile(fileDto);
-                    } else {
-                        fileDto.setSaveNm(newFileName);
-                        fileDto.setOriNm(originalFileName);
-                        fileDto.setFilePath(fileUrl);
-                        totalAdminDAO.saveFile(fileDto);
-                    }
-
+                if (!staticDir.exists()) {
+                    staticDir.mkdirs();
                 }
+
+                File newFile = new File(staticDir, newFileName);
+
+                Path filePath = Paths.get(newFile.getAbsolutePath());
+
+                String fileUrl = "/images/" + newFileName;
+
+                Files.write(filePath, multipartFile.getBytes());
+
+                if (fileDto.getFileIdx() != null) {
+                    fileDto.setSaveNm(newFileName);
+                    fileDto.setOriNm(originalFileName);
+                    fileDto.setFilePath(fileUrl);
+                    totalAdminDAO.updateFile(fileDto);
+                } else {
+                    fileDto.setSaveNm(newFileName);
+                    fileDto.setOriNm(originalFileName);
+                    fileDto.setFilePath(fileUrl);
+                    totalAdminDAO.saveFile(fileDto);
+                }
+
             }
-
-            if (banner.getBannerSeq() != null) {
-                Banner newBanner = new Banner();
-                newBanner.setBannerSeq(banner.getBannerSeq());
-                newBanner.setBannerName(banner.getBannerName());
-                newBanner.setBannerUrl(banner.getBannerUrl());
-                newBanner.setBannerOrder(banner.getBannerOrder());
-                newBanner.setFileIdx(fileDto.getFileIdx());
-                totalAdminDAO.updateBanner(newBanner);
-            } else {
-                Banner newBanner = new Banner();
-                newBanner.setBannerName(banner.getBannerName());
-                newBanner.setBannerUrl(banner.getBannerUrl());
-                newBanner.setBannerOrder(banner.getBannerOrder());
-                newBanner.setFileIdx(fileDto.getFileIdx());
-                totalAdminDAO.saveBanner(newBanner);
-            }
-
-
-
         }
+
+        if (banner.getBannerSeq() != null) {
+            Banner newBanner = new Banner();
+            newBanner.setBannerSeq(banner.getBannerSeq());
+            newBanner.setBannerName(banner.getBannerName());
+            newBanner.setBannerUrl(banner.getBannerUrl());
+            newBanner.setBannerOrder(banner.getBannerOrder());
+            newBanner.setFileIdx(fileDto.getFileIdx());
+            totalAdminDAO.updateBanner(newBanner);
+        } else {
+            Banner newBanner = new Banner();
+            newBanner.setBannerName(banner.getBannerName());
+            newBanner.setBannerUrl(banner.getBannerUrl());
+            newBanner.setBannerOrder(banner.getBannerOrder());
+            newBanner.setFileIdx(fileDto.getFileIdx());
+            totalAdminDAO.saveBanner(newBanner);
+        }
+
     }
+
 
     @Override
     public int countAdmin() {
