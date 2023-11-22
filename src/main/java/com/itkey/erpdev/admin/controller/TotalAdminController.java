@@ -286,9 +286,9 @@ public class TotalAdminController {
 	}
 
 	@PostMapping(value = "/saveBanner")
-	public ModelAndView saveBanner(Banner banner, @RequestParam("file") MultipartFile file) throws Exception{
+	public ModelAndView saveBanner(Banner banner, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("jsonView");
-		adminService.saveBanner(banner, file);
+		adminService.saveBanner(banner, request);
 		return mv;
 	}
 

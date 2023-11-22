@@ -8,6 +8,7 @@ import com.itkey.erpdev.admin.dto.Visitor;
 import com.itkey.erpdev.board.domain.Board;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import java.util.List;
@@ -42,5 +43,5 @@ public interface TotalAdminService {
 
 	List<Banner> getBannerList() throws Exception;
 
-	void saveBanner(Banner banner, MultipartFile file) throws Exception;
+	void saveBanner(Banner banner, HttpServletRequest request) throws Exception;
 }
