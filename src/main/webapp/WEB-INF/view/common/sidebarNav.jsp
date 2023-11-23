@@ -21,8 +21,8 @@
         position : relative;
     }
     #setting{
-        width: 7em;
-        height: 7em;
+        width: 8em;
+        height: 5em;
         position: absolute;
         display: none;
         border-radius: 2px;
@@ -30,8 +30,32 @@
         font-size: 1.3rem;
         z-index: 1;
         right : 42px;
-        top : 48px;
+        top : 50px;
     }
+    #setting>ul li{
+        font-size: 16px;
+        list-style: none;
+        margin-top : 6px;
+    }
+    #setting>ul li:hover{
+        color: cornflowerblue;
+        cursor: pointer;
+    }
+    .inputStyle1 {
+        width: 270px;
+        height: 28px;
+        font-size: 15px;
+        border: 0;
+        border-radius: 10px;
+        outline: none;
+        padding-left: 10px;
+        background-color: rgb(250, 250, 250);
+
+    }
+    .read{
+        background-color: #eeeeee;
+    }
+
 </style>
 <body>
 <div class="main-header">
@@ -178,19 +202,19 @@
                             </tr>
                             <tr>
                                 <th>비밀번호</th>
-                                <td><input type="password" class="inputStyle1" id="updateMemPw" name="password"></td>
+                                <td><input type="password" class="inputStyle1 read" id="updateMemPw" name="password"></td>
                             </tr>
                             <tr>
                                 <th>비밀번호확인</th>
-                                <td><input type="password" id="checkPw" class="inputStyle1"></td>
+                                <td><input type="password" id="checkPw" class="inputStyle1 read"></td>
                             </tr>
                             <tr>
                                 <th>휴대폰번호</th>
-                                <td><input type="text" class="inputStyle1" id="updateMemHp" value="" name="hp"></td>
+                                <td><input type="text" class="inputStyle1 read" id="updateMemHp" value="" name="hp"></td>
                             </tr>
                             <tr>
                                 <th>이메일</th>
-                                <td><input type="email" class="inputStyle1" id="updateMemEmail" value="" name="email"></td>
+                                <td><input type="email" class="inputStyle1 read" id="updateMemEmail" value="" name="email"></td>
                             </tr>
                         </table>
                     </form>
