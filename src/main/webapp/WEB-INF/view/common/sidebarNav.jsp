@@ -11,6 +11,28 @@
 <head>
     <title>Title</title>
 </head>
+<style>
+    .nav-menu{
+        margin-left:75%;
+    }
+    .top>button{
+        background-color: transparent;
+        border:none;
+        position : relative;
+    }
+    #setting{
+        width: 7em;
+        height: 7em;
+        position: absolute;
+        display: none;
+        border-radius: 2px;
+        background-color: whitesmoke;
+        font-size: 1.3rem;
+        z-index: 1;
+        right : 42px;
+        top : 48px;
+    }
+</style>
 <body>
 <div class="main-header">
     <!-- Logo Header -->
@@ -59,17 +81,22 @@
                 <!-- Add more items here -->
             </ul>
         </div>
-        <c:choose>
-            <c:when test="${empty member}">
-                <button class="btn btn-secondary" onclick="loginButton()">Login</button>
-            </c:when>
-            <c:otherwise>
-                <form id="logout" action="/mem/logout" method="post">
-                <button class="btn btn-secondary" onclick="logoutButton()">logout</button>
-                </form>
-            </c:otherwise>
-        </c:choose>
-
+            <div class="collapse navbar-collapse ">
+            <c:choose>
+                <c:when test="${empty member}">
+                    <button class="btn btn-secondary nav-menu" onclick="loginButton()">Login</button>
+                </c:when>
+                <c:otherwise>
+                    <button class="btn nav-menu" onclick="openSetting()">menu</button>
+                </c:otherwise>
+            </c:choose>
+            </div>
+        <div id="setting">
+            <ul>
+                <li onclick="updateMemberInfo(${member.seq})" data-toggle="modal" data-target='#updateMember'>회원 정보 수정</li>
+                <li onclick="logoutButton()">로그아웃</li>
+            </ul>
+        </div>
 
 
     </nav>
@@ -105,6 +132,62 @@
         </div>
     </div>
 </div><!-- End Sidebar -->
+
+<!-- 회원 수정 Modal -->
+<div class="modal fade" id="updateMember">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">회원 정보 수정</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="project-info">
+                    <div class="card-title"></div>
+                    <form action="" method="post" id="updateMemberForm">
+                        <input type="hidden" id="MemberIdx" name="seq" value="${member.seq}">
+                        <table class="text-center">
+                            <tr>
+                                <th>아이디</th>
+                                <td><input type="text" class="inputStyle1" value="${member.id}" name="id" readonly></td>
+                            </tr>
+                            <tr>
+                                <th>이름</th>
+                                <td><input type="text" class="inputStyle1" value="${member.name}" name="name" readonly></td>
+                            </tr>
+                            <tr>
+                                <th>비밀번호</th>
+                                <td><input type="password" class="inputStyle1" id="updateMemPw" name="password"></td>
+                            </tr>
+                            <tr>
+                                <th>비밀번호확인</th>
+                                <td><input type="password" id="checkPw" class="inputStyle1"></td>
+                            </tr>
+                            <tr>
+                                <th>휴대폰번호</th>
+                                <td><input type="text" class="inputStyle1" id="updateMemHp" value="" name="hp"></td>
+                            </tr>
+                            <tr>
+                                <th>이메일</th>
+                                <td><input type="email" class="inputStyle1" id="updateMemEmail" value="" name="email"></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+
+                <div class="manpower mb-3">
+                    <div class="text-right mt-3">
+                        <button type="button" class="btn btn-primary" style="padding: 6px 30px" id="updateMemberBtn">수정</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     function loginButton (){
         window.location.href = "/mem/joinForm";
@@ -112,8 +195,48 @@
 
     function logoutButton(){
         window.location.href = "/mem/logout";
-
     }
+    //마이페이지 불러오기
+    function openSetting(){
+        if(document.getElementById('setting').style.display==='block'){
+            document.getElementById('setting').style.display='none';
+        }else{
+            document.getElementById('setting').style.display='block';
+        }
+    }
+    //유효성 처리
+    $("#updateMemberBtn").on("click", function(){
+        if ($('#checkPw').val() != $('#updateMemPw').val()) {
+            alert("비밀번호가 일치하지 않습니다. 다시 확인해 주세요!");
+            $('#checkPw').val("");
+            $('#updateMemPw').val("");
+            return false;
+        }
+    })
+    //회원 정보 불러오기
+    function updateMemberInfo(seq){
+
+        let memberIdx = seq;
+        $.ajax({
+            url : "/mem/updateMemberInfo",
+            data : {memberIdx : memberIdx},
+            success : function(result){
+
+                $("#updateMemId").val(result.id);
+                $("#updateMemName").val(result.name);
+                $("#updateMemHp").val(result.hp);
+                $("#updateMemEmail").val(result.email);
+                $('#updateMemPw').val("");
+            }
+        })
+    }
+    //회원정보수정
+    $(document).on("click", "#updateMemberBtn", function() {
+        let confirm_val = confirm("수정하시겠습니까?");
+        if (confirm_val) {
+            $("#updateMemberForm").attr("action", "/mem/updateMember").submit();
+        }
+    });
 </script>
 </body>
 </html>

@@ -52,4 +52,14 @@ public class MemberDaoImpl implements MemberDao{
     public int memberIdCheck(String id) {
         return sql.selectOne("mapper.member.memberIdCheck", id);
     }
+    //사용자 정보 수정
+    @Override
+    public int updateMember(Member m) {
+        return sql.update("mapper.member.updateMember", m);
+    }
+    //사용자 정보 불러오기
+    @Override
+    public Member memberInfo(int memberIdx) {
+        return sql.selectOne("mapper.member.memberInfo", memberIdx);
+    }
 }
