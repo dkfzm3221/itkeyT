@@ -16,6 +16,6 @@ public class Popup {
     String width;
     String height;
     String left;
-    String right;
+    String top;
     String popupName;
 }
