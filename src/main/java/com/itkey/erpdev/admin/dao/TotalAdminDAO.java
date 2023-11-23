@@ -4,6 +4,7 @@ package com.itkey.erpdev.admin.dao;
 import com.itkey.erpdev.admin.domain.Admin;
 import com.itkey.erpdev.admin.domain.DesignEntity;
 import com.itkey.erpdev.admin.domain.MenuEntity;
+import com.itkey.erpdev.admin.domain.Popup;
 import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.member.domain.Member;
@@ -83,6 +84,10 @@ public interface TotalAdminDAO {
 	void removeBanner(Banner banner) throws Exception;
 
 	List<DesignDTO> getDesignList();
+
+	void savePopup(Popup popup) throws Exception;
+
+	List<Popup> popupList() throws Exception;
 
 	int upDatedesignMgmt(DesignEntity design);
 }

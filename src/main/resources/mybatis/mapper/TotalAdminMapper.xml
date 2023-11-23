@@ -537,6 +537,52 @@
 		WHERE BANNER_SEQ = #{bannerSeq}
 	</delete>
 
+	<insert id="savePopup" parameterType="Popup">
+		INSERT INTO POPUP
+		(POPUP_URL
+     		,POPUP_CONTENTS
+     		,REG_USER
+     		,REG_DATE
+     		,WIDTH
+     		,HEIGHT
+     		,`LEFT`
+     		,`RIGHT`
+     		,POPUP_NAME
+		)
+		VALUES
+			( #{popupUrl}
+			, #{popupContents}
+			, #{regUser}
+			, NOW()
+			, #{width}
+			, #{height}
+			, #{left}
+			, #{right}
+			, #{popupName}
+			)
+	</insert>
+
+	<select id="popupList" resultType="Popup">
+		SELECT
+			POPUP_SEQ
+			, POPUP_URL
+			, POPUP_CONTENTS
+            , USE_YN
+            , REG_USER
+            , REG_USER_NAME
+            , REG_DATE
+            , MOD_USER
+            , MOD_DATE
+            , WIDTH
+            , HEIGHT
+			, `LEFT`
+			, `RIGHT`
+			, POPUP_NAME
+		FROM POPUP
+		WHERE USE_YN = 'Y'
+		ORDER BY POPUP_SEQ
+	</select>
+
 	<!-- 디자인 조회 -->
 	<select id="getDesignList" resultType="DesignDTO">
 		/*fn : 디자인 조회 - getDesignList */
