@@ -1,7 +1,5 @@
 package com.itkey.erpdev.member.controller;
 
-import com.itkey.erpdev.admin.domain.Admin;
-import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.member.domain.Member;
 import com.itkey.erpdev.member.dto.MemberInfoResponse;
 import com.itkey.erpdev.member.dto.MemberInsert;
@@ -9,8 +7,6 @@ import com.itkey.erpdev.member.service.MemberService;
 import com.itkey.erpdev.member.service.smtpService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.MessagingException;
@@ -24,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -60,12 +55,15 @@ public class MemberController {
             mv.setViewName("memLoginForm");
             session.setAttribute("errorMsg", "아이디 혹은 비밀번호가 일치하지 않습니다.");
             return mv;
-        }else if("B".equals(login.getAuthCode())){
+        }else if("N".equals(login.getMemberStatus())){
+            mv.setViewName("memLoginForm");
+            session.setAttribute("errorMsg", "탈퇴한 회원입니다.");
+            return mv;
+        }else if("B".equals(login.getUseYn())){
             mv.setViewName("memLoginForm");
             session.setAttribute("errorMsg", "차단된 회원입니다.");
             return mv;
         }
-
         session.setAttribute("member", login);
         mv.addObject("login", login);
         mv.setViewName("redirect:/");
@@ -84,9 +82,8 @@ public class MemberController {
         ModelAndView mv = new ModelAndView("jsonView");
 
         Member findId = ms.findId(mDTO);
-        log.info("findId?{}", findId);
-        if (mDTO.getName() == "" || mDTO.getHp() == "") {
 
+        if (mDTO.getName() == "" || mDTO.getHp() == "") {
             mv.addObject("result", "zero");
         } else {
             if(findId != null){
@@ -106,19 +103,18 @@ public class MemberController {
         ModelAndView mv = new ModelAndView("jsonView");
 
         Member findPw = ms.findPw(mDTO);
-        log.info("결과값{}", findPw);
 
         if (mDTO.getId() == "" || mDTO.getEmail() == "") {
             mv.addObject("result", "zero");
         } else if (findPw == null) {
+            //아이디, 비밀번호가 맞지 않거나 탈퇴한 회원인 경우
             mv.addObject("result", "error");
-            mv.addObject("errorMsg", "입력한 정보가 일치하지 않습니다.");
+            mv.addObject("errorMsg", "입력한 정보가 없습니다.");
         } else {
             mv.addObject("result", "success");
             mv.addObject("name", findPw.getName());
             mv.addObject("seq", findPw.getSeq());
         }
-
         return mv;
     }
 
@@ -173,29 +169,18 @@ public class MemberController {
     @ResponseBody
     @RequestMapping(value="/memberIdCheck")
     public String adminIdCheck(String id){
-
-        int result = ms.memberIdCheck(id);
-
-        if(result>0){
-            return "NN";
-        }else{
-            return "YY";
-        }
+        return ms.memberIdCheck(id) > 0 ? "NN" : "YY";
     }
     //회원 정보 불러오기
     @ResponseBody
     @RequestMapping(value="/updateMemberInfo", produces="application/json; charset=UTF-8")
     public Member updateMemberInfo(int memberIdx){
-        Member m = ms.memberInfo(memberIdx);
-        logger.info("Member{}", m);
-        return m;
+        return ms.memberInfo(memberIdx);
     }
 
     //사용자 정보 수정
     @RequestMapping(value="/updateMember")
     public String updateMember(Member m){
-        logger.info("updateMember{}", m);
-        logger.info("updateMember pasW{}", m.getPassword());
         int result = ms.updateMember(m);
         return "redirect:/";
     }

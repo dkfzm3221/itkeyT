@@ -111,7 +111,7 @@
             </div>
 
             <div class="form-group form-floating-label">
-                <input id="findMemPh" name="ph" type="text" class="form-control input-border-bottom" required>
+                <input id="findMemPh" name="hp" type="text" class="form-control input-border-bottom" required>
                 <label for="findMemPh" class="placeholder">전화번호</label>
             </div>
 
@@ -132,7 +132,7 @@
     <!-- 아이디 찾기 결과 box -->
     <div class="container container-findidtrue animated fadeIn" style="display: none">
         <h3 class="text-center mb-3" style="font-size: 1.5rem; font-weight: 700;">아이디 찾기 결과</h3>
-        <p class="text-center mb-5">정보 보호를 위해 아이디의 일부만 보여집니다.<br>전체 아이디는 관리자에게 문의해주세요.</p>
+        <p class="text-center mb-5">정보 보호를 위해 아이디의 일부만 보여집니다.
         <div class="login-form">
             <div class="text-center" style="font-size:17px;">회원님의 아이디는<br><span class="foundId" style="color:#5600B8;"></span>입니다.</div>
 
@@ -333,8 +333,8 @@
                         },
                         success: function (data) {
                             hideLoadingBar();
-                            swal("임시비밀번호가 발급되었습니다. 담당자 이메일을 확인해주세요.", "", "success").then(function () {
-                                    location.reload();
+                            swal("임시비밀번호가 발급되었습니다. 이메일을 확인해주세요.", "", "success").then(function () {
+                                    location.href ="/mem/joinForm";
                                 }
                             )
                         }
@@ -404,7 +404,6 @@
 
     //아이디 중복 체크
     $(function(){
-        //아이디 중복 체크
         const $idInput = $("#memberJoinForm input[name=id]");
         $idInput.keyup(function(){
             if($idInput.val().length >= 4){
@@ -425,7 +424,7 @@
                             $("#alert_demo_7").attr("disabled",false);
                         }
                     }, error:function(){
-                        console.log("아이디 중복체크용 ajax 통신 실패");
+                        console.log("error");
                     }
                 })
             }else{
@@ -442,7 +441,6 @@
             $("#joinName").focus();
             return false;
         }
-
         if($("#joinCacId").val()==""){
             alert("아이디를 입력해주세요.");
             $("#joinCacId").focus();
@@ -475,6 +473,10 @@
     $(document).on("keyup", "#joinHP", function() {
         $(this).val($(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, "$1-$2-$3").replace("--", "-"));
     });
+    $(document).on("keyup", "#findMemPh", function() {
+        $(this).val($(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, "$1-$2-$3").replace("--", "-"));
+    });
+
 
 
 </script>

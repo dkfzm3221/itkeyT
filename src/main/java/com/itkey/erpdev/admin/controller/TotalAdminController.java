@@ -493,7 +493,6 @@ public class TotalAdminController {
 	public String blockMember(HttpSession session, Member m){
 		TotalAdminDTO loginUser = ((TotalAdminDTO)session.getAttribute("admin"));
 		m.setUpdId(loginUser.getId());
-
 		return adminService.blockMember(m) > 0 ? "S" : "F";
 	}
 
