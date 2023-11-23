@@ -38,7 +38,6 @@ public class MemberServiceImpl implements MemberService{
         if (salt == null) {
             return response;
         }
-
         m.setSalt(salt);
         String encPw = SHA256.getEncrypt(m.getPassword(), m.getSalt());
         m.setPassword(encPw);
@@ -49,7 +48,6 @@ public class MemberServiceImpl implements MemberService{
         }
         response = dao.memLoginInfo(m);
         return response;
-
     }
     // 아이디 찾기
     @Override

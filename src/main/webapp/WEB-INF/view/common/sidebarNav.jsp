@@ -121,7 +121,7 @@
                     <button class="btn btn-secondary nav-menu" onclick="loginButton()">Login</button>
                 </c:when>
                 <c:otherwise>
-                    <button class="btn nav-menu" onclick="openSetting()">menu</button>
+                    <button class="btn nav-menu" onclick="openSetting()"><i class="icon-user"></i></button>
                 </c:otherwise>
             </c:choose>
             </div>
@@ -278,6 +278,13 @@
             $("#updateMemberForm").attr("action", "/mem/updateMember").submit();
         }
     });
+
+
+    //하이픈(-) 자동 입력, 클래스에 phoneNumber 추가
+    $(document).on("keyup", "#updateMemHp", function() {
+        $(this).val($(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, "$1-$2-$3").replace("--", "-"));
+    });
+
 </script>
 </body>
 </html>

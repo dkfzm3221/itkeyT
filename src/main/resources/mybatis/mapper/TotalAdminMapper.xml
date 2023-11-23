@@ -401,23 +401,26 @@
 
 	<!--탈퇴 관리자 리스트(useYN:N) -->
 	<select id="del_adminList" resultType="Admin">
-		select @ROWNUM:=@ROWNUM+1 as ROWNUM
-		,  SEQ
-		, ID
-		, M.NAME
-		, MEMBER_TYPE
-		, MEMBER_STATUS
-		, EMAIL
-		, REG_DT
-		, UPD_DT
-		, UPD_NM
-		, REG_NM
-		, WHDWL_YMD
-		from itkey_dev.`member` M
+		select @ROWNUM:=@ROWNUM+1 as ROWNUM, a.*
+		from (select
+		 		  SEQ
+				, ID
+				, M.NAME
+				, MEMBER_TYPE
+				, MEMBER_STATUS
+				, EMAIL
+				, REG_DT
+				, UPD_DT
+				, UPD_NM
+				, REG_NM
+				, WHDWL_YMD
+			from itkey_dev.`member` M
+			where USE_YN = 'N'
+			<include refid="search"></include>
+			order by WHDWL_YMD asc
+			) a
 		where (@ROWNUM:=0)=0
-		<include refid="search"></include>
-		and USE_YN = 'N'
-		order by ROWNUM DESC
+		order by ROWNUM desc
 	</select>
 
 	<!--탈퇴 관리자 카운트 -->
@@ -491,23 +494,25 @@
 
 	<!-- 차단 회원 리스트 -->
 	<select id="block_adminList" resultType="Member">
-		select @ROWNUM:=@ROWNUM+1 as ROWNUM
-		,  SEQ
-		, ID
-		, M.NAME
-		, MEMBER_TYPE
-		, MEMBER_STATUS
-		, EMAIL
-		, UPD_DT
-		, UPD_ID
-		, BLOCK_RSN
-		, BLOCK_YMD
-		from itkey_dev.`member` M
+		select @ROWNUM:=@ROWNUM+1 as ROWNUM, a.*
+		from (select SEQ
+				, ID
+				, M.NAME
+				, MEMBER_TYPE
+				, MEMBER_STATUS
+				, EMAIL
+				, UPD_DT
+				, UPD_ID
+				, BLOCK_RSN
+				, BLOCK_YMD
+			from itkey_dev.`member` M
+			where USE_YN = 'Y'
+			<include refid="search"></include>
+			and MEMBER_STATUS = 'B'
+			order by BLOCK_YMD asc
+			) a
 		where (@ROWNUM:=0)=0
-		<include refid="search"></include>
-		and USE_YN = 'Y'
-		and MEMBER_STATUS = 'B'
-		order by ROWNUM DESC
+		order by ROWNUM desc
 	</select>
 
 	<!-- 검색 기능 -->

@@ -33,6 +33,7 @@
                 , HP
                 , NAME
                 , AUTH_CODE
+                , MEMBER_STATUS
                 , MEMBER_TYPE
                 , USE_YN
                 , SALT
@@ -64,6 +65,8 @@
             Id = #{id}
         AND
             EMAIL = #{email}
+        AND
+            USE_YN = 'Y'
     </select>
 
     <!-- 비밀번호 재발급 -->
