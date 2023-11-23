@@ -13,7 +13,7 @@
 </head>
 <style>
     .nav-menu{
-        margin-left:75%;
+        margin-left: 83%;
     }
     .top>button{
         background-color: transparent;
@@ -22,7 +22,6 @@
     }
     #setting{
         width: 8em;
-        height: 5em;
         position: absolute;
         display: none;
         border-radius: 2px;
@@ -32,12 +31,12 @@
         right : 42px;
         top : 50px;
     }
-    #setting>ul li{
+    #setting>ol li{
         font-size: 16px;
         list-style: none;
-        margin-top : 6px;
+        margin-top : 10px;
     }
-    #setting>ul li:hover{
+    #setting>ol li:hover{
         color: cornflowerblue;
         cursor: pointer;
     }
@@ -115,7 +114,7 @@
                 <!-- Add more items here -->
             </ul>
         </div>
-            <div class="collapse navbar-collapse ">
+            <div class="collapse navbar-collapse">
             <c:choose>
                 <c:when test="${empty member}">
                     <button class="btn btn-secondary nav-menu" onclick="loginButton()">Login</button>
@@ -125,12 +124,14 @@
                 </c:otherwise>
             </c:choose>
             </div>
-        <div id="setting">
-            <ul>
-                <li onclick="updateMemberInfo(${member.seq})" data-toggle="modal" data-target='#updateMember'>회원 정보 수정</li>
-                <li onclick="logoutButton()">로그아웃</li>
-            </ul>
-        </div>
+
+            <!-- 마이페이지 -->
+            <div id="setting">
+                <ol>
+                    <li onclick="updateMemberInfo(${member.seq})" data-toggle="modal" data-target='#updateMember'>회원 정보 수정</li>
+                    <li onclick="logoutButton()">로그아웃</li>
+                </ol>
+            </div>
 
 
     </nav>
@@ -233,7 +234,6 @@
     function loginButton (){
         window.location.href = "/mem/joinForm";
     }
-
     function logoutButton(){
         window.location.href = "/mem/logout";
     }
@@ -256,13 +256,11 @@
     })
     //회원 정보 불러오기
     function updateMemberInfo(seq){
-
         let memberIdx = seq;
         $.ajax({
             url : "/mem/updateMemberInfo",
             data : {memberIdx : memberIdx},
             success : function(result){
-
                 $("#updateMemId").val(result.id);
                 $("#updateMemName").val(result.name);
                 $("#updateMemHp").val(result.hp);
@@ -278,8 +276,6 @@
             $("#updateMemberForm").attr("action", "/mem/updateMember").submit();
         }
     });
-
-
     //하이픈(-) 자동 입력, 클래스에 phoneNumber 추가
     $(document).on("keyup", "#updateMemHp", function() {
         $(this).val($(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, "$1-$2-$3").replace("--", "-"));

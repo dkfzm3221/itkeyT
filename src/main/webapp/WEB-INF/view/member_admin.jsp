@@ -128,43 +128,50 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach items="${adminList}" var="adminList">
-                                                <c:if test="${adminList.seq != null}">
-                                            <tr>
-                                                <td class='ano'>${adminList.rowNum}</td>
-                                                <td>${adminList.name}</td>
-                                                <td>${adminList.id}</td>
-                                                <c:if test="${adminList.memberType == 'U'}">
-                                                    <td>사용자</td>
-                                                </c:if>
-                                                <c:if test="${adminList.memberType == 'A' }">
-                                                    <td>관리자</td>
-                                                </c:if>
-                                                <td>${adminList.email}</td>
-                                                <td>${adminList.regDt}</td>
-                                                <td>${adminList.updDt}</td>
-                                                <td>${adminList.updNm}</td>
-                                                <td>
-                                                    <c:if test="${admin.memberType == 'A' && adminList.memberType == 'A'}">
-                                                    <button class="btn-primary btn-rounded" onclick="admin_f_login(${adminList.seq})">로그인</button>
-                                                    <button class="btn-primary btn-rounded" onclick="updateAdminInfo(${adminList.seq})" data-toggle="modal" data-target='#updateAdmin'>수정</button>
-                                                    <button class="btn-rounded" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
+                                            <c:if test="${empty adminList}">
+                                                <tr>
+                                                    <td colspan="9">조건에 맞는 회원이 없습니다.</td>
+                                                </tr>
+                                            </c:if>
+                                            <c:if test="${not empty adminList}">
+                                                <c:forEach items="${adminList}" var="adminList">
+                                                    <c:if test="${adminList.seq != null}">
+                                                <tr>
+                                                    <td class='ano'>${adminList.rowNum}</td>
+                                                    <td>${adminList.name}</td>
+                                                    <td>${adminList.id}</td>
+                                                        <c:if test="${adminList.memberType == 'U'}">
+                                                            <td>사용자</td>
+                                                        </c:if>
+                                                        <c:if test="${adminList.memberType == 'A' }">
+                                                            <td>관리자</td>
+                                                        </c:if>
+                                                    <td>${adminList.email}</td>
+                                                    <td>${adminList.regDt}</td>
+                                                    <td>${adminList.updDt}</td>
+                                                    <td>${adminList.updNm}</td>
+                                                    <td>
+                                                        <c:if test="${admin.memberType == 'A' && adminList.memberType == 'A'}">
+                                                        <button class="btn-primary btn-rounded" onclick="admin_f_login(${adminList.seq})">로그인</button>
+                                                        <button class="btn-primary btn-rounded" onclick="updateAdminInfo(${adminList.seq})" data-toggle="modal" data-target='#updateAdmin'>수정</button>
+                                                        <button class="btn-rounded" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
+                                                        </c:if>
+                                                        <c:if test="${adminList.memberType == 'U'}">
+                                                            <c:choose>
+                                                                <c:when test="${adminList.memberStatus == 'B'}">
+                                                                    <button class="btn-rounded" disabled>차단</button>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <button class="btn-rounded" onclick="blockMember(${adminList.seq})">차단</button>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                                <button class="btn-rounded" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
+                                                        </c:if>
+                                                    </td>
+                                                </tr>
                                                     </c:if>
-                                                    <c:if test="${adminList.memberType == 'U'}">
-                                                        <c:choose>
-                                                            <c:when test="${adminList.memberStatus == 'B'}">
-                                                                <button class="btn-rounded" disabled>차단</button>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <button class="btn-rounded" onclick="blockMember(${adminList.seq})">차단</button>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                            <button class="btn-rounded" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
-                                                    </c:if>
-                                                </td>
-                                            </tr>
-                                                </c:if>
-                                            </c:forEach>
+                                                </c:forEach>
+                                            </c:if>
                                         </tbody>
                                     </table>
                                 </div>
@@ -466,18 +473,26 @@
     function updateAdminInfo(seq){
         let adminIdx = seq;
         $.ajax({
-            url : "/totalAdmin/updateAdminForm",
+            url : "updateAdminForm",
             data : {adminIdx : adminIdx},
             success : function(result){
                 $("#adminIdx").val(result.seq);
                 $("#updateAdminId").val(result.id);
                 $("#updateAdminName").val(result.name);
                 $("#updateAdminHp").val(result.hp);
-                $("#updateAdminType").val(result.memberType);
                 $("#updateAdminEmail").val(result.email);
             }
         })
     }
+    //수정 유효성 처리
+    $("#updateAdminBtn").on("click", function(){
+        if ($('#updateAdminPassWord').val() != $('#updateCheckPassword').val()) {
+            alert("비밀번호가 일치하지 않습니다. 다시 확인해 주세요!");
+            $('#updateAdminPassWord').val("");
+            $('#updateCheckPassword').val("");
+            return false;
+        }
+    })
     //회원정보수정
     $(document).on("click", "#updateAdminBtn", function() {
         let confirm_val = confirm("수정하시겠습니까?");
@@ -491,7 +506,7 @@
         let confirm_val = confirm("탈퇴시키겠습니까?");
         if (confirm_val) {
             $.ajax({
-                url : "/totalAdmin/deleteAdmin",
+                url : "deleteAdmin",
                 data : {adminIdx : adminIdx},
                 dataType: "text",
                 success : function(result){

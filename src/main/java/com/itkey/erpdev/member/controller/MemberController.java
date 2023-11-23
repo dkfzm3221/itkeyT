@@ -29,7 +29,7 @@ import java.util.UUID;
 public class MemberController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     MemberService ms;
-    com.itkey.erpdev.member.service.smtpService smtpService;
+    smtpService smtpService;
 
     //로그인, 회원가입 폼 연결
     @GetMapping(value = "/joinForm")
@@ -173,7 +173,7 @@ public class MemberController {
     }
     //회원 정보 불러오기
     @ResponseBody
-    @RequestMapping(value="/updateMemberInfo", produces="application/json; charset=UTF-8")
+    @RequestMapping(value="/updateMemberInfo")
     public Member updateMemberInfo(int memberIdx){
         return ms.memberInfo(memberIdx);
     }
