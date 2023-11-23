@@ -95,6 +95,12 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        <c:if test="${empty adminList}">
+                                            <tr>
+                                                <td colspan="8">조건에 맞는 회원이 없습니다.</td>
+                                            </tr>
+                                        </c:if>
+                                        <c:if test="${not empty adminList}">
                                         <c:forEach items="${adminList}" var="list">
                                             <c:if test="${list.seq != null}">
                                                 <tr>
@@ -112,6 +118,7 @@
                                                 </tr>
                                             </c:if>
                                         </c:forEach>
+                                        </c:if>
                                         </tbody>
                                     </table>
 
