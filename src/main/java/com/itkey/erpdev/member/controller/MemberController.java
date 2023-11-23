@@ -55,11 +55,11 @@ public class MemberController {
             mv.setViewName("memLoginForm");
             session.setAttribute("errorMsg", "아이디 혹은 비밀번호가 일치하지 않습니다.");
             return mv;
-        }else if("N".equals(login.getMemberStatus())){
+        }else if("N".equals(login.getUseYn())){
             mv.setViewName("memLoginForm");
             session.setAttribute("errorMsg", "탈퇴한 회원입니다.");
             return mv;
-        }else if("B".equals(login.getUseYn())){
+        }else if("B".equals(login.getMemberStatus())){
             mv.setViewName("memLoginForm");
             session.setAttribute("errorMsg", "차단된 회원입니다.");
             return mv;
