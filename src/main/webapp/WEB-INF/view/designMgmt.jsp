@@ -42,7 +42,7 @@
                                         <td style="text-align:center;">${designList.designSeq}</td>
                                         <td>${designList.type}</td>
                                         <td>
-                                            <textarea class="form-control" id="content_${designList.designSeq}" placeholder="내용 입력" readonly>${designList.content}</textarea>
+                                            <textarea class="form-control" id="content_${designList.designSeq}" placeholder="내용 입력">${designList.content}</textarea>
                                         </td>
                                         <td style="text-align:center;padding:5px 0px;">
                                             <button class="btn btn-sm btn-info" onclick="updateDesign(${designList.designSeq});"><i class="fa fa-list"></i> 저장</button>
