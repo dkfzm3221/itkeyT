@@ -1,10 +1,14 @@
 package com.itkey.erpdev.member.controller;
 
+import com.itkey.erpdev.admin.domain.Popup;
+import com.itkey.erpdev.admin.dto.CommonDTO;
+import com.itkey.erpdev.admin.service.TotalAdminService;
 import com.itkey.erpdev.member.domain.Member;
 import com.itkey.erpdev.member.dto.MemberInfoResponse;
 import com.itkey.erpdev.member.dto.MemberInsert;
 import com.itkey.erpdev.member.service.MemberService;
 import com.itkey.erpdev.member.service.smtpService;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -30,6 +34,7 @@ public class MemberController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     MemberService ms;
     smtpService smtpService;
+    TotalAdminService adminService;
 
     //로그인, 회원가입 폼 연결
     @GetMapping(value = "/joinForm")
@@ -184,5 +189,7 @@ public class MemberController {
         int result = ms.updateMember(m);
         return "redirect:/";
     }
+
+
 
 }
