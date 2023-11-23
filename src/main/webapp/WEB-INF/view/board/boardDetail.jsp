@@ -151,13 +151,10 @@
                                 </colgroup>
                                 <tbody>
                                 <tr>
-                                    <th>No</th>
                                     <th>댓글</th>
                                     <th>작성자</th>
                                     <th>작성일</th>
                                 </tr>
-                                <c:choose>
-                                    <c:when test="${memberType == 'A'}">
                                         <c:if test="${ empty boardDetailReplyList }">
                                             <tr>
                                                 <td colspan="4">등록된 댓글이 없습니다.</td>
@@ -166,49 +163,35 @@
                                         <c:if test="${!empty boardDetailReplyList }">
                                             <c:forEach items="${boardDetailReplyList}" var="item" varStatus="index">
                                                 <tr>
-                                                    <td style="text-align:center;">${index.index + 1}</td>
-                                                    <td>${item.regNm}</td>
                                                     <td>
-                                                        <textarea class="detail-content" title="댓글" cols="150" rows="3" id="replyTextareaRead" readonly disabled>${item.replyContents}</textarea>
+                                                        <textarea class="detail-content" title="댓글" cols="100" rows="3" id="replyTextareaRead${item.replySeq}" readonly disabled>${item.replyContents}</textarea>
                                                     </td>
-                                                    <td>${item.regDt}</td>
+                                                    <td>${item.regUser}</td>
+                                                    <td>${item.regDate}</td>
                                                     <td>
-                                                        <button onclick="deleteBoard(${item.boardSeq},${boardType})" id="delBtnReply" class="btn btn-black w-3" style="float: right;">삭제</button>
+                                                    <c:if test="${item.regUser eq userId}">
+
+                                                        <button onclick="modiBoardReply(${item.replySeq})" id="modBtnReply${item.replySeq}" class="btn btn-black w-3" style="float: right;">수정</button>
+                                                        <button onclick="cancelBoardReply(${item.replySeq})" type="reset" name="cancelBtn${item.replySeq}" class="btn btn-black w-3" style="float: right;">취소</button><br/>
+                                                    </c:if>
+                                                     <c:if test="${item.regUser eq userId || memberType eq 'A'}">
+                                                        <button onclick="deleteBoardReply(${item.replySeq})" id="delBtnReply${item.replySeq}" class="btn btn-black w-3" style="float: right;">삭제</button><br/>
+                                                     </c:if>
+
                                                     </td>
+                                                    <input type="hidden" name="replySeq" id="replySeq" value="${item.replySeq}"/>
                                                 </tr>
                                             </c:forEach>
                                         </c:if>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:if test="${ empty boardDetailReplyList }">
-                                            <tr>
-                                                <td colspan="4">게시된 글이 없습니다.</td>
-                                            </tr>
-                                        </c:if>
-                                        <c:if test="${!empty boardDetailReplyList }">
-                                            <c:forEach items="${boardDetailReplyList}" var="item" varStatus="index">
-                                                <tr>
-                                                    <td style="text-align:center;">${index.index + 1}</td>
-                                                    <td>${item.regNm}</td>
-                                                    <td>
-                                                        <textarea class="detail-content" title="댓글" cols="150" rows="3" id="userReplyTextareaRead" readonly disabled>${item.replyContents}</textarea>
-                                                    </td>
-                                                    <td>${item.regDt}</td>
-                                                    <td>
-                                                        <button onclick="deleteBoard(${item.boardSeq},${boardType})" id="userDelBtnReply" class="btn btn-black w-3" style="float: right;">삭제</button>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                        </c:if>
-                                    </c:otherwise>
-                                </c:choose>
+
                                 </tbody>
                             </div>
                         </table>
                     </div>
                 </div>
             </div>
-
+<c:choose>
+    <c:when test="${!empty memberType}">
             <div class="page-inner">
                 <div class="row">
                     <div class="col-sm-10">
@@ -239,13 +222,17 @@
                     </div>
                 </div>
             </div>
-
-
+    </c:when>
+</c:choose>
 
         </div>
     </div>
 </div>
 <script>
+  $(document).ready(function () {
+    $('[name^="cancelBtn"]').hide();
+  })
+
    <%-- /**
        *
        *
@@ -340,35 +327,107 @@
 
     }
 
-
+// 댓글등록
     function insertReply(){
       let boardSeq = $("#boardSeq").val();
       let replyContents = $("#replyText").val();
       let boardType = $("#boardType").val();
       let regUser = $("#userId").val();
+      if (!replyContents) {
+        alert("내용을 입력해주세요.");
+        return;
+      }
 
-      let replyData = {
-        boardSeq: boardSeq,
-        replyContents: replyContents,
-        boardType: boardType,
-        regUser: regUser
-      };
+      let isConfirmed = confirm("등록하시겠습니까?");
 
-        let isConfirmed = confirm("등록하시겠습니까?");
         if (isConfirmed) {
             $.ajax({
                 type:"POST",
                 url: "/insertBoardReply",
-                data: JSON.stringify(replyData),
+                data: {boardSeq: boardSeq,
+                  replyContents: replyContents,
+                  boardType: boardType,
+                  regUser: regUser
+                },
                 success: function () {
                   alert("등록 완료하였습니다.");
+                  location.reload();
                 }
             });
         } else {
-            alert("삭제가 취소되었습니다.");
+            alert("댓글 등록되었습니다.");
         }
 
     }
+
+    // 버든 타입 변경
+   function modiBoardReply(seq){
+       $('#replyTextareaRead'+seq).removeAttr('readonly');
+       $('#replyTextareaRead' + seq).removeAttr('disabled');
+       $('#modBtnReply'+seq).attr('onclick', 'updateBoardReply('+seq+')');
+     $('#delBtnReply'+seq).hide();
+     $('[name="cancelBtn' + seq + '"]').show();
+
+   }
+  // 버든 타입 변경
+   function cancelBoardReply(seq){
+       $('#replyTextareaRead'+seq).attr('readonly', 'readonly');
+       $('#replyTextareaRead' + seq).attr('disabled', 'disabled');
+       $('#modBtnReply'+seq).attr('onclick', 'modiBoardReply('+seq+')');
+     $('#delBtnReply'+seq).show();
+     $('[name="cancelBtn' + seq + '"]').hide();
+
+   }
+
+   // 댓글 수정
+   function updateBoardReply(seq){
+     let replyTextareaRead = $("#replyTextareaRead"+seq).val();
+
+     if (!replyTextareaRead) {
+       alert("내용을 입력해주세요.");
+       return;
+     }
+
+     let isConfirmed = confirm("댓글 수정 하시겠습니까?");
+     if (isConfirmed) {
+       if (isConfirmed) {
+         $.ajax({
+           type:"POST",
+           url: "/modBoardReply",
+           data: {replySeq: seq,
+             replyContents: replyTextareaRead
+           },
+           success: function () {
+             alert("수정 완료하였습니다.");
+             location.reload();
+           }
+         });
+       } else {
+         alert("삭제가 취소되었습니다.");
+       }
+     }
+   }
+
+   //댓글 삭제
+   function deleteBoardReply(seq){
+     let isConfirmed = confirm("삭제하시겠습니까?");
+     if (isConfirmed) {
+       $.ajax({
+         type:"POST",
+         url: "/deleteBoardReply",
+         data: {replySeq : seq
+         },
+         success: function () {
+           alert("삭제 완료하였습니다.");
+          location.reload();
+         }
+       });
+     } else {
+       alert("삭제가 취소되었습니다.");
+     }
+
+   }
+
 
 
    <%-- /**

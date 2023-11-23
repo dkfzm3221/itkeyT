@@ -37,4 +37,8 @@ public interface BoardService {
     List<Board> boardDetailReplyList(Board board);
 
     void insertBoardReply(Board board);
+
+    void updateBoardReply(Board board);
+
+    void deleteBoardReply(Board board);
 }

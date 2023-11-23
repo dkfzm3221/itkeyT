@@ -192,10 +192,29 @@ public class BoardController {
     }
 
 
+    // 댓글 등록
      @PostMapping(value = "/insertBoardReply")
     public ModelAndView insertBoardReply(Board board) throws Exception{
         ModelAndView mv = new ModelAndView("/board/boardDetail");
         bs.insertBoardReply(board);
+
+        return mv;
+    }
+
+    // 댓글 수정
+    @PostMapping(value = "/modBoardReply")
+    public ModelAndView modBoardReply(Board board) throws Exception{
+        ModelAndView mv = new ModelAndView("/board/boardDetail");
+        bs.updateBoardReply(board);
+
+        return mv;
+    }
+
+    // 댓글 삭제
+    @PostMapping(value = "/deleteBoardReply")
+    public ModelAndView deleteBoardReply(Board board) throws Exception{
+        ModelAndView mv = new ModelAndView("/board/boardDetail");
+        bs.deleteBoardReply(board);
 
         return mv;
     }
