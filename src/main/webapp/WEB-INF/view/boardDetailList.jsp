@@ -36,6 +36,7 @@
         <form id="moveForm" method="GET">
             <input type="hidden" id="menuBoardType" name="menuBoardType" value="${boardType}">
             <input type="hidden" id="searchBoardTitle" name="searchBoardTitle">
+            <input type="hidden" id="title" name="title" value="${searchBoardTitle}">
         </form>
         <div class="container">
             <div class="page-inner">
@@ -102,7 +103,7 @@
                                             <c:when test="${memberType == 'A'}">
                                                 <c:if test="${ empty boardDetailList }">
                                                     <tr>
-                                                        <td colspan="6">게시된 글이 없습니다.</td>
+                                                        <td colspan="7">게시된 글이 없습니다.</td>
                                                     </tr>
                                                 </c:if>
                                                 <c:if test="${!empty boardDetailList }">
@@ -183,17 +184,26 @@
 </div>
 <script>
   $(document).ready(function () {
+    // 엔터키 막음
     $("#searchTitle").keypress(function(event) {
       if (event.which === 13) { // 13 is the key code for Enter
         event.preventDefault();
       }
     });
+
+    // 검색 후 검색어 유지
+    if($("#title").val() !== null || $("#title").val() !== ''){
+       $("#searchTitle").val($("#title").val());
+    }
+
   })
 
+  // 글쓰기 이동
   function moveToWriteBoard(boardType) {
      window.location.href = "/writeBoardView?boardType="+boardType;
   }
 
+  // 검색
   let openSearch = function(menuBoardType) {
     let form = $("#moveForm");
     $("#menuBoardType").val(menuBoardType);
@@ -203,6 +213,7 @@
     form.submit();
   }
 
+  // (관리자)게시물 삭제
   function deleteBoard(seq,boardType){
     let isConfirmed = confirm("삭제하시겠습니까?");
     if (isConfirmed) {
@@ -221,6 +232,34 @@
     } else {
       alert("삭제가 취소되었습니다.");
     }
+
+  }
+
+  // 비공개글 pass 체크
+  function checkPassword(seq){
+
+    let password = prompt("비밀번호를 입력하세요.");
+
+    let boardSeq = seq
+
+    $.ajax({
+      type:"POST",
+      url: "/boardPassword",
+      data: {
+        boardSeq : boardSeq
+      },
+      success: function (data) {
+        if(password === data.password) {
+          window.location.href = "/boardDetail?boardSeq=" + seq;
+        } else if(password === null) {
+          alert("취소되었습니다.");
+          return false;
+        } else {
+          alert("비밀번호가 일치하지 않습니다.");
+          return false;
+        }
+      }
+    });
 
   }
 </script>

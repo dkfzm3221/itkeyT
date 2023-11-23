@@ -31,6 +31,15 @@ public class TotalAdminServiceImpl implements TotalAdminService {
 
     public static String uploadDir;
 
+    /**
+    *
+    * TotalAdminServiceImpl
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 파일 저장경로 설정
+    *
+    **/
     @Value("${spring.servlet.multipart.location}")
     public void setKey(String value) {
         uploadDir = value;
@@ -114,13 +123,14 @@ public class TotalAdminServiceImpl implements TotalAdminService {
         return totalAdminDAO.getBannerList();
     }
 
+
     @Override
     public void saveBanner(Banner banner, HttpServletRequest request) throws Exception {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 
         MultipartFile file = multipartRequest.getFile("file");
 
-            FileDto fileDto = new FileDto();
+        FileDto fileDto = new FileDto();
 
         if (file != null) {
             MultipartFile multipartFile = file;
@@ -130,7 +140,7 @@ public class TotalAdminServiceImpl implements TotalAdminService {
 
                 String newFileName = UUID.randomUUID().toString() + fileExtension;
 
-                File dir = new File(uploadDir);
+                File dir = new File(uploadDir); //파일 저장경로(로컬)
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
@@ -143,6 +153,7 @@ public class TotalAdminServiceImpl implements TotalAdminService {
 
                 Files.write(filePath, multipartFile.getBytes());
 
+                //파일 idx별로 update, insert 구분
                 if (fileDto.getFileIdx() != null) {
                     fileDto.setSaveNm(newFileName);
                     fileDto.setOriNm(originalFileName);
@@ -165,7 +176,7 @@ public class TotalAdminServiceImpl implements TotalAdminService {
                 fileIdx = fileDto.getFileIdx();
             }
 
-
+            //배너 seq별로 update, insert 구분
             if (banner.getBannerSeq() != null) {
                 Banner newBanner = new Banner();
                 newBanner.setBannerSeq(banner.getBannerSeq());

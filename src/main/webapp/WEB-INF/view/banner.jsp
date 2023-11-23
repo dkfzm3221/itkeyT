@@ -58,6 +58,14 @@
     </div>
 </div>
 <script>
+   <%-- /**
+       *
+       *
+       *@author 김재섭
+       *@date 2023-11-23
+       *@comment 배너 추가 버튼 클릭시 html 추가
+       *
+       **/--%>
     function addBanner() {
         var table = document.getElementById('banner_list_thead').parentNode;
         var row = table.insertRow(-1);
@@ -80,6 +88,14 @@
             +'<button class="btn btn-warning btn-lg" onclick="removeBanner(this)">삭제</button><td>';
     }
 
+   <%-- /**
+       *
+       *
+       *@author 김재섭
+       *@date 2023-11-23
+       *@comment 이미지 미리보기
+       *
+       **/--%>
     function previewImage(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -93,7 +109,14 @@
         }
     }
 
-
+  <%-- /**
+      *
+      *
+      *@author 김재섭
+      *@date 2023-11-23
+      *@comment 저장된 배너 삭제
+      *
+      **/--%>
     function removeSaveBanner(btn, seq) {
         var row = btn.parentNode.parentNode;
         row.parentNode.removeChild(row);
@@ -116,16 +139,31 @@
         }
     }
 
-
+   <%-- /**
+       *
+       *
+       *@author 김재섭
+       *@date 2023-11-23
+       *@comment 저장안된 배너 삭제
+       *
+       **/--%>
     function removeBanner(btn) {
         var row = btn.parentNode.parentNode;
         row.parentNode.removeChild(row);
     }
 
+   <%-- /**
+       *
+       *
+       *@author 김재섭
+       *@date 2023-11-23
+       *@comment 배너 저장
+       *
+       **/--%>
     function saveBanner(bannerId) {
         var formData = new FormData();
         var bannerOrder = $("#bannerOrder" + bannerId).val();
-        if($("#fileInput"+ bannerId).val() != ""){
+        if($("#fileInput"+ bannerId).val() != ""){//이미지 없을시 처리
             var fileInput = document.getElementById("fileInput" + bannerId).files[0];
             formData.append("file", fileInput);
         }else{
@@ -135,9 +173,7 @@
         var bannerUrl = $("#bannerUrl" + bannerId).val();
 
         // FormData 객체 생성 및 데이터 추가
-
         formData.append("bannerOrder", bannerOrder);
-
         formData.append("bannerName", bannerName);
         formData.append("bannerUrl", bannerUrl);
 
@@ -158,7 +194,14 @@
         }
     }
 
-
+   <%-- /**
+       *
+       *
+       *@author 김재섭
+       *@date 2023-11-23
+       *@comment 배너 수정
+       *
+       **/--%>
     function updateBanner(bannerSeq) {
         var formData = new FormData();
         var bannerOrder = $("#bannerOrder" + bannerSeq).val();
@@ -199,10 +242,6 @@
             });
         }
     }
-
-
-
-
 
 </script>
 <!-- Footer  -->

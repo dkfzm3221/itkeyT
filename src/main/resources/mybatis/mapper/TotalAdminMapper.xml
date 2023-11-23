@@ -161,6 +161,7 @@
 
 	<!-- 메뉴 삭제시, 해당 게시글 삭제처리 -->
 	<update id="delBoardAjax" parameterType="java.util.List">
+		/*fn : 메뉴 삭제시, 해당 게시글 삭제처리 - delBoardAjax */
 		UPDATE BOARD
 		SET BOARD_DEL_YN = 'Y'
 		WHERE BOARD_TYPE IN
@@ -169,6 +170,15 @@
 		</foreach>
 	</update>
 
+<!--	/**
+	*
+	*
+	*
+	*@author 김재섭
+	*@date 2023-11-23
+	*@comment 관리자 배너 리스트
+	*
+	**/-->
 	<select id="getBannerList" resultType="Banner">
 		SELECT
 			BANNER_SEQ
@@ -194,6 +204,16 @@
 		LEFT JOIN FILE FT ON BN.FILE_IDX = FT.FILE_IDX
 		ORDER BY BANNER_ORDER ASC
 	</select>
+
+	<!--/**
+	*
+	*
+	*
+	*@author 김재섭
+	*@date 2023-11-23
+	*@comment 관리자 배너 등록
+	*
+	**/-->
 	<insert id="saveBanner" parameterType="Banner">
 		INSERT INTO BANNER
 		(BANNER_NAME
@@ -224,6 +244,16 @@
 		, NOW()
 		)
 	</insert>
+
+	<!--/**
+	*
+	*
+	*
+	*@author 김재섭
+	*@date 2023-11-23
+	*@comment 관리자 배너 파일등록
+	*
+	**/-->
 	<insert id="saveFile" parameterType="FileDto" useGeneratedKeys="true" keyProperty="fileIdx" keyColumn="file_idx">
 		INSERT INTO FILE
 		(
@@ -239,6 +269,16 @@
 			, NOW()
 			)
 	</insert>
+
+	<!--/**
+	*
+	*
+	*
+	*@author 김재섭
+	*@date 2023-11-23
+	*@comment 관리자 배너 파일 수정
+	*
+	**/-->
 	<update id="updateFile" parameterType="FileDto" useGeneratedKeys="true" keyProperty="fileIdx" keyColumn="file_idx">
 		UPDATE FILE
 		SET
@@ -249,6 +289,15 @@
 		WHERE FILE_IDX = #{fileIdx}
 	</update>
 
+	<!--/**
+	*
+	*
+	*
+	*@author 김재섭
+	*@date 2023-11-23
+	*@comment 관리자 배너 수정
+	*
+	**/-->
 	<update id="updateBanner" parameterType="Banner">
 		UPDATE BANNER
 		SET

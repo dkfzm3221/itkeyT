@@ -18,6 +18,14 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script>
+   <%-- /**
+       *
+       *
+       *@author 김재섭
+       *@date 2023-11-23
+       *@comment 게시판 에디터
+       *
+       **/--%>
     $(document).ready(function () {
 
         const memberType =$("#memberType").val();
@@ -133,6 +141,14 @@
     </div>
 </div>
 <script>
+   <%-- /**
+       *
+       *
+       *@author 김재섭
+       *@date 2023-11-23
+       *@comment 게시판 항목으로 돌아가기
+       *
+       **/--%>
     function returnToList(){
       let form = $("#moveForm");
 
@@ -142,8 +158,17 @@
       form.submit();
     }
 
+
+   <%-- /**
+       *
+       *
+       *@author 김재섭
+       *@date 2023-11-23
+       *@comment 게시판 글 수정
+       *
+       **/--%>
     function modiBoard(){
-        let password = prompt("비밀번호를 입력하세요.");
+        let password = prompt("비밀번호를 입력하세요."); //비밀번호 체크
         let regId = $("#regId").val();
         let boardSeq = $("#boardSeq").val();
 
@@ -166,6 +191,7 @@
                     $('#password').removeAttr('readonly');
                     $('button[onclick="modiBoard()"]').attr('onclick', 'updateBoard()');
                     $('#boardEditor').summernote('enable');
+                    // 관리자가 아닐때
                     if(memberType !== 'A'){
                       let deleteButton = $('<button/>', {
                         text: '삭제',
@@ -210,6 +236,14 @@
     }
 
 
+   <%-- /**
+       *
+       *
+       *@author 김재섭
+       *@date 2023-11-23
+       *@comment 게시판 글 수정
+       *
+       **/--%>
     function updateBoard(){
         let boardTitle = $("#boardTitle").val();
         let boardEditor = $("#boardEditor").summernote('code');

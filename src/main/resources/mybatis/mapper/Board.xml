@@ -3,6 +3,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.board">
+  <!--  /**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 게시판 리스트
+    *
+    **/-->
     <select id="boardList" parameterType="map" resultType="Board">
         SELECT
             BO.BOARD_SEQ
@@ -34,6 +43,15 @@
         ORDER BY BO.BOARD_SEQ DESC
             LIMIT 5
     </select>
+   <!-- /**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 게시판 등록
+    *
+    **/-->
     <insert id="writeBoard" parameterType="Board">
         INSERT INTO BOARD
         (BOARD_TITLE
@@ -58,6 +76,15 @@
             , NOW()
             )
     </insert>
+ <!--   /**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 게시판 상세보기
+    *
+    **/-->
     <select id="boardDetail" parameterType="Board" resultType="Board">
         SELECT
             BOARD_SEQ
@@ -82,18 +109,45 @@
         FROM BOARD
         WHERE BOARD_SEQ = #{boardSeq}
     </select>
+   <!-- /**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 게시판 조회수
+    *
+    **/-->
     <update id="updateInqCnt" parameterType="BOARD">
         UPDATE BOARD
         SET INQ_CNT = COALESCE(INQ_CNT, 0) + 1
         WHERE BOARD_SEQ = #{boardSeq}
     </update>
 
+   <!-- /**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 게시판 페이징처리를 위한 전체 카운트
+    *
+    **/-->
     <select id="getTotalBoardCount" parameterType="String" resultType="int">
         SELECT COUNT(*) FROM board
         WHERE BOARD_DEL_YN = 'N'
         AND BOARD_TYPE = #{boardType}
     </select>
 
+  <!--  /**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 게시판 비밀번호 체크
+    *
+    **/-->
     <select id="selectPassword" parameterType="Board" resultType="Board">
         SELECT
             BOARD_SEQ
@@ -103,6 +157,15 @@
         WHERE BOARD_SEQ = #{boardSeq}
     </select>
 
+   <!-- /**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 게시판 수정
+    *
+    **/-->
     <update id="updateBoard" parameterType="Board">
         UPDATE BOARD
         SET
@@ -118,6 +181,15 @@
         WHERE BOARD_SEQ = #{boardSeq}
     </update>
 
+   <!-- /**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 게시판 삭제
+    *
+    **/-->
     <update id="deleteBoard" parameterType="Board">
         UPDATE BOARD
         SET
@@ -125,17 +197,26 @@
         WHERE BOARD_SEQ = #{boardSeq}
     </update>
 
+  <!--  /**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 사용자 메뉴 리스트 불러오기
+    *
+    **/-->
     <select id="getMenuList"  resultType="Board">
         SELECT
-               MENU_SEQ
+            MENU_SEQ
              , MENU_NAME
              , MENU_URL
              , MENU_SITE
              , MENU_BOARD_TYPE
         FROM MENU
         WHERE MENU_SITE = 'U'
-        AND MENU_USE_YN = 'Y'
-        ORDER BY MENU_ORDER DESC
+          AND MENU_USE_YN = 'Y'
+        ORDER BY CAST(MENU_ORDER AS SIGNED)
     </select>
 
     <select id="boardTypeList"  resultType="Board">
@@ -182,6 +263,16 @@
             LIMIT #{startIdx}, #{countPerPage}
     </select>
 
+
+  <!--  /**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 사용자 배너 리스트
+    *
+    **/-->
     <select id="bannerList"  resultType="Banner">
         SELECT
             BANNER_SEQ
@@ -192,6 +283,7 @@
              , FT.ori_nm
              , FT.save_nm
              , FT.FILE_PATH
+             , BANNER_NAME
         FROM BANNER BN
         LEFT JOIN FILE FT ON BN.FILE_IDX = FT.FILE_IDX
         ORDER BY BANNER_ORDER ASC
@@ -202,6 +294,15 @@
         WHERE  M.MENU_BOARD_TYPE = #{boardType}
     </select>
 
+    <!--/**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 배너 이미지등록
+    *
+    **/-->
     <update id="updateFile" parameterType="FileDto">
         UPDATE FILE
         SET
@@ -212,6 +313,15 @@
         WHERE FILE_IDX = #{fileIdx}
     </update>
 
+  <!--  /**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 배너 수정
+    *
+    **/-->
     <update id="updateBanner" parameterType="Banner">
         UPDATE BOARD
         SET

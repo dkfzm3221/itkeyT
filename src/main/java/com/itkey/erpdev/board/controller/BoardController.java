@@ -31,6 +31,15 @@ public class BoardController {
 
     BoardService bs;
 
+    /**
+    *
+    * BoardController
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 대시보드 게시판 리스트
+    *
+    **/
     @GetMapping(value = "/")
     public ModelAndView boardList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                   @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage
@@ -41,6 +50,7 @@ public class BoardController {
         List<Board> boardTypeList = bs.boardTypeList();
         mv.addObject("boardTypeList", boardTypeList);
 
+        //게시판 타입별로 화면에 리스트 출력
         for (Board board : boardTypeList) {
             String boardType = board.getBoardType();
             List<Board> boardList = bs.boardList(pageNum, countPerPage, boardType);
@@ -48,16 +58,16 @@ public class BoardController {
             mv.addObject("section_" + board, boardList);
         }
 
-
+        //세션에 배너, 메뉴 저장
         List<Banner> bannerList = bs.bannerList();
-
         List<Board> menuList = bs.getMenuList();
-
         session.setAttribute("menuList", menuList);
         session.setAttribute("bannerList", bannerList);
 
         return mv;
     }
+
+    // 게시물 등록 form
     @GetMapping(value = "/writeBoardView")
     public ModelAndView writeBoardView(Board board,HttpServletRequest request, HttpSession session) throws Exception{
         ModelAndView mv = new ModelAndView("/board/writeBoardView");
@@ -88,7 +98,7 @@ public class BoardController {
         mv.addObject("boardType",menuBoardType);
         return mv;
     }
-
+    // 게시물 등록
     @PostMapping(value = "/writeBoard")
     public ModelAndView writeBoard(Board board) throws Exception{
         ModelAndView mv = new ModelAndView("/index");
@@ -96,9 +106,10 @@ public class BoardController {
         return mv;
     }
 
+    // 게시판 상세
     @GetMapping(value = "/boardDetail")
     public ModelAndView boardDetail(Board board, HttpSession session) throws Exception{
-
+        
         ModelAndView mv = new ModelAndView("/board/boardDetail");
         if(session.getAttribute("admin") != null ){
             TotalAdminDTO member = (TotalAdminDTO) session.getAttribute("admin");
@@ -122,6 +133,15 @@ public class BoardController {
         return mv;
     }
 
+    /**
+    *
+    * BoardController
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 게시글 비밀번호 체크
+    *
+    **/
     @PostMapping(value = "/boardPassword")
     public ModelAndView boardPassword(Board board) throws Exception{
         ModelAndView mv = new ModelAndView("jsonView");
@@ -133,6 +153,15 @@ public class BoardController {
         return mv;
     }
 
+    /**
+    *
+    * BoardController
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 게시판 수정
+    *
+    **/
     @PostMapping(value = "/updateBoard")
     public ModelAndView updateBoard(Board board) throws Exception{
         ModelAndView mv = new ModelAndView("/board/boardDetail");
@@ -141,6 +170,15 @@ public class BoardController {
         return mv;
     }
 
+    /**
+    *
+    * BoardController
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 게시판 삭제
+    *
+    **/
     @PostMapping(value = "/deleteBoard")
     public ModelAndView deleteBoard(Board board) throws Exception{
         ModelAndView mv = new ModelAndView("/board/boardDetail");
@@ -154,12 +192,14 @@ public class BoardController {
         @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage, Board board, HttpSession session, SearchBoard searchBoard) throws Exception{
         ModelAndView mv = new ModelAndView("/boardDetailList");
 
+        //session 구분
         if(session.getAttribute("admin") != null ){
+            // 관리자
             TotalAdminDTO member = (TotalAdminDTO) session.getAttribute("admin");
             String memberType = member.getMemberType();
             mv.addObject("memberType", memberType);
         }else if(session.getAttribute("member") != null ){
-
+            // 일반user
             MemberInfoResponse member = (MemberInfoResponse) session.getAttribute("member");
             String memberType = member.getMemberType();
             String userId = member.getId();
@@ -167,8 +207,10 @@ public class BoardController {
             mv.addObject("memberType", memberType);
         }
 
+        // type 설정
         String boardType= board.getMenuBoardType();
-        log.info("ASdasd=="+boardType);
+
+        //페이징
         int totalCount = bs.getTotalBoardCount(boardType);
         int startPage = (pageNum - 1) * countPerPage + 1;
         int endPage = startPage + countPerPage - 1;
@@ -197,15 +239,15 @@ public class BoardController {
         pageInfo.put("nextPage", nextPage);
         pageInfo.put("boardType", boardType);
 
-//        List<Board> boardDetailList = bs.boardDetailList(pageNum, countPerPage,boardType);
-        log.info("Asdas=="+searchBoard.getSearchBoardTitle());
         List<Board> boardDetailList = bs.boardDetailList(pageNum, countPerPage,boardType,searchBoard);
+        //게시판명 select
         Board selectName = bs.selectName(boardType);
 
         mv.addObject("pageInfo", pageInfo);
         mv.addObject("boardDetailList", boardDetailList);
         mv.addObject("boardType", boardType);
         mv.addObject("selectName", selectName.getMenuName());
+        mv.addObject("searchBoardTitle", searchBoard.getSearchBoardTitle());
 
         return mv;
     }

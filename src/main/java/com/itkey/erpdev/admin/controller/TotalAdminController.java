@@ -261,6 +261,15 @@ public class TotalAdminController {
 		return mv;
 	}
 
+	/**
+	*
+	* TotalAdminController
+	*
+	*@author 김재섭
+	*@date 2023-11-23
+	*@comment 배너 리스트
+	*
+	**/
 	@GetMapping(value = "/banner")
 	public ModelAndView banner(HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("/banner");
@@ -285,6 +294,15 @@ public class TotalAdminController {
 		return mv;
 	}
 
+	/**
+	*
+	* TotalAdminController
+	* 
+	*@author 김재섭
+	*@date 2023-11-23
+	*@comment 배너 저장
+	*
+	**/
 	@PostMapping(value = "/saveBanner")
 	public ModelAndView saveBanner(Banner banner, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView("jsonView");
