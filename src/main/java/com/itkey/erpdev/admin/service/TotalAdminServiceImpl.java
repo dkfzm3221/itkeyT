@@ -258,4 +258,9 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     public int releaseMember(int memberIdx) {
         return totalAdminDAO.releaseMember(memberIdx);
     }
+
+    @Override
+    public void removeBanner(Banner banner) throws Exception {
+        totalAdminDAO.removeBanner(banner);
+    }
 }

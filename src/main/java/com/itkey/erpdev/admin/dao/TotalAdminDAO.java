@@ -80,4 +80,5 @@ public interface TotalAdminDAO {
 	int releaseMember(int memberIdx);
 
 
+	void removeBanner(Banner banner) throws Exception;
 }
