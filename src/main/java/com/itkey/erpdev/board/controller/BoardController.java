@@ -1,8 +1,10 @@
 package com.itkey.erpdev.board.controller;
 
+import com.itkey.erpdev.admin.domain.Popup;
 import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
+import com.itkey.erpdev.admin.service.TotalAdminService;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.domain.SearchBoard;
 import com.itkey.erpdev.board.service.BoardService;
@@ -30,6 +32,7 @@ import java.util.Map;
 public class BoardController {
 
     BoardService bs;
+    TotalAdminService adminService;
 
     /**
     *
@@ -40,6 +43,7 @@ public class BoardController {
     *@comment 대시보드 게시판 리스트
     *
     **/
+
     @GetMapping(value = "/")
     public ModelAndView boardList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                   @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage
@@ -47,6 +51,14 @@ public class BoardController {
         ModelAndView mv = new ModelAndView("/index");
 
         HttpSession session = request.getSession();
+
+        List<Popup> popupList = adminService.popupList();
+
+        String test ="aa";
+        mv.addObject("popupList", popupList);
+        mv.addObject("test", test);
+
+
         List<Board> boardTypeList = bs.boardTypeList();
         mv.addObject("boardTypeList", boardTypeList);
 
