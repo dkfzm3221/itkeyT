@@ -130,6 +130,7 @@
     function removeMenuRow(obj) {
         var delRow = $(obj).closest("tr");
         delRow.find("[name='menuUseYn']").val("N");
+        delRow.find("[name='menuBoardType']").val("");
 
         // 해당 메뉴의 정보를 추출하여 배열에 추가
         var info = {};
