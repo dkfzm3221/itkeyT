@@ -286,7 +286,7 @@
             data: {Name: findMemNm, hp: findeMemPh},
             dataType: "json",
             success: function (data) {
-                //console.log("data  : " + JSON.stringify(data.result));
+
                 if (data.result === 'success') {
                     var maskedId = data.foundId;
 

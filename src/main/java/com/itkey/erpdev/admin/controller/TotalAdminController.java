@@ -463,7 +463,6 @@ public class TotalAdminController {
 	@ResponseBody
 	@RequestMapping(value="/countDelAdmin", produces="application/json; charset=UTF-8")
 	public Integer countDelAdmin(){
-
 		return adminService.countDelAdmin();
 	}
 
