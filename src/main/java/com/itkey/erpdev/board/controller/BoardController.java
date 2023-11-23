@@ -58,6 +58,8 @@ public class BoardController {
 
         return mv;
     }
+
+    // 게시물 등록 form
     @GetMapping(value = "/writeBoardView")
     public ModelAndView writeBoardView(Board board,HttpServletRequest request, HttpSession session) throws Exception{
         ModelAndView mv = new ModelAndView("/board/writeBoardView");
@@ -88,7 +90,7 @@ public class BoardController {
         mv.addObject("boardType",menuBoardType);
         return mv;
     }
-
+    // 게시물 등록
     @PostMapping(value = "/writeBoard")
     public ModelAndView writeBoard(Board board) throws Exception{
         ModelAndView mv = new ModelAndView("/index");
@@ -96,9 +98,10 @@ public class BoardController {
         return mv;
     }
 
+    // 게시판 상세
     @GetMapping(value = "/boardDetail")
     public ModelAndView boardDetail(Board board, HttpSession session) throws Exception{
-
+        
         ModelAndView mv = new ModelAndView("/board/boardDetail");
         if(session.getAttribute("admin") != null ){
             TotalAdminDTO member = (TotalAdminDTO) session.getAttribute("admin");
@@ -154,12 +157,14 @@ public class BoardController {
         @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage, Board board, HttpSession session, SearchBoard searchBoard) throws Exception{
         ModelAndView mv = new ModelAndView("/boardDetailList");
 
+        //session 구분
         if(session.getAttribute("admin") != null ){
+            // 관리자
             TotalAdminDTO member = (TotalAdminDTO) session.getAttribute("admin");
             String memberType = member.getMemberType();
             mv.addObject("memberType", memberType);
         }else if(session.getAttribute("member") != null ){
-
+            // 일반user
             MemberInfoResponse member = (MemberInfoResponse) session.getAttribute("member");
             String memberType = member.getMemberType();
             String userId = member.getId();
@@ -167,8 +172,10 @@ public class BoardController {
             mv.addObject("memberType", memberType);
         }
 
+        // type 설정
         String boardType= board.getMenuBoardType();
-        log.info("ASdasd=="+boardType);
+
+        //페이징
         int totalCount = bs.getTotalBoardCount(boardType);
         int startPage = (pageNum - 1) * countPerPage + 1;
         int endPage = startPage + countPerPage - 1;
@@ -197,15 +204,15 @@ public class BoardController {
         pageInfo.put("nextPage", nextPage);
         pageInfo.put("boardType", boardType);
 
-//        List<Board> boardDetailList = bs.boardDetailList(pageNum, countPerPage,boardType);
-        log.info("Asdas=="+searchBoard.getSearchBoardTitle());
         List<Board> boardDetailList = bs.boardDetailList(pageNum, countPerPage,boardType,searchBoard);
+        //게시판명 select
         Board selectName = bs.selectName(boardType);
 
         mv.addObject("pageInfo", pageInfo);
         mv.addObject("boardDetailList", boardDetailList);
         mv.addObject("boardType", boardType);
         mv.addObject("selectName", selectName.getMenuName());
+        mv.addObject("searchBoardTitle", searchBoard.getSearchBoardTitle());
 
         return mv;
     }

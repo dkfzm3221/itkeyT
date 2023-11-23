@@ -84,10 +84,10 @@
                             <tr>
                                 <th class="padding-lg">작성자</th>
                                 <td colspan="3">
-                                    <c:if test="${userId == null or userId == ''}">
+                                    <c:if test="${empty userId}">
                                         <input type="text" class="form-control write-form" id="regNm" placeholder="작성자" name="regNm">
                                     </c:if>
-                                    <c:if test="${userId != null or userId != ''}">
+                                    <c:if test="${!empty userId}">
                                         <input type="text" class="form-control write-form" id="regNm" placeholder="작성자" name="regNm" value="${userId}" readonly>
                                     </c:if>
                                     <div class="form-check form-check-inline">
@@ -123,6 +123,7 @@
     </div>
 </div>
 <script>
+  // 게시물 등록
 function insertBoard(boardType){
     let boardTitle = $("#boardTitle").val();
     let boardEditor = $("#boardEditor").summernote('code');
