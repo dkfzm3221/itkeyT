@@ -41,9 +41,11 @@
                                     <tr>
                                         <td style="text-align:center;">${designList.designSeq}</td>
                                         <td>${designList.type}</td>
-                                        <td>${designList.content}</td>
+                                        <td>
+                                            <textarea class="form-control" id="content_${designList.designSeq}" placeholder="내용 입력">${designList.content}</textarea>
+                                        </td>
                                         <td style="text-align:center;padding:5px 0px;">
-                                            <button class="btn btn-sm btn-info" onclick="updateDesign(${design.designSeq});"><i class="fa fa-list"></i> 수정</button>
+                                            <button class="btn btn-sm btn-info" onclick="updateDesign(${designList.designSeq});"><i class="fa fa-list"></i> 저장</button>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -57,9 +59,38 @@
     </div>
 </div>
 
-
 <script>
+    function updateDesign(designSeq) {
+        var updatedContent = $("#content_" + designSeq).val();
+
+        var formData = new FormData();
+        formData.append("designSeq", designSeq);
+        formData.append("content", updatedContent);
+
+        $.ajax({
+            url: '/totalAdmin/upDatedesignMgmt',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (data) {
+                if(data == "S"){
+                    alert("수정 완료되었습니다.");
+                    location.reload();
+                } else {
+                    alert("수정에 실패하였습니다.");
+                    return false;
+                }
+            },
+            error: function (error) {
+                console.error('Error updating design:', error);
+                alert("수정에 실패하였습니다.");
+                return false;
+            }
+        });
+    }
 </script>
+
 
 <!-- Footer  -->
 <jsp:include page="common/contentFooter.jsp"/>
