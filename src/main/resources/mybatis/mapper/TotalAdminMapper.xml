@@ -104,7 +104,7 @@
 		WHERE	A.MENU_USE_YN = 'Y'
 		AND		A.MENU_SITE = 'U'
 		AND 	A.MENU_LEVEL = '1'
-		ORDER BY A.MENU_LEVEL, A.MENU_PARENT_SEQ, A.MENU_ORDER
+		ORDER BY A.MENU_LEVEL, A.MENU_PARENT_SEQ, CAST(A.MENU_ORDER AS SIGNED)
 	</select>
 
 	<!-- 메뉴 수 -->
@@ -191,7 +191,8 @@
 			 , FT.save_nm
 			 , FT.FILE_PATH
 		FROM BANNER BN
-		join file_tb ft on bn.FILE_IDX = FT.file_idx
+		LEFT JOIN FILE FT ON BN.FILE_IDX = FT.FILE_IDX
+		ORDER BY BANNER_ORDER ASC
 	</select>
 	<insert id="saveBanner" parameterType="Banner">
 		INSERT INTO BANNER
@@ -224,7 +225,7 @@
 		)
 	</insert>
 	<insert id="saveFile" parameterType="FileDto" useGeneratedKeys="true" keyProperty="fileIdx" keyColumn="file_idx">
-		INSERT INTO FILE_TB
+		INSERT INTO FILE
 		(
 		 ORI_NM
 		, SAVE_NM
@@ -238,7 +239,7 @@
 			, NOW()
 			)
 	</insert>
-	<update id="updateFile" parameterType="FileDto">
+	<update id="updateFile" parameterType="FileDto" useGeneratedKeys="true" keyProperty="fileIdx" keyColumn="file_idx">
 		UPDATE FILE
 		SET
 			ORI_NM = #{oriNm}
@@ -258,17 +259,12 @@
 		  , BANNER_USE_YN = #{bannerUseYn}
 		  , BANNER_TYPE = #{bannerType}
 		  , BANNER_URL = #{bannerUrl}
-		  , FILE_IDX = #{fileIdx}
+			<if test="fileIdx     !=null and fileIdx  !=''">,FILE_IDX = #{fileIdx}</if>
 		  , BANNER_CONN_WAY = #{bannerConnWay}
 		  , BANNER_DESC = #{bannerDesc}
 		  , UPD_DT = NOW()
 		WHERE BANNER_SEQ = #{bannerSeq}
 	</update>
-
-
-
-
-
 
 	<!--관리자 리스트 -->
 	<select id="adminList" resultType="Admin">
@@ -470,8 +466,6 @@
 		order by ROWNUM DESC
 	</select>
 
-
-
 	<!-- 검색 기능 -->
 	<sql id="search">
 		<choose>
@@ -488,4 +482,5 @@
 			</when>
 		</choose>
 	</sql>
+
 </mapper>

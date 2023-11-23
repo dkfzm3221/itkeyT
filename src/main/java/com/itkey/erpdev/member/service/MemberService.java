@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 public interface MemberService {
     int memJoin(MemberInsert mDTO);
 
-    MemberInfoResponse memlogin(Member m);
+    MemberInfoResponse memlogin(Member m, HttpSession session);
 
     Member findId(Member mDTO);
 
@@ -18,6 +18,4 @@ public interface MemberService {
     int newPw(String salt, String newPw, Integer seq);
 
     int memberIdCheck(String id);
-
-    void lastLoginDt(Integer seq);
 }

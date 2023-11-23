@@ -1,5 +1,7 @@
 package com.itkey.erpdev.board.repository;
 
+import com.itkey.erpdev.admin.dto.Banner;
+import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.domain.SearchBoard;
 
@@ -29,4 +31,6 @@ public interface BoardDao {
     List<Board> boardTypeList() throws Exception;
 
     Board selectName(String boardType);
+
+    List<Banner> bannerList() throws Exception;
 }

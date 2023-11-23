@@ -39,7 +39,6 @@
             </ul>
         </div>
 
-
       <%--  <div class="nav-toggle">
             <button class="btn btn-toggle toggle-sidebar"><i class="icon-menu"></i></button>
         </div>--%>
@@ -65,7 +64,9 @@
                 <button class="btn btn-secondary" onclick="loginButton()">Login</button>
             </c:when>
             <c:otherwise>
+                <form id="logout" action="/mem/logout" method="post">
                 <button class="btn btn-secondary" onclick="logoutButton()">logout</button>
+                </form>
             </c:otherwise>
         </c:choose>
 
@@ -82,27 +83,23 @@
             <div class="user">
                 <div class="info">
                     <div class="row">
-                        <div class="col-md-12">
-                            <a data-toggle="collapse" href="#collapseExample1" aria-expanded="true">
-                                <img src="/resources/images/test.png" alt="logo" class="navbar-brand" style="width: 100%;">
-                            </a>
-                        </div>
+                        <c:forEach items="${sessionScope.bannerList}" var="item">
+                            <div class="col-md-12">
+                                <c:if test="${empty item.fileIdx}">
+                                    <a href="${item.bannerUrl}" target="_blank">
+                                        <div>
+                                            ${item.bannerName}
+                                        </div>
+                                    </a>
+                                </c:if>
+                                <c:if test="${not empty item.fileIdx}">
+                                    <a href="${item.bannerUrl}" target="_blank">
+                                        <img src="${item.filePath}" class="navbar-brand" style="width: 100%;">
+                                    </a>
+                                </c:if>
+                            </div>
+                        </c:forEach>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a data-toggle="collapse" href="#collapseExample2" aria-expanded="true">
-                                stest
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a data-toggle="collapse" href="#collapseExample3" aria-expanded="true">
-                                setset
-                            </a>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
                 </div>
             </div>
         </div>

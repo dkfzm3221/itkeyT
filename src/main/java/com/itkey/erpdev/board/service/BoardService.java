@@ -1,5 +1,7 @@
 package com.itkey.erpdev.board.service;
 
+import com.itkey.erpdev.admin.dto.Banner;
+import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.domain.SearchBoard;
 
@@ -27,6 +29,8 @@ public interface BoardService {
     List<Board> getMenuList() throws Exception;
 
     List<Board> boardTypeList() throws Exception;
+
+    List<Banner> bannerList() throws Exception;
 
     Board selectName(String boardType);
 }

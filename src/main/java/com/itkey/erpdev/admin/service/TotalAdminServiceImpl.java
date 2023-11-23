@@ -8,6 +8,7 @@ import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.member.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,13 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class TotalAdminServiceImpl implements TotalAdminService {
+
+    public static String uploadDir;
+
+    @Value("${spring.servlet.multipart.location}")
+    public void setKey(String value) {
+        uploadDir = value;
+    }
 
     TotalAdminDAO totalAdminDAO;
 
@@ -112,7 +120,7 @@ public class TotalAdminServiceImpl implements TotalAdminService {
 
         MultipartFile file = multipartRequest.getFile("file");
 
-        FileDto fileDto = new FileDto();
+            FileDto fileDto = new FileDto();
 
         if (file != null) {
             MultipartFile multipartFile = file;
@@ -122,14 +130,12 @@ public class TotalAdminServiceImpl implements TotalAdminService {
 
                 String newFileName = UUID.randomUUID().toString() + fileExtension;
 
-                String rootPath = System.getProperty("user.dir");
-                File staticDir = new File(rootPath, "src/main/resources/static/images");
-
-                if (!staticDir.exists()) {
-                    staticDir.mkdirs();
+                File dir = new File(uploadDir);
+                if (!dir.exists()) {
+                    dir.mkdirs();
                 }
 
-                File newFile = new File(staticDir, newFileName);
+                File newFile = new File(dir, newFileName);
 
                 Path filePath = Paths.get(newFile.getAbsolutePath());
 
@@ -148,26 +154,34 @@ public class TotalAdminServiceImpl implements TotalAdminService {
                     fileDto.setFilePath(fileUrl);
                     totalAdminDAO.saveFile(fileDto);
                 }
-
             }
         }
 
-        if (banner.getBannerSeq() != null) {
-            Banner newBanner = new Banner();
-            newBanner.setBannerSeq(banner.getBannerSeq());
-            newBanner.setBannerName(banner.getBannerName());
-            newBanner.setBannerUrl(banner.getBannerUrl());
-            newBanner.setBannerOrder(banner.getBannerOrder());
-            newBanner.setFileIdx(fileDto.getFileIdx());
-            totalAdminDAO.updateBanner(newBanner);
-        } else {
-            Banner newBanner = new Banner();
-            newBanner.setBannerName(banner.getBannerName());
-            newBanner.setBannerUrl(banner.getBannerUrl());
-            newBanner.setBannerOrder(banner.getBannerOrder());
-            newBanner.setFileIdx(fileDto.getFileIdx());
-            totalAdminDAO.saveBanner(newBanner);
-        }
+            String fileIdx = "";
+
+            if(file == null){
+                fileIdx = banner.getFileIdx();
+            }else{
+                fileIdx = fileDto.getFileIdx();
+            }
+
+
+            if (banner.getBannerSeq() != null) {
+                Banner newBanner = new Banner();
+                newBanner.setBannerSeq(banner.getBannerSeq());
+                newBanner.setBannerName(banner.getBannerName());
+                newBanner.setBannerUrl(banner.getBannerUrl());
+                newBanner.setBannerOrder(banner.getBannerOrder());
+                newBanner.setFileIdx(fileIdx);
+                totalAdminDAO.updateBanner(newBanner);
+            } else {
+                Banner newBanner = new Banner();
+                newBanner.setBannerName(banner.getBannerName());
+                newBanner.setBannerUrl(banner.getBannerUrl());
+                newBanner.setBannerOrder(banner.getBannerOrder());
+                newBanner.setFileIdx(fileIdx);
+                totalAdminDAO.saveBanner(newBanner);
+            }
 
     }
 

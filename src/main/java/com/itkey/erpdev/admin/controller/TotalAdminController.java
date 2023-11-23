@@ -294,10 +294,6 @@ public class TotalAdminController {
 
 
 
-
-
-
-
 	//회원관리 홈
 	@RequestMapping(value = "/adminHome")
 	public ModelAndView adminIndex(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5")
@@ -523,7 +519,6 @@ public class TotalAdminController {
 
 		return mv;
 	}
-
 
 
 
