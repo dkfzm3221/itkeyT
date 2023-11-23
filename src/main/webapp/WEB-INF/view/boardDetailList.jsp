@@ -131,10 +131,7 @@
                                                         <tr>
                                                             <td style="text-align:center;">${index.index + 1}</td>
                                                             <td>
-                                                                <c:choose>
-                                                                    <c:when test="${item.boardSecretYn == 'N'}">비공개</c:when>
-                                                                    <c:otherwise>${item.regNm}</c:otherwise>
-                                                                </c:choose>
+                                                                ${item.regNm}
                                                             </td>
                                                             <td>
                                                                 <c:choose>
