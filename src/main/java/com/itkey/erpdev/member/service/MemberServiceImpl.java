@@ -35,17 +35,20 @@ public class MemberServiceImpl implements MemberService{
         MemberInfoResponse response  = new MemberInfoResponse();
 
         String salt = dao.getSalt(m);
+        //로그인 불가능
         if (salt == null) {
             return response;
         }
+        
         m.setSalt(salt);
         String encPw = SHA256.getEncrypt(m.getPassword(), m.getSalt());
         m.setPassword(encPw);
         int loginResult = dao.memLogin(m);
-
+        //로그인 불가능
         if (loginResult == 0) {
             return response;
         }
+        //로그인 가능
         response = dao.memLoginInfo(m);
         return response;
     }
@@ -62,14 +65,14 @@ public class MemberServiceImpl implements MemberService{
     //비밀번호 재발급
     @Override
     public int newPw(String salt, String newPw, Integer seq) {
-        log.info("--new");
+
         String encPw = SHA256.getEncrypt(newPw, salt);
 
         MemberInsert mDTO = MemberInsert.builder()
                         .password(encPw)
                         .seq(seq)
                         .build();
-        log.info("---MemberInsert---{}", mDTO);
+
         return dao.newPw(mDTO);
     }
     //사용자 아이디 중복체크
@@ -81,10 +84,10 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public int updateMember(Member m) {
         if(!"".equals(m.getPassword())){
-        String salt = dao.getSalt(m);
-        String encPw = SHA256.getEncrypt(m.getPassword(), salt);
+            String salt = dao.getSalt(m);
+            String encPw = SHA256.getEncrypt(m.getPassword(), salt);
 
-        m.setPassword(encPw);
+            m.setPassword(encPw);
         }
         return dao.updateMember(m);
     }
