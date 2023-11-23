@@ -69,9 +69,14 @@
 						<i class="icon-menu"></i>
 					</span>
         </button>--%>
-         <a class="navbar-brand" href="/">
-             <img src="/resources/images/itkey-logo-white.png" alt="logo" class="navbar-brand" style="height: 28px;">
-         </a>
+
+        <!-- 1번 디자인 영역 -->
+         <c:forEach items="${designList}" var="design" varStatus="index">
+             <c:if test="${design.designSeq eq 1}">
+                 ${design.content}
+             </c:if>
+         </c:forEach>
+
          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
              <span class="navbar-toggler-icon"></span>
          </button>

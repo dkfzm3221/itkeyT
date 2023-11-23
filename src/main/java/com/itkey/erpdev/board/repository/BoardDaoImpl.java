@@ -1,6 +1,7 @@
 package com.itkey.erpdev.board.repository;
 
 import com.itkey.erpdev.admin.dto.Banner;
+import com.itkey.erpdev.admin.dto.DesignDTO;
 import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.domain.SearchBoard;
@@ -119,4 +120,8 @@ public class BoardDaoImpl implements BoardDao{
     }
 
 
+    @Override
+    public List<DesignDTO> getDegignList() {
+        return sql.selectList("mapper.board.getDegignList");
+    }
 }

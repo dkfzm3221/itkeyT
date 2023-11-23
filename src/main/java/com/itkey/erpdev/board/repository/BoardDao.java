@@ -1,6 +1,7 @@
 package com.itkey.erpdev.board.repository;
 
 import com.itkey.erpdev.admin.dto.Banner;
+import com.itkey.erpdev.admin.dto.DesignDTO;
 import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.domain.SearchBoard;
@@ -41,4 +42,6 @@ public interface BoardDao {
     void updateBoardReply(Board board);
 
     void deleteBoardReply(Board board);
+
+    List<DesignDTO> getDegignList();
 }
