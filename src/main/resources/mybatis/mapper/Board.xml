@@ -20,11 +20,6 @@
              , BO.BOARD_CONTENT
              , BO.BOARD_SECRET_YN
              , BO.BOARD_DEL_YN
-             , BO.REPLY_YN
-             , BO.REPLY_CONTENT
-             , BO.REPLY_MEMBER_ID
-             , BO.REPLY_DT
-             , BO.ATTCH_FILE_CNT
              , COALESCE(BO.INQ_CNT, 0) AS INQ_CNT
              , BO.REG_ID
              , BO.REG_NM
@@ -93,11 +88,6 @@
              , BOARD_CONTENT
              , BOARD_SECRET_YN
              , BOARD_DEL_YN
-             , REPLY_YN
-             , REPLY_CONTENT
-             , REPLY_MEMBER_ID
-             , REPLY_DT
-             , ATTCH_FILE_CNT
              , INQ_CNT
              , REG_ID
              , REG_NM
@@ -238,11 +228,6 @@
              , BO.BOARD_CONTENT
              , BO.BOARD_SECRET_YN
              , BO.BOARD_DEL_YN
-             , BO.REPLY_YN
-             , BO.REPLY_CONTENT
-             , BO.REPLY_MEMBER_ID
-             , BO.REPLY_DT
-             , BO.ATTCH_FILE_CNT
              , COALESCE(BO.INQ_CNT, 0) AS INQ_CNT
              , BO.REG_ID
              , BO.REG_NM

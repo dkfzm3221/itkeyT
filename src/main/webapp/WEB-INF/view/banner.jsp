@@ -161,6 +161,7 @@
        *
        **/--%>
     function saveBanner(bannerId) {
+
         var formData = new FormData();
         var bannerOrder = $("#bannerOrder" + bannerId).val();
         if($("#fileInput"+ bannerId).val() != ""){//이미지 없을시 처리
@@ -176,6 +177,23 @@
         formData.append("bannerOrder", bannerOrder);
         formData.append("bannerName", bannerName);
         formData.append("bannerUrl", bannerUrl);
+
+
+        if(bannerOrder == ""){
+            alert("순번을 입력해주세요.");
+            return false;
+        }
+
+        if(bannerName == ""){
+            alert("배너명을 입력해주세요.");
+            return false;
+        }
+
+        if(bannerUrl == ""){
+            alert("링크를 입력해주세요.");
+            return false;
+        }
+
 
         if(confirm("저장하시겠습니까?")) {
             $.ajax({
@@ -215,6 +233,21 @@
         formData.append("bannerUrl", bannerUrl);
         formData.append("bannerSeq", bannerSeq);
         formData.append("fileIdx", fileIdx);
+
+        if(bannerOrder == ""){
+            alert("순번을 입력해주세요.");
+            return false;
+        }
+
+        if(bannerName == ""){
+            alert("배너명을 입력해주세요.");
+            return false;
+        }
+
+        if(bannerUrl == ""){
+            alert("링크를 입력해주세요.");
+            return false;
+        }
 
         // 파일이 업로드된 경우에만 추가
         if ($("#fileInput" + bannerSeq).val() !== "") {
