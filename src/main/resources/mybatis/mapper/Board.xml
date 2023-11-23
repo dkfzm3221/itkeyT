@@ -127,15 +127,15 @@
 
     <select id="getMenuList"  resultType="Board">
         SELECT
-               MENU_SEQ
+            MENU_SEQ
              , MENU_NAME
              , MENU_URL
              , MENU_SITE
              , MENU_BOARD_TYPE
         FROM MENU
         WHERE MENU_SITE = 'U'
-        AND MENU_USE_YN = 'Y'
-        ORDER BY MENU_ORDER DESC
+          AND MENU_USE_YN = 'Y'
+        ORDER BY MENU_ORDER
     </select>
 
     <select id="boardTypeList"  resultType="Board">
