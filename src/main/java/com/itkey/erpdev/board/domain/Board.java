@@ -37,4 +37,14 @@ public class Board implements Serializable {
     String adminBoardName;
     Integer boardTypeCnt;
     String adminBoardDelYn;
+
+    //댓글
+    Integer replySeq;
+    String replyContents;
+    String useYn;
+    String regDate;
+    String regUser;
+    String modUser;
+    String modDate;
+
 }

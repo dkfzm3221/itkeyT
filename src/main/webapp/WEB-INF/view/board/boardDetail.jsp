@@ -137,6 +137,111 @@
                 <button onclick="modiBoard()" id="modiButton" class="btn btn-black w-3" style="float: right;">수정</button>
                 <button onclick="deleteBoard(${boardDetail.boardSeq})" id="delBtn" class="btn btn-black w-3" style="float: right;">삭제</button>
             </div>
+
+            <div class="page-inner">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <table class="table table-bordered">
+                            <!--// tableTop -->
+                            <!-- rowTable bgTh -->
+                            <div class="rowTable v2 bgTh">
+                                <colgroup>
+                                    <col style="width:150px">
+                                    <col style="width:auto">
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <th>No</th>
+                                    <th>댓글</th>
+                                    <th>작성자</th>
+                                    <th>작성일</th>
+                                </tr>
+                                <c:choose>
+                                    <c:when test="${memberType == 'A'}">
+                                        <c:if test="${ empty boardDetailReplyList }">
+                                            <tr>
+                                                <td colspan="4">등록된 댓글이 없습니다.</td>
+                                            </tr>
+                                        </c:if>
+                                        <c:if test="${!empty boardDetailReplyList }">
+                                            <c:forEach items="${boardDetailReplyList}" var="item" varStatus="index">
+                                                <tr>
+                                                    <td style="text-align:center;">${index.index + 1}</td>
+                                                    <td>${item.regNm}</td>
+                                                    <td>
+                                                        <textarea class="detail-content" title="댓글" cols="150" rows="3" id="replyTextareaRead" readonly disabled>${item.replyContents}</textarea>
+                                                    </td>
+                                                    <td>${item.regDt}</td>
+                                                    <td>
+                                                        <button onclick="deleteBoard(${item.boardSeq},${boardType})" id="delBtnReply" class="btn btn-black w-3" style="float: right;">삭제</button>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </c:if>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:if test="${ empty boardDetailReplyList }">
+                                            <tr>
+                                                <td colspan="4">게시된 글이 없습니다.</td>
+                                            </tr>
+                                        </c:if>
+                                        <c:if test="${!empty boardDetailReplyList }">
+                                            <c:forEach items="${boardDetailReplyList}" var="item" varStatus="index">
+                                                <tr>
+                                                    <td style="text-align:center;">${index.index + 1}</td>
+                                                    <td>${item.regNm}</td>
+                                                    <td>
+                                                        <textarea class="detail-content" title="댓글" cols="150" rows="3" id="userReplyTextareaRead" readonly disabled>${item.replyContents}</textarea>
+                                                    </td>
+                                                    <td>${item.regDt}</td>
+                                                    <td>
+                                                        <button onclick="deleteBoard(${item.boardSeq},${boardType})" id="userDelBtnReply" class="btn btn-black w-3" style="float: right;">삭제</button>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </c:if>
+                                    </c:otherwise>
+                                </c:choose>
+                                </tbody>
+                            </div>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-inner">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <table class="table table-bordered">
+                            <!--// tableTop -->
+                            <!-- rowTable bgTh -->
+                            <div class="rowTable v2 bgTh">
+                                <colgroup>
+                                    <col style="width:150px">
+                                    <col style="width:auto">
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">댓글</th>
+                                    <td colspan="1"></td>
+                                </tr>
+                                <tr>
+                                    <td class="conArea">
+                                        <div>
+                                            <textarea title="댓글" cols="150" rows="3" id="replyText"></textarea>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </div>
+                        </table>
+                        <button id="reply" class="btn btn-black w-3" style="float: right;" onclick="insertReply()">등록</button>
+                    </div>
+                </div>
+            </div>
+
+
+
         </div>
     </div>
 </div>
@@ -227,6 +332,36 @@
 
                   form.attr("action", "/boardDetailList");
                   form.submit();
+                }
+            });
+        } else {
+            alert("삭제가 취소되었습니다.");
+        }
+
+    }
+
+
+    function insertReply(){
+      let boardSeq = $("#boardSeq").val();
+      let replyContents = $("#replyText").val();
+      let boardType = $("#boardType").val();
+      let regUser = $("#userId").val();
+
+      let replyData = {
+        boardSeq: boardSeq,
+        replyContents: replyContents,
+        boardType: boardType,
+        regUser: regUser
+      };
+
+        let isConfirmed = confirm("등록하시겠습니까?");
+        if (isConfirmed) {
+            $.ajax({
+                type:"POST",
+                url: "/insertBoardReply",
+                data: JSON.stringify(replyData),
+                success: function () {
+                  alert("등록 완료하였습니다.");
                 }
             });
         } else {

@@ -126,6 +126,10 @@ public class BoardController {
             mv.addObject("userId", userId);
             mv.addObject("memberType", memberType);
         }
+
+        List<Board> boardDetailReplyList = bs.boardDetailReplyList(board);
+
+        mv.addObject("boardDetailReplyList", boardDetailReplyList);
         bs.updateInqCnt(board);
         Board boardDetail = bs.boardDetail(board);
         mv.addObject("boardDetail", boardDetail);
@@ -183,6 +187,15 @@ public class BoardController {
     public ModelAndView deleteBoard(Board board) throws Exception{
         ModelAndView mv = new ModelAndView("/board/boardDetail");
         bs.deleteBoard(board);
+
+        return mv;
+    }
+
+
+     @PostMapping(value = "/insertBoardReply")
+    public ModelAndView insertBoardReply(Board board) throws Exception{
+        ModelAndView mv = new ModelAndView("/board/boardDetail");
+        bs.insertBoardReply(board);
 
         return mv;
     }

@@ -338,7 +338,37 @@
         WHERE BANNER_SEQ = #{bannerSeq}
     </update>
 
+    <select id="boardDetailReplyList"  resultType="Board">
+        select re.REPLY_SEQ
+             ,re.BOARD_TYPE
+             ,re.BOARD_SEQ
+             ,re.REPLY_CONTENTS
+             ,re.REG_USER
+             ,re.REG_USER_NAME
+             ,re.REG_DATE
+             ,re.MOD_USER
+             ,re.MOD_DATE
+        from reply re
+        where re.BOARD_SEQ = #{boardSeq}
+        order by re.REPLY_SEQ
+    </select>
 
+    <insert id="insertBoardReply" parameterType="Board">
+        INSERT INTO REPLY
+        (BOARD_SEQ
+        ,REPLY_CONTENTS
+        , BOARD_TYPE
+        , REG_ID
+        , REG_DT
+        )
+        VALUES
+            ( #{boardSeq}
+            , #{replyContents}
+            , #{boardType}
+            , #{regUser}
+            , NOW()
+            )
+    </insert>
 
 
 </mapper>

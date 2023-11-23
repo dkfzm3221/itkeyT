@@ -33,4 +33,8 @@ public interface BoardService {
     List<Banner> bannerList() throws Exception;
 
     Board selectName(String boardType);
+
+    List<Board> boardDetailReplyList(Board board);
+
+    void insertBoardReply(Board board);
 }
