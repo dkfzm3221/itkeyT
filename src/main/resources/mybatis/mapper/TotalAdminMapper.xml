@@ -66,11 +66,6 @@
 			 , BOARD_CONTENT		AS boardContent
 			 , BOARD_SECRET_YN		AS boardSecretYn
 			 , BOARD_DEL_YN			AS boardDelYn
-			 , REPLY_YN				AS replyYn
-			 , REPLY_CONTENT		AS replyContent
-			 , REPLY_MEMBER_ID		AS replyMemberId
-			 , REPLY_DT				AS replyDt
-			 , ATTCH_FILE_CNT		AS attchFileCnt
 			 , INQ_CNT				AS inqCnt
 			 , REG_ID				AS regId
 			 , REG_NM				AS regNm
