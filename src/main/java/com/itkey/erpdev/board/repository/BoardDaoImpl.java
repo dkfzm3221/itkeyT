@@ -82,6 +82,26 @@ public class BoardDaoImpl implements BoardDao{
     }
 
     @Override
+    public List<Board> boardDetailReplyList(Board board) {
+        return sql.selectList("mapper.board.boardDetailReplyList",board);
+    }
+
+    @Override
+    public void insertBoardReply(Board board) {
+        sql.insert("mapper.board.insertBoardReply",board);
+    }
+
+    @Override
+    public void updateBoardReply(Board board) {
+        sql.update("mapper.board.updateBoardReply",board);
+    }
+
+    @Override
+    public void deleteBoardReply(Board board) {
+        sql.update("mapper.board.deleteBoardReply",board);
+    }
+
+    @Override
     public Board selectName(String boardType) {
         return sql.selectOne("mapper.board.selectName",boardType);
     }

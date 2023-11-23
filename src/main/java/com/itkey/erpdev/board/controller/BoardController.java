@@ -126,6 +126,10 @@ public class BoardController {
             mv.addObject("userId", userId);
             mv.addObject("memberType", memberType);
         }
+
+        List<Board> boardDetailReplyList = bs.boardDetailReplyList(board);
+
+        mv.addObject("boardDetailReplyList", boardDetailReplyList);
         bs.updateInqCnt(board);
         Board boardDetail = bs.boardDetail(board);
         mv.addObject("boardDetail", boardDetail);
@@ -183,6 +187,34 @@ public class BoardController {
     public ModelAndView deleteBoard(Board board) throws Exception{
         ModelAndView mv = new ModelAndView("/board/boardDetail");
         bs.deleteBoard(board);
+
+        return mv;
+    }
+
+
+    // 댓글 등록
+     @PostMapping(value = "/insertBoardReply")
+    public ModelAndView insertBoardReply(Board board) throws Exception{
+        ModelAndView mv = new ModelAndView("/board/boardDetail");
+        bs.insertBoardReply(board);
+
+        return mv;
+    }
+
+    // 댓글 수정
+    @PostMapping(value = "/modBoardReply")
+    public ModelAndView modBoardReply(Board board) throws Exception{
+        ModelAndView mv = new ModelAndView("/board/boardDetail");
+        bs.updateBoardReply(board);
+
+        return mv;
+    }
+
+    // 댓글 삭제
+    @PostMapping(value = "/deleteBoardReply")
+    public ModelAndView deleteBoardReply(Board board) throws Exception{
+        ModelAndView mv = new ModelAndView("/board/boardDetail");
+        bs.deleteBoardReply(board);
 
         return mv;
     }

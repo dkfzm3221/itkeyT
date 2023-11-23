@@ -33,4 +33,12 @@ public interface BoardDao {
     Board selectName(String boardType);
 
     List<Banner> bannerList() throws Exception;
+
+    List<Board> boardDetailReplyList(Board board);
+
+    void insertBoardReply(Board board);
+
+    void updateBoardReply(Board board);
+
+    void deleteBoardReply(Board board);
 }

@@ -79,6 +79,26 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public List<Board> boardDetailReplyList(Board board) {
+        return dao.boardDetailReplyList(board);
+    }
+
+    @Override
+    public void insertBoardReply(Board board) {
+         dao.insertBoardReply(board);
+    }
+
+    @Override
+    public void updateBoardReply(Board board) {
+        dao.updateBoardReply(board);
+    }
+
+    @Override
+    public void deleteBoardReply(Board board) {
+        dao.deleteBoardReply(board);
+    }
+
+    @Override
     public List<Board> boardDetailList(int pageNum, int countPerPage, String boardType, SearchBoard searchBoard) {
         return dao.boardDetailList(pageNum,countPerPage,boardType,searchBoard);
     }
