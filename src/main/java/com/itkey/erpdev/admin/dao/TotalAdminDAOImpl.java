@@ -187,4 +187,9 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	public List<DesignDTO> getDesignList(){
 		return sql.selectList("mapper.totalAdmin.getDesignList");
 	}
+
+	@Override
+	public int upDatedesignMgmt(DesignEntity design) {
+		return sql.update("mapper.totalAdmin.upDatedesignMgmt", design);
+	}
 }

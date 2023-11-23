@@ -534,15 +534,25 @@
 
 	<delete id="removeBanner" parameterType="Banner">
 		DELETE FROM BANNER
-		WHERE BANNER_SEQ = #{bannerSeq};
+		WHERE BANNER_SEQ = #{bannerSeq}
 	</delete>
 
+	<!-- 디자인 조회 -->
 	<select id="getDesignList" resultType="DesignDTO">
+		/*fn : 디자인 조회 - getDesignList */
 		SELECT
 			design_seq
 		     , type
 			 , content
 		FROM DESIGN
 	</select>
+
+	<!-- 디자인 수정 -->
+	<update id="upDatedesignMgmt" parameterType="DesignEntity">
+		/*fn : 디자인 수정 - upDatedesignMgmt */
+		UPDATE DESIGN
+		SET CONTENT = #{content}
+		WHERE DESIGN_SEQ = #{designSeq}
+	</update>
 
 </mapper>

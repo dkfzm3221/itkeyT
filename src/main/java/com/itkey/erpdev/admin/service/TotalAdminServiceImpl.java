@@ -280,4 +280,9 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     public List<DesignDTO> getDesignList() {
         return totalAdminDAO.getDesignList();
     }
+
+    @Override
+    public int upDatedesignMgmt(DesignEntity design){
+        return totalAdminDAO.upDatedesignMgmt(design);
+    }
 }

@@ -547,6 +547,7 @@ public class TotalAdminController {
 		return mv;
 	}
 
+	// 디자인 관리
 	@GetMapping(value = "/designMgmt")
 	public ModelAndView design(HttpServletRequest request) throws Exception{
 		HttpSession session = request.getSession();
@@ -563,5 +564,17 @@ public class TotalAdminController {
 		mv.addObject("designList", designList);
 
 		return mv;
+	}
+
+	@ResponseBody
+	@RequestMapping(value="/upDatedesignMgmt")
+	public String upDatedesignMgmt(@RequestParam("designSeq") int designSeq, @RequestParam("content") String content) {
+		DesignEntity design = new DesignEntity();
+		design.setDesignSeq(designSeq);
+		design.setContent(content);
+
+		int result = adminService.upDatedesignMgmt(design);
+
+		return result > 0 ? "S" : "F";
 	}
 }

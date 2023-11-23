@@ -83,4 +83,6 @@ public interface TotalAdminDAO {
 	void removeBanner(Banner banner) throws Exception;
 
 	List<DesignDTO> getDesignList();
+
+	int upDatedesignMgmt(DesignEntity design);
 }
