@@ -4,6 +4,15 @@
 
 <mapper namespace="mapper.visitor">
 
+   <!-- /**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 로그 저장
+    *
+    **/-->
     <insert id="saveVisitor" parameterType="Visitor">
         INSERT
         INTO VISITOR
@@ -31,6 +40,15 @@
         WHERE id = #{id}
     </select>
 
+   <!-- /**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 많이 접속한 url
+    *
+    **/-->
     <select id="mostVisitURL" resultType="Visitor">
         SELECT
                VISIT_REFER
@@ -41,6 +59,15 @@
         LIMIT 5
     </select>
 
+   <!-- /**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 많이 접속한 IP
+    *
+    **/-->
     <select id="mostVisitIP" resultType="Visitor">
         SELECT VISIT_IP
              ,  COUNT(VISIT_IP) AS IPCount
@@ -50,6 +77,15 @@
         LIMIT 5
     </select>
 
+   <!-- /**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 많이 접속한 날짜
+    *
+    **/-->
     <select id="mostVisitDate" resultType="Visitor">
         SELECT
         DATE(VISIT_TIME) AS visitTimeToDate

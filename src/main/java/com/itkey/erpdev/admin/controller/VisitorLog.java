@@ -16,6 +16,16 @@ public class VisitorLog{
         this.visitorDao = visitorDao;
     }
 
+
+    /**
+    *
+    * VisitorLog
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 로그 저장
+    *
+    **/
     @PostMapping(value = "/visitorLog")
     public Visitor create(@RequestBody Visitor visitor) {
         visitor.setVisitTime(LocalDateTime.now());
