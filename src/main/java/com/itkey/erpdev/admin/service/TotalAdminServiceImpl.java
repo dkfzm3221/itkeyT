@@ -291,4 +291,9 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     public List<Popup> popupList() throws Exception {
         return totalAdminDAO.popupList();
     }
+
+    @Override
+    public int upDatedesignMgmt(DesignEntity design){
+        return totalAdminDAO.upDatedesignMgmt(design);
+    }
 }

@@ -88,4 +88,6 @@ public interface TotalAdminDAO {
 	void savePopup(Popup popup) throws Exception;
 
 	List<Popup> popupList() throws Exception;
+
+	int upDatedesignMgmt(DesignEntity design);
 }
