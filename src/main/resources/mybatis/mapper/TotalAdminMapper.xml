@@ -161,6 +161,7 @@
 
 	<!-- 메뉴 삭제시, 해당 게시글 삭제처리 -->
 	<update id="delBoardAjax" parameterType="java.util.List">
+		/*fn : 메뉴 삭제시, 해당 게시글 삭제처리 - delBoardAjax */
 		UPDATE BOARD
 		SET BOARD_DEL_YN = 'Y'
 		WHERE BOARD_TYPE IN
