@@ -33,7 +33,7 @@
                                 <div class="card card-stats card-round">
                                     <div class="card-body text-center" onclick="show_cnt_list('전체진행');">
                                         <div class="numbers">
-                                            <h4 class="card-title">탈퇴 회원 수</h4>
+                                            <h4 class="card-title">차단 회원 수</h4>
                                             <div class="num icon-big" id="countAdmin" style="color: #1572E8; font-weight: 600;" data-start="0" data-end="0" data-postfix="" data-duration="1500" data-delay="1200"></div>
                                         </div>
                                     </div>
@@ -76,33 +76,41 @@
 
                                 <div id="memberList">
                                     <table class="text-center boardTable">
+                                        <colgroup>
+                                            <col style="width:70px;">
+                                            <col style="width:auto">
+                                            <col span="5" style="width:120px">
+                                        </colgroup>
+                                        <thead>
                                         <tr>
                                             <th>No.</th>
-                                            <th>신고자</th>
-                                            <th>신고당한사람</th>
-                                            <th>신고사유</th>
+                                            <th>이름</th>
+                                            <th>아이디</th>
                                             <th>차단사유</th>
-                                            <th>등록일</th>
+                                            <th style="width:30%;">차단일</th>
+                                            <th>수정자</th>
                                             <th>설정</th>
                                         </tr>
-                                        <c:forEach items="${List}" var="adminList">
-                                            <c:if test="${adminList.seq != null}">
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach items="${adminList}" var="list">
+                                            <c:if test="${list.seq != null}">
                                                 <tr>
-                                                    <td class='ano'>${adminList.rowNum}</td>
-                                                    <td>${List.name}</td>
-                                                    <td>${List.id}</td>
-                                                    <td>${List.memberType}</td>
-                                                    <td>${List.email}</td>
-                                                    <td>${List.regDt}</td>
+                                                    <td class='ano'>${list.rowNum}</td>
+                                                    <td>${list.name}</td>
+                                                    <td>${list.id}</td>
+                                                    <td>${list.blockRsn}</td>
+                                                    <td>${list.blockYmd}</td>
+                                                    <td>${list.updId}</td>
                                                     <td>
-                                                        <c:if test="${admin.memberType == 'B'}">
-                                                            <button class="btn-primary btn-rounded" onclick="updateReport(${adminList.seq})">설정</button>
-
+                                                        <c:if test="${admin.memberType == 'A'}">
+                                                            <button class="btn-primary btn-rounded" onclick="releaseMember(${list.seq})">풀기</button>
                                                         </c:if>
                                                     </td>
                                                 </tr>
                                             </c:if>
                                         </c:forEach>
+                                        </tbody>
                                     </table>
 
                                 </div>
@@ -116,7 +124,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <li class="page-item">
-                                                    <a class="page-link" id="previous" href="adminHome.ad?pageNum=${pageList.prePage}&type=${search.type}&keyword=${search.keyword}">Previous</a>
+                                                    <a class="page-link" id="previous" href="block_adminHome?pageNum=${pageList.prePage}&type=${search.type}&keyword=${search.keyword}">Previous</a>
                                                 </li>
                                             </c:otherwise>
                                         </c:choose>
@@ -126,7 +134,7 @@
                                                     <li class="page-item"><a class="page-link" disabled="true" style="font-weight: bold">${idx}</a></li>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <li class="page-item"><a class="page-link" href="adminHome.ad?pageNum=${idx}&type=${search.type}&keyword=${search.keyword}">${idx}</a></li>
+                                                    <li class="page-item"><a class="page-link" href="block_adminHome?pageNum=${idx}&type=${search.type}&keyword=${search.keyword}">${idx}</a></li>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:forEach>
@@ -138,7 +146,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <li class="page-item">
-                                                    <a class="page-link" href="adminHome.ad?pageNum=${pageList.nextPage}&type=${search.type}&keyword=${search.keyword}">Next</a>
+                                                    <a class="page-link" href="block_adminHome?pageNum=${pageList.nextPage}&type=${search.type}&keyword=${search.keyword}">Next</a>
                                                 </li>
                                             </c:otherwise>
                                         </c:choose>
@@ -153,11 +161,55 @@
     </div>
 </div>
 <script>
+    //회원 관리 페이지로
+    $(document).on("click", "#adminHomeBtn", function() {
+        location.href = "/totalAdmin/adminHome"
+    });
 
-    function updateReport(seq){
-        let idx = seq
+    //회원수 카운트
+    function countAdmin() {
+        $.ajax({
+            url: "/totalAdmin/countBlockAdmin",
+            success: function (result) {
+                $('#countAdmin').append(result);
+            }
+        })
     }
+    $(function(){
+        countAdmin();
+    })
+    //차단 풀기
+    function releaseMember(seq){
+        let memberIdx = seq;
+        let confirm_val = confirm("차단을 풀겠습니까?");
+        if (confirm_val) {
+            $.ajax({
+                url : "/totalAdmin/releaseMember",
+                data : {memberIdx : memberIdx},
+                dataType: "text",
+                success : function(result){
+                    if(result == 'S'){
+                        alert('차단 풀기 완료')
+                        location.reload()
+                    }else{
+                        alert("풀기 실패")
+                    }
+                }
+            })
+        }
+    }
+    //검색어 빈값 처리
+    $("#adminSearchBtn").on("click", function (){
+        if($("#searchBox").val() == ""){
+            alert("검색어를 입력해주세요.");
+            return false;
+        }
+    });
 
+    //검색 기능
+    $(document).on("click", "#adminSearchBtn", function() {
+        $("#member_list_main_search").attr("action", "/totalAdmin/block_adminHome").submit();
+    });
 
 
 
@@ -166,12 +218,6 @@
 
 
 </script>
-
-
-
-
-
-
 <!-- Footer  -->
 <jsp:include page="common/contentFooter.jsp"/>
 <!-- Footer END  -->

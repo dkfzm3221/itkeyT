@@ -83,7 +83,7 @@
                                 <div class="card-header mb-4 pb-2" style="padding: 0;">
                                     <div class="card-title">
                                         <button class="btn btn-primary btn-rounded" data-toggle="modal" id="insertFormBtn">회원등록</button>
-                                      <%--  <button class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#manageAdminGroup">회원그룹관리</button>--%>
+                                        <%--  <button class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#manageAdminGroup">회원그룹관리</button>--%>
                                         <button class="btn btn-primary btn-rounded" id="block_adminHomeBtn">차단회원관리</button>
                                         <button class="btn btn-rounded" id="del_adminHomeBtn">탈퇴회원관리</button>
                                     </div>
@@ -100,7 +100,7 @@
                                         </select>
                                         <input type="text" name="keyword"
                                                class="form-control inputStyle1" id="searchBox"
-                                        placeholder="검색어 입력" style="margin:2px 0px;" />
+                                               placeholder="검색어 입력" style="margin:2px 0px;" />
                                         <button type="button" id="adminSearchBtn" class="btn btn-primary"><i
                                                 class="adminSearchBtn"></i>검색
                                         </button>
@@ -109,6 +109,12 @@
 
                                 <div id="memberList">
                                     <table class="text-center boardTable">
+                                        <colgroup>
+                                            <col style="width:70px;">
+                                            <col style="width:auto">
+                                            <col span="5" style="width:120px">
+                                        </colgroup>
+                                        <thead>
                                         <tr>
                                             <th>No.</th>
                                             <th>이름</th>
@@ -116,50 +122,50 @@
                                             <th>회원타입</th>
                                             <th>이메일</th>
                                             <th>회원등록일</th>
-                                            <th>등록자명</th>
                                             <th>최종수정일시</th>
                                             <th>수정자</th>
                                             <th>설정</th>
                                         </tr>
-
-                                            <c:forEach items="${adminList}" var="adminList">
-                                                <c:if test="${adminList.seq != null}">
-                                            <tr>
-                                                <td class='ano'>${adminList.rowNum}</td>
-                                                <td>${adminList.name}</td>
-                                                <td>${adminList.id}</td>
-                                                <c:if test="${adminList.memberType == 'U'}">
-                                                    <td>사용자</td>
-                                                </c:if>
-                                                <c:if test="${adminList.memberType == 'A' }">
-                                                    <td>관리자</td>
-                                                </c:if>
-                                                <td>${adminList.email}</td>
-                                                <td>${adminList.regDt}</td>
-                                                <td>${adminList.regNm}</td>
-                                                <td>${adminList.updDt}</td>
-                                                <td>${adminList.updNm}</td>
-                                                <td>
-                                                    <c:if test="${admin.memberType == 'A' && adminList.memberType == 'A'}">
-                                                    <button class="btn-primary btn-rounded" onclick="admin_f_login(${adminList.seq})">로그인</button>
-                                                    <button class="btn-primary btn-rounded" onclick="updateAdminInfo(${adminList.seq})" data-toggle="modal" data-target='#updateAdmin'>수정</button>
-                                                    <button class="btn-rounded" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
-                                                    </c:if>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach items="${adminList}" var="adminList">
+                                            <c:if test="${adminList.seq != null}">
+                                                <tr>
+                                                    <td class='ano'>${adminList.rowNum}</td>
+                                                    <td>${adminList.name}</td>
+                                                    <td>${adminList.id}</td>
                                                     <c:if test="${adminList.memberType == 'U'}">
-                                                        <c:choose>
-                                                            <c:when test="${adminList.authCode == 'B'}">
-                                                                <button class="btn-rounded" disabled>차단</button>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <button class="btn-rounded" onclick="blockMember(${adminList.seq})">차단</button>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                            <button class="btn-rounded" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
+                                                        <td>사용자</td>
                                                     </c:if>
-                                                </td>
-                                            </tr>
-                                                </c:if>
-                                            </c:forEach>
+                                                    <c:if test="${adminList.memberType == 'A' }">
+                                                        <td>관리자</td>
+                                                    </c:if>
+                                                    <td>${adminList.email}</td>
+                                                    <td>${adminList.regDt}</td>
+                                                    <td>${adminList.updDt}</td>
+                                                    <td>${adminList.updNm}</td>
+                                                    <td>
+                                                        <c:if test="${admin.memberType == 'A' && adminList.memberType == 'A'}">
+                                                            <button class="btn-primary btn-rounded" onclick="admin_f_login(${adminList.seq})">로그인</button>
+                                                            <button class="btn-primary btn-rounded" onclick="updateAdminInfo(${adminList.seq})" data-toggle="modal" data-target='#updateAdmin'>수정</button>
+                                                            <button class="btn-rounded" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
+                                                        </c:if>
+                                                        <c:if test="${adminList.memberType == 'U'}">
+                                                            <c:choose>
+                                                                <c:when test="${adminList.memberStatus == 'B'}">
+                                                                    <button class="btn-rounded" disabled>차단</button>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <button class="btn-rounded" onclick="blockMember(${adminList.seq})">차단</button>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                            <button class="btn-rounded" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
+                                                        </c:if>
+                                                    </td>
+                                                </tr>
+                                            </c:if>
+                                        </c:forEach>
+                                        </tbody>
                                     </table>
                                 </div>
                                 <nav aria-label="Page navigation example">
@@ -250,10 +256,6 @@
                                 <th>이메일</th>
                                 <td><input type="email" class="inputStyle1" id="adminEmail" name="email"></td>
                             </tr>
-                            <tr>
-                                <th>회원타입</th>
-                                <td><select id="adminType" name="authCode"><option>A</option><option>B</option></select></td>
-                            </tr>
                         </table>
                     </form>
                 </div>
@@ -309,15 +311,6 @@
                             <tr>
                                 <th>이메일</th>
                                 <td><input type="email" class="inputStyle1" id="updateAdminEmail" name="email"></td>
-                            </tr>
-                            <tr>
-                                <th>회원타입</th>
-                                <td>
-                                    <select id="updateAdminType" name="autoCode">
-                                    <option>A</option>
-                                    <option>B</option>
-                                    </select>
-                                </td>
                             </tr>
                         </table>
                     </form>
@@ -469,20 +462,20 @@
         let confirm_val = confirm("이 계정으로 로그인 하시겠습니까?");
 
         if (confirm_val) {
-        console.log("시작")
-           $.ajax({
-               url : "/totalAdmin/adminFastLogin",
-               data : {adminIdx : adminIdx},
-               dataType: "text",
-               success : function(result){
+            console.log("시작")
+            $.ajax({
+                url : "/totalAdmin/adminFastLogin",
+                data : {adminIdx : adminIdx},
+                dataType: "text",
+                success : function(result){
                     if(result == 'S'){
                         alert('로그인 성공')
                         location.reload()
                     }else{
                         alert("로그인 실패")
                     }
-               }
-           })
+                }
+            })
         }
     }
     //회원정보 수정 폼 불러오기
@@ -542,7 +535,7 @@
 
     //검색 기능
     $(document).on("click", "#adminSearchBtn", function() {
-            $("#member_list_main_search").attr("action", "/totalAdmin/adminHome").submit();
+        $("#member_list_main_search").attr("action", "/totalAdmin/adminHome").submit();
     });
 
     //아이디 중복 체크
@@ -558,17 +551,17 @@
                     },
                     dataType: "text",
                     success:function(result){
-                        if(result == "NN"){ // 사용불가능
+                        if(result == "NN"){
                             $("#checkResult").show();
                             $("#checkResult").css("color","red").text("X");
                             $("#insertAdminBtn").attr("disabled",true);
-                        }else{ // 사용가능
+                        }else{
                             $("#checkResult").show();
                             $("#checkResult").css("color","green").text("O");
                             $("#insertAdminBtn").attr("disabled",false);
                         }
                     }, error:function(){
-                        console.log("아이디 중복체크용 ajax 통신 실패");
+                        console.log("error")
                     }
                 })
             }else{
@@ -579,12 +572,17 @@
 
     //회원 차단 처리
     function blockMember(seq){
-        let memberIdx = seq;
+        let blockRsn = prompt('차단 사유를 입력해주세요');
         let confirm_val = confirm("차단하시겠습니까?");
+
+        let memberIdx = seq;
         if (confirm_val) {
             $.ajax({
                 url : "/totalAdmin/blockMember",
-                data : {memberIdx : memberIdx},
+                data : {
+                    seq : memberIdx,
+                    blockRsn : blockRsn
+                },
                 dataType: "text",
                 success : function(result){
                     if(result == 'S'){
@@ -592,11 +590,13 @@
                         location.reload()
                     }
                 }
-
             })
         }
-
     }
+    //차단 회원 관리 페이지 이동
+    $(document).on("click", "#block_adminHomeBtn", function() {
+        location.href = "/totalAdmin/block_adminHome"
+    });
 
 
 

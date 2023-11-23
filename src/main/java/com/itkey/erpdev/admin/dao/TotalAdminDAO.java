@@ -1,12 +1,11 @@
 package com.itkey.erpdev.admin.dao;
 
 
+import com.itkey.erpdev.admin.domain.Admin;
 import com.itkey.erpdev.admin.domain.MenuEntity;
-import com.itkey.erpdev.admin.dto.Banner;
-import com.itkey.erpdev.admin.dto.FileDto;
-import com.itkey.erpdev.admin.dto.TotalAdminDTO;
-import com.itkey.erpdev.admin.dto.Visitor;
+import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.board.domain.Board;
+import com.itkey.erpdev.member.domain.Member;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -49,4 +48,36 @@ public interface TotalAdminDAO {
 	void updateFile(FileDto fileDto) throws Exception;
 
 	void updateBanner(Banner newBanner) throws Exception;
+
+	int countAdmin();
+
+	int insertAdmin(AdminInsert aDTO);
+
+	List<Admin> adminList(Integer pageNum, Integer pageSize, SearchAdmin searchAdmin);
+
+	TotalAdminDTO getLoginInfo(int adminIdx);
+
+	int deleteAdmin(Admin aDTO);
+
+	int updateAdmin(Admin aDTO);
+
+	List<Admin> del_adminList(Integer pageNum, Integer pageSize, SearchAdmin searchAdmin);
+
+	Integer countDelAdmin();
+
+	int returnAdmin(Admin aDTO);
+
+	int adminIdCheck(String id);
+
+	int realDeleteAdmin(int adminIdx);
+
+	int blockMember(Member m);
+
+	List<Member> block_adminList(Integer pageNum, Integer pageSize, SearchAdmin searchAdmin);
+
+	Integer countBlockAdmin();
+
+	int releaseMember(int memberIdx);
+
+
 }
