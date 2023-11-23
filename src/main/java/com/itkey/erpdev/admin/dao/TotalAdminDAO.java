@@ -78,4 +78,6 @@ public interface TotalAdminDAO {
 	Integer countBlockAdmin();
 
 	int releaseMember(int memberIdx);
+
+
 }

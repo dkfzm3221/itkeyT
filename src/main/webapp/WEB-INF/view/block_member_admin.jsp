@@ -180,23 +180,23 @@
     })
     //차단 풀기
     function releaseMember(seq){
-            let memberIdx = seq;
-            let confirm_val = confirm("차단을 풀겠습니까?");
-            if (confirm_val) {
-                $.ajax({
-                    url : "/totalAdmin/releaseMember",
-                    data : {memberIdx : memberIdx},
-                    dataType: "text",
-                    success : function(result){
-                        if(result == 'S'){
-                            alert('차단 풀기 완료')
-                            location.reload()
-                        }else{
-                            alert("풀기 실패")
-                        }
+        let memberIdx = seq;
+        let confirm_val = confirm("차단을 풀겠습니까?");
+        if (confirm_val) {
+            $.ajax({
+                url : "/totalAdmin/releaseMember",
+                data : {memberIdx : memberIdx},
+                dataType: "text",
+                success : function(result){
+                    if(result == 'S'){
+                        alert('차단 풀기 완료')
+                        location.reload()
+                    }else{
+                        alert("풀기 실패")
                     }
-                })
-            }
+                }
+            })
+        }
     }
     //검색어 빈값 처리
     $("#adminSearchBtn").on("click", function (){

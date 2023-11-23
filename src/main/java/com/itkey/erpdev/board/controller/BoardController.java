@@ -1,5 +1,6 @@
 package com.itkey.erpdev.board.controller;
 
+import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.board.domain.Board;
@@ -48,10 +49,12 @@ public class BoardController {
         }
 
 
+        List<Banner> bannerList = bs.bannerList();
 
         List<Board> menuList = bs.getMenuList();
 
         session.setAttribute("menuList", menuList);
+        session.setAttribute("bannerList", bannerList);
 
         return mv;
     }

@@ -31,7 +31,7 @@ public class MemberServiceImpl implements MemberService{
     }
     //일반 회원 로그인
     @Override
-    public MemberInfoResponse memlogin(Member m) {
+    public MemberInfoResponse memlogin(Member m, HttpSession session) {
         MemberInfoResponse response  = new MemberInfoResponse();
 
         String salt = dao.getSalt(m);
@@ -64,25 +64,20 @@ public class MemberServiceImpl implements MemberService{
     //비밀번호 재발급
     @Override
     public int newPw(String salt, String newPw, Integer seq) {
-
+        log.info("--new");
         String encPw = SHA256.getEncrypt(newPw, salt);
 
         MemberInsert mDTO = MemberInsert.builder()
                         .password(encPw)
                         .seq(seq)
                         .build();
-
+        log.info("---MemberInsert---{}", mDTO);
         return dao.newPw(mDTO);
     }
     //사용자 아이디 중복체크
     @Override
     public int memberIdCheck(String id) {
         return dao.memberIdCheck(id);
-    }
-    //최종 로그인 날짜 업데이트
-    @Override
-    public void lastLoginDt(Integer seq) {
-        dao.lastLoginDt(seq);
     }
 
 

@@ -87,31 +87,31 @@
                                             <th>등록자명</th>
                                             <th>설정</th>
                                         </tr>
-                                            <c:forEach items="${adminList}" var="adminList">
-                                                <c:if test="${adminList.seq != null}">
-                                                    <tr>
-                                                        <td class='ano'>${adminList.rowNum}</td>
-                                                        <td>${adminList.name}</td>
-                                                        <td>${adminList.id}</td>
-                                                        <c:if test="${adminList.memberType == 'U'}">
-                                                            <td>사용자</td>
-                                                        </c:if>
-                                                        <c:if test="${adminList.memberType == 'A' }">
-                                                            <td>관리자</td>
-                                                        </c:if>
-                                                        <td>${adminList.email}</td>
-                                                        <td>${adminList.regDt}</td>
-                                                        <td>${adminList.whdwlYmd}</td>
-                                                        <td>${adminList.regNm}</td>
-                                                        <td>
-                                                            <c:if test="${admin.memberType == 'A'}">
+                                        <c:forEach items="${adminList}" var="adminList">
+                                            <c:if test="${adminList.seq != null}">
+                                                <tr>
+                                                    <td class='ano'>${adminList.rowNum}</td>
+                                                    <td>${adminList.name}</td>
+                                                    <td>${adminList.id}</td>
+                                                    <c:if test="${adminList.memberType == 'U'}">
+                                                        <td>사용자</td>
+                                                    </c:if>
+                                                    <c:if test="${adminList.memberType == 'A' }">
+                                                        <td>관리자</td>
+                                                    </c:if>
+                                                    <td>${adminList.email}</td>
+                                                    <td>${adminList.regDt}</td>
+                                                    <td>${adminList.whdwlYmd}</td>
+                                                    <td>${adminList.regNm}</td>
+                                                    <td>
+                                                        <c:if test="${admin.memberType == 'A'}">
                                                             <button class="btn-primary btn-rounded" onclick="updateY(${adminList.seq})">복귀</button>
                                                             <button class="btn-rounded" onclick="deleteAdminInfo(${adminList.seq})">탈퇴</button>
-                                                            </c:if>
-                                                        </td>
-                                                    </tr>
-                                                </c:if>
-                                            </c:forEach>
+                                                        </c:if>
+                                                    </td>
+                                                </tr>
+                                            </c:if>
+                                        </c:forEach>
                                     </table>
 
                                 </div>

@@ -19,8 +19,6 @@ public interface MemberDao {
     Member findPw(Member mDTO);
     //비밀번호 재발급
     int newPw(MemberInsert mDTO);
-    //아이디 중복 체크
+
     int memberIdCheck(String id);
-    //최종 로그인 날짜 업데이트
-    void lastLoginDt(Integer seq);
 }
