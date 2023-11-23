@@ -2,6 +2,7 @@ package com.itkey.erpdev.admin.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.itkey.erpdev.admin.domain.Admin;
+import com.itkey.erpdev.admin.domain.DesignEntity;
 import com.itkey.erpdev.admin.domain.MenuEntity;
 import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.admin.service.CommonService;
@@ -547,5 +548,21 @@ public class TotalAdminController {
 		return mv;
 	}
 
+	@GetMapping(value = "/designMgmt")
+	public ModelAndView design(HttpServletRequest request) throws Exception{
+		HttpSession session = request.getSession();
 
+		ModelAndView mv = new ModelAndView("/designMgmt");
+
+		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
+			mv.setViewName("/login_admin");
+			return mv;
+		}
+
+		List<DesignDTO> designList = adminService.getDesignList();
+
+		mv.addObject("designList", designList);
+
+		return mv;
+	}
 }
