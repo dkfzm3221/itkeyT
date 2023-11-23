@@ -166,7 +166,7 @@
 		SET BOARD_DEL_YN = 'Y'
 		WHERE BOARD_TYPE IN
 		<foreach collection="list" item="menu" open="(" separator="," close=")">
-			#{menu.menuBoardType}
+			#{menu.delMenuBoardType}
 		</foreach>
 	</update>
 
