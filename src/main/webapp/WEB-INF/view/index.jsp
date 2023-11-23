@@ -25,6 +25,7 @@
 <div class="wrapper">
     <!-- SideBar Navbar  -->
     <jsp:include page="common/sidebarNav.jsp"/>
+    <jsp:include page="common/popup.jsp"/>
     <!-- SideBar Navbar END  -->
     <div class="main-panel">
         <div class="container">

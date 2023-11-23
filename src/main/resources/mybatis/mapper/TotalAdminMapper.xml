@@ -546,7 +546,7 @@
      		,WIDTH
      		,HEIGHT
      		,`LEFT`
-     		,`RIGHT`
+     		,`TOP`
      		,POPUP_NAME
 		)
 		VALUES
@@ -557,7 +557,7 @@
 			, #{width}
 			, #{height}
 			, #{left}
-			, #{right}
+			, #{top}
 			, #{popupName}
 			)
 	</insert>
@@ -576,7 +576,7 @@
             , WIDTH
             , HEIGHT
 			, `LEFT`
-			, `RIGHT`
+			, `TOP`
 			, POPUP_NAME
 		FROM POPUP
 		WHERE USE_YN = 'Y'

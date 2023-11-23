@@ -31,7 +31,7 @@
                     <th style="text-align:center;width:150px;">width</th>
                     <th style="text-align:center;width:150px;">height</th>
                     <th style="text-align:center;width:150px;">left</th>
-                    <th style="text-align:center;width:150px;">right</th>
+                    <th style="text-align:center;width:150px;">top</th>
                     <th style="text-align:center;width:150px;"></th>
                 </tr>
                 <c:forEach items="${popupList}" var="item">
@@ -42,7 +42,7 @@
                         <td><input type="text" class="form-control" id="width" name="width" placeholder="width" value="${item.width}"></td>
                         <td><input type="text" class="form-control" id="height" name="height" placeholder="height" value="${item.height}"></td>
                         <td><input type="text" class="form-control" id="left" name="left" placeholder="left" value="${item.left}"></td>
-                        <td><input type="text" class="form-control" id="right" name="right" placeholder="right" value="${item.right}"></td>
+                        <td><input type="text" class="form-control" id="top" name="top" placeholder="right" value="${item.top}"></td>
                         <td colspan="2"><button style="float: right;" class="btn btn-success btn-lg" onclick="savePopup()">저장</button>
                         <button style="float: right;" class="btn btn-warning btn-lg" onclick="removePopup()">삭제</button></td>
                     </tr>
@@ -74,7 +74,7 @@
         cell4.innerHTML = '<input type="text" class="form-control" id="width' + popupId + '" name="width" placeholder="width">';
         cell5.innerHTML = '<input type="text" class="form-control" id="height' + popupId + '" name="height" placeholder="height">';
         cell6.innerHTML = '<input type="text" class="form-control" id="left' + popupId + '" name="left" placeholder="left">';
-        cell7.innerHTML = '<input type="text" class="form-control" id="right' + popupId + '" name="right" placeholder="right">';
+        cell7.innerHTML = '<input type="text" class="form-control" id="top' + popupId + '" name="top" placeholder="top">';
         cell8.innerHTML = '<td colspan="2">' +
             '<button style="float: right;" class="btn btn-success btn-lg" onclick="savePopup(' + popupId + ')">저장</button>' +
             '<button style="float: right;" class="btn btn-warning btn-lg" onclick="removePopup(this)">삭제</button>' +
@@ -98,7 +98,7 @@
         var width = $("#width" + popupId).val();
         var height = $("#height" + popupId).val();
         var left = $("#left" + popupId).val();
-        var right = $("#right" + popupId).val();
+        var top = $("#top" + popupId).val();
 
         // FormData 객체 생성 및 데이터 추가
         formData.append("popupName", popupName);
@@ -107,7 +107,7 @@
         formData.append("width", width);
         formData.append("height", height);
         formData.append("left", left);
-        formData.append("right", right);
+        formData.append("top", top);
 
 
 
