@@ -4,6 +4,7 @@ import com.itkey.erpdev.admin.dao.TotalAdminDAO;
 import com.itkey.erpdev.admin.domain.Admin;
 import com.itkey.erpdev.admin.domain.DesignEntity;
 import com.itkey.erpdev.admin.domain.MenuEntity;
+import com.itkey.erpdev.admin.domain.Popup;
 import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.member.domain.Member;
@@ -279,5 +280,15 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     @Override
     public List<DesignDTO> getDesignList() {
         return totalAdminDAO.getDesignList();
+    }
+
+    @Override
+    public void savePopup(Popup popup) throws Exception {
+        totalAdminDAO.savePopup(popup);
+    }
+
+    @Override
+    public List<Popup> popupList() throws Exception {
+        return totalAdminDAO.popupList();
     }
 }

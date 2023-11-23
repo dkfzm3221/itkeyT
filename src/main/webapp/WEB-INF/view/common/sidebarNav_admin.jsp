@@ -103,6 +103,12 @@
                                 <c:when test="${gnb.menuName == '배너관리'}">
                                     <i class="fas fa-adjust"></i>
                                 </c:when>
+                                <c:when test="${gnb.menuName == '팝업관리'}">
+                                    <i class="fas fa-address-book"></i>
+                                </c:when>
+                                <c:when test="${gnb.menuName == '접속로그'}">
+                                    <i class="fas fa-address-card"></i>
+                                </c:when>
                             </c:choose>
                             <p>${gnb.menuName}</p>
                         </a>
