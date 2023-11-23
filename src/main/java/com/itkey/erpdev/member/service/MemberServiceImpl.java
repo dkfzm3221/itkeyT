@@ -79,6 +79,22 @@ public class MemberServiceImpl implements MemberService{
     public int memberIdCheck(String id) {
         return dao.memberIdCheck(id);
     }
+    //사용자 정보 수정
+    @Override
+    public int updateMember(Member m) {
+        if(!"".equals(m.getPassword())){
+        String salt = dao.getSalt(m);
+        String encPw = SHA256.getEncrypt(m.getPassword(), salt);
+
+        m.setPassword(encPw);
+        }
+        return dao.updateMember(m);
+    }
+    //사용자 정보 불러오기
+    @Override
+    public Member memberInfo(int memberIdx) {
+        return dao.memberInfo(memberIdx);
+    }
 
 
 }

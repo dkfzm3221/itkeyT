@@ -1,5 +1,6 @@
 package com.itkey.erpdev.member.controller;
 
+import com.itkey.erpdev.admin.domain.Admin;
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.member.domain.Member;
 import com.itkey.erpdev.member.dto.MemberInfoResponse;
@@ -180,6 +181,23 @@ public class MemberController {
         }else{
             return "YY";
         }
+    }
+    //회원 정보 불러오기
+    @ResponseBody
+    @RequestMapping(value="/updateMemberInfo", produces="application/json; charset=UTF-8")
+    public Member updateMemberInfo(int memberIdx){
+        Member m = ms.memberInfo(memberIdx);
+        logger.info("Member{}", m);
+        return m;
+    }
+
+    //사용자 정보 수정
+    @RequestMapping(value="/updateMember")
+    public String updateMember(Member m){
+        logger.info("updateMember{}", m);
+        logger.info("updateMember pasW{}", m.getPassword());
+        int result = ms.updateMember(m);
+        return "redirect:/";
     }
 
 }

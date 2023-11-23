@@ -19,6 +19,10 @@ public interface MemberDao {
     Member findPw(Member mDTO);
     //비밀번호 재발급
     int newPw(MemberInsert mDTO);
-
+    //사용자 아이디 중복체크
     int memberIdCheck(String id);
+    //사용자 정보 수정
+    int updateMember(Member m);
+    //사용자 정보 불러오기
+    Member memberInfo(int memberIdx);
 }

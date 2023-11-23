@@ -28,6 +28,7 @@
     <!-- 로그인 사용자 정보 불러오기 -->
     <select id="memLoginInfo" parameterType="Member" resultType="MemberInfoResponse">
         SELECT ID
+                , SEQ
                 , EMAIL
                 , HP
                 , NAME
@@ -84,6 +85,32 @@
         WHERE
             ID = #{id}
     </select>
+
+    <!-- 사용자 정보 불러오기 -->
+    <select id="memberInfo" parameterType="_int" resultType="Member">
+        SELECT ID
+             , SEQ
+             , EMAIL
+             , HP
+             , NAME
+        FROM
+            MEMBER
+        WHERE SEQ = #{memberIdx}
+    </select>
+
+
+    <!-- 사용자 정보 수정 -->
+    <update id="updateMember" parameterType="Member">
+        UPDATE
+            MEMBER
+        <trim prefix="SET" prefixOverrides=",">
+            <if test="password       !=null and password   !=''">, PASSWORD = #{password}</if>
+            <if test="hp       !=null and hp   !=''">, HP = #{hp}</if>
+            <if test="email       !=null and email   !=''">, EMAIL = #{email}</if>
+        </trim>
+        WHERE
+        SEQ = #{seq}
+    </update>
 
 
 </mapper>

@@ -18,4 +18,8 @@ public interface MemberService {
     int newPw(String salt, String newPw, Integer seq);
 
     int memberIdCheck(String id);
+
+    int updateMember(Member m);
+
+    Member memberInfo(int memberIdx);
 }
