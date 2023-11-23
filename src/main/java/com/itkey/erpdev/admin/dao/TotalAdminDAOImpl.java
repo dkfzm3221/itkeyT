@@ -176,4 +176,9 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	public int releaseMember(int memberIdx) {
 		return sql.update("mapper.totalAdmin.releaseMember", memberIdx);
 	}
+
+	@Override
+	public void removeBanner(Banner banner) throws Exception {
+		sql.delete("mapper.totalAdmin.removeBanner", banner);
+	}
 }

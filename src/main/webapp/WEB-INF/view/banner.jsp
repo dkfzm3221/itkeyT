@@ -49,7 +49,7 @@
                         <td><input type="text" class="form-control" id="bannerName${item.bannerSeq}" name="bannerName" placeholder="배너명 입력" value="${item.bannerName}"></td>
                         <td><input type="text" class="form-control" id="bannerUrl${item.bannerSeq}" name="bannerUrl" placeholder="배너/링크 입력 ex)https://www.google.com" value="${item.bannerUrl}"></td>
                         <td colspan="2"><button type="button" class="btn btn-success btn-lg" onclick="updateBanner(${item.bannerSeq});">저장</button>
-                        <button style="float: right;" class="btn btn-warning btn-lg" onclick="removeSaveBanner(this)">삭제</button></td>
+                        <button style="float: right;" class="btn btn-warning btn-lg" onclick="removeSaveBanner(this, ${item.bannerSeq})">삭제</button></td>
                     </tr>
                     </c:forEach>
                 </table>
@@ -94,9 +94,26 @@
     }
 
 
-    function removeSaveBanner(btn) {
+    function removeSaveBanner(btn, seq) {
         var row = btn.parentNode.parentNode;
         row.parentNode.removeChild(row);
+
+         console.log("ddd : " + seq)
+
+
+        if(confirm("정말 삭제하시겠습니까?")) {
+            $.ajax({
+                url: '/totalAdmin/removeBanner', // 요청을 보낼 URL
+                type: 'POST',
+                data: {"bannerSeq" : seq},
+                success: function(data) {
+                    location.reload();
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
     }
 
 
@@ -108,7 +125,6 @@
     function saveBanner(bannerId) {
         var formData = new FormData();
         var bannerOrder = $("#bannerOrder" + bannerId).val();
-        console.log("sdsfa " + $("#fileInput" + bannerId).val())
         if($("#fileInput"+ bannerId).val() != ""){
             var fileInput = document.getElementById("fileInput" + bannerId).files[0];
             formData.append("file", fileInput);
@@ -125,20 +141,24 @@
         formData.append("bannerName", bannerName);
         formData.append("bannerUrl", bannerUrl);
 
-        $.ajax({
-            url: '/totalAdmin/saveBanner', // 요청을 보낼 URL
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(data) {
-                location.reload();
-            },
-            error: function(error) {
-                console.error('Error:', error);
-            }
-        });
+        if(confirm("저장하시겠습니까?")) {
+            $.ajax({
+                url: '/totalAdmin/saveBanner', // 요청을 보낼 URL
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
     }
+
+
     function updateBanner(bannerSeq) {
         var formData = new FormData();
         var bannerOrder = $("#bannerOrder" + bannerSeq).val();
@@ -163,19 +183,21 @@
             console.log(pair[0] + ', ' + pair[1]);
         }
 
-        $.ajax({
-            url: '/totalAdmin/saveBanner',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                location.reload();
-            },
-            error: function (error) {
-                console.error('Error:', error);
-            }
-        });
+        if(confirm("수정하시겠습니까?")) {
+            $.ajax({
+                url: '/totalAdmin/saveBanner',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
     }
 
 

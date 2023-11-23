@@ -521,5 +521,14 @@ public class TotalAdminController {
 	}
 
 
+	@PostMapping(value = "removeBanner")
+	public ModelAndView removeBanner(Banner banner) throws Exception {
+		ModelAndView mv = new ModelAndView("jsonView");
+
+		adminService.removeBanner(banner);
+
+		return mv;
+	}
+
 
 }

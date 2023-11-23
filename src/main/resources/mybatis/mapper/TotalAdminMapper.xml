@@ -483,4 +483,10 @@
 		</choose>
 	</sql>
 
+	<delete id="removeBanner" parameterType="Banner">
+		DELETE FROM BANNER
+		WHERE BANNER_SEQ = #{bannerSeq};
+	</delete>
+
+
 </mapper>
