@@ -2,7 +2,9 @@ package com.itkey.erpdev.admin.service;
 
 import com.itkey.erpdev.admin.dao.TotalAdminDAO;
 import com.itkey.erpdev.admin.domain.Admin;
+import com.itkey.erpdev.admin.domain.DesignEntity;
 import com.itkey.erpdev.admin.domain.MenuEntity;
+import com.itkey.erpdev.admin.domain.Popup;
 import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.member.domain.Member;
@@ -32,14 +34,12 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     public static String uploadDir;
 
     /**
-    *
-    * TotalAdminServiceImpl
-    *
-    *@author 김재섭
-    *@date 2023-11-23
-    *@comment 파일 저장경로 설정
-    *
-    **/
+     * TotalAdminServiceImpl
+     *
+     * @author 김재섭
+     * @date 2023-11-23
+     * @comment 파일 저장경로 설정
+     **/
     @Value("${spring.servlet.multipart.location}")
     public void setKey(String value) {
         uploadDir = value;
@@ -103,7 +103,7 @@ public class TotalAdminServiceImpl implements TotalAdminService {
 
             // log.info("menusToDeleteSize : " + menusToDelete.size());
             // 삭제하는 메뉴가 있는 경우 해당 게시판의 글 삭제
-            if(menusToDelete.size() > 0) {
+            if (menusToDelete.size() > 0) {
                 totalAdminDAO.delBoardAjax(menusToDelete);
             }
 
@@ -114,7 +114,7 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     }
 
     @Override
-    public int getMenuListCntAjax(){
+    public int getMenuListCntAjax() {
         return totalAdminDAO.getMenuListCntAjax();
     }
 
@@ -168,31 +168,31 @@ public class TotalAdminServiceImpl implements TotalAdminService {
             }
         }
 
-            String fileIdx = "";
+        String fileIdx = "";
 
-            if(file == null){
-                fileIdx = banner.getFileIdx();
-            }else{
-                fileIdx = fileDto.getFileIdx();
-            }
+        if (file == null) {
+            fileIdx = banner.getFileIdx();
+        } else {
+            fileIdx = fileDto.getFileIdx();
+        }
 
-            //배너 seq별로 update, insert 구분
-            if (banner.getBannerSeq() != null) {
-                Banner newBanner = new Banner();
-                newBanner.setBannerSeq(banner.getBannerSeq());
-                newBanner.setBannerName(banner.getBannerName());
-                newBanner.setBannerUrl(banner.getBannerUrl());
-                newBanner.setBannerOrder(banner.getBannerOrder());
-                newBanner.setFileIdx(fileIdx);
-                totalAdminDAO.updateBanner(newBanner);
-            } else {
-                Banner newBanner = new Banner();
-                newBanner.setBannerName(banner.getBannerName());
-                newBanner.setBannerUrl(banner.getBannerUrl());
-                newBanner.setBannerOrder(banner.getBannerOrder());
-                newBanner.setFileIdx(fileIdx);
-                totalAdminDAO.saveBanner(newBanner);
-            }
+        //배너 seq별로 update, insert 구분
+        if (banner.getBannerSeq() != null) {
+            Banner newBanner = new Banner();
+            newBanner.setBannerSeq(banner.getBannerSeq());
+            newBanner.setBannerName(banner.getBannerName());
+            newBanner.setBannerUrl(banner.getBannerUrl());
+            newBanner.setBannerOrder(banner.getBannerOrder());
+            newBanner.setFileIdx(fileIdx);
+            totalAdminDAO.updateBanner(newBanner);
+        } else {
+            Banner newBanner = new Banner();
+            newBanner.setBannerName(banner.getBannerName());
+            newBanner.setBannerUrl(banner.getBannerUrl());
+            newBanner.setBannerOrder(banner.getBannerOrder());
+            newBanner.setFileIdx(fileIdx);
+            totalAdminDAO.saveBanner(newBanner);
+        }
 
     }
 
@@ -253,7 +253,9 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     }
 
     @Override
-    public int blockMember(Member m) {return totalAdminDAO.blockMember(m);}
+    public int blockMember(Member m) {
+        return totalAdminDAO.blockMember(m);
+    }
 
     @Override
     public List<Member> block_adminList(Integer pageNum, Integer pageSize, SearchAdmin searchAdmin) {
@@ -273,5 +275,20 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     @Override
     public void removeBanner(Banner banner) throws Exception {
         totalAdminDAO.removeBanner(banner);
+    }
+
+    @Override
+    public List<DesignDTO> getDesignList() {
+        return totalAdminDAO.getDesignList();
+    }
+
+    @Override
+    public void savePopup(Popup popup) throws Exception {
+        totalAdminDAO.savePopup(popup);
+    }
+
+    @Override
+    public List<Popup> popupList() throws Exception {
+        return totalAdminDAO.popupList();
     }
 }

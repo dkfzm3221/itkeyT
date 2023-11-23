@@ -2,7 +2,9 @@ package com.itkey.erpdev.admin.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.itkey.erpdev.admin.domain.Admin;
+import com.itkey.erpdev.admin.domain.DesignEntity;
 import com.itkey.erpdev.admin.domain.MenuEntity;
+import com.itkey.erpdev.admin.domain.Popup;
 import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.admin.service.CommonService;
 import com.itkey.erpdev.admin.service.TotalAdminService;
@@ -546,5 +548,55 @@ public class TotalAdminController {
 		return mv;
 	}
 
+	@GetMapping(value = "popup")
+	public ModelAndView popup(HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("/popup");
 
+		HttpSession session = request.getSession();
+
+		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
+			mv.setViewName("/login_admin");
+			return mv;
+		}
+
+		List<Popup> popupList = adminService.popupList();
+
+		// 메뉴 리스트
+		List<CommonDTO> menuList = commonService.getMenuListAjax();
+		// 총 메뉴 수
+		int menuCnt = adminService.getMenuListCntAjax();
+
+		mv.addObject("menuList", menuList);
+		mv.addObject("menuCnt", menuCnt);
+		mv.addObject("popupList", popupList);
+
+		return mv;
+	}
+
+	@PostMapping(value = "savePopup")
+	public ModelAndView savePopup(Popup popup) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+
+		adminService.savePopup(popup);
+
+		return mv;
+	}
+
+	@GetMapping(value = "/designMgmt")
+	public ModelAndView design(HttpServletRequest request) throws Exception{
+		HttpSession session = request.getSession();
+
+		ModelAndView mv = new ModelAndView("/designMgmt");
+
+		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
+			mv.setViewName("/login_admin");
+			return mv;
+		}
+
+		List<DesignDTO> designList = adminService.getDesignList();
+
+		mv.addObject("designList", designList);
+
+		return mv;
+	}
 }

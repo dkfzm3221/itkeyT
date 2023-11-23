@@ -3,7 +3,9 @@ package com.itkey.erpdev.admin.dao;
 
 import com.github.pagehelper.PageHelper;
 import com.itkey.erpdev.admin.domain.Admin;
+import com.itkey.erpdev.admin.domain.DesignEntity;
 import com.itkey.erpdev.admin.domain.MenuEntity;
+import com.itkey.erpdev.admin.domain.Popup;
 import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.member.domain.Member;
@@ -180,5 +182,20 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	@Override
 	public void removeBanner(Banner banner) throws Exception {
 		sql.delete("mapper.totalAdmin.removeBanner", banner);
+	}
+
+	@Override
+	public void savePopup(Popup popup) throws Exception {
+		sql.insert("mapper.totalAdmin.savePopup", popup);
+	}
+
+	@Override
+	public List<Popup> popupList() throws Exception {
+		return sql.selectList("mapper.totalAdmin.popupList");
+	}
+
+	@Override
+	public List<DesignDTO> getDesignList(){
+		return sql.selectList("mapper.totalAdmin.getDesignList");
 	}
 }
