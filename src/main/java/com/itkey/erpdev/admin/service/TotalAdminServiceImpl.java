@@ -1,12 +1,11 @@
 package com.itkey.erpdev.admin.service;
 
 import com.itkey.erpdev.admin.dao.TotalAdminDAO;
+import com.itkey.erpdev.admin.domain.Admin;
 import com.itkey.erpdev.admin.domain.MenuEntity;
-import com.itkey.erpdev.admin.dto.Banner;
-import com.itkey.erpdev.admin.dto.FileDto;
-import com.itkey.erpdev.admin.dto.TotalAdminDTO;
-import com.itkey.erpdev.admin.dto.Visitor;
+import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.board.domain.Board;
+import com.itkey.erpdev.member.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -184,5 +183,79 @@ public class TotalAdminServiceImpl implements TotalAdminService {
                 totalAdminDAO.saveBanner(newBanner);
             }
 
-        }
     }
+
+
+    @Override
+    public int countAdmin() {
+        return totalAdminDAO.countAdmin();
+    }
+
+    @Override
+    public int insertAdmin(AdminInsert aDTO) {
+        return totalAdminDAO.insertAdmin(aDTO);
+    }
+
+    @Override
+    public List<Admin> adminList(Integer pageNum, Integer pageSize, SearchAdmin searchAdmin) {
+        return totalAdminDAO.adminList(pageNum, pageSize, searchAdmin);
+    }
+
+    @Override
+    public TotalAdminDTO getLoginInfo(int adminIdx) {
+        return totalAdminDAO.getLoginInfo(adminIdx);
+    }
+
+    @Override
+    public int deleteAdmin(Admin aDTO) {
+        return totalAdminDAO.deleteAdmin(aDTO);
+    }
+
+    @Override
+    public int updateAdmin(Admin aDTO) {
+        return totalAdminDAO.updateAdmin(aDTO);
+    }
+
+    @Override
+    public List<Admin> del_adminList(Integer pageNum, Integer pageSize, SearchAdmin searchAdmin) {
+        return totalAdminDAO.del_adminList(pageNum, pageSize, searchAdmin);
+    }
+
+    @Override
+    public Integer countDelAdmin() {
+        return totalAdminDAO.countDelAdmin();
+    }
+
+    @Override
+    public int returnAdmin(Admin aDTO) {
+        return totalAdminDAO.returnAdmin(aDTO);
+    }
+
+    @Override
+    public int adminIdCheck(String id) {
+        return totalAdminDAO.adminIdCheck(id);
+    }
+
+    @Override
+    public int realDeleteAdmin(int adminIdx) {
+        return totalAdminDAO.realDeleteAdmin(adminIdx);
+    }
+
+    @Override
+    public int blockMember(Member m) {return totalAdminDAO.blockMember(m);}
+
+    @Override
+    public List<Member> block_adminList(Integer pageNum, Integer pageSize, SearchAdmin searchAdmin) {
+        return totalAdminDAO.block_adminList(pageNum, pageSize, searchAdmin);
+    }
+
+    @Override
+    public Integer countBlockAdmin() {
+        return totalAdminDAO.countBlockAdmin();
+    }
+
+    @Override
+    public int releaseMember(int memberIdx) {
+        return totalAdminDAO.releaseMember(memberIdx);
+    }
+}
