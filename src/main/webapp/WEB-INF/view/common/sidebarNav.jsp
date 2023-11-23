@@ -46,6 +46,16 @@
     <!-- End Logo Header -->
 
     <!-- Navbar Header -->
+
+    <%--/**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 사이드 네비게이션 메뉴리스트
+    *
+    **/--%>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -76,6 +86,15 @@
     <!-- End Navbar -->
 </div>
 
+<%--/**
+*
+*
+*
+*@author 김재섭
+*@date 2023-11-23
+*@comment 사이드 네비게이션 배너 리스트
+*
+**/--%>
 <!-- Sidebar -->
 <div class="sidebar sidebar-style-2">
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
@@ -85,14 +104,12 @@
                     <div class="row">
                         <c:forEach items="${sessionScope.bannerList}" var="item">
                             <div class="col-md-12">
-                                <c:if test="${empty item.fileIdx}">
+                                <c:if test="${empty item.filePath}">
                                     <a href="${item.bannerUrl}" target="_blank">
-                                        <div>
-                                            ${item.bannerName}
-                                        </div>
+                                        <p>${item.bannerName}</p>
                                     </a>
                                 </c:if>
-                                <c:if test="${not empty item.fileIdx}">
+                                <c:if test="${not empty item.filePath}">
                                     <a href="${item.bannerUrl}" target="_blank">
                                         <img src="${item.filePath}" class="navbar-brand" style="width: 100%;">
                                     </a>

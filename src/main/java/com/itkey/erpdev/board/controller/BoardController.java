@@ -31,6 +31,15 @@ public class BoardController {
 
     BoardService bs;
 
+    /**
+    *
+    * BoardController
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 대시보드 게시판 리스트
+    *
+    **/
     @GetMapping(value = "/")
     public ModelAndView boardList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                   @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage
@@ -41,6 +50,7 @@ public class BoardController {
         List<Board> boardTypeList = bs.boardTypeList();
         mv.addObject("boardTypeList", boardTypeList);
 
+        //게시판 타입별로 화면에 리스트 출력
         for (Board board : boardTypeList) {
             String boardType = board.getBoardType();
             List<Board> boardList = bs.boardList(pageNum, countPerPage, boardType);
@@ -48,11 +58,9 @@ public class BoardController {
             mv.addObject("section_" + board, boardList);
         }
 
-
+        //세션에 배너, 메뉴 저장
         List<Banner> bannerList = bs.bannerList();
-
         List<Board> menuList = bs.getMenuList();
-
         session.setAttribute("menuList", menuList);
         session.setAttribute("bannerList", bannerList);
 
@@ -125,6 +133,15 @@ public class BoardController {
         return mv;
     }
 
+    /**
+    *
+    * BoardController
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 게시글 비밀번호 체크
+    *
+    **/
     @PostMapping(value = "/boardPassword")
     public ModelAndView boardPassword(Board board) throws Exception{
         ModelAndView mv = new ModelAndView("jsonView");
@@ -136,6 +153,15 @@ public class BoardController {
         return mv;
     }
 
+    /**
+    *
+    * BoardController
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 게시판 수정
+    *
+    **/
     @PostMapping(value = "/updateBoard")
     public ModelAndView updateBoard(Board board) throws Exception{
         ModelAndView mv = new ModelAndView("/board/boardDetail");
@@ -144,6 +170,15 @@ public class BoardController {
         return mv;
     }
 
+    /**
+    *
+    * BoardController
+    *
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 게시판 삭제
+    *
+    **/
     @PostMapping(value = "/deleteBoard")
     public ModelAndView deleteBoard(Board board) throws Exception{
         ModelAndView mv = new ModelAndView("/board/boardDetail");

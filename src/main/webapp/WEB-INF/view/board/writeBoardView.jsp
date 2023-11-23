@@ -19,6 +19,14 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
 <script>
+   <%-- /**
+       *
+       *
+       *@author 김재섭
+       *@date 2023-11-23
+       *@comment 게시판 글 에디터
+       *
+       **/--%>
     $(document).ready(function () {
 
         $('#boardEditor').summernote({

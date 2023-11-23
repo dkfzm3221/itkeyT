@@ -122,12 +122,26 @@
     </div>
 </div>
 <script>
+   <%-- /**
+       *
+       *
+       *@author 김재섭
+       *@date 2023-11-23
+       *@comment 게시글 등록화면 이동
+       *
+       **/--%>
     function moveToWriteBoard() {
         window.location.href = "/writeBoardView";
     }
 
-
-
+   <%-- /**
+       *
+       *
+       *@author 김재섭
+       *@date 2023-11-23
+       *@comment 비밀글 비밀번호 체크
+       *
+       **/--%>
     function checkPassword(seq){
 
         let password = prompt("비밀번호를 입력하세요.");
