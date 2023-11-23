@@ -57,8 +57,8 @@
                         addMenuRow(val);
                         max_number++;
                     });
-                    menu_number = data.menuCnt + 1;
                 }
+                menu_number = data.menuCnt + 1;
             }
         });
     }
