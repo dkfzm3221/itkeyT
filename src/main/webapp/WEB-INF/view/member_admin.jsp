@@ -99,7 +99,7 @@
                                             <option value="id">아이디</option>
                                         </select>
                                         <input type="text" name="keyword"
-                                               class="form-control inputStyle1" id="searchBox"
+                                               class="form-control" id="searchBox"
                                         placeholder="검색어 입력" style="margin:2px 0px;" />
                                         <button type="button" id="adminSearchBtn" class="btn btn-primary"><i
                                                 class="adminSearchBtn"></i>검색
@@ -383,7 +383,6 @@
 <script>
     //유효성 처리
     $("#insertAdminBtn").on("click", function(){
-
         let pattern = /^[가-힣]+$/;
         if($("#adminId").val()==""){
             alert("아이디를 입력해주세요.");
@@ -417,7 +416,6 @@
             return false;
         }
     })
-
     //회원수 카운트
     function countAdmin() {
         $.ajax({
@@ -430,18 +428,6 @@
     $(function(){
         countAdmin();
     })
-    $(document).on("click", "#insertFormBtn", function() {
-        let memberType = "${admin.memberType}";
-
-        if(memberType == "A"){
-            $('#insertAdmin').modal('show')
-        }else{
-
-            alert("권한이 없습니다.");
-            return false;
-        }
-
-    })
     //회원 등록
     $(document).on("click", "#insertAdminBtn", function() {
 
@@ -450,12 +436,10 @@
             $("#adminForm").attr("action", "/totalAdmin/insertAdmin").submit();
         }
     });
-
     //하이픈(-) 자동 입력, 클래스에 phoneNumber 추가
     $(document).on("keyup", "#adminHp", function() {
         $(this).val($(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, "$1-$2-$3").replace("--", "-"));
     });
-
     //빠른 로그인
     function admin_f_login(Idx){
         let adminIdx = Idx;
@@ -501,7 +485,6 @@
             $("#updateAdminForm").attr("action", "/totalAdmin/updateAdmin").submit();
         }
     });
-
     //회원 탈퇴
     function deleteAdminInfo(seq){
         let adminIdx = seq;
@@ -524,7 +507,6 @@
     $(document).on("click", "#del_adminHomeBtn", function() {
         location.href = "/totalAdmin/del_adminHome"
     });
-
     //검색어 빈값 처리
     $("#adminSearchBtn").on("click", function (){
         if($("#searchBox").val() == ""){
@@ -532,12 +514,10 @@
             return false;
         }
     });
-
     //검색 기능
     $(document).on("click", "#adminSearchBtn", function() {
             $("#member_list_main_search").attr("action", "/totalAdmin/adminHome").submit();
     });
-
     //아이디 중복 체크
     $(function(){
         //아이디 중복 체크
@@ -569,40 +549,34 @@
             }
         })
     })
-
     //회원 차단 처리
     function blockMember(seq){
         let blockRsn = prompt('차단 사유를 입력해주세요');
-        let confirm_val = confirm("차단하시겠습니까?");
-
-        let memberIdx = seq;
-        if (confirm_val) {
-            $.ajax({
-                url : "/totalAdmin/blockMember",
-                data : {
-                    seq : memberIdx,
-                    blockRsn : blockRsn
-                },
-                dataType: "text",
-                success : function(result){
-                    if(result == 'S'){
-                        alert('차단 완료')
-                        location.reload()
+        if(blockRsn != null){
+            let confirm_val = confirm("차단하시겠습니까?");
+            let memberIdx = seq;
+            if (confirm_val) {
+                $.ajax({
+                    url : "/totalAdmin/blockMember",
+                    data : {
+                        seq : memberIdx,
+                        blockRsn : blockRsn
+                    },
+                    dataType: "text",
+                    success : function(result){
+                        if(result == 'S'){
+                            alert('차단 완료')
+                            location.reload()
+                        }
                     }
-                }
-            })
+                })
+            }
         }
     }
     //차단 회원 관리 페이지 이동
     $(document).on("click", "#block_adminHomeBtn", function() {
         location.href = "/totalAdmin/block_adminHome"
     });
-
-
-
-
-
-
 </script>
 <!-- Footer  -->
 <jsp:include page="common/contentFooter.jsp"/>

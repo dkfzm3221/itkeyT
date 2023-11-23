@@ -53,25 +53,27 @@
                                 <div class="card-header mb-4 pb-2" style="padding: 0;">
                                     <div class="card-title">
                                         <button class="btn btn-primary btn-rounded" id="adminHomeBtn">회원관리</button>
+                                        <button class="btn btn-primary btn-rounded" id="block_adminHomeBtn">차단회원관리</button>
+                                        <button class="btn btn-rounded" id="del_adminHomeBtn">탈퇴회원관리</button>
                                     </div>
-                                    <div class="col-md-12 text-left" style="margin: 5px">
-                                        <form name="member_list_main_search" action=""
-                                              id="member_list_main_search" class="form-inline">
-                                            <input type="hidden" name="depart_sub" value=""/>
-                                            <select name="type" class="form-control"
-                                                    style="margin:2px 0px;">
-                                                <option value="all">--- 전체 ---</option>
-                                                <option value="name">이름</option>
-                                                <option value="id">아이디</option>
-                                            </select>
-                                            <input type="text" name="keyword"
-                                                   class="form-control inputStyle1" id="searchBox"
-                                                   placeholder="검색어 입력" style="margin:2px 0px;" />
-                                            <button type="button" id="adminSearchBtn" class="btn btn-primary"><i
-                                                    class="adminSearchBtn"></i>검색
-                                            </button>
-                                        </form>
-                                    </div>
+                                </div>
+                                <div class="col-md-12 text-left" style="margin: 5px">
+                                    <form name="member_list_main_search" action=""
+                                          id="member_list_main_search" class="form-inline">
+                                        <input type="hidden" name="depart_sub" value=""/>
+                                        <select name="type" class="form-control"
+                                                style="margin:2px 0px;">
+                                            <option value="all">--- 전체 ---</option>
+                                            <option value="name">이름</option>
+                                            <option value="id">아이디</option>
+                                        </select>
+                                        <input type="text" name="keyword"
+                                               class="form-control inputStyle1" id="searchBox"
+                                               placeholder="검색어 입력" style="margin:2px 0px;" />
+                                        <button type="button" id="adminSearchBtn" class="btn btn-primary"><i
+                                                class="adminSearchBtn"></i>검색
+                                        </button>
+                                    </form>
                                 </div>
 
                                 <div id="memberList">
@@ -165,7 +167,6 @@
     $(document).on("click", "#adminHomeBtn", function() {
         location.href = "/totalAdmin/adminHome"
     });
-
     //회원수 카운트
     function countAdmin() {
         $.ajax({
@@ -205,18 +206,18 @@
             return false;
         }
     });
-
     //검색 기능
     $(document).on("click", "#adminSearchBtn", function() {
         $("#member_list_main_search").attr("action", "/totalAdmin/block_adminHome").submit();
     });
-
-
-
-
-
-
-
+    //차단 회원 관리 페이지 이동
+    $(document).on("click", "#block_adminHomeBtn", function() {
+        location.href = "/totalAdmin/block_adminHome"
+    });
+    //탈퇴 회원 관리 페이지로
+    $(document).on("click", "#del_adminHomeBtn", function() {
+        location.href = "/totalAdmin/del_adminHome"
+    });
 </script>
 <!-- Footer  -->
 <jsp:include page="common/contentFooter.jsp"/>
