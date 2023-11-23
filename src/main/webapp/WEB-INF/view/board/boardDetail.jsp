@@ -166,6 +166,7 @@
                     $('#password').removeAttr('readonly');
                     $('button[onclick="modiBoard()"]').attr('onclick', 'updateBoard()');
                     $('#boardEditor').summernote('enable');
+                    // 관리자가 아닐때
                     if(memberType !== 'A'){
                       let deleteButton = $('<button/>', {
                         text: '삭제',
