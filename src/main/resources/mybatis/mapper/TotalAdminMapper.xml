@@ -537,5 +537,12 @@
 		WHERE BANNER_SEQ = #{bannerSeq};
 	</delete>
 
+	<select id="getDesignList" resultType="DesignDTO">
+		SELECT
+			design_seq
+		     , type
+			 , content
+		FROM DESIGN
+	</select>
 
 </mapper>
