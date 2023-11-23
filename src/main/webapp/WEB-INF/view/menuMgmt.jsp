@@ -73,6 +73,7 @@
         listHtml += '<input type="hidden" name="menuOrder" value="' + menuData.menuOrder + '" />';
         listHtml += '<input type="hidden" name="menuSite" value="U" />';
         listHtml += '<input type="hidden" name="menuType" value="0" />';
+        listHtml += '<input type="hidden" name="delMenuBoardType" value="" />'
         listHtml += '<td>';
         listHtml += '<button type="button" class="btn btn-danger btn-sm" onclick="removeMenuRow(this);">';
         listHtml += '<i class="fa fa-minus"></i> 삭제</button>';
@@ -130,6 +131,7 @@
     function removeMenuRow(obj) {
         var delRow = $(obj).closest("tr");
         delRow.find("[name='menuUseYn']").val("N");
+        delRow.find("[name='delMenuBoardType']").val(delRow.find("[name='menuBoardType']").val());
         delRow.find("[name='menuBoardType']").val("");
 
         // 해당 메뉴의 정보를 추출하여 배열에 추가
@@ -143,7 +145,8 @@
             "menuType",
             "menuUrl",
             "menuUseYn",
-            "menuBoardType"
+            "menuBoardType",
+            "delMenuBoardType"
         ];
 
         for (var i = 0; i < input.length; i++) {
@@ -182,6 +185,7 @@
         html += '<input type="hidden" name="menuOrder" value="' + info['menuOrder'] + '" />'
         html += '<input type="hidden" name="menuSite" value="U" />';
         html += '<input type="hidden" name="menuType" value="0" />';
+        html += '<input type="hidden" name="delMenuBoardType" value="" />'
         html += '<td>';
         html += '<button type="button" class="btn btn-danger btn-sm" onclick="removeMenuRow(this);">';
         html += '<i class="fa fa-minus"></i> 삭제';
@@ -222,7 +226,8 @@
             "menuUrl",
             "menuUseYn",
             "menuOrder",
-            "menuBoardType"
+            "menuBoardType",
+            "delMenuBoardType"
         ];
 
         var data = [];
