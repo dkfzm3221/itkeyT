@@ -135,7 +135,7 @@
         FROM MENU
         WHERE MENU_SITE = 'U'
           AND MENU_USE_YN = 'Y'
-        ORDER BY MENU_ORDER
+        ORDER BY CAST(MENU_ORDER AS SIGNED)
     </select>
 
     <select id="boardTypeList"  resultType="Board">
