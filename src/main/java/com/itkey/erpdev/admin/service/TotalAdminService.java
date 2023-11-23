@@ -2,6 +2,7 @@ package com.itkey.erpdev.admin.service;
 
 
 import com.itkey.erpdev.admin.domain.Admin;
+import com.itkey.erpdev.admin.domain.DesignEntity;
 import com.itkey.erpdev.admin.domain.MenuEntity;
 import com.itkey.erpdev.admin.domain.Popup;
 import com.itkey.erpdev.admin.dto.*;
@@ -77,6 +78,8 @@ public interface TotalAdminService {
 	int releaseMember(int memberIdx);
 
 	void removeBanner(Banner banner) throws Exception;
+
+	List<DesignDTO> getDesignList();
 
     void savePopup(Popup popup) throws Exception;
 

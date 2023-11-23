@@ -3,6 +3,7 @@ package com.itkey.erpdev.admin.dao;
 
 import com.github.pagehelper.PageHelper;
 import com.itkey.erpdev.admin.domain.Admin;
+import com.itkey.erpdev.admin.domain.DesignEntity;
 import com.itkey.erpdev.admin.domain.MenuEntity;
 import com.itkey.erpdev.admin.domain.Popup;
 import com.itkey.erpdev.admin.dto.*;
@@ -191,5 +192,10 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	@Override
 	public List<Popup> popupList() throws Exception {
 		return sql.selectList("mapper.totalAdmin.popupList");
+	}
+
+	@Override
+	public List<DesignDTO> getDesignList(){
+		return sql.selectList("mapper.totalAdmin.getDesignList");
 	}
 }

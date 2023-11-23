@@ -582,5 +582,12 @@
 		WHERE USE_YN = 'Y'
 		ORDER BY POPUP_SEQ
 	</select>
+	<select id="getDesignList" resultType="DesignDTO">
+		SELECT
+			design_seq
+		     , type
+			 , content
+		FROM DESIGN
+	</select>
 
 </mapper>
