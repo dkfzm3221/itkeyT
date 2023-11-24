@@ -102,10 +102,10 @@
 		ORDER BY A.MENU_LEVEL, A.MENU_PARENT_SEQ, CAST(A.MENU_ORDER AS SIGNED)
 	</select>
 
-	<!-- 메뉴 수 -->
+	<!-- 메뉴 SEQ -->
 	<select id="getMenuListCntAjax" resultType="int">
-		/*fn : 메뉴 수 - getMenuListCntAjax */
-		SELECT 	count(*)
+		/*fn : 메뉴 SEQ - getMenuListCntAjax */
+		SELECT 	max(menu_seq)
 		FROM	MENU
 	</select>
 
