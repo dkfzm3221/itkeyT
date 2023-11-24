@@ -296,4 +296,14 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     public int upDatedesignMgmt(DesignEntity design){
         return totalAdminDAO.upDatedesignMgmt(design);
     }
+
+    @Override
+    public void updatePopup(Popup popup) throws Exception {
+        totalAdminDAO.updatePopup(popup);
+    }
+
+    @Override
+    public void removePopup(Popup popup) throws Exception {
+        totalAdminDAO.removePopup(popup);
+    }
 }

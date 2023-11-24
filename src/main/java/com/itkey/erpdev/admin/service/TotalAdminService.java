@@ -86,4 +86,8 @@ public interface TotalAdminService {
 	List<Popup> popupList() throws Exception;
 
 	int upDatedesignMgmt(DesignEntity design);
+
+	void updatePopup(Popup popup) throws Exception;
+
+	void removePopup(Popup popup) throws Exception;
 }

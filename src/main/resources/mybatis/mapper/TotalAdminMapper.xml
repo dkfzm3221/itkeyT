@@ -601,4 +601,32 @@
 		WHERE DESIGN_SEQ = #{designSeq}
 	</update>
 
+	<!--/**
+	*
+	*
+	*
+	*@author 김재섭
+	*@date 2023-11-23
+	*@comment 관리자 팝업수정
+	*
+	**/-->
+	<update id="updatePopup" parameterType="Popup">
+		UPDATE popup
+		SET
+		POPUP_URL = #{popupUrl}
+		, POPUP_CONTENTS = #{popupContents}
+		, WIDTH = #{width}
+		, HEIGHT = #{height}
+		, `LEFT` = #{left}
+		, `TOP` = #{top}
+		, POPUP_NAME = #{popupName}
+		, MOD_USER = #{modUser}
+		, MOD_DATE = NOW()
+		WHERE POPUP_SEQ = #{popupSeq}
+	</update>
+
+	<delete id="removePopup" parameterType="Popup">
+		DELETE FROM POPUP
+		WHERE POPUP_SEQ = #{popupSeq}
+	</delete>
 </mapper>

@@ -203,4 +203,14 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	public int upDatedesignMgmt(DesignEntity design) {
 		return sql.update("mapper.totalAdmin.upDatedesignMgmt", design);
 	}
+
+	@Override
+	public void updatePopup(Popup popup) throws Exception {
+		sql.update("mapper.totalAdmin.updatePopup", popup);
+	}
+
+	@Override
+	public void removePopup(Popup popup) throws Exception {
+		sql.delete("mapper.totalAdmin.removePopup", popup);
+	}
 }

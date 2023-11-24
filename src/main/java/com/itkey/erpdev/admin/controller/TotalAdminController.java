@@ -582,6 +582,27 @@ public class TotalAdminController {
 		return mv;
 	}
 
+
+	@PostMapping(value = "updatePopup")
+	public ModelAndView updatePopup(Popup popup) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+
+		adminService.updatePopup(popup);
+
+		return mv;
+	}
+
+	@PostMapping(value = "removePopup")
+	public ModelAndView removePopup(Popup popup) throws Exception {
+		ModelAndView mv = new ModelAndView("jsonView");
+
+		adminService.removePopup(popup);
+
+		return mv;
+	}
+
+
+
 	// 디자인 관리
 	@GetMapping(value = "/designMgmt")
 	public ModelAndView design(HttpServletRequest request) throws Exception{
