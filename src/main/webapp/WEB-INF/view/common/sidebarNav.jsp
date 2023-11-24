@@ -107,18 +107,21 @@
     *
     **/--%>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <!-- 2번 디자인 영역 -->
+        <c:forEach items="${designList}" var="design" varStatus="index">
+            <c:if test="${design.designSeq eq 2}">
+                ${design.content}
+            </c:if>
+        </c:forEach>
             <ul class="navbar-nav">
-                <c:forEach items="${sessionScope.menuList}" var="menu">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/boardDetailList?menuBoardType=${menu.menuBoardType}">${menu.menuName}</a>
-                    </li>
-                </c:forEach>
-
-                <!-- Add more items here -->
+               <c:forEach items="${sessionScope.menuList}" var="menu">
+                   <li class="nav-item active">
+                       <a class="nav-link" href="/boardDetailList?menuBoardType=${menu.menuBoardType}">${menu.menuName}</a>
+                   </li>
+               </c:forEach>
             </ul>
         </div>
+            <!-- 로그인/마이페이지 버튼 영역-->
             <div class="collapse navbar-collapse">
             <c:choose>
                 <c:when test="${empty member}">
@@ -154,7 +157,12 @@
 **/--%>
 <!-- Sidebar -->
 <div class="sidebar sidebar-style-2">
-    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+    <!--3번 디자인 영역-->
+    <c:forEach items="${designList}" var="design" varStatus="index">
+        <c:if test="${design.designSeq eq 3}">
+            ${design.content}
+        </c:if>
+    </c:forEach>
         <div class="sidebar-content">
             <div class="user">
                 <div class="info">

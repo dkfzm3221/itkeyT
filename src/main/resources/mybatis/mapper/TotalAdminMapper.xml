@@ -598,6 +598,7 @@
 		/*fn : 디자인 수정 - upDatedesignMgmt */
 		UPDATE DESIGN
 		SET CONTENT = #{content}
+			,UPD_DT = NOW()
 		WHERE DESIGN_SEQ = #{designSeq}
 	</update>
 
