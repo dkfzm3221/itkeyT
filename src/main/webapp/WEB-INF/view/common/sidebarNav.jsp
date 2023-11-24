@@ -106,13 +106,15 @@
     *@comment 사이드 네비게이션 메뉴리스트
     *
     **/--%>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <!-- 2번 디자인 영역 -->
-        <c:forEach items="${designList}" var="design" varStatus="index">
-            <c:if test="${design.designSeq eq 2}">
-                ${design.content}
-            </c:if>
-        </c:forEach>
+
+    <%--<nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="background-color:#111111" !important>--%>
+    <!-- 2번 디자인 영역 -->
+    <c:forEach items="${designList}" var="design" varStatus="index">
+        <c:if test="${design.designSeq eq 2}">
+            ${design.content}
+        </c:if>
+    </c:forEach>
+        <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                <c:forEach items="${sessionScope.menuList}" var="menu">
                    <li class="nav-item active">
@@ -157,12 +159,7 @@
 **/--%>
 <!-- Sidebar -->
 <div class="sidebar sidebar-style-2">
-    <!--3번 디자인 영역-->
-    <c:forEach items="${designList}" var="design" varStatus="index">
-        <c:if test="${design.designSeq eq 3}">
-            ${design.content}
-        </c:if>
-    </c:forEach>
+    <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <div class="user">
                 <div class="info">

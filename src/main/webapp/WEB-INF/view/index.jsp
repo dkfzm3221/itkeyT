@@ -65,14 +65,20 @@
                                             </colgroup>
                                             <thead>
                                             <c:set var="section" value="${pageContext.request.getAttribute('section_'.concat(boardType))}" />
-                                            <tr>
+                                            <%--<tr>
                                                 <th style="width:10%;">No.</th>
                                                 <th style="width:10%;">작성자</th>
                                                 <th style="width:40%;">제목</th>
                                                 <th style="width:10%;">공개/비공개</th>
                                                 <th style="width:10%;">조회수</th>
                                                 <th style="width:30%;">등록일</th>
-                                            </tr>
+                                            </tr>--%>
+                                            <!--3번 디자인 영역-->
+                                            <c:forEach items="${designList}" var="design" varStatus="index">
+                                                <c:if test="${design.designSeq eq 3}">
+                                                    ${design.content}
+                                                </c:if>
+                                            </c:forEach>
                                             </thead>
                                             <tbody>
 
