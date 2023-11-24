@@ -109,6 +109,9 @@
                                 <c:when test="${gnb.menuName == '접속로그'}">
                                     <i class="fas fa-address-card"></i>
                                 </c:when>
+                                <c:when test="${gnb.menuName == '디자인관리'}">
+                                    <i class="fas fa-desktop"></i>
+                                </c:when>
                             </c:choose>
                             <p>${gnb.menuName}</p>
                         </a>
