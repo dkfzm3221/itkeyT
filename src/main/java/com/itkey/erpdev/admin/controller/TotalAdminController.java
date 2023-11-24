@@ -539,6 +539,15 @@ public class TotalAdminController {
 	}
 
 
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 김재섭
+	 *@date 2023-11-23
+	 *@comment 배너 삭제
+	 *
+	 **/
 	@PostMapping(value = "removeBanner")
 	public ModelAndView removeBanner(Banner banner) throws Exception {
 		ModelAndView mv = new ModelAndView("jsonView");
@@ -547,6 +556,16 @@ public class TotalAdminController {
 
 		return mv;
 	}
+
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 김재섭
+	 *@date 2023-11-23
+	 *@comment 팝업출력
+	 *
+	 **/
 
 	@GetMapping(value = "popup")
 	public ModelAndView popup(HttpServletRequest request) throws Exception{
@@ -573,6 +592,15 @@ public class TotalAdminController {
 		return mv;
 	}
 
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 김재섭
+	 *@date 2023-11-23
+	 *@comment 팝업저장
+	 *
+	 **/
 	@PostMapping(value = "savePopup")
 	public ModelAndView savePopup(Popup popup) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
@@ -581,6 +609,45 @@ public class TotalAdminController {
 
 		return mv;
 	}
+
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 김재섭
+	 *@date 2023-11-23
+	 *@comment 팝업수정
+	 *
+	 **/
+
+	@PostMapping(value = "updatePopup")
+	public ModelAndView updatePopup(Popup popup) throws Exception{
+		ModelAndView mv = new ModelAndView("jsonView");
+
+		adminService.updatePopup(popup);
+
+		return mv;
+	}
+
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 김재섭
+	 *@date 2023-11-23
+	 *@comment 팝업 삭제
+	 *
+	 **/
+	@PostMapping(value = "removePopup")
+	public ModelAndView removePopup(Popup popup) throws Exception {
+		ModelAndView mv = new ModelAndView("jsonView");
+
+		adminService.removePopup(popup);
+
+		return mv;
+	}
+
+
 
 	// 디자인 관리
 	@GetMapping(value = "/designMgmt")
