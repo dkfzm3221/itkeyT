@@ -1,6 +1,7 @@
 package com.itkey.erpdev.board.service;
 
 import com.itkey.erpdev.admin.dto.Banner;
+import com.itkey.erpdev.admin.dto.DesignDTO;
 import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.domain.SearchBoard;
@@ -102,5 +103,11 @@ public class BoardServiceImpl implements BoardService {
     public List<Board> boardDetailList(int pageNum, int countPerPage, String boardType, SearchBoard searchBoard) {
         return dao.boardDetailList(pageNum,countPerPage,boardType,searchBoard);
     }
+
+    @Override
+    public List<DesignDTO> getDegignList() {
+        return dao.getDegignList();
+    }
+
 
 }
