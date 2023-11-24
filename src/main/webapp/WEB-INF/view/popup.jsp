@@ -24,7 +24,7 @@
                 <tr style="background-color:#F1F1F1;" id="popup_list_thead">
                     <th style="text-align:center;width:150px;">팝업명</th>
                     <th style="text-align:center;width:400px;">팝업내용</th>
-                    <th style="text-align:center;width:200px;">팝업URL</th>
+                    <th style="text-align:center;width:200px;">팝업URL ex)https://www.google.com</th>
                     <th style="text-align:center;width:150px;">width</th>
                     <th style="text-align:center;width:150px;">height</th>
                     <th style="text-align:center;width:150px;">left</th>
@@ -50,6 +50,15 @@
     </div>
 </div>
 <script>
+
+    <%-- /**
+     *
+     *
+     *@author 김재섭
+     *@date 2023-11-23
+     *@comment 팝업 추가 버튼 클릭시 html 추가
+     *
+     **/--%>
 
     function addPopup() {
         var table = document.getElementById('popup_list_thead').parentNode;
@@ -96,6 +105,23 @@
         var left = $("#left" + popupId).val();
         var top = $("#top" + popupId).val();
 
+        if(width == ""){
+            alert("width를 입력해주세요.");
+            return false;
+        }
+        if(height == ""){
+            alert("height를 입력해주세요.");
+            return false;
+        }
+        if(left == ""){
+            alert("left를 입력해주세요.");
+            return false;
+        }
+        if(top == ""){
+            alert("top을 입력해주세요.");
+            return false;
+        }
+
         // FormData 객체 생성 및 데이터 추가
         formData.append("popupName", popupName);
         formData.append("popupContents", popupContents);
@@ -104,9 +130,6 @@
         formData.append("height", height);
         formData.append("left", left);
         formData.append("top", top);
-
-
-
 
         if(confirm("저장하시겠습니까?")) {
             $.ajax({
@@ -143,6 +166,23 @@
         var height = $("#height" + popupSeq).val();
         var left = $("#left" + popupSeq).val();
         var top = $("#top" + popupSeq).val();
+
+        if(width == ""){
+            alert("width를 입력해주세요.");
+            return false;
+        }
+        if(height == ""){
+            alert("height를 입력해주세요.");
+            return false;
+        }
+        if(left == ""){
+            alert("left를 입력해주세요.");
+            return false;
+        }
+        if(top == ""){
+            alert("top을 입력해주세요.");
+            return false;
+        }
 
         // FormData 객체 생성 및 데이터 추가
         formData.append("popupName", popupName);
