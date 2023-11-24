@@ -5,6 +5,13 @@
 <!-- Header END -->
 <html lang="ko-kr">
 <body>
+<style>
+    .custom-textarea {
+        height: 200px;
+        width: 1000px;
+    }
+</style>
+
 <div class="wrapper">
     <!-- SideBar Navbar  -->
     <jsp:include page="common/sidebarNav_admin.jsp"/>
@@ -42,7 +49,7 @@
                                         <td style="text-align:center;">${designList.designSeq}</td>
                                         <td>${designList.type}</td>
                                         <td>
-                                            <textarea class="form-control" id="content_${designList.designSeq}" placeholder="내용 입력">${designList.content}</textarea>
+                                            <textarea class="custom-textarea" id="content_${designList.designSeq}" placeholder="내용 입력" style="height: 200px;">${designList.content}</textarea>
                                         </td>
                                         <td style="text-align:center;padding:5px 0px;">
                                             <button class="btn btn-sm btn-info" onclick="updateDesign(${designList.designSeq});"><i class="fa fa-list"></i> 저장</button>
