@@ -18,9 +18,6 @@
                         <button type="button" class="btn btn-info btn-lg" onclick="addPopup();"><i class="fa fa-plus"></i>팝업 추가</button>
                     </div>
                 </div>
-
-                <div id="menu-box">
-                </div>
             </div>
             <table class="table table-bordered">
                 <tbody>
@@ -36,15 +33,16 @@
                 </tr>
                 <c:forEach items="${popupList}" var="item">
                     <tr>
-                        <td><input type="text" class="form-control" id="popupName" name="popupName" placeholder="팝업명" value="${item.popupName}"></td>
-                        <td><input type="text" class="form-control" id="popupContents" name="popupContents" placeholder="팝업내용" value="${item.popupContents}"></td>
-                        <td><input type="text" class="form-control" id="popupUrl" name="popupUrl" placeholder="팝업URL" value="${item.popupUrl}"></td>
-                        <td><input type="text" class="form-control" id="width" name="width" placeholder="width" value="${item.width}"></td>
-                        <td><input type="text" class="form-control" id="height" name="height" placeholder="height" value="${item.height}"></td>
-                        <td><input type="text" class="form-control" id="left" name="left" placeholder="left" value="${item.left}"></td>
-                        <td><input type="text" class="form-control" id="top" name="top" placeholder="right" value="${item.top}"></td>
-                        <td colspan="2"><button style="float: right;" class="btn btn-success btn-lg" onclick="savePopup()">저장</button>
-                        <button style="float: right;" class="btn btn-warning btn-lg" onclick="removePopup()">삭제</button></td>
+                        <td><input type="text" class="form-control" id="popupName${item.popupSeq}" name="popupName" placeholder="팝업명" value="${item.popupName}"></td>
+                        <td><input type="text" class="form-control" id="popupContents${item.popupSeq}" name="popupContents" placeholder="팝업내용" value="${item.popupContents}"></td>
+                        <td><input type="text" class="form-control" id="popupUrl${item.popupSeq}" name="popupUrl" placeholder="팝업URL" value="${item.popupUrl}"></td>
+                        <td><input type="text" class="form-control" id="width${item.popupSeq}" name="width" placeholder="width" value="${item.width}"></td>
+                        <td><input type="text" class="form-control" id="height${item.popupSeq}" name="height" placeholder="height" value="${item.height}"></td>
+                        <td><input type="text" class="form-control" id="left${item.popupSeq}" name="left" placeholder="left" value="${item.left}"></td>
+                        <td><input type="text" class="form-control" id="top${item.popupSeq}" name="top" placeholder="right" value="${item.top}"></td>
+                        <input type="hidden" class="form-control" id="popupSeq" name="popupSeq" value="${item.popupSeq}">
+                        <td colspan="2"><button style="float: right;" class="btn btn-success btn-lg" onclick="updatePopup(${item.popupSeq})">저장</button>
+                        <button style="float: right;" class="btn btn-warning btn-lg" onclick="removeSavePopup(this, ${item.popupSeq})">삭제</button></td>
                     </tr>
                 </c:forEach>
             </table>
@@ -91,8 +89,6 @@
 
         var formData = new FormData();
         var popupName = $("#popupName" + popupId).val();
-        console.log("Dddd : " + popupId);
-        console.log("Dddd : " + popupName);
         var popupContents = $("#popupContents" + popupId).val();
         var popupUrl = $("#popupUrl" + popupId).val();
         var width = $("#width" + popupId).val();
@@ -128,6 +124,82 @@
             });
         }
     }
+
+
+    <%-- /**
+       *
+       *
+       *@author 김재섭
+       *@date 2023-11-23
+       *@comment 배너 수정
+       *
+       **/--%>
+    function updatePopup(popupSeq) {
+        var formData = new FormData();
+        var popupName = $("#popupName" + popupSeq).val();
+        var popupContents = $("#popupContents" + popupSeq).val();
+        var popupUrl = $("#popupUrl" + popupSeq).val();
+        var width = $("#width" + popupSeq).val();
+        var height = $("#height" + popupSeq).val();
+        var left = $("#left" + popupSeq).val();
+        var top = $("#top" + popupSeq).val();
+
+        // FormData 객체 생성 및 데이터 추가
+        formData.append("popupName", popupName);
+        formData.append("popupContents", popupContents);
+        formData.append("popupUrl", popupUrl);
+        formData.append("width", width);
+        formData.append("height", height);
+        formData.append("left", left);
+        formData.append("top", top);
+        formData.append("popupSeq", popupSeq);
+
+
+        if(confirm("수정하시겠습니까?")) {
+            $.ajax({
+                url: '/totalAdmin/updatePopup',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+    }
+
+
+    <%-- /**
+      *
+      *
+      *@author 김재섭
+      *@date 2023-11-23
+      *@comment 저장된 팝업 삭제
+      *
+      **/--%>
+    function removeSavePopup(btn, seq) {
+        var row = btn.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+
+        if(confirm("정말 삭제하시겠습니까?")) {
+            $.ajax({
+                url: '/totalAdmin/removePopup', // 요청을 보낼 URL
+                type: 'POST',
+                data: {"popupSeq" : seq},
+                success: function(data) {
+                    location.reload();
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+    }
+
 
 
 </script>
