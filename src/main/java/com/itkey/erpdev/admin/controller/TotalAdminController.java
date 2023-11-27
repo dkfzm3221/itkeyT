@@ -205,7 +205,13 @@ public class TotalAdminController {
 		return mv;
 	}
 
-	// 메뉴관리
+	/**
+	 *
+	 *@author 이정후
+	 *@date 2023-11-27
+	 *@comment 메뉴관리
+	 *
+	 **/
 	@GetMapping(value = "/menuMgmt")
 	public ModelAndView menuMgmt(HttpServletRequest request) throws Exception {
 		HttpSession session = request.getSession();
@@ -220,7 +226,13 @@ public class TotalAdminController {
 		return mv;
 	}
 
-	// 메뉴관리 - 리스트
+	/**
+	 *
+	 *@author 이정후
+	 *@date 2023-11-27
+	 *@comment 메뉴관리 리스트
+	 *
+	 **/
 	@ResponseBody
 	@PostMapping("/getMenuMgmtAjax")
 	public HashMap<String, Object> menuMgmt(Paging paging) throws Exception {
@@ -237,7 +249,13 @@ public class TotalAdminController {
 		return rMap;
 	}
 
-	// 메뉴 등록/수정
+	/**
+	 *
+	 *@author 이정후
+	 *@date 2023-11-27
+	 *@comment 메뉴관리 등록/수정
+	 *
+	 **/
 	@ResponseBody
 	@PostMapping("/updMenuMgmtAjax")
 	public int updMenuMgmtAjax(@RequestBody List< MenuEntity > menuEntityList) throws Exception {
@@ -649,7 +667,13 @@ public class TotalAdminController {
 
 
 
-	// 디자인 관리
+	/**
+	 *
+	 *@author 이정후
+	 *@date 2023-11-27
+	 *@comment 디자인관리
+	 *
+	 **/
 	@GetMapping(value = "/designMgmt")
 	public ModelAndView design(HttpServletRequest request) throws Exception{
 		HttpSession session = request.getSession();
@@ -668,6 +692,13 @@ public class TotalAdminController {
 		return mv;
 	}
 
+	/**
+	 *
+	 *@author 이정후
+	 *@date 2023-11-27
+	 *@comment 디자인관리 수정
+	 *
+	 **/
 	@ResponseBody
 	@RequestMapping(value="/upDatedesignMgmt")
 	public String upDatedesignMgmt(@RequestParam("designSeq") int designSeq, @RequestParam("content") String content) {

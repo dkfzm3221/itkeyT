@@ -77,6 +77,7 @@ public class BoardController {
         session.setAttribute("menuList", menuList);
         session.setAttribute("bannerList", bannerList);
 
+        // 디자인 세션에 저장
         List<DesignDTO> designList = bs.getDegignList();
         session.setAttribute("designList", designList);
 
