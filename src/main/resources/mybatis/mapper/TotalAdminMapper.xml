@@ -19,9 +19,15 @@
 		  AND	USE_YN = 'Y'
 	</select>
 
-	<!-- gnb메뉴 리스트 -->
+	<!--  /**
+    *
+    *@author 이정후
+    *@date 2023-11-27
+    *@comment 관리자 메뉴 리스트
+    *
+    **/-->
 	<select id="getGnbMenuListAjax" resultType="commonDTO">
-		/*fn : gnb메뉴 리스트 - getGnbMenuList */
+		/*fn : 관리자 메뉴 리스트 - getGnbMenuList */
 		SELECT A.MENU_SEQ AS menuSeq
 			 , A.MENU_SITE AS menuSite
 			 , A.MENU_NAME AS menuName
@@ -77,9 +83,15 @@
 		FROM BOARD
 	</select>
 
-	<!-- 메뉴 리스트 -->
+	<!--  /**
+    *
+    *@author 이정후
+    *@date 2023-11-27
+    *@comment 메뉴관리 메뉴 리스트
+    *
+    **/-->
 	<select id="getMenuListAjax" resultType="menuDTO">
-		/*fn : 메뉴 리스트 - getMenuListAjax */
+		/*fn : 메뉴관리 메뉴 리스트 - getMenuListAjax */
 		SELECT A.MENU_SEQ AS menuSeq
 			 , A.MENU_SITE AS menuSite
 			 , A.MENU_NAME AS menuName
@@ -102,14 +114,26 @@
 		ORDER BY A.MENU_LEVEL, A.MENU_PARENT_SEQ, CAST(A.MENU_ORDER AS SIGNED)
 	</select>
 
-	<!-- 메뉴 SEQ -->
+	<!--  /**
+    *
+    *@author 이정후
+    *@date 2023-11-27
+    *@comment 메뉴 SEQ
+    *
+    **/-->
 	<select id="getMenuListCntAjax" resultType="int">
 		/*fn : 메뉴 SEQ - getMenuListCntAjax */
 		SELECT 	max(menu_seq)
 		FROM	MENU
 	</select>
 
-	<!-- 메뉴 등록/수정 -->
+	<!--  /**
+    *
+    *@author 이정후
+    *@date 2023-11-27
+    *@comment 메뉴관리 메뉴 등록/수정
+    *
+    **/-->
 	<insert id="updMenuMgmtAjax" parameterType="MenuEntity">
 		/*fn : 메뉴 등록/수정 - getMenuListCntAjax */
 		INSERT INTO MENU (
@@ -154,9 +178,15 @@
 		MENU_BOARD_TYPE  = VALUES(MENU_BOARD_TYPE)
 	</insert>
 
-	<!-- 메뉴 삭제시, 해당 게시글 삭제처리 -->
+	<!--  /**
+    *
+    *@author 이정후
+    *@date 2023-11-27
+    *@comment 메뉴관리 삭제(BOARD 테이블)
+    *
+    **/-->
 	<update id="delBoardAjax" parameterType="java.util.List">
-		/*fn : 메뉴 삭제시, 해당 게시글 삭제처리 - delBoardAjax */
+		/*fn : 메뉴관리 삭제(BOARD 테이블) - delBoardAjax */
 		UPDATE BOARD
 		SET BOARD_DEL_YN = 'Y'
 		WHERE BOARD_TYPE IN
@@ -583,9 +613,15 @@
 		ORDER BY POPUP_SEQ
 	</select>
 
-	<!-- 디자인 조회 -->
+	<!--  /**
+    *
+    *@author 이정후
+    *@date 2023-11-27
+    *@comment 디자인관리 조회
+    *
+    **/-->
 	<select id="getDesignList" resultType="DesignDTO">
-		/*fn : 디자인 조회 - getDesignList */
+		/*fn : 디자인관리 조회 - getDesignList */
 		SELECT
 			design_seq
 		     , type
@@ -593,9 +629,15 @@
 		FROM DESIGN
 	</select>
 
-	<!-- 디자인 수정 -->
+	<!--  /**
+    *
+    *@author 이정후
+    *@date 2023-11-27
+    *@comment 디자인관리 수정
+    *
+    **/-->
 	<update id="upDatedesignMgmt" parameterType="DesignEntity">
-		/*fn : 디자인 수정 - upDatedesignMgmt */
+		/*fn : 디자인관리 수정 - upDatedesignMgmt */
 		UPDATE DESIGN
 		SET CONTENT = #{content}
 			,UPD_DT = NOW()

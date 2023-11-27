@@ -67,6 +67,14 @@
 </div>
 
 <script>
+    <%-- /**
+       *
+       *
+       *@author 이정후
+       *@date 2023-11-27
+       *@comment 디자인관리 수정
+       *
+       **/--%>
     function updateDesign(designSeq) {
         var updatedContent = $("#content_" + designSeq).val();
 
