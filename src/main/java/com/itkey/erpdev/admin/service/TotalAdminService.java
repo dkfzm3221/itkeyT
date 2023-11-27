@@ -40,7 +40,7 @@ public interface TotalAdminService {
 	// 메뉴관리
 	int updMenuMgmtAjax(List<MenuEntity> menuEntityList);
 
-	// 메뉴 수
+	// 메뉴관리 메뉴 SEQ
 	int getMenuListCntAjax();
 
 	List<Banner> getBannerList() throws Exception;
