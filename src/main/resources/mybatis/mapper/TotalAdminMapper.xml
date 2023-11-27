@@ -118,11 +118,11 @@
     *
     *@author 이정후
     *@date 2023-11-27
-    *@comment 메뉴 SEQ
+    *@comment 메뉴관리 메뉴 SEQ
     *
     **/-->
 	<select id="getMenuListCntAjax" resultType="int">
-		/*fn : 메뉴 SEQ - getMenuListCntAjax */
+		/*fn : 메뉴관리 메뉴 SEQ - getMenuListCntAjax */
 		SELECT 	max(menu_seq)
 		FROM	MENU
 	</select>
