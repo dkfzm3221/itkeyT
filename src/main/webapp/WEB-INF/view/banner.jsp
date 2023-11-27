@@ -121,9 +121,6 @@
         var row = btn.parentNode.parentNode;
         row.parentNode.removeChild(row);
 
-         console.log("ddd : " + seq)
-
-
         if(confirm("정말 삭제하시겠습니까?")) {
             $.ajax({
                 url: '/totalAdmin/removeBanner', // 요청을 보낼 URL

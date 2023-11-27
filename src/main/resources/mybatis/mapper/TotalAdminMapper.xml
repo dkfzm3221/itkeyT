@@ -548,6 +548,7 @@
      		,`LEFT`
      		,`TOP`
      		,POPUP_NAME
+     		,FILE_IDX
 		)
 		VALUES
 			( #{popupUrl}
@@ -559,6 +560,7 @@
 			, #{left}
 			, #{top}
 			, #{popupName}
+			, #{fileIdx}
 			)
 	</insert>
 
@@ -568,17 +570,22 @@
 			, POPUP_URL
 			, POPUP_CONTENTS
             , USE_YN
-            , REG_USER
-            , REG_USER_NAME
-            , REG_DATE
-            , MOD_USER
-            , MOD_DATE
+            , PU.REG_USER
+            , PU.REG_USER_NAME
+            , PU.REG_DATE
+            , PU.MOD_USER
+            , PU.MOD_DATE
             , WIDTH
             , HEIGHT
 			, `LEFT`
 			, `TOP`
 			, POPUP_NAME
-		FROM POPUP
+			, PU.FILE_IDX
+			, FT.ORI_NM
+			, FT.SAVE_NM
+			, FT.FILE_PATH
+		FROM POPUP PU
+		LEFT JOIN FILE FT ON PU.FILE_IDX = FT.FILE_IDX
 		WHERE USE_YN = 'Y'
 		ORDER BY POPUP_SEQ
 	</select>
@@ -623,6 +630,7 @@
 		, POPUP_NAME = #{popupName}
 		, MOD_USER = #{modUser}
 		, MOD_DATE = NOW()
+		<if test="fileIdx     !=null and fileIdx  !=''">,FILE_IDX = #{fileIdx}</if>
 		WHERE POPUP_SEQ = #{popupSeq}
 	</update>
 

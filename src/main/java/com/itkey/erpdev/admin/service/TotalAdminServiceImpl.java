@@ -283,7 +283,60 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     }
 
     @Override
-    public void savePopup(Popup popup) throws Exception {
+    public void savePopup(Popup popup, HttpServletRequest request) throws Exception {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+
+        MultipartFile file = multipartRequest.getFile("file");
+
+        FileDto fileDto = new FileDto();
+
+        if (file != null) {
+            MultipartFile multipartFile = file;
+            if (!multipartFile.isEmpty()) {
+                String originalFileName = multipartFile.getOriginalFilename();
+                String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+
+                String newFileName = UUID.randomUUID().toString() + fileExtension;
+
+                File dir = new File(uploadDir); //파일 저장경로(로컬)
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+
+                File newFile = new File(dir, newFileName);
+
+                Path filePath = Paths.get(newFile.getAbsolutePath());
+
+                String fileUrl = "/images/" + newFileName;
+
+                Files.write(filePath, multipartFile.getBytes());
+
+                //파일 idx별로 update, insert 구분
+                if (fileDto.getFileIdx() != null) {
+                    fileDto.setSaveNm(newFileName);
+                    fileDto.setOriNm(originalFileName);
+                    fileDto.setFilePath(fileUrl);
+                    totalAdminDAO.updateFile(fileDto);
+                } else {
+                    fileDto.setSaveNm(newFileName);
+                    fileDto.setOriNm(originalFileName);
+                    fileDto.setFilePath(fileUrl);
+                    totalAdminDAO.saveFile(fileDto);
+                }
+            }
+        }
+
+        String fileIdx = "";
+
+        if (file == null) {
+            fileIdx = popup.getFileIdx();
+        } else {
+            fileIdx = fileDto.getFileIdx();
+        }
+
+        popup.setFileIdx(fileIdx);
+
         totalAdminDAO.savePopup(popup);
     }
 
@@ -298,7 +351,60 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     }
 
     @Override
-    public void updatePopup(Popup popup) throws Exception {
+    public void updatePopup(Popup popup, HttpServletRequest request) throws Exception {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+
+        MultipartFile file = multipartRequest.getFile("file");
+
+        FileDto fileDto = new FileDto();
+
+        if (file != null) {
+            MultipartFile multipartFile = file;
+            if (!multipartFile.isEmpty()) {
+                String originalFileName = multipartFile.getOriginalFilename();
+                String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+
+                String newFileName = UUID.randomUUID().toString() + fileExtension;
+
+                File dir = new File(uploadDir); //파일 저장경로(로컬)
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+
+                File newFile = new File(dir, newFileName);
+
+                Path filePath = Paths.get(newFile.getAbsolutePath());
+
+                String fileUrl = "/images/" + newFileName;
+
+                Files.write(filePath, multipartFile.getBytes());
+
+                //파일 idx별로 update, insert 구분
+                if (fileDto.getFileIdx() != null) {
+                    fileDto.setSaveNm(newFileName);
+                    fileDto.setOriNm(originalFileName);
+                    fileDto.setFilePath(fileUrl);
+                    totalAdminDAO.updateFile(fileDto);
+                } else {
+                    fileDto.setSaveNm(newFileName);
+                    fileDto.setOriNm(originalFileName);
+                    fileDto.setFilePath(fileUrl);
+                    totalAdminDAO.saveFile(fileDto);
+                }
+            }
+        }
+
+        String fileIdx = "";
+
+        if (file == null) {
+            fileIdx = popup.getFileIdx();
+        } else {
+            fileIdx = fileDto.getFileIdx();
+        }
+
+        popup.setFileIdx(fileIdx);
+
         totalAdminDAO.updatePopup(popup);
     }
 
