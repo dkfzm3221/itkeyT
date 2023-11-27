@@ -85,6 +85,7 @@ public interface TotalAdminService {
 
 	List<Popup> popupList() throws Exception;
 
+	// 디자인관리 조회
 	int upDatedesignMgmt(DesignEntity design);
 
 	void updatePopup(Popup popup, HttpServletRequest request) throws Exception;
