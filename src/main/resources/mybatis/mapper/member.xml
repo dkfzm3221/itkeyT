@@ -4,20 +4,44 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.member">
 
-    <!-- 사용자 회원 가입 -->
+    <!--/**
+    *
+    *
+    *
+    *@author 유은비
+    *@date 2023-11-23
+    *@comment 사용자 회원 가입
+    *
+    **/-->
     <insert id="memJoin" parameterType="Member">
         INSERT INTO MEMBER(ID, PASSWORD, NAME, HP, EMAIL, MEMBER_TYPE, USE_YN, REG_DT, AUTH_CODE, SALT)
         VALUES (#{id}, #{password}, #{name}, #{hp}, #{email}, #{memberType}, 'Y', now(), #{authCode}, #{salt});
     </insert>
 
-    <!-- 사용자 SALT 가져오기-->
+    <!--/**
+    *
+    *
+    *
+    *@author 유은비
+    *@date 2023-11-23
+    *@comment 사용자 SALT 가져오기
+    *
+    **/-->
     <select id="getSalt" parameterType="Member" resultType="String">
         SELECT SALT
         FROM MEMBER
         WHERE ID = #{id}
     </select>
 
-    <!-- 사용자 로그인 -->
+    <!--/**
+    *
+    *
+    *
+    *@author 유은비
+    *@date 2023-11-23
+    *@comment 사용자 로그인
+    *
+    **/-->
     <select id="memLogin" parameterType="Member" resultType="int">
         SELECT COUNT(*)
         FROM MEMBER
@@ -25,7 +49,15 @@
           AND PASSWORD = #{password}
     </select>
 
-    <!-- 로그인 사용자 정보 불러오기 -->
+    <!--/**
+    *
+    *
+    *
+    *@author 유은비
+    *@date 2023-11-23
+    *@comment 로그인 사용자 정보 불러오기
+    *
+    **/-->
     <select id="memLoginInfo" parameterType="Member" resultType="MemberInfoResponse">
         SELECT ID
                 , SEQ
@@ -43,7 +75,15 @@
           AND PASSWORD = #{password}
     </select>
 
-    <!-- 아이디 찾기 -->
+    <!--/**
+    *
+    *
+    *
+    *@author 유은비
+    *@date 2023-11-23
+    *@comment 아이디 찾기
+    *
+    **/-->
     <select id="findId" parameterType="Member" resultType="Member">
         SELECT
             CONCAT(SUBSTRING(id, 1, LENGTH(id) - 3), '***') as ID, NAME
@@ -55,7 +95,15 @@
             HP = #{hp}
     </select>
 
-    <!-- 비밀번호 찾기 -->
+    <!--/**
+    *
+    *
+    *
+    *@author 유은비
+    *@date 2023-11-23
+    *@comment 비밀번호 찾기
+    *
+    **/-->
     <select id="findPw" parameterType="Member" resultType="Member">
         SELECT
             SEQ, ID, NAME, EMAIL, SALT
@@ -69,7 +117,15 @@
             USE_YN = 'Y'
     </select>
 
-    <!-- 비밀번호 재발급 -->
+    <!--/**
+    *
+    *
+    *
+    *@author 유은비
+    *@date 2023-11-23
+    *@comment 비밀번호 재발급
+    *
+    **/-->
     <update id="newPw" parameterType="Member">
         UPDATE
             MEMBER
@@ -79,7 +135,15 @@
             SEQ = #{seq}
     </update>
 
-    <!-- 사용자 아이디 중복체크 -->
+    <!--/**
+    *
+    *
+    *
+    *@author 유은비
+    *@date 2023-11-23
+    *@comment 사용자 아이디 중복 체크
+    *
+    **/-->
     <select id="memberIdCheck" parameterType="String" resultType="_int">
         SELECT
             COUNT(*)
@@ -89,7 +153,15 @@
             ID = #{id}
     </select>
 
-    <!-- 사용자 정보 불러오기 -->
+    <!--/**
+    *
+    *
+    *
+    *@author 유은비
+    *@date 2023-11-23
+    *@comment 사용자 정보 불러오기
+    *
+    **/-->
     <select id="memberInfo" parameterType="_int" resultType="Member">
         SELECT ID
              , SEQ
@@ -101,8 +173,15 @@
         WHERE SEQ = #{memberIdx}
     </select>
 
-
-    <!-- 사용자 정보 수정 -->
+    <!--/**
+    *
+    *
+    *
+    *@author 유은비
+    *@date 2023-11-23
+    *@comment 사용자 정보 수정
+    *
+    **/-->
     <update id="updateMember" parameterType="Member">
         UPDATE
             MEMBER

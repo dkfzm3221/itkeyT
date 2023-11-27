@@ -66,6 +66,14 @@
     <c:remove var="errorMsg" scope="session"/>
 </c:if>
 <body class="login">
+<%-- /**
+  *
+  *
+  *@author 유은비
+  *@date 2023-11-23
+  *@comment 로그인, 회원가입, 아이디 및 비밀번호 찾기 페이지
+  *
+  **/--%>
 <div class="wrapper wrapper-login">
     <div class="container container-login animated fadeIn">
         <div class="login-form">
