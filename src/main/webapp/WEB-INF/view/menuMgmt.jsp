@@ -43,7 +43,14 @@
     var menu_number = 0;        // menuSeq에 사용
     var max_number  = 1;        // 현재 코드 상태에서는 부모코드 갯수
 
-    // 페이지 셋팅
+    <%-- /**
+       *
+       *
+       *@author 이정후
+       *@date 2023-11-27
+       *@comment 메뉴관리 초기 셋팅1
+       *
+       **/--%>
     function setMenuMgmt() {
         menu_number = 0;  // 초기화 추가
         $.ajax({
@@ -63,7 +70,14 @@
         });
     }
 
-    // 페이지 셋팅2
+    <%-- /**
+       *
+       *
+       *@author 이정후
+       *@date 2023-11-27
+       *@comment 메뉴관리 초기 셋팅2
+       *
+       **/--%>
     function addMenuRow(menuData) {
         var listHtml = '<tr>';
         listHtml += '<input type="hidden" name="menuLevel" value="' + menuData.menuLevel + '" />';
@@ -95,7 +109,14 @@
         $("#menu-box").append(listHtml);
     }
 
-    // 이동
+    <%-- /**
+       *
+       *
+       *@author 이정후
+       *@date 2023-11-27
+       *@comment 메뉴관리 이동
+       *
+       **/--%>
     function move(type, number, obj) {
         var currentRow = $(obj).closest('tr');
 
@@ -112,7 +133,14 @@
         }
     }
 
-    // 값 교환 함수
+    <%-- /**
+       *
+       *
+       *@author 이정후
+       *@date 2023-11-27
+       *@comment 메뉴관리 이동(정렬순서 값 교환)
+       *
+       **/--%>
     function swapMenuOrder(div1, div2) {
         var menuOrder1 = div1.find("[name='menuOrder']").val();
         var menuOrder2 = div2.find("[name='menuOrder']").val();
@@ -127,7 +155,14 @@
         div2.replaceWith(temp);
     }
 
-    // 삭제
+    <%-- /**
+       *
+       *
+       *@author 이정후
+       *@date 2023-11-27
+       *@comment 메뉴관리 삭제
+       *
+       **/--%>
     function removeMenuRow(obj) {
         var delRow = $(obj).closest("tr");
         delRow.find("[name='menuUseYn']").val("N");
@@ -162,7 +197,14 @@
         delRow.remove();
     }
 
-    // 등록
+    <%-- /**
+       *
+       *
+       *@author 이정후
+       *@date 2023-11-27
+       *@comment 메뉴관리 등록
+       *
+       **/--%>
     function create_box(info = {}) {
         info['menuParentSeq'] = (info['menuParentSeq'] == undefined || info['menuParentSeq'] == "") ? "" : info['menuParentSeq'];
         info['menuSeq'] = (info['menuSeq'] == undefined || info['menuSeq'] == "") ? menu_number : info['menuSeq'];
@@ -214,7 +256,14 @@
         }
     }
 
-    // 저장
+    <%-- /**
+       *
+       *
+       *@author 이정후
+       *@date 2023-11-27
+       *@comment 메뉴관리 등록
+       *
+       **/--%>
     function menu_save() {
         var input = [
             "menuSite",

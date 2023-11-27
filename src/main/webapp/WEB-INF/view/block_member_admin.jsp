@@ -22,6 +22,14 @@
     <!-- SideBar Navbar  -->
     <jsp:include page="common/sidebarNav_admin.jsp"/>
     <!-- SideBar Navbar END  -->
+    <%-- /**
+     *
+     *
+     *@author 유은비
+     *@date 2023-11-23
+     *@comment 차단 멤버 관리 페이지
+     *
+     **/--%>
     <div class="main-panel">
         <div class="container">
             <div class="page-inner">

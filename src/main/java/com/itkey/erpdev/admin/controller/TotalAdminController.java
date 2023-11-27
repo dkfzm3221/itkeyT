@@ -205,7 +205,13 @@ public class TotalAdminController {
 		return mv;
 	}
 
-	// 메뉴관리
+	/**
+	 *
+	 *@author 이정후
+	 *@date 2023-11-27
+	 *@comment 메뉴관리
+	 *
+	 **/
 	@GetMapping(value = "/menuMgmt")
 	public ModelAndView menuMgmt(HttpServletRequest request) throws Exception {
 		HttpSession session = request.getSession();
@@ -220,7 +226,13 @@ public class TotalAdminController {
 		return mv;
 	}
 
-	// 메뉴관리 - 리스트
+	/**
+	 *
+	 *@author 이정후
+	 *@date 2023-11-27
+	 *@comment 메뉴관리 리스트
+	 *
+	 **/
 	@ResponseBody
 	@PostMapping("/getMenuMgmtAjax")
 	public HashMap<String, Object> menuMgmt(Paging paging) throws Exception {
@@ -237,7 +249,13 @@ public class TotalAdminController {
 		return rMap;
 	}
 
-	// 메뉴 등록/수정
+	/**
+	 *
+	 *@author 이정후
+	 *@date 2023-11-27
+	 *@comment 메뉴관리 등록/수정
+	 *
+	 **/
 	@ResponseBody
 	@PostMapping("/updMenuMgmtAjax")
 	public int updMenuMgmtAjax(@RequestBody List< MenuEntity > menuEntityList) throws Exception {
@@ -313,8 +331,15 @@ public class TotalAdminController {
 	}
 
 
-
-	//회원관리 홈
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 회원관리 홈
+	 *
+	 **/
 	@RequestMapping(value = "/adminHome")
 	public ModelAndView adminIndex(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5")
 			Integer pageSize, SearchAdmin searchAdmin, HttpSession session) {
@@ -349,16 +374,30 @@ public class TotalAdminController {
 		}
 	}
 
-	//회원수
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 총 회원수
+	 *
+	 **/
 	@ResponseBody
 	@RequestMapping(value="/countAdmin", produces="application/json; charset=UTF-8")
 	public Integer countAdmin(){
-		Integer result = adminService.countAdmin();
-
-		return result;
+		return adminService.countAdmin();
 	}
 
-	//관리자 등록
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 관리자 등록
+	 *
+	 **/
 	@RequestMapping(value = "/insertAdmin")
 	public String insertAdmin(HttpSession session, AdminInsert aDTO) {
 
@@ -373,14 +412,30 @@ public class TotalAdminController {
 		return "redirect:/totalAdmin/adminHome";
 	}
 
-	//아이디 중복 체크
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 관리자 아이디 중복체크
+	 *
+	 **/
 	@ResponseBody
 	@RequestMapping(value="/adminIdCheck")
 	public String adminIdCheck(String id){
 		return adminService.adminIdCheck(id) > 0 ? "NN" : "YY";
 	}
 
-	//빠른 로그인
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 빠른 로그인
+	 *
+	 **/
 	@ResponseBody
 	@RequestMapping(value="/adminFastLogin", produces="application/json; charset=UTF-8")
 	public String adminFastLogin(HttpServletRequest request, HttpSession session, int adminIdx){
@@ -397,16 +452,31 @@ public class TotalAdminController {
 		}
 	}
 
-	//회원 정보 수정 폼
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 회원 정보 수정 불러오기
+	 *
+	 **/
 	@ResponseBody
 	@RequestMapping(value="/updateAdminForm", produces="application/json; charset=UTF-8")
 	public TotalAdminDTO updateAdminForm(int adminIdx){
-		TotalAdminDTO adminDTO   = adminService.getLoginInfo(adminIdx);
 
-		return adminDTO;
+		return adminService.getLoginInfo(adminIdx);
 	}
 
-	//회원 정보 수정
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 회원 정보 수정
+	 *
+	 **/
 	@RequestMapping(value="/updateAdmin")
 	public String updateAdmin(HttpServletRequest request, Admin aDTO){
 
@@ -420,7 +490,15 @@ public class TotalAdminController {
 		return "redirect:/totalAdmin/adminHome";
 	}
 
-	//회원 탈퇴
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 회원 탈퇴
+	 *
+	 **/
 	@ResponseBody
 	@RequestMapping(value="/deleteAdmin", produces="application/json; charset=UTF-8")
 	public String deleteAdmin(HttpSession session, int adminIdx){
@@ -434,7 +512,15 @@ public class TotalAdminController {
 		return adminService.deleteAdmin(aDTO) > 0 ? "S" : "F";
 	}
 
-	//탈퇴 회원관리 홈
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 탈퇴 회원 관리 홈
+	 *
+	 **/
 	@RequestMapping(value = "/del_adminHome")
 	public ModelAndView del_adminIndex(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "3")
 			Integer pageSize, SearchAdmin searchAdmin, HttpSession session) {
@@ -461,14 +547,30 @@ public class TotalAdminController {
 		return mv;
 	}
 
-	//탈퇴 회원수
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 탈퇴 회원 수
+	 *
+	 **/
 	@ResponseBody
 	@RequestMapping(value="/countDelAdmin", produces="application/json; charset=UTF-8")
 	public Integer countDelAdmin(){
 		return adminService.countDelAdmin();
 	}
 
-	//탈퇴 복귀
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 탈퇴 회원 복귀
+	 *
+	 **/
 	@ResponseBody
 	@RequestMapping(value="/returnAdmin", produces="application/json; charset=UTF-8")
 	public String returnAdmin(HttpSession session, int adminIdx){
@@ -481,14 +583,30 @@ public class TotalAdminController {
 		return adminService.returnAdmin(aDTO) > 0 ? "S" : "F";
 
 	}
-	//영구 탈퇴
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 영구 탈퇴
+	 *
+	 **/
 	@ResponseBody
 	@RequestMapping(value="/realDeleteAdmin", produces="application/json; charset=UTF-8")
 	public String realDeleteAdmin(int adminIdx){
 		return adminService.realDeleteAdmin(adminIdx) > 0 ? "S" : "F";
 	}
 
-	//회원 차단
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 회원 차단
+	 *
+	 **/
 	@ResponseBody
 	@RequestMapping(value="/blockMember", produces="application/json; charset=UTF-8")
 	public String blockMember(HttpSession session, Member m){
@@ -497,21 +615,45 @@ public class TotalAdminController {
 		return adminService.blockMember(m) > 0 ? "S" : "F";
 	}
 
-	//차단 풀기
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 회원 차단 풀기
+	 *
+	 **/
 	@ResponseBody
 	@RequestMapping(value="/releaseMember")
 	public String releaseMember(int memberIdx){
 		return adminService.releaseMember(memberIdx) > 0 ? "S" : "F";
 	}
 
-	//차단 회원수
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 차단 회원 수
+	 *
+	 **/
 	@ResponseBody
 	@RequestMapping(value="/countBlockAdmin", produces="application/json; charset=UTF-8")
 	public Integer countBlockAdmin(){
 		return adminService.countBlockAdmin();
 	}
 
-	//차단 회원관리 홈
+	/**
+	 *
+	 * TotalAdminController
+	 *
+	 *@author 유은비
+	 *@date 2023-11-23
+	 *@comment 차단 회원 관리 홈
+	 *
+	 **/
 	@RequestMapping(value = "/block_adminHome")
 	public ModelAndView block_adminIndex(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "3")
 			Integer pageSize, SearchAdmin searchAdmin, HttpSession session) {
@@ -649,7 +791,13 @@ public class TotalAdminController {
 
 
 
-	// 디자인 관리
+	/**
+	 *
+	 *@author 이정후
+	 *@date 2023-11-27
+	 *@comment 디자인관리
+	 *
+	 **/
 	@GetMapping(value = "/designMgmt")
 	public ModelAndView design(HttpServletRequest request) throws Exception{
 		HttpSession session = request.getSession();
@@ -668,6 +816,13 @@ public class TotalAdminController {
 		return mv;
 	}
 
+	/**
+	 *
+	 *@author 이정후
+	 *@date 2023-11-27
+	 *@comment 디자인관리 수정
+	 *
+	 **/
 	@ResponseBody
 	@RequestMapping(value="/upDatedesignMgmt")
 	public String upDatedesignMgmt(@RequestParam("designSeq") int designSeq, @RequestParam("content") String content) {
