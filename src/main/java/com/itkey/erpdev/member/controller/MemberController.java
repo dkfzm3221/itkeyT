@@ -8,7 +8,6 @@ import com.itkey.erpdev.member.dto.MemberInfoResponse;
 import com.itkey.erpdev.member.dto.MemberInsert;
 import com.itkey.erpdev.member.service.MemberService;
 import com.itkey.erpdev.member.service.smtpService;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -31,24 +30,49 @@ import java.util.UUID;
 @AllArgsConstructor
 @RequestMapping(value = "/mem")
 public class MemberController {
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     MemberService ms;
     smtpService smtpService;
     TotalAdminService adminService;
 
-    //로그인, 회원가입 폼 연결
+    /**
+     *
+     * MemberController
+     *
+     *@author 유은비
+     *@date 2023-11-23
+     *@comment 로그인, 회원가입 폼 연결
+     *
+     **/
     @GetMapping(value = "/joinForm")
     public ModelAndView memJoinForm() {
         return new ModelAndView("memLoginForm");
     }
 
-    //사용자 회원가입
+    /**
+     *
+     * MemberController
+     *
+     *@author 유은비
+     *@date 2023-11-23
+     *@comment 사용자 회원 가입
+     *
+     **/
     @PostMapping(value = "/join")
     public String memJoin(MemberInsert mDTO) {
         int result = ms.memJoin(mDTO);
         return "redirect:/mem/joinForm";
     }
-    //사용자 로그인
+    /**
+     *
+     * MemberController
+     *
+     *@author 유은비
+     *@date 2023-11-23
+     *@comment 사용자 로그인
+     *
+     **/
     @PostMapping(value="/login")
     public ModelAndView memLogin(Member m, HttpSession session){
 
@@ -74,14 +98,30 @@ public class MemberController {
         mv.setViewName("redirect:/");
         return mv;
     }
-    //로그아웃
+    /**
+     *
+     * MemberController
+     *
+     *@author 유은비
+     *@date 2023-11-23
+     *@comment 사용자 로그아웃
+     *
+     **/
     @RequestMapping(value="/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/";
     }
 
-    //아이디 찾기
+    /**
+     *
+     * MemberController
+     *
+     *@author 유은비
+     *@date 2023-11-23
+     *@comment 아이디 찾기
+     *
+     **/
     @RequestMapping(value="/findId")
     public ModelAndView findId(Member mDTO){
         ModelAndView mv = new ModelAndView("jsonView");
@@ -102,7 +142,15 @@ public class MemberController {
         return mv;
     }
 
-    //비밀번호 찾기
+    /**
+     *
+     * MemberController
+     *
+     *@author 유은비
+     *@date 2023-11-23
+     *@comment 비밀번호 찾기
+     *
+     **/
     @RequestMapping(value="/findPw")
     public ModelAndView findPw(Member mDTO){
         ModelAndView mv = new ModelAndView("jsonView");
@@ -123,7 +171,15 @@ public class MemberController {
         return mv;
     }
 
-    //임시 비밀번호 발급
+    /**
+     *
+     * MemberController
+     *
+     *@author 유은비
+     *@date 2023-11-23
+     *@comment 임시 비밀번호 발급
+     *
+     **/
     @PostMapping(value = "/tempPwSend")
     public ModelAndView tempPwSend(HttpServletRequest request, Member mDTO) throws MessagingException, UnsupportedEncodingException, javax.mail.MessagingException {
         ModelAndView mv = new ModelAndView("jsonView");
@@ -170,20 +226,45 @@ public class MemberController {
         return mv;
     }
 
-    //아이디 중복 체크
+    /**
+     *
+     * MemberController
+     *
+     *@author 유은비
+     *@date 2023-11-23
+     *@comment 아이디 중복 체크
+     *
+     **/
     @ResponseBody
     @RequestMapping(value="/memberIdCheck")
     public String adminIdCheck(String id){
         return ms.memberIdCheck(id) > 0 ? "NN" : "YY";
     }
-    //회원 정보 불러오기
+    
+    /**
+     *
+     * MemberController
+     *
+     *@author 유은비
+     *@date 2023-11-23
+     *@comment 사용자 정보 불러오기
+     *
+     **/
     @ResponseBody
     @RequestMapping(value="/updateMemberInfo")
     public Member updateMemberInfo(int memberIdx){
         return ms.memberInfo(memberIdx);
     }
 
-    //사용자 정보 수정
+    /**
+     *
+     * MemberController
+     *
+     *@author 유은비
+     *@date 2023-11-23
+     *@comment 사용자 정보 수정
+     *
+     **/
     @RequestMapping(value="/updateMember")
     public String updateMember(Member m){
         int result = ms.updateMember(m);

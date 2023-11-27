@@ -340,7 +340,15 @@
 		WHERE BANNER_SEQ = #{bannerSeq}
 	</update>
 
-	<!--관리자 리스트 -->
+	<!--/**
+	*
+	*
+	*
+	*@author 유은비
+	*@date 2023-11-23
+	*@comment 관리자 리스트
+	*
+	**/-->
 	<select id="adminList" resultType="Admin">
 		select @ROWNUM:=@ROWNUM+1 as ROWNUM
 		,  SEQ
@@ -362,7 +370,15 @@
 		order by ROWNUM DESC
 	</select>
 
-	<!-- 관리자 카운트-->
+	<!--/**
+	*
+	*
+	*
+	*@author 유은비
+	*@date 2023-11-23
+	*@comment 총 회원수
+	*
+	**/-->
 	<select id="countAdmin" resultType="_int">
 		SELECT
 			COUNT(*)
@@ -372,12 +388,28 @@
 			USE_YN ='Y';
 	</select>
 
-	<!-- 관리자 추가 -->
+	<!--/**
+	*
+	*
+	*
+	*@author 유은비
+	*@date 2023-11-23
+	*@comment 관리자 추가
+	*
+	**/-->
 	<insert id="insertAdmin" parameterType="Admin">
 		INSERT INTO MEMBER(ID, PASSWORD, NAME, HP, EMAIL, MEMBER_TYPE, AUTH_CODE, MEMBER_STATUS, USE_YN, REG_ID, REG_NM, REG_DT)
 		VALUES (#{id}, #{password}, #{name}, #{hp}, #{email}, #{memberType}, #{authCode}, #{memberStatus}, 'Y', #{regId}, #{regNm}, now());
 	</insert>
-	<!-- 관리자 아이디 중복 체크-->
+	<!--/**
+	*
+	*
+	*
+	*@author 유은비
+	*@date 2023-11-23
+	*@comment 관리자 아이디 중복 체크
+	*
+	**/-->
 	<select id="adminIdCheck" parameterType="String" resultType="_int">
 		SELECT
 			COUNT(*)
@@ -386,7 +418,15 @@
 		WHERE
 			ID = #{id}
 	</select>
-	<!-- 로그인 유저 정보 가져오기 -->
+	<!--/**
+	*
+	*
+	*
+	*@author 유은비
+	*@date 2023-11-23
+	*@comment 로그인 유저 정보 가져오기
+	*
+	**/-->
 	<select id="getLoginInfo" parameterType="_int" resultType="TotalAdminDTO">
 		SELECT *
 		FROM
@@ -395,7 +435,15 @@
 			SEQ = #{adminIdx}
 	</select>
 
-	<!-- 관리자 Y>N 변경(탈퇴) -->
+	<!--/**
+	*
+	*
+	*
+	*@author 유은비
+	*@date 2023-11-23
+	*@comment 관리자 Y>N 변경(탈퇴)
+	*
+	**/-->
 	<update id="deleteAdmin" parameterType="Admin">
 		UPDATE
 		MEMBER
@@ -410,7 +458,15 @@
 		SEQ = #{seq}
 	</update>
 
-	<!--관리자 정보 수정 -->
+	<!--/**
+	*
+	*
+	*
+	*@author 유은비
+	*@date 2023-11-23
+	*@comment 관리자 정보 수정
+	*
+	**/-->
 	<update id="updateAdmin" parameterType="Admin">
 		UPDATE
 		MEMBER
@@ -429,7 +485,15 @@
 		SEQ = #{seq}
 	</update>
 
-	<!--탈퇴 관리자 리스트(useYN:N) -->
+	<!--/**
+	*
+	*
+	*
+	*@author 유은비
+	*@date 2023-11-23
+	*@comment 탈퇴 관리자 리스트(useYN:N)
+	*
+	**/-->
 	<select id="del_adminList" resultType="Admin">
 		select @ROWNUM:=@ROWNUM+1 as ROWNUM, a.*
 		from (select
@@ -453,7 +517,15 @@
 		order by ROWNUM desc
 	</select>
 
-	<!--탈퇴 관리자 카운트 -->
+	<!--/**
+	*
+	*
+	*
+	*@author 유은비
+	*@date 2023-11-23
+	*@comment 탈퇴 관리자 카운트
+	*
+	**/-->
 	<select id="countDelAdmin" resultType="_int">
 		SELECT
 			COUNT(*)
@@ -463,7 +535,15 @@
 			USE_YN ='N';
 	</select>
 
-	<!--탈퇴자 복귀 -->
+	<!--/**
+	*
+	*
+	*
+	*@author 유은비
+	*@date 2023-11-23
+	*@comment 탈퇴자 복귀
+	*
+	**/-->
 	<update id="returnAdmin" parameterType="Admin">
 		UPDATE
 		MEMBER
@@ -477,7 +557,15 @@
 		SEQ = #{seq}
 	</update>
 
-	<!-- 영구 탈퇴 -->
+	<!--/**
+	*
+	*
+	*
+	*@author 유은비
+	*@date 2023-11-23
+	*@comment 영구 탈퇴
+	*
+	**/-->
 	<delete id="realDeleteAdmin" parameterType="_int">
 		DELETE
 		FROM
@@ -486,7 +574,15 @@
 			SEQ = #{adminIdx}
 	</delete>
 
-	<!--회원 차단-->
+	<!--/**
+	*
+	*
+	*
+	*@author 유은비
+	*@date 2023-11-23
+	*@comment 회원 차단
+	*
+	**/-->
 	<update id="blockMember" parameterType="Member">
 		UPDATE
 		MEMBER
@@ -500,7 +596,15 @@
 		SEQ = #{seq}
 	</update>
 
-	<!--회원 차단 풀기-->
+	<!--/**
+	*
+	*
+	*
+	*@author 유은비
+	*@date 2023-11-23
+	*@comment 회원 차단 풀기
+	*
+	**/-->
 	<update id ="releaseMember" parameterType="_int">
 		UPDATE
 			MEMBER
@@ -512,7 +616,15 @@
 			SEQ = #{memberIdx}
 	</update>
 
-	<!-- 차단 회원 카운트 -->
+	<!--/**
+	*
+	*
+	*
+	*@author 유은비
+	*@date 2023-11-23
+	*@comment 차단 회원 수
+	*
+	**/-->
 	<select id="countBlockAdmin" resultType="_int">
 		SELECT
 			COUNT(*)
@@ -522,7 +634,15 @@
 			MEMBER_STATUS ='B';
 	</select>
 
-	<!-- 차단 회원 리스트 -->
+	<!--/**
+	*
+	*
+	*
+	*@author 유은비
+	*@date 2023-11-23
+	*@comment 차단 회원 리스트
+	*
+	**/-->
 	<select id="block_adminList" resultType="Member">
 		select @ROWNUM:=@ROWNUM+1 as ROWNUM, a.*
 		from (select SEQ

@@ -123,6 +123,14 @@
                </c:forEach>
             </ul>
         </div>
+            <%-- /**
+          *
+          *
+          *@author 유은비
+          *@date 2023-11-23
+          *@comment 로그인/마이페이지
+          *
+          **/--%>
             <!-- 로그인/마이페이지 버튼 영역-->
             <div class="collapse navbar-collapse">
             <c:choose>
@@ -185,6 +193,14 @@
     </div>
 </div><!-- End Sidebar -->
 
+<%-- /**
+  *
+  *
+  *@author 유은비
+  *@date 2023-11-23
+  *@comment 회원 정보 수정
+  *
+  **/--%>
 <!-- 회원 수정 Modal -->
 <div class="modal fade" id="updateMember">
     <div class="modal-dialog modal-xl modal-dialog-centered">
