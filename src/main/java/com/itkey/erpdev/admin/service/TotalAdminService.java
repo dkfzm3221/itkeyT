@@ -81,13 +81,13 @@ public interface TotalAdminService {
 
 	List<DesignDTO> getDesignList();
 
-    void savePopup(Popup popup) throws Exception;
+    void savePopup(Popup popup, HttpServletRequest request) throws Exception;
 
 	List<Popup> popupList() throws Exception;
 
 	int upDatedesignMgmt(DesignEntity design);
 
-	void updatePopup(Popup popup) throws Exception;
+	void updatePopup(Popup popup, HttpServletRequest request) throws Exception;
 
 	void removePopup(Popup popup) throws Exception;
 }

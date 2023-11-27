@@ -34,7 +34,15 @@
                 <c:forEach items="${popupList}" var="item">
                     <tr>
                         <td><input type="text" class="form-control" id="popupName${item.popupSeq}" name="popupName" placeholder="팝업명" value="${item.popupName}"></td>
-                        <td><input type="text" class="form-control" id="popupContents${item.popupSeq}" name="popupContents" placeholder="팝업내용" value="${item.popupContents}"></td>
+                        <td>
+                            <input type="file" id="fileInput${item.popupSeq}" class="form-control banner-image-input" onchange="previewImage(this)" name="file" placeholder="배너이미지 등록">
+                            <c:if test="${empty item.fileIdx}">
+                                이미지가 없습니다.
+                            </c:if>
+                            <c:if test="${not empty item.fileIdx}">
+                                <img id="imgPreview${item.popupSeq}" src="${item.filePath}" class="banner-image-preview"/>
+                            </c:if>
+                        </td>
                         <td><input type="text" class="form-control" id="popupUrl${item.popupSeq}" name="popupUrl" placeholder="팝업URL" value="${item.popupUrl}"></td>
                         <td><input type="text" class="form-control" id="width${item.popupSeq}" name="width" placeholder="width" value="${item.width}"></td>
                         <td><input type="text" class="form-control" id="height${item.popupSeq}" name="height" placeholder="height" value="${item.height}"></td>
@@ -76,7 +84,8 @@
         var popupId = table.rows.length;
 
         cell1.innerHTML = '<input type="text" class="form-control" id="popupName' + popupId + '" name="popupName" placeholder="팝업명">';
-        cell2.innerHTML = '<input type="text" class="form-control" id="popupContents' + popupId + '" name="popupContents" placeholder="팝업내용">';
+        cell2.innerHTML = '<input type="file" id="fileInput' + popupId + '" class="form-control banner-image-input" name="file" onchange="previewImage(this)" placeholder="배너이미지 등록">' +
+            '<img id="imgPreview' + popupId + '" class="banner-image-preview" />';
         cell3.innerHTML = '<input type="text" class="form-control" id="popupUrl' + popupId + '" name="popupUrl" placeholder="팝업URL">';
         cell4.innerHTML = '<input type="text" class="form-control" id="width' + popupId + '" name="width" placeholder="width">';
         cell5.innerHTML = '<input type="text" class="form-control" id="height' + popupId + '" name="height" placeholder="height">';
@@ -98,7 +107,6 @@
 
         var formData = new FormData();
         var popupName = $("#popupName" + popupId).val();
-        var popupContents = $("#popupContents" + popupId).val();
         var popupUrl = $("#popupUrl" + popupId).val();
         var width = $("#width" + popupId).val();
         var height = $("#height" + popupId).val();
@@ -124,12 +132,18 @@
 
         // FormData 객체 생성 및 데이터 추가
         formData.append("popupName", popupName);
-        formData.append("popupContents", popupContents);
         formData.append("popupUrl", popupUrl);
         formData.append("width", width);
         formData.append("height", height);
         formData.append("left", left);
         formData.append("top", top);
+        if($("#fileInput"+ popupId).val() != ""){//이미지 없을시 처리
+            var fileInput = document.getElementById("fileInput" + popupId).files[0];
+            formData.append("file", fileInput);
+        }else{
+            formData.append("file", "");
+        }
+
 
         if(confirm("저장하시겠습니까?")) {
             $.ajax({
@@ -145,6 +159,28 @@
                     console.error('Error:', error);
                 }
             });
+        }
+    }
+
+
+    <%-- /**
+       *
+       *
+       *@author 김재섭
+       *@date 2023-11-23
+       *@comment 이미지 미리보기
+       *
+       **/--%>
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var imgId = '#imgPreview' + input.id.replace('fileInput', '');
+                $(imgId).attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
         }
     }
 
@@ -171,18 +207,44 @@
             alert("width를 입력해주세요.");
             return false;
         }
+        if(isNaN(width)){
+            alert("숫자만 입력 가능합니다.");
+            return false;
+        }
+
         if(height == ""){
             alert("height를 입력해주세요.");
             return false;
         }
+        if(isNaN(height)){
+            alert("숫자만 입력 가능합니다.");
+            return false;
+        }
+
         if(left == ""){
             alert("left를 입력해주세요.");
             return false;
         }
+        if(isNaN(left)){
+            alert("숫자만 입력 가능합니다.");
+            return false;
+        }
+
         if(top == ""){
             alert("top을 입력해주세요.");
             return false;
         }
+        if(isNaN(top)){
+            alert("숫자만 입력 가능합니다.");
+            return false;
+        }
+
+        // 파일이 업로드된 경우에만 추가
+        if ($("#fileInput" + popupSeq).val() !== "") {
+            var fileInput = document.getElementById("fileInput" + popupSeq).files[0];
+            formData.append("file", fileInput);
+        }
+
 
         // FormData 객체 생성 및 데이터 추가
         formData.append("popupName", popupName);

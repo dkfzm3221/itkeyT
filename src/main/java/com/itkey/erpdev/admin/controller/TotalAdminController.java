@@ -744,10 +744,10 @@ public class TotalAdminController {
 	 *
 	 **/
 	@PostMapping(value = "savePopup")
-	public ModelAndView savePopup(Popup popup) throws Exception{
+	public ModelAndView savePopup(Popup popup, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
 
-		adminService.savePopup(popup);
+		adminService.savePopup(popup, request);
 
 		return mv;
 	}
@@ -763,10 +763,10 @@ public class TotalAdminController {
 	 **/
 
 	@PostMapping(value = "updatePopup")
-	public ModelAndView updatePopup(Popup popup) throws Exception{
+	public ModelAndView updatePopup(Popup popup, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
 
-		adminService.updatePopup(popup);
+		adminService.updatePopup(popup, request);
 
 		return mv;
 	}

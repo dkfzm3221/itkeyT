@@ -18,4 +18,8 @@ public class Popup {
     String left;
     String top;
     String popupName;
+    String fileIdx;
+	String oriNm;
+	String saveNm;
+	String filePath;
 }
