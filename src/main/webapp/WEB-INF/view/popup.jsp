@@ -103,6 +103,15 @@
     }
 
 
+    <%-- /**
+     *
+     *
+     *@author 김재섭
+     *@date 2023-11-23
+     *@comment 팝업 저장
+     *
+     **/--%>
+
     function savePopup(popupId) {
 
         var formData = new FormData();
@@ -190,7 +199,7 @@
        *
        *@author 김재섭
        *@date 2023-11-23
-       *@comment 배너 수정
+       *@comment 팝업 수정
        *
        **/--%>
     function updatePopup(popupSeq) {
