@@ -129,12 +129,21 @@
                                     <c:if test="${empty boardDetail.fileIdx}">
                                         첨부된 파일이 없습니다.
                                     </c:if>
-                                    <c:if test="${not empty boardDetail.fileIdx}">
+                                    <%--<c:if test="${not empty boardDetail.fileIdx}">
                                         <ul id="fileList">
                                             <li id="preview" class="banner-image-preview" onclick="downloadFile(${boardDetail.fileIdx})"  value="${boardDetail.oriNm}"/>${boardDetail.oriNm}
                                             <button id="delFile" onclick="delFile(${boardDetail.fileIdx})">x</button>
                                         </ul>
-                                    </c:if>
+                                    </c:if>--%>
+                                        <c:if test="${not empty boardDetail.fileIdx}">
+                                            <ul id="fileList">
+                                                <li id="preview" class="banner-image-preview">
+                                                    <a id="downloadLink" href="#" onclick="downloadFile('${boardDetail.filePath}', '${boardDetail.saveNm}', '${boardDetail.oriNm}')">${boardDetail.oriNm}</a>
+                                                    <button id="delFile" onclick="delFile(${boardDetail.fileIdx})" style="display: none;">x</button>
+                                                </li>
+                                            </ul>
+                                        </c:if>
+
                                     </div>
                                     <input type="file" title="파일선택" name="multipleFileInput" id="uploadFile" multiple style="display: none;">
                                     <div class="fileDownList">
@@ -664,6 +673,22 @@
     } else {
       alert("삭제가 취소되었습니다.");
     }
+  }
+
+    <%-- /**
+    *
+    *
+    *@author 신금환
+    *@date 2023-11-28
+    *@comment 파일다운로드
+    *
+    **/--%>
+
+  function downloadFile(filePath, saveNm, oriNm) {
+      var a = document.createElement('a');
+      a.href = filePath;
+      a.download = saveNm;
+      a.click();
   }
 </script>
 <jsp:include page="../common/contentFooter.jsp"/>
