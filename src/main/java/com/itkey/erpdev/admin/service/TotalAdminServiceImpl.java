@@ -97,7 +97,6 @@ public class TotalAdminServiceImpl implements TotalAdminService {
             TotalAdminDTO totalAdminDTO = (TotalAdminDTO) session.getAttribute("admin");
 
             String id = totalAdminDTO.getId();          // 아이디
-            String name = totalAdminDTO.getName();      // 이름
 
             // 삭제 대상 메뉴를 담을 리스트
             List<MenuEntity> menusToDelete = new ArrayList<>();
