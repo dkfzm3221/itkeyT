@@ -38,7 +38,7 @@ public interface TotalAdminService {
     List<Visitor> mostVisitDate();
 
 	// 메뉴관리
-	int updMenuMgmtAjax(List<MenuEntity> menuEntityList);
+	int updMenuMgmtAjax(List<MenuEntity> menuEntityList, HttpServletRequest request);
 
 	// 메뉴관리 메뉴 SEQ
 	int getMenuListCntAjax();

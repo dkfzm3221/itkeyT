@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -90,12 +91,20 @@ public class TotalAdminServiceImpl implements TotalAdminService {
 
     @Transactional
     @Override
-    public int updMenuMgmtAjax(List<MenuEntity> menuEntityList) {
+    public int updMenuMgmtAjax(List<MenuEntity> menuEntityList, HttpServletRequest request) {
         try {
+            HttpSession session = request.getSession();
+            TotalAdminDTO totalAdminDTO = (TotalAdminDTO) session.getAttribute("admin");
+
+            String id = totalAdminDTO.getId();          // 아이디
+            String name = totalAdminDTO.getName();      // 이름
+
             // 삭제 대상 메뉴를 담을 리스트
             List<MenuEntity> menusToDelete = new ArrayList<>();
 
             for (MenuEntity menuEntity : menuEntityList) {
+                menuEntity.setRegId(id);
+
                 if ("N".equals(menuEntity.getMenuUseYn())) {
                     menusToDelete.add(menuEntity);
                 }
@@ -104,7 +113,7 @@ public class TotalAdminServiceImpl implements TotalAdminService {
             // log.info("menusToDeleteSize : " + menusToDelete.size());
             // 삭제하는 메뉴가 있는 경우 해당 게시판의 글 삭제
             if (menusToDelete.size() > 0) {
-                totalAdminDAO.delBoardAjax(menusToDelete);
+                totalAdminDAO.delBoardAjax(menusToDelete, id);
             }
 
             return totalAdminDAO.updMenuMgmtAjax(menuEntityList);
