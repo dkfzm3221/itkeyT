@@ -58,6 +58,7 @@
         , REG_NM
         , REG_ID
         , REG_DT
+        ,FILE_IDX
         )
         VALUES
             ( #{boardTitle}
@@ -69,6 +70,7 @@
             , #{regNm}
             , #{regNm}
             , NOW()
+            , #{fileIdx}
             )
     </insert>
  <!--   /**
@@ -82,22 +84,27 @@
     **/-->
     <select id="boardDetail" parameterType="Board" resultType="Board">
         SELECT
-            BOARD_SEQ
-             , BOARD_TYPE
-             , BOARD_TITLE
-             , BOARD_CONTENT
-             , BOARD_SECRET_YN
-             , BOARD_DEL_YN
-             , INQ_CNT
-             , REG_ID
-             , REG_NM
-             , REG_DT
-             , UPD_ID
-             , UPD_NM
-             , UPD_DT
-             , PASSWORD
-        FROM BOARD
-        WHERE BOARD_SEQ = #{boardSeq}
+            bo.BOARD_SEQ
+             , bo.BOARD_TYPE
+             , bo.BOARD_TITLE
+             , bo.BOARD_CONTENT
+             , bo.BOARD_SECRET_YN
+             , bo.BOARD_DEL_YN
+             , bo.INQ_CNT
+             , bo.REG_ID
+             , bo.REG_NM
+             , bo.REG_DT
+             , bo.UPD_ID
+             , bo.UPD_NM
+             , bo.UPD_DT
+             , bo.PASSWORD
+             , bo.FILE_IDX
+             , FT.ORI_NM
+             , FT.SAVE_NM
+             , FT.FILE_PATH
+        FROM BOARD bo
+                 LEFT JOIN FILE FT ON bo.FILE_IDX = FT.FILE_IDX
+        WHERE bo.BOARD_SEQ = #{boardSeq}
     </select>
    <!-- /**
     *
@@ -168,6 +175,9 @@
           , UPD_NM = #{updNm}
           , UPD_ID = #{updNm}
           , UPD_DT = NOW()
+            <if test="fileIdx     !=null and fileIdx  !=''">
+              ,FILE_IDX = #{fileIdx}
+            </if>
         WHERE BOARD_SEQ = #{boardSeq}
     </update>
 
@@ -185,6 +195,38 @@
         SET
             BOARD_DEL_YN = 'Y'
         WHERE BOARD_SEQ = #{boardSeq}
+    </update>
+    <!-- /**
+    *
+    *
+    *
+    *@author 신금환
+    *@date 2023-11-28
+    *@comment 게시물 파일 삭제
+    *
+    **/-->
+    <delete id="deleteBoardFile" parameterType="Board">
+        DELETE
+        FROM
+            FILE
+        WHERE
+            FILE_IDX = #{fileIdx}
+    </delete>
+    <!-- /**
+        *
+        *
+        *
+        *@author 신금환
+        *@date 2023-11-28
+        *@comment 게시물 파일삭제2
+        *
+        **/-->
+    <update id="deleteBoardFileSeq" parameterType="Board">
+        UPDATE BOARD
+        SET
+            FILE_IDX = null
+        WHERE FILE_IDX = #{fileIdx}
+
     </update>
 
   <!--  /**
@@ -219,7 +261,15 @@
           AND M.MENU_SITE  = 'U'
         GROUP BY M.MENU_BOARD_TYPE
     </select>
-
+    <!-- /**
+        *
+        *
+        *
+        *@author 신금환
+        *@date 2023-11-28
+        *@comment 게시물 상세 list
+        *
+        **/-->
     <select id="boardDetailList" parameterType="map" resultType="Board">
         SELECT
             BO.BOARD_SEQ

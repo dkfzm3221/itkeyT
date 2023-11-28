@@ -84,7 +84,14 @@ public class BoardController {
         return mv;
     }
 
-    // 게시물 등록 form
+    /**
+     *
+     *
+     *@author 신금환
+     *@date 2023-11-28
+     *@comment 게시물 등록 form
+     *
+     **/
     @GetMapping(value = "/writeBoardView")
     public ModelAndView writeBoardView(Board board,HttpServletRequest request, HttpSession session) throws Exception{
         ModelAndView mv = new ModelAndView("/board/writeBoardView");
@@ -117,13 +124,20 @@ public class BoardController {
     }
     // 게시물 등록
     @PostMapping(value = "/writeBoard")
-    public ModelAndView writeBoard(Board board) throws Exception{
+    public ModelAndView writeBoard(Board board,HttpServletRequest request) throws Exception{
         ModelAndView mv = new ModelAndView("/index");
-        bs.writeBoard(board);
+        bs.writeBoard(board,request);
         return mv;
     }
 
-    // 게시판 상세
+    /**
+     *
+     *
+     *@author 신금환
+     *@date 2023-11-28
+     *@comment 게시판 상세
+     *
+     **/
     @GetMapping(value = "/boardDetail")
     public ModelAndView boardDetail(Board board, HttpSession session) throws Exception{
         
@@ -184,9 +198,9 @@ public class BoardController {
     *
     **/
     @PostMapping(value = "/updateBoard")
-    public ModelAndView updateBoard(Board board) throws Exception{
+    public ModelAndView updateBoard(Board board,HttpServletRequest request) throws Exception{
         ModelAndView mv = new ModelAndView("/board/boardDetail");
-        bs.updateBoard(board);
+        bs.updateBoard(board,request);
 
         return mv;
     }
@@ -208,8 +222,24 @@ public class BoardController {
         return mv;
     }
 
+    @PostMapping(value = "/deleteBoardFile")
+        public ModelAndView deleteBoardFile(Board board) throws Exception{
+            ModelAndView mv = new ModelAndView("/board/boardDetail");
+            bs.deleteBoardFile(board);
+            bs.deleteBoardFileSeq(board);
 
-    // 댓글 등록
+            return mv;
+        }
+
+
+    /**
+     *
+     *
+     *@author 신금환
+     *@date 2023-11-28
+     *@comment 댓글 등록
+     *
+     **/
      @PostMapping(value = "/insertBoardReply")
     public ModelAndView insertBoardReply(Board board) throws Exception{
         ModelAndView mv = new ModelAndView("/board/boardDetail");
@@ -218,7 +248,14 @@ public class BoardController {
         return mv;
     }
 
-    // 댓글 수정
+    /**
+     *
+     *
+     *@author 신금환
+     *@date 2023-11-28
+     *@comment 댓글 수정
+     *
+     **/
     @PostMapping(value = "/modBoardReply")
     public ModelAndView modBoardReply(Board board) throws Exception{
         ModelAndView mv = new ModelAndView("/board/boardDetail");
@@ -227,7 +264,14 @@ public class BoardController {
         return mv;
     }
 
-    // 댓글 삭제
+    /**
+     *
+     *
+     *@author 신금환
+     *@date 2023-11-28
+     *@comment 댓글 삭제
+     *
+     **/
     @PostMapping(value = "/deleteBoardReply")
     public ModelAndView deleteBoardReply(Board board) throws Exception{
         ModelAndView mv = new ModelAndView("/board/boardDetail");
@@ -236,6 +280,14 @@ public class BoardController {
         return mv;
     }
 
+    /**
+     *
+     *
+     *@author 신금환
+     *@date 2023-11-28
+     *@comment 게시판 상세 list
+     *
+     **/
     @GetMapping(value = "/boardDetailList")
     public ModelAndView moveToListNumber(HttpServletRequest request, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
         @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage, Board board, HttpSession session, SearchBoard searchBoard) throws Exception{

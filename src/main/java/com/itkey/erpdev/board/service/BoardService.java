@@ -2,16 +2,16 @@ package com.itkey.erpdev.board.service;
 
 import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.DesignDTO;
-import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.domain.SearchBoard;
 
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 public interface BoardService {
     List<Board> boardList(int pageNum, int countPerPage, String boardType) throws Exception;
 
-    void writeBoard(Board board) throws Exception;
+    void writeBoard(Board board, HttpServletRequest request) throws Exception;
 
     Board boardDetail(Board board) throws Exception;
 
@@ -21,7 +21,7 @@ public interface BoardService {
 
     Board selectPassword(Board board) throws Exception;
 
-    void updateBoard(Board board) throws Exception;
+    void updateBoard(Board board, HttpServletRequest request) throws Exception;
 
     void deleteBoard(Board board) throws Exception;
 
@@ -45,4 +45,8 @@ public interface BoardService {
 
     // 디자인 리스트
     List<DesignDTO> getDegignList();
+
+    void deleteBoardFile(Board board);
+
+    void deleteBoardFileSeq(Board board);
 }

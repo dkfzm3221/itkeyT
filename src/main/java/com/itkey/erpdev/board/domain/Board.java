@@ -47,4 +47,9 @@ public class Board implements Serializable {
     String modUser;
     String modDate;
 
+
+    String fileIdx;
+    String oriNm;
+    String saveNm;
+    String filePath;
 }
