@@ -134,21 +134,21 @@
     *@comment 메뉴관리 메뉴 등록/수정
     *
     **/-->
-	<insert id="updMenuMgmtAjax" parameterType="MenuEntity">
-		/*fn : 메뉴 등록/수정 - getMenuListCntAjax */
+	<insert id="updMenuMgmtAjax" parameterType="java.util.List">
+		<!-- fn : 메뉴 등록/수정 - getMenuListCntAjax -->
 		INSERT INTO MENU (
-			MENU_SEQ,
-			MENU_SITE,
-			MENU_NAME,
-			MENU_LEVEL,
-			MENU_TYPE,
-			MENU_URL,
-			MENU_PARENT_SEQ,
-			REG_ID,
-			REG_DT,
-			MENU_USE_YN,
-			MENU_ORDER,
-			MENU_BOARD_TYPE
+		MENU_SEQ,
+		MENU_SITE,
+		MENU_NAME,
+		MENU_LEVEL,
+		MENU_TYPE,
+		MENU_URL,
+		MENU_PARENT_SEQ,
+		REG_ID,
+		REG_DT,
+		MENU_USE_YN,
+		MENU_ORDER,
+		MENU_BOARD_TYPE
 		) VALUES
 		<foreach collection="list" item="menu" separator=",">
 			(
@@ -159,7 +159,7 @@
 			#{menu.menuType},
 			#{menu.menuUrl},
 			#{menu.menuParentSeq},
-			'ADMIN',
+			#{menu.regId},
 			NOW(),
 			#{menu.menuUseYn},
 			#{menu.menuOrder},
@@ -175,7 +175,9 @@
 		MENU_PARENT_SEQ = VALUES(MENU_PARENT_SEQ),
 		MENU_USE_YN = VALUES(MENU_USE_YN),
 		MENU_ORDER = VALUES(MENU_ORDER),
-		MENU_BOARD_TYPE  = VALUES(MENU_BOARD_TYPE)
+		MENU_BOARD_TYPE  = VALUES(MENU_BOARD_TYPE),
+		UPD_ID = VALUES(REG_ID),
+		UPD_DT = NOW()
 	</insert>
 
 	<!--  /**
@@ -185,12 +187,14 @@
     *@comment 메뉴관리 삭제(BOARD 테이블)
     *
     **/-->
-	<update id="delBoardAjax" parameterType="java.util.List">
-		/*fn : 메뉴관리 삭제(BOARD 테이블) - delBoardAjax */
+	<update id="delBoardAjax" parameterType="java.util.Map">
+		<!-- fn : 메뉴관리 삭제(BOARD 테이블) - delBoardAjax -->
 		UPDATE BOARD
 		SET BOARD_DEL_YN = 'Y'
+		, UPD_ID = #{id}
+		, UPD_DT = NOW()
 		WHERE BOARD_TYPE IN
-		<foreach collection="list" item="menu" open="(" separator="," close=")">
+		<foreach collection="menuEntityList" item="menu" open="(" separator="," close=")">
 			#{menu.delMenuBoardType}
 		</foreach>
 	</update>

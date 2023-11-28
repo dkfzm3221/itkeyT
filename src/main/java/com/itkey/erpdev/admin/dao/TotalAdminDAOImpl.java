@@ -15,7 +15,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSessionEvent;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @AllArgsConstructor
@@ -75,8 +77,12 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	}
 
 	@Override
-	public int delBoardAjax(List<MenuEntity> menuEntityList) {
-		return sql.update("mapper.totalAdmin.delBoardAjax", menuEntityList);
+	public int delBoardAjax(List<MenuEntity> menuEntityList, String id) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("menuEntityList", menuEntityList);
+		paramMap.put("id", id);
+
+		return sql.update("mapper.totalAdmin.delBoardAjax", paramMap);
 	}
 
 	@Override

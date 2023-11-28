@@ -19,6 +19,5 @@ public class MenuEntity {
 	private String delMenuBoardType = ""; // 삭제할 메뉴의 게시판 타입
 
 	private String regId = "";
-	private String updDt = "";
 }
 

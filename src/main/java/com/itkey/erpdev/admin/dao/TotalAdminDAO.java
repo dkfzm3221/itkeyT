@@ -39,7 +39,7 @@ public interface TotalAdminDAO {
 	int getMenuListCntAjax();
 	
 	// 메뉴 삭제시, 해당 게시글 삭제처리
-	int delBoardAjax(List<MenuEntity> menuEntityList);
+	int delBoardAjax(List<MenuEntity> menuEntityList, String id);
 
     List<Banner> getBannerList() throws Exception;
 

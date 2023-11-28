@@ -258,8 +258,8 @@ public class TotalAdminController {
 	 **/
 	@ResponseBody
 	@PostMapping("/updMenuMgmtAjax")
-	public int updMenuMgmtAjax(@RequestBody List< MenuEntity > menuEntityList) throws Exception {
-		int result = adminService.updMenuMgmtAjax(menuEntityList);
+	public int updMenuMgmtAjax(@RequestBody List< MenuEntity > menuEntityList, HttpServletRequest request) throws Exception {
+		int result = adminService.updMenuMgmtAjax(menuEntityList, request);
 		return result;
 	}
 
