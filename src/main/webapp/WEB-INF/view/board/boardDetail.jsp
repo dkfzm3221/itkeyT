@@ -121,6 +121,28 @@
                                     <input type="password" class="form-control write-form" id="password" placeholder="비밀번호" name="password" readonly maxlength="4">
                                 </td>
                             </tr>
+
+                            <tr>
+                                <th class="padding-lg">첨부파일</th>
+                                <td colspan="4">
+                                    <div class="detail-content" id="">
+                                    <c:if test="${empty boardDetail.fileIdx}">
+                                        첨부된 파일이 없습니다.
+                                    </c:if>
+                                    <c:if test="${not empty boardDetail.fileIdx}">
+                                        <ul id="fileList">
+                                            <li id="preview" class="banner-image-preview" onclick="downloadFile(${boardDetail.fileIdx})"  value="${boardDetail.oriNm}"/>${boardDetail.oriNm}
+                                            <button id="delFile" onclick="delFile(${boardDetail.fileIdx})">x</button>
+                                        </ul>
+                                    </c:if>
+                                    </div>
+                                    <input type="file" title="파일선택" name="multipleFileInput" id="uploadFile" multiple style="display: none;">
+                                    <div class="fileDownList">
+                                        <ul id="newFileList"></ul>
+                                    </div>
+                                </td>
+                            </tr>
+
                             <tr>
                                 <th class="padding-lg">내용</th>
                                 <td colspan="4">
@@ -170,7 +192,6 @@
                                                     <td>${item.regDate}</td>
                                                     <td>
                                                     <c:if test="${item.regUser eq userId}">
-
                                                         <button onclick="modiBoardReply(${item.replySeq})" id="modBtnReply${item.replySeq}" class="btn btn-black w-3" style="float: right;">수정</button>
                                                         <button onclick="cancelBoardReply(${item.replySeq})" type="reset" name="cancelBtn${item.replySeq}" class="btn btn-black w-3" style="float: right;">취소</button><br/>
                                                     </c:if>
@@ -229,8 +250,67 @@
     </div>
 </div>
 <script>
+  <%-- /**
+         *
+         *
+         *@author 신금환
+         *@date 2023-11-28
+         *@comment 첨부파일 수정 로직
+         *
+         **/--%>
+  const removedFiles = [];
+  const allFiles = [];
+  $(document).ready(function() {
+
+    const fileList = $('#preview');
+    const uploadFile = $('#uploadFile');
+    const oldFileList = $('#fileList');
+    const maxFileCount = 3; // 최대 파일 첨부 개수
+    uploadFile.on('change', handleFileSelect);
+
+    function handleFileSelect(event) {
+      const files = event.target.files;
+      const currentFileCount = fileList.find('li').length;
+      oldFileList.hide();
+
+      if(files.length > 3 || currentFileCount + files.length > maxFileCount){
+        alert("파일 등록은 죄대 1개까지 가능합니다.");
+        return false;
+      }else{
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const listItem = createListItem(file);
+          fileList.append(listItem);
+          allFiles.push(file);
+        }
+      }
+
+    }
+
+    function createListItem(file) {
+      const listItem = $('<li></li>');
+      const fileName = $('<a></a>').text(file.name);
+      const deleteButton = $('<button></button>', {
+        type: 'button',
+        class: 'btnDel',
+        html: '<span class="hide">파일 삭제</span>',
+        click: function() {
+          listItem.remove();
+          removedFiles.push(file.name);
+        }
+      });
+
+      listItem.append(fileName);
+      listItem.append(deleteButton);
+
+      return listItem;
+    }
+
+  });
+
   $(document).ready(function () {
     $('[name^="cancelBtn"]').hide();
+    $("#delFile").hide();
   })
 
    <%-- /**
@@ -294,6 +374,19 @@
                       $('#modiButton').before(deleteButton);
                     }
 
+                  $("#fileUploadArea").toggle();
+                  $("#uploadFile").toggle();
+                  $("#delFile").show();
+
+                  // 선택한 파일 목록을 가져와서 미리 보기로 표시
+                  const files = $("#uploadFile")[0].files;
+                  const newFileList = $("#newFileList");
+                  newFileList.empty();
+
+                  for (var i = 0; i < files.length; i++) {
+                    newFileList.append("<li>" + files[i].name + "</li>");
+                  }
+
                 }else{
                     alert("비밀번호가 일치하지 않습니다.")
                     return false;
@@ -302,6 +395,15 @@
         });
     }
 
+
+  <%-- /**
+           *
+           *
+           *@author 신금환
+           *@date 2023-11-28
+           *@comment 게시물 삭제
+           *
+           **/--%>
     function deleteBoard(seq){
         let isConfirmed = confirm("삭제하시겠습니까?");
       let boardType = $("#boardType").val();
@@ -327,7 +429,14 @@
 
     }
 
-// 댓글등록
+  <%-- /**
+           *
+           *
+           *@author 신금환
+           *@date 2023-11-28
+           *@comment 댓글등록
+           *
+           **/--%>
     function insertReply(){
       let boardSeq = $("#boardSeq").val();
       let replyContents = $("#replyText").val();
@@ -360,7 +469,14 @@
 
     }
 
-    // 버든 타입 변경
+  <%-- /**
+         *
+         *
+         *@author 신금환
+         *@date 2023-11-28
+         *@comment 버튼타입변경
+         *
+         **/--%>
    function modiBoardReply(seq){
        $('#replyTextareaRead'+seq).removeAttr('readonly');
        $('#replyTextareaRead' + seq).removeAttr('disabled');
@@ -379,7 +495,14 @@
 
    }
 
-   // 댓글 수정
+  <%-- /**
+           *
+           *
+           *@author 신금환
+           *@date 2023-11-28
+           *@comment 댓글수정
+           *
+           **/--%>
    function updateBoardReply(seq){
      let replyTextareaRead = $("#replyTextareaRead"+seq).val();
 
@@ -408,7 +531,14 @@
      }
    }
 
-   //댓글 삭제
+  <%-- /**
+          *
+          *
+          *@author 신금환
+          *@date 2023-11-28
+          *@comment 댓글 삭제
+          *
+          **/--%>
    function deleteBoardReply(seq){
      let isConfirmed = confirm("삭제하시겠습니까?");
      if (isConfirmed) {
@@ -439,6 +569,7 @@
        *
        **/--%>
     function updateBoard(){
+      let formData = new FormData();
         let boardTitle = $("#boardTitle").val();
         let boardEditor = $("#boardEditor").summernote('code');
         let updNm = $("#regNm").val();
@@ -446,6 +577,24 @@
         let boardSecretYn = $("input[name='boardSecretYn']:checked").val();
         let boardSeq = $("#boardSeq").val();
         let boardType = $("#boardType").val();
+
+      if (allFiles.length > 0) {
+        for (let i = 0; i < allFiles.length; i++) {
+          const file = allFiles[i];
+          if (removedFiles.indexOf(file.name) === -1) {
+            // console.log("File " + (i + 1) + ": " + allFiles[i].name);
+            formData.append("file", file);
+          }
+        }
+      }
+
+      formData.append("boardTitle", boardTitle);
+      formData.append("boardContent", boardEditor);
+      formData.append("updNm", updNm);
+      formData.append("password", password);
+      formData.append("boardSecretYn", boardSecretYn);
+      formData.append("boardSeq", boardSeq);
+      formData.append("boardType", boardType);
 
         if (!boardTitle) {
             alert("제목을 입력해주세요.");
@@ -470,17 +619,13 @@
         let isConfirmed = confirm("수정하시겠습니까?");
         if (isConfirmed) {
             $.ajax({
-                type:"POST",
-                url: "/updateBoard",
-                data: {boardTitle : boardTitle,
-                    boardContent : boardEditor,
-                    updNm : updNm,
-                    boardSecretYn : boardSecretYn,
-                    password : password,
-                    boardSeq : boardSeq,
-                    boardType : boardType
-                },
-                success: function () {
+                type:"POST"
+                ,url: "/updateBoard"
+                ,data: formData
+                  , enctype: "multipart/form-data"
+                  , contentType: false
+                  , processData: false
+                ,success: function () {
                   alert("수정 완료하였습니다.");
                   let form = $("#moveForm");
 
@@ -494,6 +639,32 @@
             alert("수정이 취소되었습니다.");
         }
     }
+
+  <%-- /**
+             *
+             *
+             *@author 신금환
+             *@date 2023-11-28
+             *@comment 파일삭제
+             *
+             **/--%>
+  function delFile(fileIdx){
+    let isConfirmed = confirm("첨부 파일을 삭제하시겠습니까?");
+    if (isConfirmed) {
+      $.ajax({
+        type:"POST",
+        url: "/deleteBoardFile",
+        data: {fileIdx : fileIdx
+        },
+        success: function () {
+          alert("삭제 완료하였습니다.");
+          location.reload();
+        }
+      });
+    } else {
+      alert("삭제가 취소되었습니다.");
+    }
+  }
 </script>
 <jsp:include page="../common/contentFooter.jsp"/>
 </body>

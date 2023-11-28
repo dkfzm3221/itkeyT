@@ -114,6 +114,18 @@
                                     <input type="password" class="form-control write-form" id="password" placeholder="비밀번호" name="password" maxlength="4">
                                 </td>
                             </tr>
+
+                            <tr>
+                                <th class="padding-lg">첨부파일</th>
+                                <td colspan="3">
+                                    <input type="file" title="파일선택" name="multipleFileInput" id="uploadFile" multiple>
+                                    <div class="fileDownList">
+                                        <ul id="fileList">
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+
                             <tr>
                                 <th class="padding-lg">내용</th>
                                 <td colspan="4">
@@ -131,14 +143,77 @@
     </div>
 </div>
 <script>
+
+  const removedFiles = [];
+  const allFiles = [];
+
+  const fileList = $('#fileList');
+  const uploadFile = $('#uploadFile');
+  const maxFileCount = 1; // 최대 파일 첨부 개수
+  uploadFile.on('change', handleFileSelect);
+
+  function handleFileSelect(event) {
+    const files = event.target.files;
+    const currentFileCount = fileList.find('li').length;
+    if(files.length > 1 || currentFileCount + files.length > maxFileCount){
+     alert("파일 등록은 죄대 3개까지 가능합니다.");
+      return false;
+    }else{
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const listItem = createListItem(file);
+        fileList.append(listItem);
+        allFiles.push(file);
+      }
+    }
+
+  }
+
+  function createListItem(file) {
+    const listItem = $('<li></li>');
+    const fileName = $('<a></a>').text(file.name);
+    const deleteButton = $('<button class=""></button>', {
+      type: 'button',
+      class: 'btn btn-black w-3',
+      html: '<span class="">파일 삭제</span>',
+      click: function() {
+        listItem.remove();
+        removedFiles.push(file.name);
+      }
+    });
+
+    listItem.append(fileName);
+    listItem.append(deleteButton);
+    return listItem;
+  }
   // 게시물 등록
 function insertBoard(boardType){
+  let formData = new FormData();
+
     let boardTitle = $("#boardTitle").val();
     let boardEditor = $("#boardEditor").summernote('code');
     let regName = $("#regNm").val();
     let password = $("#password").val();
 
     let boardSecretYn = $("input[name='boardSecretYn']:checked").val();
+
+  formData.append("boardTitle",boardTitle);
+  formData.append("boardContent",boardEditor);
+  formData.append("password",password);
+  formData.append("regNm",regName);
+  formData.append("boardSecretYn",boardSecretYn);
+  formData.append("boardType",boardType);
+
+
+  if (allFiles.length > 0) {
+    for (let i = 0; i < allFiles.length; i++) {
+      const file = allFiles[i];
+      if (removedFiles.indexOf(file.name) === -1) {
+        console.log("File " + (i + 1) + ": " + allFiles[i].name);
+        formData.append("file", file);
+      }
+    }
+  }
 
     if (!boardTitle) {
         alert("제목을 입력해주세요.");
@@ -163,7 +238,7 @@ function insertBoard(boardType){
     let isConfirmed = confirm("등록하시겠습니까?");
 
     if (isConfirmed) {
-        $.ajax({
+        /*$.ajax({
             type:"POST",
             url: "/writeBoard",
             data: {boardTitle : boardTitle,
@@ -174,6 +249,24 @@ function insertBoard(boardType){
                 boardType : boardType
             },
             success: function () {
+              alert("등록완료하였습니다.");
+              let form = $("#moveForm");
+
+              $("#boardNum").val(boardType);
+
+              form.attr("action", "/boardDetailList");
+              form.submit();
+            }
+        });
+        */
+        $.ajax({
+            type:"POST"
+            ,url: "/writeBoard"
+            , data: formData
+            , enctype: "multipart/form-data"
+            , contentType: false
+            , processData: false
+            ,success: function () {
               alert("등록완료하였습니다.");
               let form = $("#moveForm");
 

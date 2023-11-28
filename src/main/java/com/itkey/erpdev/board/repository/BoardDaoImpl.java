@@ -124,4 +124,14 @@ public class BoardDaoImpl implements BoardDao{
     public List<DesignDTO> getDegignList() {
         return sql.selectList("mapper.board.getDegignList");
     }
+
+    @Override
+    public void deleteBoardFile(Board board) {
+        sql.delete("mapper.board.deleteBoardFile",board);
+    }
+
+    @Override
+    public void deleteBoardFileSeq(Board board) {
+        sql.update("mapper.board.deleteBoardFileSeq",board);
+    }
 }
