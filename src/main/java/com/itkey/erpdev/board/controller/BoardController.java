@@ -1,10 +1,7 @@
 package com.itkey.erpdev.board.controller;
 
 import com.itkey.erpdev.admin.domain.Popup;
-import com.itkey.erpdev.admin.dto.Banner;
-import com.itkey.erpdev.admin.dto.DesignDTO;
-import com.itkey.erpdev.admin.dto.MenuDTO;
-import com.itkey.erpdev.admin.dto.TotalAdminDTO;
+import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.admin.service.TotalAdminService;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.domain.Notice;
@@ -72,17 +69,22 @@ public class BoardController {
             mv.addObject("section__" + board, noticeList);
         }
 
-        //세션에 배너, 메뉴 저장
+        // 배너, 메뉴 (화면 생성할 때마다 필수로 기입)
         List<Banner> bannerList = bs.bannerList();
         List<Board> menuList = bs.getMenuList();
+//        session.setAttribute("menuList", menuList);
+//        session.setAttribute("bannerList", bannerList);
+        mv.addObject("menuList", menuList);
+        mv.addObject("bannerList", bannerList);
         Notice noticeOne = bs.getNoticeOne();
         session.setAttribute("menuList", menuList);
         session.setAttribute("bannerList", bannerList);
         session.setAttribute("noticeOne", noticeOne);
 
-        // 디자인 세션에 저장
+        // 디자인 (화면 생성할 때마다 필수로 기입)
         List<DesignDTO> designList = bs.getDegignList();
-        session.setAttribute("designList", designList);
+//        session.setAttribute("designList", designList);
+        mv.addObject("designList", designList);
 
         return mv;
     }
@@ -123,6 +125,15 @@ public class BoardController {
          }
 
         mv.addObject("boardType",menuBoardType);
+
+        List<Banner> bannerList = bs.bannerList();
+        List<Board> menuList = bs.getMenuList();
+        mv.addObject("menuList", menuList);
+        mv.addObject("bannerList", bannerList);
+
+        List<DesignDTO> designList = bs.getDegignList();
+        mv.addObject("designList", designList);
+
         return mv;
     }
     // 게시물 등록
@@ -152,6 +163,7 @@ public class BoardController {
             mv.addObject("userId", userId);
             String memberType = member.getMemberType();
             mv.addObject("memberType", memberType);
+
         }else if(session.getAttribute("member") != null ){
 
             MemberInfoResponse member = (MemberInfoResponse) session.getAttribute("member");
@@ -167,6 +179,14 @@ public class BoardController {
         bs.updateInqCnt(board);
         Board boardDetail = bs.boardDetail(board);
         mv.addObject("boardDetail", boardDetail);
+
+        List<Banner> bannerList = bs.bannerList();
+        List<Board> menuList = bs.getMenuList();
+        mv.addObject("menuList", menuList);
+        mv.addObject("bannerList", bannerList);
+
+        List<DesignDTO> designList = bs.getDegignList();
+        mv.addObject("designList", designList);
 
         return mv;
     }
@@ -352,6 +372,41 @@ public class BoardController {
         mv.addObject("boardType", boardType);
         mv.addObject("selectName", selectName.getMenuName());
         mv.addObject("searchBoardTitle", searchBoard.getSearchBoardTitle());
+
+        List<Banner> bannerList = bs.bannerList();
+        List<Board> menuList = bs.getMenuList();
+        mv.addObject("menuList", menuList);
+        mv.addObject("bannerList", bannerList);
+
+        List<DesignDTO> designList = bs.getDegignList();
+        mv.addObject("designList", designList);
+
+        return mv;
+    }
+
+
+    /**
+     *
+     *@author 이정후
+     *@date 2023-11-29
+     *@comment 연혁
+     *
+     **/
+    @GetMapping(value = "/history")
+    public ModelAndView historyMgmt() throws Exception{
+        ModelAndView mv = new ModelAndView("/history");
+
+        List<HistoryDTO> historyList = bs.getHistoryList();
+
+        mv.addObject("historyList", historyList);
+
+        List<Banner> bannerList = bs.bannerList();
+        List<Board> menuList = bs.getMenuList();
+        mv.addObject("menuList", menuList);
+        mv.addObject("bannerList", bannerList);
+
+        List<DesignDTO> designList = bs.getDegignList();
+        mv.addObject("designList", designList);
 
         return mv;
     }

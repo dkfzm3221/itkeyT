@@ -2,10 +2,7 @@ package com.itkey.erpdev.admin.dao;
 
 
 import com.github.pagehelper.PageHelper;
-import com.itkey.erpdev.admin.domain.Admin;
-import com.itkey.erpdev.admin.domain.DesignEntity;
-import com.itkey.erpdev.admin.domain.MenuEntity;
-import com.itkey.erpdev.admin.domain.Popup;
+import com.itkey.erpdev.admin.domain.*;
 import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.member.domain.Member;
@@ -15,7 +12,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSessionEvent;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @AllArgsConstructor
@@ -75,8 +74,12 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	}
 
 	@Override
-	public int delBoardAjax(List<MenuEntity> menuEntityList) {
-		return sql.update("mapper.totalAdmin.delBoardAjax", menuEntityList);
+	public int delBoardAjax(List<MenuEntity> menuEntityList, String id) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("menuEntityList", menuEntityList);
+		paramMap.put("id", id);
+
+		return sql.update("mapper.totalAdmin.delBoardAjax", paramMap);
 	}
 
 	@Override
@@ -200,8 +203,8 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	}
 
 	@Override
-	public int upDatedesignMgmt(DesignEntity design) {
-		return sql.update("mapper.totalAdmin.upDatedesignMgmt", design);
+	public int upDateDesignMgmt(DesignEntity design) {
+		return sql.update("mapper.totalAdmin.upDateDesignMgmt", design);
 	}
 
 	@Override
@@ -212,5 +215,20 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	@Override
 	public void removePopup(Popup popup) throws Exception {
 		sql.delete("mapper.totalAdmin.removePopup", popup);
+	}
+
+	@Override
+	public List<HistoryDTO> getHistoryList(){
+		return sql.selectList("mapper.totalAdmin.getHistoryList");
+	}
+
+	@Override
+	public int upDateHistoryMgmt(HistoryEntity history) {
+		return sql.update("mapper.totalAdmin.upDateHistoryMgmt", history);
+	}
+
+	@Override
+	public int getHistorySeq(){
+		return sql.selectOne("mapper.totalAdmin.getHistorySeq");
 	}
 }

@@ -4,6 +4,7 @@ import com.itkey.erpdev.admin.dao.TotalAdminDAO;
 import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.DesignDTO;
 import com.itkey.erpdev.admin.dto.FileDto;
+import com.itkey.erpdev.admin.dto.HistoryDTO;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.domain.Notice;
 import com.itkey.erpdev.board.domain.SearchBoard;
@@ -264,4 +265,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
 
+    @Override
+    public List<HistoryDTO> getHistoryList() {
+        return dao.getHistoryList();
+    }
 }

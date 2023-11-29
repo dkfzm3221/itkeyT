@@ -4,7 +4,7 @@ import lombok.Data;
 
 import java.sql.Date;
 @Data
-public class Member {
+    public class Member {
     Integer seq;
     String id;
     String password;

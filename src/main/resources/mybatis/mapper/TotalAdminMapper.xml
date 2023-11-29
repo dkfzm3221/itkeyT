@@ -134,21 +134,21 @@
     *@comment 메뉴관리 메뉴 등록/수정
     *
     **/-->
-	<insert id="updMenuMgmtAjax" parameterType="MenuEntity">
-		/*fn : 메뉴 등록/수정 - getMenuListCntAjax */
+	<insert id="updMenuMgmtAjax" parameterType="java.util.List">
+		<!-- fn : 메뉴 등록/수정 - getMenuListCntAjax -->
 		INSERT INTO MENU (
-			MENU_SEQ,
-			MENU_SITE,
-			MENU_NAME,
-			MENU_LEVEL,
-			MENU_TYPE,
-			MENU_URL,
-			MENU_PARENT_SEQ,
-			REG_ID,
-			REG_DT,
-			MENU_USE_YN,
-			MENU_ORDER,
-			MENU_BOARD_TYPE
+		MENU_SEQ,
+		MENU_SITE,
+		MENU_NAME,
+		MENU_LEVEL,
+		MENU_TYPE,
+		MENU_URL,
+		MENU_PARENT_SEQ,
+		REG_ID,
+		REG_DT,
+		MENU_USE_YN,
+		MENU_ORDER,
+		MENU_BOARD_TYPE
 		) VALUES
 		<foreach collection="list" item="menu" separator=",">
 			(
@@ -159,7 +159,7 @@
 			#{menu.menuType},
 			#{menu.menuUrl},
 			#{menu.menuParentSeq},
-			'ADMIN',
+			#{menu.regId},
 			NOW(),
 			#{menu.menuUseYn},
 			#{menu.menuOrder},
@@ -175,7 +175,9 @@
 		MENU_PARENT_SEQ = VALUES(MENU_PARENT_SEQ),
 		MENU_USE_YN = VALUES(MENU_USE_YN),
 		MENU_ORDER = VALUES(MENU_ORDER),
-		MENU_BOARD_TYPE  = VALUES(MENU_BOARD_TYPE)
+		MENU_BOARD_TYPE  = VALUES(MENU_BOARD_TYPE),
+		UPD_ID = VALUES(REG_ID),
+		UPD_DT = NOW()
 	</insert>
 
 	<!--  /**
@@ -185,12 +187,14 @@
     *@comment 메뉴관리 삭제(BOARD 테이블)
     *
     **/-->
-	<update id="delBoardAjax" parameterType="java.util.List">
-		/*fn : 메뉴관리 삭제(BOARD 테이블) - delBoardAjax */
+	<update id="delBoardAjax" parameterType="java.util.Map">
+		<!-- fn : 메뉴관리 삭제(BOARD 테이블) - delBoardAjax -->
 		UPDATE BOARD
 		SET BOARD_DEL_YN = 'Y'
+		, UPD_ID = #{id}
+		, UPD_DT = NOW()
 		WHERE BOARD_TYPE IN
-		<foreach collection="list" item="menu" open="(" separator="," close=")">
+		<foreach collection="menuEntityList" item="menu" open="(" separator="," close=")">
 			#{menu.delMenuBoardType}
 		</foreach>
 	</update>
@@ -763,8 +767,8 @@
     *@comment 디자인관리 수정
     *
     **/-->
-	<update id="upDatedesignMgmt" parameterType="DesignEntity">
-		/*fn : 디자인관리 수정 - upDatedesignMgmt */
+	<update id="upDateDesignMgmt" parameterType="DesignEntity">
+		/*fn : 디자인관리 수정 - upDateDesignMgmt */
 		UPDATE DESIGN
 		SET CONTENT = #{content}
 			,UPD_DT = NOW()
@@ -800,4 +804,73 @@
 		DELETE FROM POPUP
 		WHERE POPUP_SEQ = #{popupSeq}
 	</delete>
+
+	<!--  /**
+	*
+	*@author 이정후
+	*@date 2023-11-29
+	*@comment 연혁관리 조회
+	*
+	**/-->
+	<select id="getHistoryList" resultType="HistoryDTO">
+		/*fn : 연혁관리 조회 - getHistoryList */
+		SELECT
+			HISTORY_SEQ
+			 , YEAR
+			 , MONTH
+		     , CONTENT
+		FROM HISTORY
+		WHERE USE_YN = 'Y'
+		ORDER BY YEAR, MONTH
+	</select>
+
+	<!--  /**
+    *
+    *@author 이정후
+    *@date 2023-11-29
+    *@comment 연혁관리 수정
+    *
+    **/-->
+	<update id="upDateHistoryMgmt" parameterType="HistoryEntity">
+		/*fn : 연혁관리 수정 - upDateHistoryMgmt */
+		INSERT INTO HISTORY (
+		HISTORY_SEQ,
+		YEAR,
+		MONTH,
+		CONTENT,
+		USE_YN,
+		REG_ID,
+		REG_DT
+		) VALUES
+			(
+			#{historySeq},
+			#{year},
+			#{month},
+			#{content},
+			'Y',
+			#{regId},
+			NOW()
+			)
+		ON DUPLICATE KEY UPDATE
+		HISTORY_SEQ = VALUES(HISTORY_SEQ),
+		YEAR = VALUES(YEAR),
+		MONTH = VALUES(MONTH),
+		CONTENT = VALUES(CONTENT),
+		UPD_ID = VALUES(REG_ID),
+		<if test="(useYn != null) and (useYn != '')"> USE_YN = #{useYn}, </if>
+		UPD_DT = NOW()
+	</update>
+
+	<!--  /**
+	*
+	*@author 이정후
+	*@date 2023-11-29
+	*@comment 연혁관리 최대 SEQ
+	*
+	**/-->
+	<select id="getHistorySeq" resultType="int">
+		/*fn : 연혁관리 최대 SEQ - getHistorySeq */
+		SELECT 	max(HISTORY_SEQ)
+		FROM	HISTORY
+	</select>
 </mapper>

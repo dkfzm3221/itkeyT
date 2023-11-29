@@ -1,10 +1,7 @@
 package com.itkey.erpdev.admin.service;
 
 
-import com.itkey.erpdev.admin.domain.Admin;
-import com.itkey.erpdev.admin.domain.DesignEntity;
-import com.itkey.erpdev.admin.domain.MenuEntity;
-import com.itkey.erpdev.admin.domain.Popup;
+import com.itkey.erpdev.admin.domain.*;
 import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.member.domain.Member;
@@ -38,7 +35,7 @@ public interface TotalAdminService {
     List<Visitor> mostVisitDate();
 
 	// 메뉴관리
-	int updMenuMgmtAjax(List<MenuEntity> menuEntityList);
+	int updMenuMgmtAjax(List<MenuEntity> menuEntityList, HttpServletRequest request);
 
 	// 메뉴관리 메뉴 SEQ
 	int getMenuListCntAjax();
@@ -79,16 +76,26 @@ public interface TotalAdminService {
 
 	void removeBanner(Banner banner) throws Exception;
 
+	// 디자인관리 조회
 	List<DesignDTO> getDesignList();
 
     void savePopup(Popup popup, HttpServletRequest request) throws Exception;
 
 	List<Popup> popupList() throws Exception;
 
-	// 디자인관리 조회
-	int upDatedesignMgmt(DesignEntity design);
+	// 디자인관리 수정
+	int upDateDesignMgmt(DesignEntity design);
 
 	void updatePopup(Popup popup, HttpServletRequest request) throws Exception;
 
 	void removePopup(Popup popup) throws Exception;
+
+	// 연혁관리 조회
+	List<HistoryDTO> getHistoryList();
+
+	// 연혁관리 수정
+	int upDateHistoryMgmt(HistoryEntity history, HttpServletRequest request);
+
+	// 연혁관리 최대 seq
+	int getHistorySeq();
 }

@@ -1,15 +1,13 @@
 package com.itkey.erpdev.admin.dao;
 
 
-import com.itkey.erpdev.admin.domain.Admin;
-import com.itkey.erpdev.admin.domain.DesignEntity;
-import com.itkey.erpdev.admin.domain.MenuEntity;
-import com.itkey.erpdev.admin.domain.Popup;
+import com.itkey.erpdev.admin.domain.*;
 import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.member.domain.Member;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import java.util.List;
@@ -39,7 +37,7 @@ public interface TotalAdminDAO {
 	int getMenuListCntAjax();
 	
 	// 메뉴 삭제시, 해당 게시글 삭제처리
-	int delBoardAjax(List<MenuEntity> menuEntityList);
+	int delBoardAjax(List<MenuEntity> menuEntityList, String id);
 
     List<Banner> getBannerList() throws Exception;
 
@@ -89,9 +87,18 @@ public interface TotalAdminDAO {
 
 	List<Popup> popupList() throws Exception;
 
-	int upDatedesignMgmt(DesignEntity design);
+	int upDateDesignMgmt(DesignEntity design);
 
 	void updatePopup(Popup popup) throws Exception;
 
 	void removePopup(Popup popup) throws Exception;
+
+	// 연혁관리 조회
+	List<HistoryDTO> getHistoryList();
+
+	// 연혁관리 수정
+	int upDateHistoryMgmt(HistoryEntity history);
+
+	// 연혁관리 최대 seq
+	int getHistorySeq();
 }

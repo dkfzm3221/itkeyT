@@ -1,10 +1,7 @@
 package com.itkey.erpdev.admin.service;
 
 import com.itkey.erpdev.admin.dao.TotalAdminDAO;
-import com.itkey.erpdev.admin.domain.Admin;
-import com.itkey.erpdev.admin.domain.DesignEntity;
-import com.itkey.erpdev.admin.domain.MenuEntity;
-import com.itkey.erpdev.admin.domain.Popup;
+import com.itkey.erpdev.admin.domain.*;
 import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.member.domain.Member;
@@ -18,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -90,12 +88,19 @@ public class TotalAdminServiceImpl implements TotalAdminService {
 
     @Transactional
     @Override
-    public int updMenuMgmtAjax(List<MenuEntity> menuEntityList) {
+    public int updMenuMgmtAjax(List<MenuEntity> menuEntityList, HttpServletRequest request) {
         try {
+            HttpSession session = request.getSession();
+            TotalAdminDTO totalAdminDTO = (TotalAdminDTO) session.getAttribute("admin");
+
+            String id = totalAdminDTO.getId();          // 아이디
+
             // 삭제 대상 메뉴를 담을 리스트
             List<MenuEntity> menusToDelete = new ArrayList<>();
 
             for (MenuEntity menuEntity : menuEntityList) {
+                menuEntity.setRegId(id);
+
                 if ("N".equals(menuEntity.getMenuUseYn())) {
                     menusToDelete.add(menuEntity);
                 }
@@ -104,7 +109,7 @@ public class TotalAdminServiceImpl implements TotalAdminService {
             // log.info("menusToDeleteSize : " + menusToDelete.size());
             // 삭제하는 메뉴가 있는 경우 해당 게시판의 글 삭제
             if (menusToDelete.size() > 0) {
-                totalAdminDAO.delBoardAjax(menusToDelete);
+                totalAdminDAO.delBoardAjax(menusToDelete, id);
             }
 
             return totalAdminDAO.updMenuMgmtAjax(menuEntityList);
@@ -346,8 +351,8 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     }
 
     @Override
-    public int upDatedesignMgmt(DesignEntity design){
-        return totalAdminDAO.upDatedesignMgmt(design);
+    public int upDateDesignMgmt(DesignEntity design){
+        return totalAdminDAO.upDateDesignMgmt(design);
     }
 
     @Override
@@ -411,5 +416,25 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     @Override
     public void removePopup(Popup popup) throws Exception {
         totalAdminDAO.removePopup(popup);
+    }
+
+    public List<HistoryDTO> getHistoryList() {
+        return totalAdminDAO.getHistoryList();
+    }
+
+    public int upDateHistoryMgmt(HistoryEntity history, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        TotalAdminDTO totalAdminDTO = (TotalAdminDTO) session.getAttribute("admin");
+
+        String id = totalAdminDTO.getId();          // 아이디
+
+        history.setRegId(id);
+        history.setUpdId(id);
+
+        return totalAdminDAO.upDateHistoryMgmt(history);
+    }
+
+    public int getHistorySeq() {
+        return totalAdminDAO.getHistorySeq();
     }
 }
