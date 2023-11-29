@@ -1,11 +1,11 @@
 package com.itkey.erpdev.member.controller;
 
+import com.itextpdf.forms.xfdf.Mode;
 import com.itkey.erpdev.admin.domain.Popup;
 import com.itkey.erpdev.admin.dto.CommonDTO;
 import com.itkey.erpdev.admin.service.TotalAdminService;
 import com.itkey.erpdev.member.domain.Member;
-import com.itkey.erpdev.member.dto.MemberInfoResponse;
-import com.itkey.erpdev.member.dto.MemberInsert;
+import com.itkey.erpdev.member.dto.*;
 import com.itkey.erpdev.member.service.MemberService;
 import com.itkey.erpdev.member.service.smtpService;
 import lombok.AllArgsConstructor;
@@ -269,6 +269,88 @@ public class MemberController {
     public String updateMember(Member m){
         int result = ms.updateMember(m);
         return "redirect:/";
+    }
+    /**
+     *
+     *@author 유은비
+     *@date 2023-11-29
+     *@comment 카카오 계정 로그인하기
+     *
+     **/
+    @RequestMapping("/kakaoLoginForm")
+    public String kakaoLoginForm(){
+        String url = "https://kauth.kakao.com/oauth/authorize?";
+        String client_id = "b5b49c204b8252329bb89fa1fd9cc45e";
+        String redirect_uri = "http://localhost:8888/mem/kakaoLogin";
+
+        String kakaoURL = url+"client_id="+client_id+"&redirect_uri="+redirect_uri+"&response_type=code";
+        return "redirect:" + kakaoURL;
+    }
+    /**
+     *
+     *@author 유은비
+     *@date 2023-11-29
+     *@comment 카카오계정으로 로그인
+     *
+     **/
+    @RequestMapping("/kakaoLogin")
+    public ModelAndView kakaoLoginReady(String code, HttpSession session){
+        ModelAndView mv = new ModelAndView();
+        logger.info("콜백 후 code : {}", code);
+        //카카오에서 토큰 가져오기
+        KakaoResponse kDTO = ms.getKakaoAccessToken(code);
+        //토큰으로 카카오측에 있는 정보 불러오기
+        KakaoAcountInfo kaDTO = ms.getkakaoAcountInfo(kDTO);
+        //가입 여부 확인
+        Long kakaoId = kaDTO.getId();
+        MemberInfoResponse login = ms.getKakaoId(kakaoId);
+        if(login == null){
+            //정보 없음 --> 회원가입
+
+            return mv;
+        }else{
+            //정보 있음
+            session.setAttribute("member", login);
+            mv.addObject("login", login);
+            mv.setViewName("redirect:/");
+            return mv;
+        }
+    }
+    /**
+     *
+     *@author 유은비
+     *@date 2023-11-29
+     *@comment 구글 계정 로그인
+     *
+     **/
+    @RequestMapping("/googleLoginForm")
+    public String loginUrlGoogle(){
+
+        String url = "https://accounts.google.com/o/oauth2/v2/auth?";
+        String googleClientId = "1069124062680-3bu27g8kvtbeudanv8clutbt9mdeh22d.apps.googleusercontent.com";
+        String redirect_uri = "http://localhost:8888/mem/googleLogin";
+
+        String googleURL = url + "client_id=" + googleClientId
+                + "&redirect_uri=" + redirect_uri + "&response_type=code&scope=email%20profile%20openid&access_type=offline";
+
+        return "redirect:" + googleURL;
+    }
+    /**
+     *
+     *@author 유은비
+     *@date 2023-11-29
+     *@comment 구글계정으로 로그인
+     *
+     **/
+    @RequestMapping("/googleLogin")
+    public ModelAndView googleLoginReady(String code, HttpSession session){
+        ModelAndView mv = new ModelAndView();
+        logger.info("콜백 후 code : {}", code);
+        //구글에서 토큰 가져오기
+        GoogleResponse gDTO = ms.getGoogleAccessToken(code);
+        //토큰으로 구글 측에 있는 정보 불러오기
+        //GoogleAccountInfo kaDTO = ms.getGoogleAcountInfo(gDTO);
+        return mv;
     }
 
 
