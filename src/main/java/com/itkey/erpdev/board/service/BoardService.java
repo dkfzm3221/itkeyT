@@ -2,6 +2,7 @@ package com.itkey.erpdev.board.service;
 
 import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.DesignDTO;
+import com.itkey.erpdev.admin.dto.HistoryDTO;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.domain.SearchBoard;
 
@@ -49,4 +50,7 @@ public interface BoardService {
     void deleteBoardFile(Board board);
 
     void deleteBoardFileSeq(Board board);
+
+    // 유저페이지 연혁조회
+    List<HistoryDTO> getHistoryList();
 }

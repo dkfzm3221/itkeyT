@@ -115,6 +115,9 @@
                                 <c:when test="${gnb.menuName == '공지사항관리'}">
                                     <i class="fas fa-bullhorn"></i>
                                 </c:when>
+                                <c:when test="${gnb.menuName == '연혁관리'}">
+                                    <i class="fas fa-database"></i>
+                                </c:when>
                             </c:choose>
                             <p>${gnb.menuName}</p>
                         </a>

@@ -1,10 +1,7 @@
 package com.itkey.erpdev.admin.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.itkey.erpdev.admin.domain.Admin;
-import com.itkey.erpdev.admin.domain.DesignEntity;
-import com.itkey.erpdev.admin.domain.MenuEntity;
-import com.itkey.erpdev.admin.domain.Popup;
+import com.itkey.erpdev.admin.domain.*;
 import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.admin.service.CommonService;
 import com.itkey.erpdev.admin.service.TotalAdminService;
@@ -830,7 +827,50 @@ public class TotalAdminController {
 		design.setDesignSeq(designSeq);
 		design.setContent(content);
 
-		int result = adminService.upDatedesignMgmt(design);
+		int result = adminService.upDateDesignMgmt(design);
+
+		return result > 0 ? "S" : "F";
+	}
+
+	/**
+	 *
+	 *@author 이정후
+	 *@date 2023-11-29
+	 *@comment 연혁관리
+	 *
+	 **/
+	@GetMapping(value = "/historyMgmt")
+	public ModelAndView historyMgmt(HttpServletRequest request) throws Exception{
+		HttpSession session = request.getSession();
+
+		ModelAndView mv = new ModelAndView("/historyMgmt");
+
+		if(session.getAttribute("admin") == null || session.getAttribute("admin") == "") {
+			mv.setViewName("/login_admin");
+			return mv;
+		}
+
+		List<HistoryDTO> historyList = adminService.getHistoryList();
+		int historySeq = adminService.getHistorySeq();
+
+		mv.addObject("historyList", historyList);
+		mv.addObject("historySeq", historySeq);
+
+		return mv;
+	}
+
+	/**
+	 *
+	 *@author 이정후
+	 *@date 2023-11-29
+	 *@comment 연혁관리 수정
+	 *
+	 **/
+	@ResponseBody
+	@PostMapping(value="/upDateHistoryMgmt")
+	public String upDateHistoryMgmt(HistoryEntity history, HttpServletRequest request) {
+
+		int result = adminService.upDateHistoryMgmt(history, request);
 
 		return result > 0 ? "S" : "F";
 	}

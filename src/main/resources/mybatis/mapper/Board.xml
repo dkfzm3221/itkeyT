@@ -429,4 +429,23 @@
              , content
         FROM DESIGN
     </select>
+
+    <!--  /**
+    *
+    *@author 이정후
+    *@date 2023-11-29
+    *@comment 연혁관리 조회
+    *
+    **/-->
+    <select id="getHistoryList" resultType="HistoryDTO">
+        /*fn : 연혁관리 조회 - getHistoryList */
+        SELECT
+            HISTORY_SEQ
+             , YEAR
+             , MONTH
+             , CONTENT
+        FROM HISTORY
+        WHERE USE_YN = 'Y'
+        ORDER BY YEAR, MONTH
+    </select>
 </mapper>
