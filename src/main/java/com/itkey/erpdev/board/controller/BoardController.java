@@ -68,15 +68,18 @@ public class BoardController {
             mv.addObject("section_" + board, boardList);
         }
 
-        //세션에 배너, 메뉴 저장
+        // 배너, 메뉴 (화면 생성할 때마다 필수로 기입)
         List<Banner> bannerList = bs.bannerList();
         List<Board> menuList = bs.getMenuList();
-        session.setAttribute("menuList", menuList);
-        session.setAttribute("bannerList", bannerList);
+//        session.setAttribute("menuList", menuList);
+//        session.setAttribute("bannerList", bannerList);
+        mv.addObject("menuList", menuList);
+        mv.addObject("bannerList", bannerList);
 
-        // 디자인 세션에 저장
+        // 디자인 (화면 생성할 때마다 필수로 기입)
         List<DesignDTO> designList = bs.getDegignList();
-        session.setAttribute("designList", designList);
+//        session.setAttribute("designList", designList);
+        mv.addObject("designList", designList);
 
         return mv;
     }
@@ -117,6 +120,15 @@ public class BoardController {
          }
 
         mv.addObject("boardType",menuBoardType);
+
+        List<Banner> bannerList = bs.bannerList();
+        List<Board> menuList = bs.getMenuList();
+        mv.addObject("menuList", menuList);
+        mv.addObject("bannerList", bannerList);
+
+        List<DesignDTO> designList = bs.getDegignList();
+        mv.addObject("designList", designList);
+
         return mv;
     }
     // 게시물 등록
@@ -146,6 +158,7 @@ public class BoardController {
             mv.addObject("userId", userId);
             String memberType = member.getMemberType();
             mv.addObject("memberType", memberType);
+
         }else if(session.getAttribute("member") != null ){
 
             MemberInfoResponse member = (MemberInfoResponse) session.getAttribute("member");
@@ -161,6 +174,14 @@ public class BoardController {
         bs.updateInqCnt(board);
         Board boardDetail = bs.boardDetail(board);
         mv.addObject("boardDetail", boardDetail);
+
+        List<Banner> bannerList = bs.bannerList();
+        List<Board> menuList = bs.getMenuList();
+        mv.addObject("menuList", menuList);
+        mv.addObject("bannerList", bannerList);
+
+        List<DesignDTO> designList = bs.getDegignList();
+        mv.addObject("designList", designList);
 
         return mv;
     }
@@ -347,6 +368,14 @@ public class BoardController {
         mv.addObject("selectName", selectName.getMenuName());
         mv.addObject("searchBoardTitle", searchBoard.getSearchBoardTitle());
 
+        List<Banner> bannerList = bs.bannerList();
+        List<Board> menuList = bs.getMenuList();
+        mv.addObject("menuList", menuList);
+        mv.addObject("bannerList", bannerList);
+
+        List<DesignDTO> designList = bs.getDegignList();
+        mv.addObject("designList", designList);
+
         return mv;
     }
 
@@ -365,6 +394,14 @@ public class BoardController {
         List<HistoryDTO> historyList = bs.getHistoryList();
 
         mv.addObject("historyList", historyList);
+
+        List<Banner> bannerList = bs.bannerList();
+        List<Board> menuList = bs.getMenuList();
+        mv.addObject("menuList", menuList);
+        mv.addObject("bannerList", bannerList);
+
+        List<DesignDTO> designList = bs.getDegignList();
+        mv.addObject("designList", designList);
 
         return mv;
     }

@@ -181,7 +181,7 @@
             <div class="user">
                 <div class="info">
                     <div class="row">
-                        <c:forEach items="${sessionScope.bannerList}" var="item">
+                        <c:forEach items="${bannerList}" var="item">
                             <div class="col-md-12">
                                 <c:if test="${empty item.filePath}">
                                     <a href="${item.bannerUrl}" target="_blank">
