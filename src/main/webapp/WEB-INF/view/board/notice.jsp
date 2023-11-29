@@ -24,7 +24,14 @@
 </style>
 <div class="wrapper">
     <!-- SideBar Navbar  -->
-    <jsp:include page="../common/sidebarNav_admin.jsp"/>
+    <c:choose>
+        <c:when test="${memberType == 'A'}">
+            <jsp:include page="../common/sidebarNav_admin.jsp"/>
+        </c:when>
+        <c:otherwise>
+            <jsp:include page="../common/sidebarNav.jsp"/>
+        </c:otherwise>
+    </c:choose>
     <!-- SideBar Navbar END  -->
     <div class="main-panel">
         <div class="container">
@@ -66,35 +73,46 @@
                                             <th style="width:10%; background-color:#1572E8!important">No.</th>
                                             <th style="width:10%; background-color:#1572E8!important">작성자</th>
                                             <th style="width:40%; background-color:#1572E8!important">제목</th>
-                                            <th style="width:10%; background-color:#1572E8 !important">공개/비공개</th>
                                             <th style="width:10%; background-color:#1572E8!important">조회수</th>
                                             <th style="width:30%; background-color:#1572E8!important">등록일</th>
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        <c:forEach items="${noticeList}" var="item">
                                             <tr>
-                                                <td>
+                                                <td>공지</td>
+                                                <td>${item.regId}</td>
+                                                <td id="notice">
+                                                    <a href="/notice/noticeDetail?noticeSeq=${item.noticeSeq}">${item.noticeTitle}</a>
                                                 </td>
-                                                <td></td>
-                                                <td>
-                                                    <a href=""></a>
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>${item.inqCnt}</td>
+                                                <td>${item.regDate}</td>
                                             </tr>
+                                        </c:forEach>
+
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <%--    <button onclick="moveToWriteBoard()" class="btn btn-black w-3" style="float: right;">글쓰기</button>--%>
                 </div>
+                <c:if test="${memberType == 'A'}">
+                    <button onclick="moveToWriteNotice()" class="btn btn-black w-3" style="float: right;">공지 작성</button>
+                </c:if>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function moveToWriteNotice(){
+        window.location.href = "/notice/writeNoticeView";
+    }
+
+
+
+
+</script>
 <!-- Footer  -->
 <jsp:include page="../common/contentFooter.jsp"/>
 <!-- Footer END  -->

@@ -4,6 +4,7 @@ import com.itkey.erpdev.admin.domain.Popup;
 import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.admin.service.TotalAdminService;
 import com.itkey.erpdev.board.domain.Board;
+import com.itkey.erpdev.board.domain.Notice;
 import com.itkey.erpdev.board.domain.SearchBoard;
 import com.itkey.erpdev.board.service.BoardService;
 import com.itkey.erpdev.member.domain.Member;
@@ -45,16 +46,14 @@ public class BoardController {
     @GetMapping(value = "/")
     public ModelAndView boardList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                   @RequestParam(value = "countPerPage", defaultValue = "10") int countPerPage
-            , HttpServletRequest request) throws Exception {
+            , HttpServletRequest request, Notice notice) throws Exception {
         ModelAndView mv = new ModelAndView("/index");
 
         HttpSession session = request.getSession();
 
         List<Popup> popupList = adminService.popupList();
 
-        String test ="aa";
         mv.addObject("popupList", popupList);
-        mv.addObject("test", test);
 
 
         List<Board> boardTypeList = bs.boardTypeList();
@@ -64,8 +63,10 @@ public class BoardController {
         for (Board board : boardTypeList) {
             String boardType = board.getBoardType();
             List<Board> boardList = bs.boardList(pageNum, countPerPage, boardType);
+            List<Notice> noticeList = bs.noticeList(boardType);
 
             mv.addObject("section_" + board, boardList);
+            mv.addObject("section__" + board, noticeList);
         }
 
         // 배너, 메뉴 (화면 생성할 때마다 필수로 기입)
@@ -75,6 +76,10 @@ public class BoardController {
 //        session.setAttribute("bannerList", bannerList);
         mv.addObject("menuList", menuList);
         mv.addObject("bannerList", bannerList);
+        Notice noticeOne = bs.getNoticeOne();
+        session.setAttribute("menuList", menuList);
+        session.setAttribute("bannerList", bannerList);
+        session.setAttribute("noticeOne", noticeOne);
 
         // 디자인 (화면 생성할 때마다 필수로 기입)
         List<DesignDTO> designList = bs.getDegignList();

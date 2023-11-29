@@ -4,6 +4,7 @@ import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.DesignDTO;
 import com.itkey.erpdev.admin.dto.HistoryDTO;
 import com.itkey.erpdev.board.domain.Board;
+import com.itkey.erpdev.board.domain.Notice;
 import com.itkey.erpdev.board.domain.SearchBoard;
 
 import java.util.List;
@@ -53,4 +54,8 @@ public interface BoardService {
 
     // 유저페이지 연혁조회
     List<HistoryDTO> getHistoryList();
+
+    List<Notice> noticeList(String boardType) throws Exception;
+
+    Notice getNoticeOne() throws Exception;
 }
