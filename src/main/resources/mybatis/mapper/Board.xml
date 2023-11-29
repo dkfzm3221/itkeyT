@@ -38,6 +38,22 @@
         ORDER BY BO.BOARD_SEQ DESC
             LIMIT 5
     </select>
+    <select id="noticeList" parameterType="map" resultType="Notice">
+        SELECT
+            NOTICE_SEQ
+             , NOTICE_TYPE
+             , NOTICE_TITLE
+             , NOTICE_CONTENTS
+             , COALESCE(INQ_CNT, 0) AS INQ_CNT
+             , REG_ID
+             , REG_DATE
+             , FILE_IDX
+             , USE_YN
+        FROM NOTICE
+        WHERE NOTICE_TYPE = ${boardType}
+        ORDER BY REG_DATE DESC
+        LIMIT 2
+    </select>
    <!-- /**
     *
     *
@@ -428,5 +444,12 @@
              , type
              , content
         FROM DESIGN
+    </select>
+    <select id="getNoticeOne" resultType="Notice">
+        SELECT
+             NOTICE_TITLE
+        FROM NOTICE
+        ORDER BY NOTICE_SEQ DESC
+        LIMIT 1
     </select>
 </mapper>

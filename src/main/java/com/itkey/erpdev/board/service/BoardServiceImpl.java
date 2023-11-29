@@ -5,6 +5,7 @@ import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.DesignDTO;
 import com.itkey.erpdev.admin.dto.FileDto;
 import com.itkey.erpdev.board.domain.Board;
+import com.itkey.erpdev.board.domain.Notice;
 import com.itkey.erpdev.board.domain.SearchBoard;
 import com.itkey.erpdev.board.repository.BoardDao;
 import java.io.File;
@@ -250,6 +251,16 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void deleteBoardFileSeq(Board board) {
         dao.deleteBoardFileSeq(board);
+    }
+
+    @Override
+    public List<Notice> noticeList(String boardType) throws Exception {
+        return dao.noticeList(boardType);
+    }
+
+    @Override
+    public Notice getNoticeOne() throws Exception {
+        return dao.getNoticeOne();
     }
 
 

@@ -4,6 +4,7 @@ import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.DesignDTO;
 import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
+import com.itkey.erpdev.board.domain.Notice;
 import com.itkey.erpdev.board.domain.SearchBoard;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -133,5 +134,17 @@ public class BoardDaoImpl implements BoardDao{
     @Override
     public void deleteBoardFileSeq(Board board) {
         sql.update("mapper.board.deleteBoardFileSeq",board);
+    }
+
+    @Override
+    public List<Notice> noticeList(String boardType) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("boardType", boardType);
+        return sql.selectList("mapper.board.noticeList", boardType);
+    }
+
+    @Override
+    public Notice getNoticeOne() throws Exception {
+        return sql.selectOne("mapper.board.getNoticeOne");
     }
 }

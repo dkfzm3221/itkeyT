@@ -153,9 +153,9 @@
             </div>
     </nav>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="background-color:#e0e0e0!important; height: 30px;">
-        <i class="bi bi-megaphone" style="font-size: 20px; vertical-align: middle; margin-right: 10px;"></i> 
+        <i class="bi bi-megaphone" style="font-size: 20px; vertical-align: middle; margin-right: 10px;"></i>
         <marquee direction="left" behavior="scroll" scrollamount="15">
-            테테테테테스트
+            <span style="color: red; font-weight: bold;">${sessionScope.noticeOne.noticeTitle}</span>
         </marquee>
     </nav>
     <!-- End Navbar -->

@@ -3,6 +3,7 @@ package com.itkey.erpdev.board.service;
 import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.DesignDTO;
 import com.itkey.erpdev.board.domain.Board;
+import com.itkey.erpdev.board.domain.Notice;
 import com.itkey.erpdev.board.domain.SearchBoard;
 
 import java.util.List;
@@ -49,4 +50,8 @@ public interface BoardService {
     void deleteBoardFile(Board board);
 
     void deleteBoardFileSeq(Board board);
+
+    List<Notice> noticeList(String boardType) throws Exception;
+
+    Notice getNoticeOne() throws Exception;
 }

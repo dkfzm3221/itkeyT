@@ -4,4 +4,127 @@
 
 <mapper namespace="mapper.notice">
 
+    <insert id="insertNotice" parameterType="Notice">
+        INSERT INTO NOTICE
+        (NOTICE_TYPE
+        , NOTICE_TITLE
+        , NOTICE_CONTENTS
+        , REG_ID
+        , REG_DATE
+        , FILE_IDX
+        )
+        VALUES
+            ( #{noticeType}
+            , #{noticeTitle}
+            , #{noticeContents}
+            , 'admin'
+            , NOW()
+            , #{fileIdx}
+            )
+    </insert>
+
+    <!--/**
+	*
+	*
+	*
+	*@author 김재섭
+	*@date 2023-11-29
+	*@comment 공지사항 파일등록
+	*
+	**/-->
+    <insert id="saveFile" parameterType="FileDto" useGeneratedKeys="true" keyProperty="fileIdx" keyColumn="file_idx">
+        INSERT INTO FILE
+        (
+            ORI_NM
+        , SAVE_NM
+        , FILE_PATH
+        , REG_DT
+        )
+        VALUES
+            ( #{oriNm}
+            , #{saveNm}
+            , #{filePath}
+            , NOW()
+            )
+    </insert>
+
+    <!--/**
+    *
+    *
+    *
+    *@author 김재섭
+    *@date 2023-11-29
+    *@comment 공지사항 파일업데이트
+    *
+    **/-->
+    <update id="updateFile" parameterType="FileDto" useGeneratedKeys="true" keyProperty="fileIdx" keyColumn="file_idx">
+        UPDATE FILE
+        SET
+            ORI_NM = #{oriNm}
+          , SAVE_NM = #{saveNm}
+          , FILE_PATH = #{filePath}
+          , REG_DT = NOW()
+        WHERE FILE_IDX = #{fileIdx}
+    </update>
+
+    <select id="selectNotice" resultType="Notice">
+        SELECT
+            NOTICE_SEQ
+            , NOTICE_TYPE
+            , NOTICE_TITLE
+            , NOTICE_CONTENTS
+            , COALESCE(INQ_CNT, 0) AS INQ_CNT
+            , REG_ID
+            , REG_DATE
+            , FILE_IDX
+            , USE_YN
+        FROM NOTICE
+        ORDER BY REG_DATE DESC
+    </select>
+
+    <update id="updateInqCnt" parameterType="Notice">
+        UPDATE NOTICE
+        SET
+           INQ_CNT = COALESCE(INQ_CNT, 0) + 1
+        WHERE NOTICE_SEQ = #{noticeSeq}
+    </update>
+
+    <select id="noticeDetail" resultType="Notice">
+        SELECT
+            NT.NOTICE_SEQ
+            ,NT.NOTICE_TYPE
+            ,NT.NOTICE_TITLE
+            ,NT.NOTICE_CONTENTS
+            ,NT.REG_ID
+            ,NT.REG_DATE
+            ,NT.FILE_IDX
+            ,NT.USE_YN
+            ,NT.INQ_CNT
+            , FT.ORI_NM
+            , FT.SAVE_NM
+            , FT.FILE_PATH
+        FROM NOTICE NT
+        LEFT JOIN FILE FT ON NT.FILE_IDX = FT.FILE_IDX
+        WHERE NT.NOTICE_SEQ = #{noticeSeq}
+    </select>
+    <update id="modiNotice" parameterType="Notice">
+        UPDATE NOTICE
+        SET
+        NOTICE_TYPE = #{noticeType}
+        , NOTICE_TITLE = #{noticeTitle}
+        , NOTICE_CONTENTS = #{noticeContents}
+        , REG_ID = 'admin'
+        , REG_DATE = NOW()
+        <if test="fileIdx     !=null and fileIdx  !=''">
+            ,FILE_IDX = #{fileIdx}
+        </if>
+        WHERE NOTICE_SEQ = #{noticeSeq}
+    </update>
+    <delete id="deleteNotice" parameterType="Notice">
+        DELETE
+        FROM
+            NOTICE
+        WHERE
+            NOTICE_SEQ = #{noticeSeq}
+    </delete>
 </mapper>
