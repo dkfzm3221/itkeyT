@@ -25,4 +25,6 @@ public interface MemberDao {
     int updateMember(Member m);
     //사용자 정보 불러오기
     Member memberInfo(int memberIdx);
+    //카카오 로그인(+가능 여부)
+    MemberInfoResponse getKakaoId(Long kakaoId);
 }

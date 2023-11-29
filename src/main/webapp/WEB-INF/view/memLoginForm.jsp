@@ -97,6 +97,12 @@
                 <div class="form-action" style="padding: 0 10px;">
                     <a href="#" id="show-signup" style="color: #430091 !important;" class="btn btn-rounded btn-signup">회원가입</a>
                 </div>
+
+                <div class="form-action">
+                    <a href="#" class="p-0 btn btn-link btn-black" id="kakaoLogin">카카오로그인</a>
+                    <a href="#" class="p-0 btn btn-link btn-black ml-5" id="googleLogin">구글로그인</a>
+                </div>
+
                 <div class="form-action">
                     <a href="#" class="p-0 btn btn-link btn-black" id="goTofindId">아이디 찾기</a>
                     <a href="#" class="p-0 btn btn-link btn-black ml-5" id="goTofindPw">비밀번호 찾기</a>
@@ -485,6 +491,15 @@
         $(this).val($(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, "$1-$2-$3").replace("--", "-"));
     });
 
+    //카카오 로그인
+    $('#kakaoLogin').on("click", function(){
+        location.href = "/mem/kakaoLoginForm";
+    })
+    //구글 로그인
+    //카카오 로그인
+    $('#googleLogin').on("click", function(){
+        location.href = "/mem/googleLoginForm";
+    })
 
 
 </script>

@@ -874,4 +874,6 @@ public class TotalAdminController {
 
 		return result > 0 ? "S" : "F";
 	}
+
+
 }

@@ -62,4 +62,9 @@ public class MemberDaoImpl implements MemberDao{
     public Member memberInfo(int memberIdx) {
         return sql.selectOne("mapper.member.memberInfo", memberIdx);
     }
+
+    @Override
+    public MemberInfoResponse getKakaoId(Long kakaoId) {
+        return sql.selectOne("mapper.member.getKakaoId", kakaoId);
+    }
 }

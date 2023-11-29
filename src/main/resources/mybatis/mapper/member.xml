@@ -193,6 +193,31 @@
         WHERE
         SEQ = #{seq}
     </update>
+    <!--/**
+    *
+    *
+    *
+    *@author 유은비
+    *@date 2023-11-23
+    *@comment 카카오 로그인
+    *
+    **/-->
+    <select id="getKakaoId" parameterType="Long" resultType="MemberInfoResponse">
+        SELECT ID
+             , SEQ
+             , EMAIL
+             , HP
+             , NAME
+             , AUTH_CODE
+             , MEMBER_STATUS
+             , MEMBER_TYPE
+             , USE_YN
+             , SALT
+        FROM
+            MEMBER
+        WHERE SNS_ID = #{kakaoId}
+          AND SNS_CODE = 'K'
+    </select>
 
 
 </mapper>
