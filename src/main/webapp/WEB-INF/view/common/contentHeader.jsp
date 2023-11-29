@@ -63,6 +63,9 @@
     <!-- Bootstrap Toggle -->
     <script src="/resources/assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
 
+    <!-- Bootstrap Icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+
     <!-- jQuery Vector Maps -->
     <script src="/resources/assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
     <script src="/resources/assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
