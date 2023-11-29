@@ -123,6 +123,7 @@
                </c:forEach>
             </ul>
         </div>
+
             <%-- /**
           *
           *
@@ -150,8 +151,12 @@
                     <li onclick="logoutButton()">로그아웃</li>
                 </ol>
             </div>
-
-
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="background-color:#e0e0e0!important; height: 30px;">
+        <i class="bi bi-megaphone" style="font-size: 20px; vertical-align: middle; margin-right: 10px;"></i> 
+        <marquee direction="left" behavior="scroll" scrollamount="15">
+            테테테테테스트
+        </marquee>
     </nav>
     <!-- End Navbar -->
 </div>

@@ -89,7 +89,7 @@
             <ul class="nav nav-primary">
                 <c:forEach var="gnb" items="${sessionScope.gnbList}" varStatus="status">
                     <li class="nav-item">
-                        <a href='/totalAdmin/${gnb.menuUrl}'>
+                        <a href='/${gnb.menuConnWay}/${gnb.menuUrl}'>
                             <c:choose>
                                 <c:when test="${gnb.menuName == '회원관리'}">
                                     <i class="fas fa-user-cog"></i>
@@ -111,6 +111,9 @@
                                 </c:when>
                                 <c:when test="${gnb.menuName == '디자인관리'}">
                                     <i class="fas fa-desktop"></i>
+                                </c:when>
+                                <c:when test="${gnb.menuName == '공지사항관리'}">
+                                    <i class="fas fa-bullhorn"></i>
                                 </c:when>
                             </c:choose>
                             <p>${gnb.menuName}</p>
