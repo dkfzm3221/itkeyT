@@ -1,10 +1,7 @@
 package com.itkey.erpdev.admin.service;
 
 import com.itkey.erpdev.admin.dao.TotalAdminDAO;
-import com.itkey.erpdev.admin.domain.Admin;
-import com.itkey.erpdev.admin.domain.DesignEntity;
-import com.itkey.erpdev.admin.domain.MenuEntity;
-import com.itkey.erpdev.admin.domain.Popup;
+import com.itkey.erpdev.admin.domain.*;
 import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.member.domain.Member;
@@ -354,8 +351,8 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     }
 
     @Override
-    public int upDatedesignMgmt(DesignEntity design){
-        return totalAdminDAO.upDatedesignMgmt(design);
+    public int upDateDesignMgmt(DesignEntity design){
+        return totalAdminDAO.upDateDesignMgmt(design);
     }
 
     @Override
@@ -419,5 +416,25 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     @Override
     public void removePopup(Popup popup) throws Exception {
         totalAdminDAO.removePopup(popup);
+    }
+
+    public List<HistoryDTO> getHistoryList() {
+        return totalAdminDAO.getHistoryList();
+    }
+
+    public int upDateHistoryMgmt(HistoryEntity history, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        TotalAdminDTO totalAdminDTO = (TotalAdminDTO) session.getAttribute("admin");
+
+        String id = totalAdminDTO.getId();          // 아이디
+
+        history.setRegId(id);
+        history.setUpdId(id);
+
+        return totalAdminDAO.upDateHistoryMgmt(history);
+    }
+
+    public int getHistorySeq() {
+        return totalAdminDAO.getHistorySeq();
     }
 }

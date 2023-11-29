@@ -1,10 +1,7 @@
 package com.itkey.erpdev.board.controller;
 
 import com.itkey.erpdev.admin.domain.Popup;
-import com.itkey.erpdev.admin.dto.Banner;
-import com.itkey.erpdev.admin.dto.DesignDTO;
-import com.itkey.erpdev.admin.dto.MenuDTO;
-import com.itkey.erpdev.admin.dto.TotalAdminDTO;
+import com.itkey.erpdev.admin.dto.*;
 import com.itkey.erpdev.admin.service.TotalAdminService;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.domain.SearchBoard;
@@ -349,6 +346,25 @@ public class BoardController {
         mv.addObject("boardType", boardType);
         mv.addObject("selectName", selectName.getMenuName());
         mv.addObject("searchBoardTitle", searchBoard.getSearchBoardTitle());
+
+        return mv;
+    }
+
+
+    /**
+     *
+     *@author 이정후
+     *@date 2023-11-29
+     *@comment 연혁
+     *
+     **/
+    @GetMapping(value = "/history")
+    public ModelAndView historyMgmt() throws Exception{
+        ModelAndView mv = new ModelAndView("/history");
+
+        List<HistoryDTO> historyList = bs.getHistoryList();
+
+        mv.addObject("historyList", historyList);
 
         return mv;
     }

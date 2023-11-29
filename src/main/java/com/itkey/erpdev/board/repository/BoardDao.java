@@ -2,6 +2,7 @@ package com.itkey.erpdev.board.repository;
 
 import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.DesignDTO;
+import com.itkey.erpdev.admin.dto.HistoryDTO;
 import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.domain.SearchBoard;
@@ -48,4 +49,7 @@ public interface BoardDao {
     void deleteBoardFile(Board board);
 
     void deleteBoardFileSeq(Board board);
+
+    // 유저페이지 연혁조회
+    List<HistoryDTO> getHistoryList();
 }

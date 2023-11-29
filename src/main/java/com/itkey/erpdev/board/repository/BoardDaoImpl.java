@@ -2,6 +2,7 @@ package com.itkey.erpdev.board.repository;
 
 import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.DesignDTO;
+import com.itkey.erpdev.admin.dto.HistoryDTO;
 import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.domain.SearchBoard;
@@ -133,5 +134,10 @@ public class BoardDaoImpl implements BoardDao{
     @Override
     public void deleteBoardFileSeq(Board board) {
         sql.update("mapper.board.deleteBoardFileSeq",board);
+    }
+
+    @Override
+    public List<HistoryDTO> getHistoryList(){
+        return sql.selectList("mapper.board.getHistoryList");
     }
 }
