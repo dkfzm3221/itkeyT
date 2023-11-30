@@ -77,8 +77,6 @@ public class BoardController {
         mv.addObject("menuList", menuList);
         mv.addObject("bannerList", bannerList);
         Notice noticeOne = bs.getNoticeOne();
-        session.setAttribute("menuList", menuList);
-        session.setAttribute("bannerList", bannerList);
         session.setAttribute("noticeOne", noticeOne);
 
         // 디자인 (화면 생성할 때마다 필수로 기입)
@@ -410,5 +408,4 @@ public class BoardController {
 
         return mv;
     }
-
 }
