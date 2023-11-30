@@ -20,6 +20,46 @@
         background-color: #1572E8;
         color: white;
     }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 40%; /* 수정된 부분: 너비를 40%로 설정 */
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    textarea {
+        width: 100%;
+        height: 100px;
+        resize: none;
+    }
 </style>
 <div class="wrapper">
     <!-- SideBar Navbar  -->
@@ -81,6 +121,7 @@
                                             <th style="width:10%;">공개/비공개</th>
                                             <th style="width:10%;">조회수</th>
                                             <th style="width:30%;">등록일</th>
+                                            <th style="width:30%;">신고</th>
                                             <c:if test="${memberType == 'A'}">
                                                 <th style="width:30%;">설정</th>
                                             </c:if>
@@ -123,7 +164,7 @@
                                             <c:otherwise>
                                                 <c:if test="${ empty boardDetailList }">
                                                     <tr>
-                                                        <td colspan="6">게시된 글이 없습니다.</td>
+                                                        <td colspan="7">게시된 글이 없습니다.</td>
                                                     </tr>
                                                 </c:if>
                                                 <c:if test="${!empty boardDetailList }">
@@ -142,6 +183,8 @@
                                                             <td>${item.boardSecretYn == 'Y' ? '공개' : '비공개'}</td>
                                                             <td>${item.inqCnt}</td>
                                                             <td>${item.regDt}</td>
+<%--                                                            <td><button onclick="report(${item.boardSeq},${boardType})" id="report" class="btn btn-black w-3" style="float: right;">신고하기</button></td>--%>
+                                                            <td><button id="reportBtn" class="btn btn-black w-3" style="float: right;">신고하기</button></td>
                                                         </tr>
                                                     </c:forEach>
                                                 </c:if>
@@ -178,6 +221,16 @@
             </div>
         </div>
     </div>
+
+    <div id="reportModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">신고내용</h2>
+            <textarea id="reportContent" placeholder="신고 내용을 입력하세요"></textarea>
+            <button id="submitBtn">제출하기</button>
+        </div>
+    </div>
+
 </div>
 <script>
   $(document).ready(function () {
@@ -192,6 +245,25 @@
     if($("#title").val() !== null || $("#title").val() !== ''){
        $("#searchTitle").val($("#title").val());
     }
+
+    $("#reportBtn").click(function () {
+      // 모달 열기
+      $("#reportModal").css("display", "block");
+    });
+
+    $(".close").click(function () {
+      // 모달 닫기
+      $("#reportModal").css("display", "none");
+    });
+
+    $("#submitBtn").click(function () {
+      // 신고 내용 제출 로직 추가
+      let reportContent = $("#reportContent").val();
+      console.log('신고 내용:', reportContent);
+
+      // 모달 닫기 (선택적으로)
+      $("#reportModal").css("display", "none");
+    });
 
   })
 
@@ -208,6 +280,11 @@
 
     form.attr("action", "/boardDetailList");
     form.submit();
+  }
+
+  // 신고학기
+  let report = function(menuBoardType) {
+    console.log("Asd");
   }
 
   // (관리자)게시물 삭제
