@@ -821,7 +821,7 @@
 		     , CONTENT
 		FROM HISTORY
 		WHERE USE_YN = 'Y'
-		ORDER BY CAST(YEAR AS SIGNED), CAST(MONTH AS SIGNED)
+		ORDER BY CAST(YEAR AS SIGNED), CAST(MONTH AS SIGNED), HISTORY_SEQ
 	</select>
 
 	<!--  /**
@@ -868,7 +868,7 @@
 	*@comment 연혁관리 최대 SEQ
 	*
 	**/-->
-	<select id="getHistorySeq" resultType="int">
+	<select id="getHistorySeq" resultType="Integer">
 		/*fn : 연혁관리 최대 SEQ - getHistorySeq */
 		SELECT 	max(HISTORY_SEQ)
 		FROM	HISTORY

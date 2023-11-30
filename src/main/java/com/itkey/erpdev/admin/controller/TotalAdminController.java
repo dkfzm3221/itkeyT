@@ -851,7 +851,7 @@ public class TotalAdminController {
 		}
 
 		List<HistoryDTO> historyList = adminService.getHistoryList();
-		int historySeq = adminService.getHistorySeq();
+		Integer historySeq = adminService.getHistorySeq();
 
 		mv.addObject("historyList", historyList);
 		mv.addObject("historySeq", historySeq);
