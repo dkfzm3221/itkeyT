@@ -228,7 +228,7 @@ public class TotalAdminDAOImpl implements TotalAdminDAO {
 	}
 
 	@Override
-	public int getHistorySeq(){
+	public Integer getHistorySeq(){
 		return sql.selectOne("mapper.totalAdmin.getHistorySeq");
 	}
 }

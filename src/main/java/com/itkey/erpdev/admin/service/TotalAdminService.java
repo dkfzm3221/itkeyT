@@ -97,5 +97,5 @@ public interface TotalAdminService {
 	int upDateHistoryMgmt(HistoryEntity history, HttpServletRequest request);
 
 	// 연혁관리 최대 seq
-	int getHistorySeq();
+	Integer getHistorySeq();
 }
