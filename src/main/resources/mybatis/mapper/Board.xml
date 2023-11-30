@@ -469,6 +469,6 @@
              , CONTENT
         FROM HISTORY
         WHERE USE_YN = 'Y'
-        ORDER BY YEAR, MONTH
+        ORDER BY CAST(YEAR AS SIGNED), CAST(MONTH AS SIGNED)
     </select>
 </mapper>
