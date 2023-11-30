@@ -821,7 +821,7 @@
 		     , CONTENT
 		FROM HISTORY
 		WHERE USE_YN = 'Y'
-		ORDER BY YEAR, MONTH
+		ORDER BY CAST(YEAR AS SIGNED), CAST(MONTH AS SIGNED)
 	</select>
 
 	<!--  /**
@@ -853,9 +853,9 @@
 			)
 		ON DUPLICATE KEY UPDATE
 		HISTORY_SEQ = VALUES(HISTORY_SEQ),
-		YEAR = VALUES(YEAR),
-		MONTH = VALUES(MONTH),
-		CONTENT = VALUES(CONTENT),
+		<if test="(year != null) and (year != '')"> YEAR = VALUES(YEAR), </if>
+		<if test="(month != null) and (month != '')"> MONTH = VALUES(MONTH), </if>
+		<if test="(content != null) and (content != '')"> CONTENT = VALUES(CONTENT), </if>
 		UPD_ID = VALUES(REG_ID),
 		<if test="(useYn != null) and (useYn != '')"> USE_YN = #{useYn}, </if>
 		UPD_DT = NOW()
