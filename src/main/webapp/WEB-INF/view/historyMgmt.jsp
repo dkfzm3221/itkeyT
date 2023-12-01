@@ -33,7 +33,7 @@
                     <div class="box-body">
                         <div class="text-center" style="margin:10px 0px;">
                             <div class="btn btn-group">
-                                <button type="button" class="btn btn-info btn-lg" onclick="addHistroy();"><i class="fa fa-plus"></i> 연혁 추가</button>
+                                <button type="button" class="btn btn-info btn-lg" onclick="addHistory();"><i class="fa fa-plus"></i> 연혁 추가</button>
                             </div>
                         </div>
 
@@ -49,22 +49,23 @@
                                 </tr>
                                 </thead>
                                 <tbody id="history_list_tbody">
-                                <c:forEach items="${historyList}" var="historyList" varStatus="index">
-                                    <tr>
-                                        <input type="hidden" id="year_${historyList.historySeq}" value="${historyList.year}"/>
-                                        <input type="hidden" id="month_${historyList.historySeq}" value="${historyList.month}"/>
-                                        <td style="text-align:center;">${historyList.historySeq}</td>
-                                        <td>${historyList.year}</td>
-                                        <td>${historyList.month}</td>
-                                        <td>
-                                                <input type="text" class="form-control" id="content_${historyList.historySeq}" placeholder="내용 입력" value="${historyList.content}"/>
-                                        </td>
-                                        <td style="text-align:center;width:200px">
-                                            <button class="btn btn-sm btn-info" onclick="updateHistory(${historyList.historySeq});"><i class="fa fa-list"></i> 저장</button>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteHistory(${historyList.historySeq}, 'Y', this);"><i class="fa fa-list"></i> 삭제</button>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
+                                <c:if test="${not empty historyList}">
+                                    <input type="hidden" id="hisSeq" value="${historySeq}"/>
+                                    <c:forEach items="${historyList}" var="historyList" varStatus="index">
+                                        <tr>
+                                            <td style="text-align:center;">${historyList.historySeq}</td>
+                                            <td><input type="text" class="form-control" id="year_${historyList.historySeq}" value="${historyList.year}"/></td>
+                                            <td><input type="text" class="form-control" id="month_${historyList.historySeq}" value="${historyList.month}"/></td>
+                                            <td>
+                                                    <input type="text" class="form-control" id="content_${historyList.historySeq}" placeholder="내용 입력" value="${historyList.content}"/>
+                                            </td>
+                                            <td style="text-align:center;width:200px">
+                                                <button class="btn btn-sm btn-info" onclick="updateHistory(${historyList.historySeq});"><i class="fa fa-list"></i> 저장</button>
+                                                <button class="btn btn-danger btn-sm" onclick="deleteHistory(${historyList.historySeq}, 'Y', this);"><i class="fa fa-list"></i> 삭제</button>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </c:if>
                                 </tbody>
                             </table>
                         </div>
@@ -76,7 +77,7 @@
 </div>
 
 <script>
-    var hisSeq = ${historySeq};
+    let hisSeq = ($("#hisSeq").val() == undefined) ? 0 : $("#hisSeq").val() ;
 
     <%-- /**
          *
@@ -86,17 +87,17 @@
          *@comment 연혁관리 추가
          *
          **/--%>
-    function addHistroy() {
+    function addHistory() {
         hisSeq++;
 
-        var tbody = document.getElementById("history_list_tbody"); // 테이블의 tbody 엘리먼트 가져오기
+        let tbody = document.getElementById("history_list_tbody");
 
-        var newRow = document.createElement("tr");
+        let newRow = document.createElement("tr");
 
-        var innerHTML = "";
+        let innerHTML = "";
         innerHTML += '<td style="text-align:center;width:60px">' + hisSeq + '</td>';
-        innerHTML += '<td><input type="text" class="custom-form-control" id="year_' + hisSeq + '" placeholder="연도 입력" maxlength="4"></td>';
-        innerHTML += '<td><input type="text" class="custom-form-control" id="month_' + hisSeq + '" placeholder="월 입력" maxlength="2"></td>';
+        innerHTML += '<td><input type="text" class="form-control" id="year_' + hisSeq + '" placeholder="YYYY" maxlength="4"></td>';
+        innerHTML += '<td><input type="text" class="form-control" id="month_' + hisSeq + '" placeholder="MM" maxlength="2"></td>';
         innerHTML += '<td><input type="text" class="form-control" id="content_' + hisSeq + '" placeholder="내용 입력"></td>';
         innerHTML += '<td style="text-align:center;width:200px">';
         innerHTML +=    '<button class="btn btn-sm btn-info" onclick="updateHistory(hisSeq);"><i class="fa fa-list"></i> 저장</button>';
@@ -117,17 +118,39 @@
        *
        **/--%>
     function updateHistory(hisSeq) {
-        var content = $("#content_" + hisSeq).val();
-        var year = $("#year_" + hisSeq).val();
-        var month = $("#month_" + hisSeq).val();
+        let content = $("#content_" + hisSeq).val();
+        let year = $("#year_" + hisSeq).val();
+        let month = $("#month_" + hisSeq).val();
 
+        let currentYear = new Date().getFullYear();
+
+        if (!/^\d{4}$/.test(year) || year < 1900 || year > currentYear) {
+            alert("올바른 연도를 입력하세요.");
+            $("#year_" + hisSeq).focus();
+            return false;
+        }
+
+        let monthNumber = parseInt(month, 10);
+        if (isNaN(monthNumber) || monthNumber < 1 || monthNumber > 12) {
+            alert("월은 1에서 12까지의 값이어야 합니다.");
+            $("#month_" + hisSeq).focus();
+            return false;
+        }
+
+        if (!content.trim()) {
+            alert("내용을 입력하세요.");
+            $("#content_" + hisSeq).focus();
+            return false;
+        }
+
+        // 유효성 검사를 통과하면 AJAX 호출
         $.ajax({
             type: "POST",
             url: "/totalAdmin/upDateHistoryMgmt",
             data: {
                 historySeq: hisSeq,
                 year: year,
-                month: month,
+                month: monthNumber,
                 content: content
             },
             success: function(response) {
@@ -153,21 +176,13 @@
        *
        **/--%>
     function deleteHistory(hisSeq, save, obj) {
-
         if(save == 'Y'){
-            var content = $("#content_" + hisSeq).val();
-            var year = $("#year_" + hisSeq).val();
-            var month = $("#month_" + hisSeq).val();
-
             $.ajax({
                 type: "POST",
                 url: "/totalAdmin/upDateHistoryMgmt",
                 data: {
                     historySeq: hisSeq,
-                    useYn: "N",
-                    year: year,
-                    month: month,
-                    content: content
+                    useYn: "N"
                 },
                 success: function(response) {
                     if (response === "S") {
@@ -182,12 +197,11 @@
                 }
             });
         } else {
-            var delRow = $(obj).closest("tr");
+            let delRow = $(obj).closest("tr");
             delRow.remove();
         }
     }
 </script>
-
 
 <!-- Footer  -->
 <jsp:include page="common/contentFooter.jsp"/>

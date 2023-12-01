@@ -52,9 +52,14 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 
 
 }
+
 
 tasks.named('test') {
     useJUnitPlatform()

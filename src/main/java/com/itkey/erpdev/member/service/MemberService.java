@@ -22,11 +22,15 @@ public interface MemberService {
 
     Member memberInfo(int memberIdx);
 
-    KakaoResponse getKakaoAccessToken(String code);
+    KakaoResponse getKakaoAccessToken(String code, String redirect_uri);
 
-    KakaoAcountInfo getkakaoAcountInfo(KakaoResponse kDTO);
+    KakaoAccountInfo getkakaoAcountInfo(KakaoResponse kDTO);
 
-    MemberInfoResponse getKakaoId(Long kakaoId);
+    MemberInfoResponse getSnsId(SNSInfo sDTO);
 
-    GoogleResponse getGoogleAccessToken(String code);
+    GoogleResponse getGoogleAccessToken(String code, String redirect_uri);
+
+    GoogleAccountInfo getGoogleAcountInfo(GoogleResponse gDTO);
+
+    int snsJoin(MemberInsert mDTO);
 }

@@ -100,5 +100,5 @@ public interface TotalAdminDAO {
 	int upDateHistoryMgmt(HistoryEntity history);
 
 	// 연혁관리 최대 seq
-	int getHistorySeq();
+	Integer getHistorySeq();
 }

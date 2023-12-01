@@ -42,7 +42,7 @@
 		WHERE	A.MENU_LEVEL = 1
 		  AND 	A.MENU_SITE = 'A'
 		  AND		A.MENU_USE_YN = 'Y'
-		ORDER BY A.MENU_ORDER
+		ORDER BY CAST(A.MENU_ORDER AS SIGNED)
 	</select>
 
 	<select id="selectBoardTypeList" resultType="Board">
@@ -346,8 +346,6 @@
 
 	<!--/**
 	*
-	*
-	*
 	*@author 유은비
 	*@date 2023-11-23
 	*@comment 관리자 리스트
@@ -376,8 +374,6 @@
 
 	<!--/**
 	*
-	*
-	*
 	*@author 유은비
 	*@date 2023-11-23
 	*@comment 총 회원수
@@ -394,8 +390,6 @@
 
 	<!--/**
 	*
-	*
-	*
 	*@author 유은비
 	*@date 2023-11-23
 	*@comment 관리자 추가
@@ -406,8 +400,6 @@
 		VALUES (#{id}, #{password}, #{name}, #{hp}, #{email}, #{memberType}, #{authCode}, #{memberStatus}, 'Y', #{regId}, #{regNm}, now());
 	</insert>
 	<!--/**
-	*
-	*
 	*
 	*@author 유은비
 	*@date 2023-11-23
@@ -424,8 +416,6 @@
 	</select>
 	<!--/**
 	*
-	*
-	*
 	*@author 유은비
 	*@date 2023-11-23
 	*@comment 로그인 유저 정보 가져오기
@@ -440,8 +430,6 @@
 	</select>
 
 	<!--/**
-	*
-	*
 	*
 	*@author 유은비
 	*@date 2023-11-23
@@ -463,8 +451,6 @@
 	</update>
 
 	<!--/**
-	*
-	*
 	*
 	*@author 유은비
 	*@date 2023-11-23
@@ -490,8 +476,6 @@
 	</update>
 
 	<!--/**
-	*
-	*
 	*
 	*@author 유은비
 	*@date 2023-11-23
@@ -523,8 +507,6 @@
 
 	<!--/**
 	*
-	*
-	*
 	*@author 유은비
 	*@date 2023-11-23
 	*@comment 탈퇴 관리자 카운트
@@ -540,8 +522,6 @@
 	</select>
 
 	<!--/**
-	*
-	*
 	*
 	*@author 유은비
 	*@date 2023-11-23
@@ -563,8 +543,6 @@
 
 	<!--/**
 	*
-	*
-	*
 	*@author 유은비
 	*@date 2023-11-23
 	*@comment 영구 탈퇴
@@ -579,8 +557,6 @@
 	</delete>
 
 	<!--/**
-	*
-	*
 	*
 	*@author 유은비
 	*@date 2023-11-23
@@ -602,8 +578,6 @@
 
 	<!--/**
 	*
-	*
-	*
 	*@author 유은비
 	*@date 2023-11-23
 	*@comment 회원 차단 풀기
@@ -622,8 +596,6 @@
 
 	<!--/**
 	*
-	*
-	*
 	*@author 유은비
 	*@date 2023-11-23
 	*@comment 차단 회원 수
@@ -639,8 +611,6 @@
 	</select>
 
 	<!--/**
-	*
-	*
 	*
 	*@author 유은비
 	*@date 2023-11-23
@@ -821,7 +791,7 @@
 		     , CONTENT
 		FROM HISTORY
 		WHERE USE_YN = 'Y'
-		ORDER BY YEAR, MONTH
+		ORDER BY CAST(YEAR AS SIGNED), CAST(MONTH AS SIGNED), HISTORY_SEQ
 	</select>
 
 	<!--  /**
@@ -853,9 +823,9 @@
 			)
 		ON DUPLICATE KEY UPDATE
 		HISTORY_SEQ = VALUES(HISTORY_SEQ),
-		YEAR = VALUES(YEAR),
-		MONTH = VALUES(MONTH),
-		CONTENT = VALUES(CONTENT),
+		<if test="(year != null) and (year != '')"> YEAR = VALUES(YEAR), </if>
+		<if test="(month != null) and (month != '')"> MONTH = VALUES(MONTH), </if>
+		<if test="(content != null) and (content != '')"> CONTENT = VALUES(CONTENT), </if>
 		UPD_ID = VALUES(REG_ID),
 		<if test="(useYn != null) and (useYn != '')"> USE_YN = #{useYn}, </if>
 		UPD_DT = NOW()
@@ -868,7 +838,7 @@
 	*@comment 연혁관리 최대 SEQ
 	*
 	**/-->
-	<select id="getHistorySeq" resultType="int">
+	<select id="getHistorySeq" resultType="Integer">
 		/*fn : 연혁관리 최대 SEQ - getHistorySeq */
 		SELECT 	max(HISTORY_SEQ)
 		FROM	HISTORY

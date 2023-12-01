@@ -3,6 +3,7 @@ package com.itkey.erpdev.member.repository;
 import com.itkey.erpdev.member.domain.Member;
 import com.itkey.erpdev.member.dto.MemberInfoResponse;
 import com.itkey.erpdev.member.dto.MemberInsert;
+import com.itkey.erpdev.member.dto.SNSInfo;
 
 public interface MemberDao {
     //회원가입
@@ -25,6 +26,8 @@ public interface MemberDao {
     int updateMember(Member m);
     //사용자 정보 불러오기
     Member memberInfo(int memberIdx);
-    //카카오 로그인(+가능 여부)
-    MemberInfoResponse getKakaoId(Long kakaoId);
+    //SNS 로그인(+가능 여부)
+    MemberInfoResponse getSnsId(SNSInfo sDTO);
+    //SNS로 가입
+    int snsJoin(MemberInsert mDTO);
 }

@@ -3,6 +3,7 @@ package com.itkey.erpdev.member.repository;
 import com.itkey.erpdev.member.domain.Member;
 import com.itkey.erpdev.member.dto.MemberInfoResponse;
 import com.itkey.erpdev.member.dto.MemberInsert;
+import com.itkey.erpdev.member.dto.SNSInfo;
 import lombok.AllArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -62,9 +63,16 @@ public class MemberDaoImpl implements MemberDao{
     public Member memberInfo(int memberIdx) {
         return sql.selectOne("mapper.member.memberInfo", memberIdx);
     }
-
+    //SNS로 로그인
     @Override
-    public MemberInfoResponse getKakaoId(Long kakaoId) {
-        return sql.selectOne("mapper.member.getKakaoId", kakaoId);
+    public MemberInfoResponse getSnsId(SNSInfo sDTO) {
+        return sql.selectOne("mapper.member.getSnsId", sDTO);
     }
+    //SNS로 가입
+    @Override
+    public int snsJoin(MemberInsert mDTO) {
+        return sql.insert("mapper.member.snsJoin", mDTO);
+    }
+
+
 }

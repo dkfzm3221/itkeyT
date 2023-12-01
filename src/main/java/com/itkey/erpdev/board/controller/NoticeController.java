@@ -1,6 +1,8 @@
 package com.itkey.erpdev.board.controller;
 
+import com.itkey.erpdev.admin.dto.Banner;
 import com.itkey.erpdev.admin.dto.CommonDTO;
+import com.itkey.erpdev.admin.dto.DesignDTO;
 import com.itkey.erpdev.admin.dto.TotalAdminDTO;
 import com.itkey.erpdev.admin.service.CommonService;
 import com.itkey.erpdev.admin.service.TotalAdminService;
@@ -29,6 +31,7 @@ import java.util.List;
 public class NoticeController {
     NoticeService ns;
     CommonService commonService;
+    BoardService bs;
 
     @GetMapping(value="noticeList")
     public ModelAndView noticeList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
@@ -58,6 +61,14 @@ public class NoticeController {
 
         mv.addObject("noticeList", noticeList);
 
+        List<Banner> bannerList = bs.bannerList();
+        List<Board> menuList = bs.getMenuList();
+        mv.addObject("menuList", menuList);
+        mv.addObject("bannerList", bannerList);
+
+        List<DesignDTO> designList = bs.getDegignList();
+        mv.addObject("designList", designList);
+
         return mv;
 
     }
@@ -76,6 +87,14 @@ public class NoticeController {
         List<CommonDTO> gnbMenuList = commonService.getGnbMenuListAjax();
         // 세션에 메뉴 저장
         session.setAttribute("gnbList", gnbMenuList);
+
+        List<Banner> bannerList = bs.bannerList();
+        List<Board> menuList = bs.getMenuList();
+        mv.addObject("menuList", menuList);
+        mv.addObject("bannerList", bannerList);
+
+        List<DesignDTO> designList = bs.getDegignList();
+        mv.addObject("designList", designList);
 
         return mv;
     }
@@ -121,6 +140,14 @@ public class NoticeController {
         ns.updateInqCnt(notice);
         Notice noticeDetail = ns.noticeDetail(notice);
         mv.addObject("noticeDetail", noticeDetail);
+
+        List<Banner> bannerList = bs.bannerList();
+        List<Board> menuList = bs.getMenuList();
+        mv.addObject("menuList", menuList);
+        mv.addObject("bannerList", bannerList);
+
+        List<DesignDTO> designList = bs.getDegignList();
+        mv.addObject("designList", designList);
 
         return mv;
     }

@@ -434,7 +434,7 @@ public class TotalAdminServiceImpl implements TotalAdminService {
         return totalAdminDAO.upDateHistoryMgmt(history);
     }
 
-    public int getHistorySeq() {
+    public Integer getHistorySeq() {
         return totalAdminDAO.getHistorySeq();
     }
 }

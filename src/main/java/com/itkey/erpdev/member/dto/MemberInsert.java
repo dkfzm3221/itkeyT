@@ -21,4 +21,7 @@ public class MemberInsert {
     String useYN;
     String salt;
 
+    String snsId;
+    String snsCode;
+
 }
