@@ -7,6 +7,7 @@ import com.itkey.erpdev.admin.dto.MenuDTO;
 import com.itkey.erpdev.board.domain.Board;
 import com.itkey.erpdev.board.domain.Notice;
 import com.itkey.erpdev.board.domain.SearchBoard;
+import javax.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -152,5 +153,10 @@ public class BoardDaoImpl implements BoardDao{
     @Override
     public List<HistoryDTO> getHistoryList(){
         return sql.selectList("mapper.board.getHistoryList");
+    }
+
+    @Override
+    public void reportBoard(Board board, HttpServletRequest request) {
+        sql.insert("mapper.board.reportBoard", board);
     }
 }

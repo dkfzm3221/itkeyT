@@ -411,4 +411,26 @@ public class BoardController {
         return mv;
     }
 
+    /**
+     *
+     *@author 신금환
+     *@date 2023-11-30
+     *@comment 게시물 신고
+     *
+     **/
+    @PostMapping(value = "/reportBoard")
+    public ModelAndView reportBoard(Board board,HttpServletRequest request,HttpSession session) throws Exception{
+        ModelAndView mv = new ModelAndView("/index");
+
+        // 일반user
+        MemberInfoResponse member = (MemberInfoResponse) session.getAttribute("member");
+        String memberType = member.getMemberType();
+        String userId = member.getId();
+
+        board.setRegName(userId);
+
+        bs.reportBoard(board,request);
+        return mv;
+    }
+
 }

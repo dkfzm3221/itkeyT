@@ -471,4 +471,21 @@
         WHERE USE_YN = 'Y'
         ORDER BY YEAR, MONTH
     </select>
+
+    <insert id="reportBoard" parameterType="Board">
+        INSERT INTO report
+        (BOARD_SEQ
+        ,REPORT_CONTENTS
+        ,REPORT_STATE
+        , REG_NAME
+        , REPORT_REG_DATE
+        )
+        VALUES
+            ( #{boardSeq}
+            , #{reportContents}
+            ,'N'
+            , #{regName}
+            , NOW()
+            )
+    </insert>
 </mapper>

@@ -121,7 +121,9 @@
                                             <th style="width:10%;">공개/비공개</th>
                                             <th style="width:10%;">조회수</th>
                                             <th style="width:30%;">등록일</th>
-                                            <th style="width:30%;">신고</th>
+                                            <c:if test="${!empty memberType}">
+                                                <th style="width:30%;">신고</th>
+                                            </c:if>
                                             <c:if test="${memberType == 'A'}">
                                                 <th style="width:30%;">설정</th>
                                             </c:if>
@@ -183,8 +185,10 @@
                                                             <td>${item.boardSecretYn == 'Y' ? '공개' : '비공개'}</td>
                                                             <td>${item.inqCnt}</td>
                                                             <td>${item.regDt}</td>
-<%--                                                            <td><button onclick="report(${item.boardSeq},${boardType})" id="report" class="btn btn-black w-3" style="float: right;">신고하기</button></td>--%>
-                                                            <td><button id="reportBtn" class="btn btn-black w-3" style="float: right;">신고하기</button></td>
+                                                            <c:if test="${!empty memberType}">
+                                                                <td><button onclick="report(${item.boardSeq}, ${boardType})" class="btn btn-black w-3" style="float: right;">신고하기</button></td>
+                                                            </c:if>
+
                                                         </tr>
                                                     </c:forEach>
                                                 </c:if>
@@ -233,6 +237,8 @@
 
 </div>
 <script>
+
+  const reportModal = {};
   $(document).ready(function () {
     // 엔터키 막음
     $("#searchTitle").keypress(function(event) {
@@ -261,11 +267,45 @@
       let reportContent = $("#reportContent").val();
       console.log('신고 내용:', reportContent);
 
-      // 모달 닫기 (선택적으로)
-      $("#reportModal").css("display", "none");
+      let formData = new FormData();
+      // 여기에서 boardSeq 사용
+      console.log('게시물 번호:', reportModal.boardSeq);
+
+      let isConfirmed = confirm("해당 게시물을 신고하시겠습니까? \n 신고완료 이후에 관리자 검토후 해당게시물은 삭제됩니다.");
+
+      formData.append("reportContents", reportContent);
+      formData.append("boardSeq", reportModal.boardSeq);
+
+      if (isConfirmed) {
+        $.ajax({
+          type:"POST"
+          ,url: "/reportBoard"
+          ,data: formData
+          , contentType: false
+          , processData: false
+          ,success: function () {
+            alert("신고 완료하였습니다.");
+            // 모달 닫기 (선택적으로)
+            $("#reportModal").css("display", "none");
+          }
+        });
+      } else {
+        alert("삭제가 취소되었습니다.");
+      }
+
     });
 
   })
+
+  // report 함수에 클로저 사용하여 boardSeq를 전달
+  function report(boardSeq, boardType) {
+    // 모달 열기
+    $("#reportModal").css("display", "block");
+
+    // 클로저를 사용하여 boardSeq 저장
+    reportModal.boardSeq = boardSeq;
+  }
+
 
   // 글쓰기 이동
   function moveToWriteBoard(boardType) {
@@ -280,11 +320,6 @@
 
     form.attr("action", "/boardDetailList");
     form.submit();
-  }
-
-  // 신고학기
-  let report = function(menuBoardType) {
-    console.log("Asd");
   }
 
   // (관리자)게시물 삭제
