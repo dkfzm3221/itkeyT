@@ -42,7 +42,7 @@
 		WHERE	A.MENU_LEVEL = 1
 		  AND 	A.MENU_SITE = 'A'
 		  AND		A.MENU_USE_YN = 'Y'
-		ORDER BY A.MENU_ORDER
+		ORDER BY CAST(A.MENU_ORDER AS SIGNED)
 	</select>
 
 	<select id="selectBoardTypeList" resultType="Board">

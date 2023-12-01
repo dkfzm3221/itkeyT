@@ -37,6 +37,14 @@
     </div>
 </div>
 <script>
+    $(document).ready(function() {
+        $(document).on("keydown", "#inputEmail, #inputPassword", function (event) {
+            if (event.keyCode == 13) {
+                goLogin();
+            }
+        });
+    });
+
     function goLogin(){
         var adminId = $("#inputEmail").val();
         var adminPw = $("#inputPassword").val();
