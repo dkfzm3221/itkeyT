@@ -58,4 +58,6 @@ public interface BoardService {
     List<Notice> noticeList(String boardType) throws Exception;
 
     Notice getNoticeOne() throws Exception;
+
+    void reportBoard(Board board, HttpServletRequest request);
 }

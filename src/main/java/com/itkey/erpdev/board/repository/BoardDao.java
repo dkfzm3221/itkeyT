@@ -9,6 +9,7 @@ import com.itkey.erpdev.board.domain.Notice;
 import com.itkey.erpdev.board.domain.SearchBoard;
 
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 public interface BoardDao {
     List<Board> boardList(int pageNum, int countPerPage, String boardType) throws Exception;
@@ -57,4 +58,6 @@ public interface BoardDao {
 
     // 유저페이지 연혁조회
     List<HistoryDTO> getHistoryList();
+
+    void reportBoard(Board board, HttpServletRequest request);
 }

@@ -1,0 +1,107 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.report">
+  <!--  /**
+    *@author 김재섭
+    *@date 2023-11-23
+    *@comment 게시판 리스트
+    **/-->
+    <select id="reportList" parameterType="map" resultType="Report">
+        SELECT
+        re.REPORT_IDX
+        ,re.REPORT_CONTENTS
+        ,re.REPORT_REG_DATE
+        ,re.REG_NAME
+        ,re.REPORT_STATE
+        , BO.BOARD_SEQ
+        , BO.BOARD_TYPE
+        , BO.BOARD_TITLE
+        , BO.BOARD_CONTENT
+        FROM REPORT re
+        INNER JOIN BOARD BO on BO.BOARD_SEQ = re.BOARD_SEQ
+        <if test="searchRegName !=null and searchRegName !=''">
+            WHERE re.REG_NAME LIKE CONCAT('%',#{searchRegName},'%')
+        </if>
+        ORDER BY re.REPORT_IDX DESC
+        LIMIT #{startIdx}, #{countPerPage}
+    </select>
+
+
+    <!-- /**
+   *
+   *
+   *
+   *@author 김재섭
+   *@date 2023-11-23
+   *@comment 게시판 페이징처리를 위한 전체 카운트
+   *
+   **/-->
+    <select id="getTotalReportCount" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM REPORT re
+        INNER JOIN BOARD BO on BO.BOARD_SEQ = re.BOARD_SEQ
+        <if test="searchReportName !=null and searchReportName !=''">
+            WHERE re.REG_NAME LIKE CONCAT('%',#{searchReportName},'%')
+        </if>
+    </select>
+
+    <!--  /**
+   *@author 김재섭
+   *@date 2023-11-23
+   *@comment 게시판 리스트
+   **/-->
+    <select id="selectReportRead" resultType="Report">
+        SELECT
+        re.REPORT_IDX
+        ,re.REPORT_CONTENTS
+        ,re.REPORT_REG_DATE
+        ,re.REG_NAME
+        ,re.REPORT_STATE
+        , BO.BOARD_SEQ
+        , BO.BOARD_TYPE
+        , BO.BOARD_TITLE
+        , BO.BOARD_CONTENT
+        FROM REPORT re
+        INNER JOIN BOARD BO on BO.BOARD_SEQ = re.BOARD_SEQ
+        WHERE re.REPORT_IDX = #{reportIdx}
+    </select>
+
+    <!-- /**
+        *
+        *@author 신금환
+        *@date 2023-12-01
+        *@comment 게시물 삭제
+        *
+        **/-->
+    <update id="updateReportRead" parameterType="Report">
+        UPDATE BOARD
+        SET
+            BOARD_DEL_YN = 'Y'
+        WHERE BOARD_SEQ = #{boardSeq}
+    </update>
+    <update id="updateReportState" parameterType="Report">
+        UPDATE report
+        SET
+            REPORT_STATE = 'Y'
+        WHERE REPORT_IDX = #{reportIdx}
+    </update>
+
+    <!-- /**
+            *
+            *@author 신금환
+            *@date 2023-12-01
+            *@comment 신고내역 삭제
+            *
+            **/-->
+    <delete id="deleteReportHistory" parameterType="Report">
+        DELETE
+        FROM
+            report
+        WHERE
+            REPORT_IDX = #{reportIdx}
+    </delete>
+
+
+</mapper>

@@ -52,4 +52,11 @@ public class Board implements Serializable {
     String oriNm;
     String saveNm;
     String filePath;
+
+    String reportContents;
+    String reportRegDate;
+    String regName;
+    int reportIdx;
+
+
 }

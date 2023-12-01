@@ -264,6 +264,11 @@ public class BoardServiceImpl implements BoardService {
         return dao.getNoticeOne();
     }
 
+    @Override
+    public void reportBoard(Board board, HttpServletRequest request) {
+        dao.reportBoard(board,request);
+    }
+
 
     @Override
     public List<HistoryDTO> getHistoryList() {
