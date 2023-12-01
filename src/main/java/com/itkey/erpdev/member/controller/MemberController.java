@@ -30,12 +30,9 @@ public class MemberController {
     MemberService ms;
     smtpService smtpService;
     TotalAdminService adminService;
-
     properties pro;
 
     /**
-     *
-     * MemberController
      *
      *@author 유은비
      *@date 2023-11-23
@@ -49,8 +46,6 @@ public class MemberController {
 
     /**
      *
-     * MemberController
-     *
      *@author 유은비
      *@date 2023-11-23
      *@comment 사용자 회원 가입
@@ -62,8 +57,6 @@ public class MemberController {
         return "redirect:/mem/joinForm";
     }
     /**
-     *
-     * MemberController
      *
      *@author 유은비
      *@date 2023-11-23
@@ -97,8 +90,6 @@ public class MemberController {
     }
     /**
      *
-     * MemberController
-     *
      *@author 유은비
      *@date 2023-11-23
      *@comment 사용자 로그아웃
@@ -111,8 +102,6 @@ public class MemberController {
     }
 
     /**
-     *
-     * MemberController
      *
      *@author 유은비
      *@date 2023-11-23
@@ -141,8 +130,6 @@ public class MemberController {
 
     /**
      *
-     * MemberController
-     *
      *@author 유은비
      *@date 2023-11-23
      *@comment 비밀번호 찾기
@@ -169,8 +156,6 @@ public class MemberController {
     }
 
     /**
-     *
-     * MemberController
      *
      *@author 유은비
      *@date 2023-11-23
@@ -225,8 +210,6 @@ public class MemberController {
 
     /**
      *
-     * MemberController
-     *
      *@author 유은비
      *@date 2023-11-23
      *@comment 아이디 중복 체크
@@ -239,8 +222,6 @@ public class MemberController {
     }
     
     /**
-     *
-     * MemberController
      *
      *@author 유은비
      *@date 2023-11-23
@@ -255,8 +236,6 @@ public class MemberController {
 
     /**
      *
-     * MemberController
-     *
      *@author 유은비
      *@date 2023-11-23
      *@comment 사용자 정보 수정
@@ -267,6 +246,7 @@ public class MemberController {
         int result = ms.updateMember(m);
         return "redirect:/";
     }
+
     /**
      *
      *@author 유은비
@@ -283,6 +263,7 @@ public class MemberController {
         String kakaoURL = url+"client_id="+client_id+"&redirect_uri="+redirect_uri+"&response_type=code";
         return "redirect:" + kakaoURL;
     }
+
     /**
      *
      *@author 유은비
@@ -316,6 +297,7 @@ public class MemberController {
         mv.setViewName("redirect:/");
         return mv;
     }
+
     /**
      *
      *@author 유은비
@@ -332,6 +314,7 @@ public class MemberController {
         String kakaoURL = url+"client_id="+client_id+"&redirect_uri="+redirect_uri+"&response_type=code";
         return "redirect:" + kakaoURL;
     }
+
     /**
      *
      *@author 유은비
@@ -391,6 +374,7 @@ public class MemberController {
                 + "&redirect_uri=" + redirect_uri + "&response_type=code&scope=email%20profile%20openid&access_type=offline";
         return "redirect:" + googleURL;
     }
+
     /**
      *
      *@author 유은비
@@ -424,6 +408,7 @@ public class MemberController {
         mv.setViewName("redirect:/");
         return mv;
     }
+
     /**
      *
      *@author 유은비
@@ -441,6 +426,7 @@ public class MemberController {
                 + "&redirect_uri=" + redirect_uri + "&response_type=code&scope=email%20profile%20openid&access_type=offline";
         return "redirect:" + googleURL;
     }
+
     /**
      *
      *@author 유은비
