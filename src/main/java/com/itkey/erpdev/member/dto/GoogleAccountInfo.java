@@ -1,5 +1,8 @@
 package com.itkey.erpdev.member.dto;
 
+import lombok.Data;
+
+@Data
 public class GoogleAccountInfo {
     private String iss; //토큰의 발급기관 또는 서명자
     private String azp; //선택사항. 토큰이 발급된 대상
@@ -18,4 +21,5 @@ public class GoogleAccountInfo {
     private String alg;
     private String kid;
     private String typ;
+
 }
