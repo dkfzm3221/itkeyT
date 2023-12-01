@@ -287,6 +287,11 @@
             $("#findMemPh").val("");
         });
 
+        $(document).on("keydown", "#cacId, #cacPw", function (event) {
+            if (event.keyCode == 13) {
+                $('#loginClick').click();
+            }
+        });
     });
 
     /*아이디찾기*/
