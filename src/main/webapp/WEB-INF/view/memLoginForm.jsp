@@ -58,6 +58,10 @@
         float: right ;
         font-size: 10px;
     }
+    .logo_img{
+        width: 130px;
+        height: 40px;
+    }
 </style>
 <c:if test="${ not empty errorMsg }">
     <script>
@@ -99,8 +103,8 @@
                 </div>
 
                 <div class="form-action">
-                    <a href="#" class="p-0 btn btn-link btn-black" id="kakaoLogin">카카오로그인</a>
-                    <a href="#" class="p-0 btn btn-link btn-black ml-5" id="googleLogin">구글로그인</a>
+                    <a href="#" class="p-0 btn btn-link btn-black" id="kakaoLogin"><img src="/resources/images/kakao_login.png" class="logo_img"></a>
+                    <a href="#" class="p-0 btn btn-link btn-black ml-5" id="googleLogin"><img src="/resources/images/web_light_sq_SI@1x.png" class="logo_img"></a>
                 </div>
 
                 <div class="form-action">

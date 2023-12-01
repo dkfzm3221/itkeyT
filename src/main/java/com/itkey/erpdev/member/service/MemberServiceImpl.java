@@ -199,7 +199,7 @@ public class MemberServiceImpl implements MemberService{
 
         return gaDTO;
     }
-
+    //sns로 회원가입
     @Override
     public int snsJoin(MemberInsert mDTO) {
         return dao.snsJoin(mDTO);
