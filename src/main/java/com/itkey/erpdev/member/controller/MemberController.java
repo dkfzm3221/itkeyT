@@ -1,8 +1,5 @@
 package com.itkey.erpdev.member.controller;
 
-import com.itextpdf.forms.xfdf.Mode;
-import com.itkey.erpdev.admin.domain.Popup;
-import com.itkey.erpdev.admin.dto.CommonDTO;
 import com.itkey.erpdev.admin.service.TotalAdminService;
 import com.itkey.erpdev.member.domain.Member;
 import com.itkey.erpdev.member.dto.*;
@@ -10,14 +7,12 @@ import com.itkey.erpdev.member.service.MemberService;
 import com.itkey.erpdev.member.service.smtpService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jsqlparser.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +30,8 @@ public class MemberController {
     MemberService ms;
     smtpService smtpService;
     TotalAdminService adminService;
+
+    properties pro;
 
     /**
      *
@@ -280,7 +277,7 @@ public class MemberController {
     @RequestMapping("/kakaoLoginForm")
     public String kakaoLoginForm(){
         String url = "https://kauth.kakao.com/oauth/authorize?";
-        String client_id = "b5b49c204b8252329bb89fa1fd9cc45e";
+        String client_id = pro.getKakaoClient_id();
         String redirect_uri = "http://localhost:8888/mem/kakaoLogin";
 
         String kakaoURL = url+"client_id="+client_id+"&redirect_uri="+redirect_uri+"&response_type=code";
@@ -290,32 +287,93 @@ public class MemberController {
      *
      *@author 유은비
      *@date 2023-11-29
-     *@comment 카카오계정으로 로그인
+     *@comment 카카오 계정으로 로그인
      *
      **/
     @RequestMapping("/kakaoLogin")
     public ModelAndView kakaoLoginReady(String code, HttpSession session){
         ModelAndView mv = new ModelAndView();
         logger.info("콜백 후 code : {}", code);
+        String redirect_uri = "http://localhost:8888/mem/kakaoLogin";
         //카카오에서 토큰 가져오기
-        KakaoResponse kDTO = ms.getKakaoAccessToken(code);
+        KakaoResponse kDTO = ms.getKakaoAccessToken(code, redirect_uri);
         //토큰으로 카카오측에 있는 정보 불러오기
-        KakaoAcountInfo kaDTO = ms.getkakaoAcountInfo(kDTO);
+        KakaoAccountInfo kaDTO = ms.getkakaoAcountInfo(kDTO);
         //가입 여부 확인
-        Long kakaoId = kaDTO.getId();
-        MemberInfoResponse login = ms.getKakaoId(kakaoId);
+        SNSInfo sDTO = new SNSInfo();
+        sDTO.setSnsId(String.valueOf(kaDTO.getId()));
+        sDTO.setSnsCode("K");
+        MemberInfoResponse login = ms.getSnsId(sDTO);
         if(login == null){
             //정보 없음 --> 회원가입
-
-            return mv;
-        }else{
-            //정보 있음
-            session.setAttribute("member", login);
-            mv.addObject("login", login);
-            mv.setViewName("redirect:/");
+            mv.addObject("Kcode", code);
+            mv.setViewName("memLoginForm");
             return mv;
         }
+        //정보 있음
+        session.setAttribute("member", login);
+        mv.addObject("login", login);
+        mv.setViewName("redirect:/");
+        return mv;
     }
+    /**
+     *
+     *@author 유은비
+     *@date 2023-11-30
+     *@comment 카카오 계정 가입 폼 띄우기
+     *
+     **/
+    @RequestMapping("/kakaoJoinForm")
+    public String kakaoJoinForm(){
+        String url = "https://kauth.kakao.com/oauth/authorize?";
+        String client_id = pro.getKakaoClient_id();
+        String redirect_uri = "http://localhost:8888/mem/kakaoJoin";
+
+        String kakaoURL = url+"client_id="+client_id+"&redirect_uri="+redirect_uri+"&response_type=code";
+        return "redirect:" + kakaoURL;
+    }
+    /**
+     *
+     *@author 유은비
+     *@date 2023-11-30
+     *@comment 카카오 계정으로 가입
+     *
+     **/
+    @RequestMapping("/kakaoJoin")
+    public ModelAndView kakaoJoin(String code, ModelAndView mv){
+        String redirect_uri = "http://localhost:8888/mem/kakaoJoin";
+        //카카오에서 토큰 가져오기
+        KakaoResponse kDTO = ms.getKakaoAccessToken(code, redirect_uri);
+        //토큰으로 카카오측에 있는 정보 불러오기
+        KakaoAccountInfo kaDTO = ms.getkakaoAcountInfo(kDTO);
+        //기존 회원 여부 확인
+        SNSInfo sDTO = new SNSInfo();
+        sDTO.setSnsId(String.valueOf(kaDTO.getId()));
+        sDTO.setSnsCode("K");
+        MemberInfoResponse login = ms.getSnsId(sDTO);
+        if(login != null){
+            //기존 회원일 경우
+            mv.addObject("returnJoin", "기존 회원입니다.");
+            mv.setViewName("memLoginForm");
+            return mv;
+        }
+        //DB에 가입정보 저장
+        String kakaoEmail = kaDTO.getKakao_account().getEmail();
+        String id = "K_" + kakaoEmail.substring(0, kakaoEmail.lastIndexOf("@"));
+        MemberInsert mDTO = MemberInsert.builder()
+                .id(id)
+                .snsId(String.valueOf(kaDTO.getId()))
+                .snsCode("K")
+                .email(kakaoEmail)
+                .memberType("U")
+                .build();
+        logger.info("가입 정보 : {}", mDTO);
+        int result = ms.snsJoin(mDTO);
+        mv.addObject("returnJoin", "회원가입 완료");
+        mv.setViewName("memLoginForm");
+        return mv;
+    }
+
     /**
      *
      *@author 유은비
@@ -325,31 +383,102 @@ public class MemberController {
      **/
     @RequestMapping("/googleLoginForm")
     public String loginUrlGoogle(){
-
         String url = "https://accounts.google.com/o/oauth2/v2/auth?";
-        String googleClientId = "1069124062680-3bu27g8kvtbeudanv8clutbt9mdeh22d.apps.googleusercontent.com";
+        String googleClientId = pro.getGoogleClient_id();
         String redirect_uri = "http://localhost:8888/mem/googleLogin";
 
         String googleURL = url + "client_id=" + googleClientId
                 + "&redirect_uri=" + redirect_uri + "&response_type=code&scope=email%20profile%20openid&access_type=offline";
-
         return "redirect:" + googleURL;
     }
     /**
      *
      *@author 유은비
      *@date 2023-11-29
-     *@comment 구글계정으로 로그인
+     *@comment 구글 계정으로 로그인
      *
      **/
     @RequestMapping("/googleLogin")
     public ModelAndView googleLoginReady(String code, HttpSession session){
+        String redirect_uri = "http://localhost:8888/mem/googleLogin";
         ModelAndView mv = new ModelAndView();
-        logger.info("콜백 후 code : {}", code);
+        logger.info("콜백 후 code : {}", code, redirect_uri);
         //구글에서 토큰 가져오기
-        GoogleResponse gDTO = ms.getGoogleAccessToken(code);
+        GoogleResponse gDTO = ms.getGoogleAccessToken(code, redirect_uri);
         //토큰으로 구글 측에 있는 정보 불러오기
-        //GoogleAccountInfo kaDTO = ms.getGoogleAcountInfo(gDTO);
+        GoogleAccountInfo gaDTO = ms.getGoogleAcountInfo(gDTO);
+        //가입 여부 확인
+        SNSInfo sDTO = new SNSInfo();
+        sDTO.setSnsId(String.valueOf(gaDTO.getSub()));
+        sDTO.setSnsCode("G");
+        MemberInfoResponse login = ms.getSnsId(sDTO);
+        if(login == null){
+            //정보 없음 --> 회원가입
+            mv.addObject("Gcode", code);
+            mv.setViewName("memLoginForm");
+            return mv;
+        }
+        //정보 있음
+        session.setAttribute("member", login);
+        mv.addObject("login", login);
+        mv.setViewName("redirect:/");
+        return mv;
+    }
+    /**
+     *
+     *@author 유은비
+     *@date 2023-11-30
+     *@comment 구글 계정 가입 폼 띄우기
+     *
+     **/
+    @RequestMapping("/googleJoinForm")
+    public String googleJoinForm(){
+        String url = "https://accounts.google.com/o/oauth2/v2/auth?";
+        String googleClientId = pro.getGoogleClient_id();
+        String redirect_uri = "http://localhost:8888/mem/googleJoin";
+
+        String googleURL = url + "client_id=" + googleClientId
+                + "&redirect_uri=" + redirect_uri + "&response_type=code&scope=email%20profile%20openid&access_type=offline";
+        return "redirect:" + googleURL;
+    }
+    /**
+     *
+     *@author 유은비
+     *@date 2023-11-30
+     *@comment 구글 계정으로 가입
+     *
+     **/
+    @RequestMapping("/googleJoin")
+    public ModelAndView googleJoin(String code, ModelAndView mv){
+        String redirect_uri = "http://localhost:8888/mem/googleJoin";
+        //구글에서 토큰 가져오기
+        GoogleResponse gDTO = ms.getGoogleAccessToken(code, redirect_uri);
+        //토큰으로 구글 측에 있는 정보 불러오기
+        GoogleAccountInfo gaDTO = ms.getGoogleAcountInfo(gDTO);
+        //기존 회원 여부 확인
+        SNSInfo sDTO = new SNSInfo();
+        sDTO.setSnsId(String.valueOf(gaDTO.getSub()));
+        sDTO.setSnsCode("G");
+        MemberInfoResponse login = ms.getSnsId(sDTO);
+        if(login != null){
+            //기존 회원일 경우
+            mv.addObject("returnJoin", "기존 회원입니다.");
+            mv.setViewName("memLoginForm");
+            return mv;
+        }
+        //DB에 가입정보 저장
+        String id = "G_" + gaDTO.getEmail().substring(0, gaDTO.getEmail().lastIndexOf("@"));
+        MemberInsert mDTO = MemberInsert.builder()
+                                    .id(id)
+                                    .snsId(gaDTO.getSub())
+                                    .snsCode("G")
+                                    .email(gaDTO.getEmail())
+                                    .memberType("U")
+                                    .build();
+        logger.info("가입 정보 : {}", mDTO);
+        int result = ms.snsJoin(mDTO);
+        mv.addObject("returnJoin", "회원가입 완료");
+        mv.setViewName("memLoginForm");
         return mv;
     }
 

@@ -6,8 +6,6 @@
 
     <!--/**
     *
-    *
-    *
     *@author 유은비
     *@date 2023-11-23
     *@comment 사용자 회원 가입
@@ -19,8 +17,6 @@
     </insert>
 
     <!--/**
-    *
-    *
     *
     *@author 유은비
     *@date 2023-11-23
@@ -35,8 +31,6 @@
 
     <!--/**
     *
-    *
-    *
     *@author 유은비
     *@date 2023-11-23
     *@comment 사용자 로그인
@@ -50,8 +44,6 @@
     </select>
 
     <!--/**
-    *
-    *
     *
     *@author 유은비
     *@date 2023-11-23
@@ -77,8 +69,6 @@
 
     <!--/**
     *
-    *
-    *
     *@author 유은비
     *@date 2023-11-23
     *@comment 아이디 찾기
@@ -96,8 +86,6 @@
     </select>
 
     <!--/**
-    *
-    *
     *
     *@author 유은비
     *@date 2023-11-23
@@ -119,8 +107,6 @@
 
     <!--/**
     *
-    *
-    *
     *@author 유은비
     *@date 2023-11-23
     *@comment 비밀번호 재발급
@@ -137,8 +123,6 @@
 
     <!--/**
     *
-    *
-    *
     *@author 유은비
     *@date 2023-11-23
     *@comment 사용자 아이디 중복 체크
@@ -154,8 +138,6 @@
     </select>
 
     <!--/**
-    *
-    *
     *
     *@author 유은비
     *@date 2023-11-23
@@ -175,8 +157,6 @@
 
     <!--/**
     *
-    *
-    *
     *@author 유은비
     *@date 2023-11-23
     *@comment 사용자 정보 수정
@@ -195,14 +175,12 @@
     </update>
     <!--/**
     *
-    *
-    *
     *@author 유은비
-    *@date 2023-11-23
-    *@comment 카카오 로그인
+    *@date 2023-11-30
+    *@comment SNS 로그인
     *
     **/-->
-    <select id="getKakaoId" parameterType="Long" resultType="MemberInfoResponse">
+    <select id="getSnsId" parameterType="SNSInfo" resultType="MemberInfoResponse">
         SELECT ID
              , SEQ
              , EMAIL
@@ -215,9 +193,20 @@
              , SALT
         FROM
             MEMBER
-        WHERE SNS_ID = #{kakaoId}
-          AND SNS_CODE = 'K'
+        WHERE SNS_ID = #{snsId}
+          AND SNS_CODE = #{snsCode}
     </select>
+    <!--/**
+      *
+      *@author 유은비
+      *@date 2023-11-30
+      *@comment SNS로 가입
+      *
+      **/-->
+    <insert id="snsJoin" parameterType="MemberInsert">
+        INSERT INTO MEMBER(ID, EMAIL, MEMBER_TYPE, USE_YN, REG_DT, MEMBER_STATUS, SNS_ID, SNS_CODE)
+        VALUES (#{id} ,#{email}, #{memberType}, 'Y', now(), #{memberStatus}, #{snsId}, #{snsCode});
+    </insert>
 
 
 </mapper>

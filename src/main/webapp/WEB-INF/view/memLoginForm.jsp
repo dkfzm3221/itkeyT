@@ -496,10 +496,28 @@
         location.href = "/mem/kakaoLoginForm";
     })
     //구글 로그인
-    //카카오 로그인
     $('#googleLogin').on("click", function(){
         location.href = "/mem/googleLoginForm";
     })
+
+
+    //SNS 로그인 계정 가입 여부
+    if("${Kcode}" != ""){
+        let confirm_val = confirm("계정이 존재하지 않습니다. 가입하시겠습니까?");
+        if (confirm_val) {
+            location.href = "/mem/kakaoJoinForm";
+        }
+    }
+    if("${Gcode}" != ""){
+        let confirm_val = confirm("계정이 존재하지 않습니다. 가입하시겠습니까?");
+        if (confirm_val) {
+            location.href = "/mem/googleJoinForm";
+        }
+    }
+    if("${returnJoin}" != ""){
+        alert("${returnJoin}");
+    }
+
 
 
 </script>
