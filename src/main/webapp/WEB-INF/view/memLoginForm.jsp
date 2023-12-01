@@ -58,6 +58,10 @@
         float: right ;
         font-size: 10px;
     }
+    .logo_img{
+        width: 130px;
+        height: 40px;
+    }
 </style>
 <c:if test="${ not empty errorMsg }">
     <script>
@@ -99,8 +103,8 @@
                 </div>
 
                 <div class="form-action">
-                    <a href="#" class="p-0 btn btn-link btn-black" id="kakaoLogin">카카오로그인</a>
-                    <a href="#" class="p-0 btn btn-link btn-black ml-5" id="googleLogin">구글로그인</a>
+                    <a href="#" class="p-0 btn btn-link btn-black" id="kakaoLogin"><img src="/resources/images/kakao_login.png" class="logo_img"></a>
+                    <a href="#" class="p-0 btn btn-link btn-black ml-5" id="googleLogin"><img src="/resources/images/web_light_sq_SI@1x.png" class="logo_img"></a>
                 </div>
 
                 <div class="form-action">
@@ -501,10 +505,28 @@
         location.href = "/mem/kakaoLoginForm";
     })
     //구글 로그인
-    //카카오 로그인
     $('#googleLogin').on("click", function(){
         location.href = "/mem/googleLoginForm";
     })
+
+
+    //SNS 로그인 계정 가입 여부
+    if("${Kcode}" != ""){
+        let confirm_val = confirm("계정이 존재하지 않습니다. 가입하시겠습니까?");
+        if (confirm_val) {
+            location.href = "/mem/kakaoJoinForm";
+        }
+    }
+    if("${Gcode}" != ""){
+        let confirm_val = confirm("계정이 존재하지 않습니다. 가입하시겠습니까?");
+        if (confirm_val) {
+            location.href = "/mem/googleJoinForm";
+        }
+    }
+    if("${returnJoin}" != ""){
+        alert("${returnJoin}");
+    }
+
 
 
 </script>

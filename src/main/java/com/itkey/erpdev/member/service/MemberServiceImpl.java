@@ -25,6 +25,9 @@ public class MemberServiceImpl implements MemberService{
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     MemberDao dao;
+
+    properties pro;
+
     //일반 회원 가입
     @Override
     public int memJoin(MemberInsert mDTO) {
@@ -107,7 +110,7 @@ public class MemberServiceImpl implements MemberService{
 
     //카카오 토큰 가져오기
     @Override
-    public KakaoResponse getKakaoAccessToken(String code) {
+    public KakaoResponse getKakaoAccessToken(String code, String redirect_uri) {
 
         // 서버로 요청할 Header
         HttpHeaders headers = new HttpHeaders();
@@ -116,8 +119,8 @@ public class MemberServiceImpl implements MemberService{
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("grant_type", "authorization_code");
-        params.add("client_id","b5b49c204b8252329bb89fa1fd9cc45e");
-        params.add("redirect_uri", "http://localhost:8888/mem/kakaoLogin");
+        params.add("client_id", pro.getKakaoClient_id());
+        params.add("redirect_uri", redirect_uri);
         params.add("code", code);
 
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
@@ -131,7 +134,7 @@ public class MemberServiceImpl implements MemberService{
     }
     //카카오에서 정보 가져오기
     @Override
-    public KakaoAcountInfo getkakaoAcountInfo(KakaoResponse kDTO) {
+    public KakaoAccountInfo getkakaoAcountInfo(KakaoResponse kDTO) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -142,20 +145,20 @@ public class MemberServiceImpl implements MemberService{
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://kapi.kakao.com/v2/user/me";
 
-        KakaoAcountInfo kaDTO = restTemplate.postForObject(url, header, KakaoAcountInfo.class);
-        logger.info("KakaoAcountInfo1 : {}", kaDTO);
+        KakaoAccountInfo kaDTO = restTemplate.postForObject(url, header, KakaoAccountInfo.class);
+        logger.info("KakaoAccountInfo1 : {}", kaDTO);
 
         return kaDTO;
     }
-    //카카오 로그인
+    //sns 로그인
     @Override
-    public MemberInfoResponse getKakaoId(Long kakaoId) {
-        return dao.getKakaoId(kakaoId);
+    public MemberInfoResponse getSnsId(SNSInfo sDTO) {
+        return dao.getSnsId(sDTO);
     }
 
     //구글 토근 가져오기
     @Override
-    public GoogleResponse getGoogleAccessToken(String code) {
+    public GoogleResponse getGoogleAccessToken(String code, String redirect_uri) {
 
         // 서버로 요청할 Header
         HttpHeaders headers = new HttpHeaders();
@@ -164,9 +167,9 @@ public class MemberServiceImpl implements MemberService{
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("grant_type", "authorization_code");
-        params.add("clientId","1069124062680-3bu27g8kvtbeudanv8clutbt9mdeh22d.apps.googleusercontent.com");
-        params.add("clientSecret","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");
-        params.add("redirect_uri", "http://localhost:8888/mem/googleLogin");
+        params.add("clientId", pro.getGoogleClient_id());
+        params.add("clientSecret", pro.getGoogleClient_pw());
+        params.add("redirect_uri", redirect_uri);
         params.add("code", code);
 
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
@@ -178,7 +181,29 @@ public class MemberServiceImpl implements MemberService{
         logger.info("googleResponse: {}", gDTO);
         return gDTO;
     }
+    //구글에서 정보 가져오기
+    @Override
+    public GoogleAccountInfo getGoogleAcountInfo(GoogleResponse gDTO) {
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+        headers.add("Authorization", "Bearer "+ gDTO.getAccess_token());
+
+        HttpEntity<MultiValueMap<String, String>> header = new HttpEntity<>(headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://oauth2.googleapis.com/tokeninfo";
+
+        GoogleAccountInfo gaDTO = restTemplate.postForObject(url, header, GoogleAccountInfo.class);
+        logger.info("GoogleAccountInfo : {}", gaDTO);
+
+        return gaDTO;
+    }
+    //sns로 회원가입
+    @Override
+    public int snsJoin(MemberInsert mDTO) {
+        return dao.snsJoin(mDTO);
+    }
 
 
 }
