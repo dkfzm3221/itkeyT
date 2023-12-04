@@ -93,10 +93,15 @@
                                 <th class="padding-lg">작성자</th>
                                 <td colspan="3">
                                     <c:if test="${empty userId}">
-                                        <input type="text" class="form-control write-form" id="regNm" placeholder="작성자" name="regNm">
+                                        <input type="text" class="form-control write-form" id="regNm" placeholder="작성자" name="regNm" oninput="checkUserId(this.value)">
                                     </c:if>
                                     <c:if test="${!empty userId}">
-                                        <input type="text" class="form-control write-form" id="regNm" placeholder="작성자" name="regNm" value="${userId}" readonly>
+                                        <c:if test="${memberType == 'A'}">
+                                            <input type="text" class="form-control write-form" id="regNm" placeholder="작성자" name="regNm" value="관리자" readonly>
+                                        </c:if>
+                                        <c:if test="${memberType == 'U'}">
+                                            <input type="text" class="form-control write-form" id="regNm" placeholder="작성자" name="regNm" value="${userId}" readonly>
+                                        </c:if>
                                     </c:if>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="boardSecretYn" id="boardSecretY" value="Y" checked>
@@ -186,6 +191,16 @@
     listItem.append(deleteButton);
     return listItem;
   }
+
+  function checkUserId(value) {
+      var adminIds = ['admin', 'ADMIN', '관리자'];
+      if (adminIds.includes(value)) {
+          alert('사용할 수 없는 작성자명입니다.');
+          $("#regNm").val("");
+          $("#regNm").focus();
+      }
+  }
+
   // 게시물 등록
 function insertBoard(boardType){
   let formData = new FormData();
