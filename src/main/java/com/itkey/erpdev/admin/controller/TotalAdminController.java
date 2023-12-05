@@ -822,12 +822,13 @@ public class TotalAdminController {
 	 **/
 	@ResponseBody
 	@RequestMapping(value="/upDatedesignMgmt")
-	public String upDatedesignMgmt(@RequestParam("designSeq") int designSeq, @RequestParam("content") String content) {
+	public String upDatedesignMgmt(@RequestParam("designSeq") int designSeq, @RequestParam("content") String content
+									, HttpServletRequest request) {
 		DesignEntity design = new DesignEntity();
 		design.setDesignSeq(designSeq);
 		design.setContent(content);
 
-		int result = adminService.upDateDesignMgmt(design);
+		int result = adminService.upDateDesignMgmt(design, request);
 
 		return result > 0 ? "S" : "F";
 	}

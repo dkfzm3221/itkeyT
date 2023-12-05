@@ -738,12 +738,14 @@
     *
     **/-->
 	<update id="upDateDesignMgmt" parameterType="DesignEntity">
-		/*fn : 디자인관리 수정 - upDateDesignMgmt */
-		UPDATE DESIGN
-		SET CONTENT = #{content}
-			,UPD_DT = NOW()
-		WHERE DESIGN_SEQ = #{designSeq}
+		<!-- fn : 디자인관리 수정 - upDateDesignMgmt -->
+		UPDATE 	DESIGN
+		SET 	CONTENT = <![CDATA[#{content}]]>,
+				UPD_ID = #{updId},
+				UPD_DT = NOW()
+		WHERE	DESIGN_SEQ = #{designSeq}
 	</update>
+
 
 	<!--/**
 	*
