@@ -208,5 +208,20 @@
         VALUES (#{id} ,#{email}, #{memberType}, 'Y', now(), #{memberStatus}, #{snsId}, #{snsCode});
     </insert>
 
+    <!--/**
+     *
+     *@author 유은비
+     *@date 2023-12-06
+     *@comment 회원 탈퇴
+     *
+     **/-->
+    <delete id="deleteMember" parameterType="_int">
+        DELETE
+        FROM
+            MEMBER
+        WHERE
+            SEQ = #{seq}
+    </delete>
+
 
 </mapper>

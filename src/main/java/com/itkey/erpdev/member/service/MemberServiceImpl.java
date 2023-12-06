@@ -205,5 +205,10 @@ public class MemberServiceImpl implements MemberService{
         return dao.snsJoin(mDTO);
     }
 
+    @Override
+    public int deleteMember(Integer seq) {
+        return dao.deleteMember(seq);
+    }
+
 
 }

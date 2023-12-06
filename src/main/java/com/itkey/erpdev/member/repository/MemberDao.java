@@ -30,4 +30,6 @@ public interface MemberDao {
     MemberInfoResponse getSnsId(SNSInfo sDTO);
     //SNS로 가입
     int snsJoin(MemberInsert mDTO);
+    //회원 탈퇴
+    int deleteMember(Integer seq);
 }
