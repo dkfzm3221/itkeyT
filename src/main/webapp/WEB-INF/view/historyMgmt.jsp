@@ -49,8 +49,8 @@
                                 </tr>
                                 </thead>
                                 <tbody id="history_list_tbody">
+                                <input type="hidden" id="hisSeq" value="${historySeq}"/>
                                 <c:if test="${not empty historyList}">
-                                    <input type="hidden" id="hisSeq" value="${historySeq}"/>
                                     <c:forEach items="${historyList}" var="historyList" varStatus="index">
                                         <tr>
                                             <td style="text-align:center;">${historyList.historySeq}</td>
