@@ -83,7 +83,7 @@
                                                     <td>
                                                         <a href="/notice/noticeList?noticeSeq=${notice.noticeSeq}">${notice.noticeTitle}</a>
                                                     </td>
-                                                    <td>test</td>
+                                                    <td>-</td>
                                                     <td>${notice.inqCnt}</td>
                                                     <td>${notice.regDate}</td>
                                                 </tr>
