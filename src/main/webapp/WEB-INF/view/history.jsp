@@ -20,7 +20,7 @@
                     </c:if>
                     <c:if test="${not empty historyList}">
                         <c:forEach items="${historyList}" var="history" varStatus="status">
-                            <c:if test="${status.index == 0 or history.year ne historyList[status.index - 1].year}">
+                            <c:if test="${(status.index eq 0) or (history.year ne historyList[status.index - 1].year)}">
                                 <h2>${history.year}년</h2>
                                 <div class="table-responsive">
                                     <table class="table">

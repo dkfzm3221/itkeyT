@@ -98,7 +98,7 @@
                 }
             },
             error: function (error) {
-                console.error('Error updating design:', error);
+                // console.error('Error updating design:', error);
                 alert("수정에 실패하였습니다.");
                 return false;
             }
