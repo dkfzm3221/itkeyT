@@ -16,10 +16,6 @@
         display: inline-block;
         text-align: left;
     }
-
-    .directions-text {
-        text-align: left;
-    }
 </style>
 
 <div class="wrapper">
