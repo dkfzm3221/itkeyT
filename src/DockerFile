@@ -1,6 +1,0 @@
-FROM jenkins/jenkins:jdk11
-VOLUME /tmp
-ARG JAR_FILE=erpDev-0.0.1-SNAPSHOT.war
-ADD ${JAR_FILE} app.war
-ENV JAVA_OPTS=""
-ENTRYPOINT ["java","-jar","/app.war"]
