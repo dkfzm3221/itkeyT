@@ -527,6 +527,9 @@
         alert("${returnJoin}");
     }
 
+    if("${response}" != ""){
+        alert("${response}");
+    }
 
 
 </script>

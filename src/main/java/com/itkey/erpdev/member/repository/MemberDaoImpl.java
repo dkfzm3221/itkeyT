@@ -73,6 +73,11 @@ public class MemberDaoImpl implements MemberDao{
     public int snsJoin(MemberInsert mDTO) {
         return sql.insert("mapper.member.snsJoin", mDTO);
     }
+    //회원 탈퇴
+    @Override
+    public int deleteMember(Integer seq) {
+        return sql.delete("mapper.member.deleteMember", seq);
+    }
 
 
 }

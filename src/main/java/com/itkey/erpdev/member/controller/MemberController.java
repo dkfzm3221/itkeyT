@@ -247,6 +247,32 @@ public class MemberController {
         return "redirect:/";
     }
 
+
+    /**
+     *
+     *@author 유은비
+     *@date 2023-12-06
+     *@comment 사용자 탈퇴
+     *
+     **/
+    @RequestMapping(value="/deleteMember")
+    public ModelAndView deleteMember(Integer seq, HttpSession session, ModelAndView mv){
+
+        MemberInfoResponse mDTO = ((MemberInfoResponse)session.getAttribute("member"));
+        if(seq == mDTO.getSeq()){
+            //탈퇴O
+            int result = ms.deleteMember(seq);
+            mv.addObject("response", "탈퇴 완료");
+            mv.setViewName("memLoginForm");
+            return mv;
+        }else{
+            //탈퇴X
+            mv.addObject("response", "탈퇴 실패");
+            mv.setViewName("memLoginForm");
+            return mv;
+        }
+    }
+
     /**
      *
      *@author 유은비
