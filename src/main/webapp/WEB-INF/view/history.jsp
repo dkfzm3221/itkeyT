@@ -69,7 +69,7 @@
 
             <div id="map"></div>
 
-            <p>서울특별시 금천구 가산동 벚꽃로 298 대륭포스트타워 6차 1311호</p>
+            <p>서울특별시 금천구 벚꽃로 278 SJ테크노빌 14층 1406호</p>
             <p>전화번호: 010-1234-5678</p>
         </div>
     </div>
@@ -79,11 +79,11 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=491fe7793b5a1aec24a7088f10092894&libraries=services,clusterer,drawing"></script>
 
 <script>
-    var companyAddr = '서울특별시 금천구 벚꽃로 298';
+    var companyAddr = '서울특별시 금천구 벚꽃로 278';
 
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
-            center: new kakao.maps.LatLng(37.481146, 126.883929), // 지도의 중심좌표
+            center: new kakao.maps.LatLng(37.479433, 126.885061), // 지도의 중심좌표
             level: 3 // 지도의 확대 레벨
         };
 
