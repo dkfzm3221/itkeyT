@@ -148,7 +148,7 @@
             type: "POST",
             url: "/totalAdmin/upDateHistoryMgmt",
             data: {
-                historySeq: hisSeq,
+                historySeq: seq,
                 year: year,
                 month: monthNumber,
                 content: content
