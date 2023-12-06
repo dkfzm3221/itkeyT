@@ -49,12 +49,14 @@
         outline: none;
         padding-left: 10px;
         background-color: rgb(250, 250, 250);
-
     }
     .read{
         background-color: #eeeeee;
     }
-
+     #deleteMemberBtn{
+         float: left ;
+         font-size: 10px;
+     }
 </style>
 <body>
 <div class="main-header">
@@ -234,7 +236,7 @@
                             </tr>
                             <tr>
                                 <th>이름</th>
-                                <td><input type="text" class="inputStyle1" value="${member.name}" name="name" readonly></td>
+                                <td><input type="text" class="inputStyle1 read" value="${member.name}" name="name"></td>
                             </tr>
                             <tr>
                                 <th>비밀번호</th>
@@ -250,10 +252,13 @@
                             </tr>
                             <tr>
                                 <th>이메일</th>
-                                <td><input type="email" class="inputStyle1 read" id="updateMemEmail" value="" name="email"></td>
+                                <td><input type="email" class="inputStyle1" id="updateMemEmail" value="" name="email"></td>
                             </tr>
                         </table>
                     </form>
+                </div>
+                <div class="form-action">
+                    <a href="#" class="p-0 btn btn-link btn-black" id="deleteMemberBtn">탈퇴하기</a>
                 </div>
 
                 <div class="manpower mb-3">
@@ -315,6 +320,16 @@
     $(document).on("keyup", "#updateMemHp", function() {
         $(this).val($(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, "$1-$2-$3").replace("--", "-"));
     });
+
+    //탈퇴하기
+    $(document).on("click", "#deleteMemberBtn", function() {
+        let seq = $("#MemberIdx").val();
+        let confirm_val = confirm("정말로 탈퇴하시겠습니까?");
+        if (confirm_val) {
+            location.href = "/mem/deleteMember?" + "seq=" + seq;
+        }
+    });
+
 
 </script>
 </body>

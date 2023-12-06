@@ -33,4 +33,6 @@ public interface MemberService {
     GoogleAccountInfo getGoogleAcountInfo(GoogleResponse gDTO);
 
     int snsJoin(MemberInsert mDTO);
+
+    int deleteMember(Integer seq);
 }
