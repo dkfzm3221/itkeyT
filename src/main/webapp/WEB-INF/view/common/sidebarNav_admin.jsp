@@ -89,7 +89,7 @@
             <ul class="nav nav-primary">
                 <c:forEach var="gnb" items="${sessionScope.gnbList}" varStatus="status">
                     <li class="nav-item">
-                        <a href='/${gnb.menuConnWay}/${gnb.menuUrl}'>
+                        <a href='/${gnb.menuConnWay}/${gnb.menuUrl}' class="menu-link">
                             <c:choose>
                                 <c:when test="${gnb.menuName == '회원관리'}">
                                     <i class="fas fa-user-cog"></i>
@@ -132,6 +132,21 @@
 </div>
 <!-- End Sidebar -->
 <script>
+    $(document).ready(function () {
+        // 현재 페이지의 URL
+        var currentUrl = window.location.pathname;
+
+        // 각 메뉴의 링크 URL과 비교하여 'active' 클래스 추가
+        $('.menu-link').each(function () {
+            var menuUrl = $(this).attr('href');
+
+            // 현재 URL이 메뉴 URL을 포함하면 'active' 클래스 추가
+            if (currentUrl.includes(menuUrl)) {
+                $(this).closest('.nav-item').addClass('active');
+            }
+        });
+    });
+
     function logoutButton (){
       document.getElementById('logout').submit();
     }

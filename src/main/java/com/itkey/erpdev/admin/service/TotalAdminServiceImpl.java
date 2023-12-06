@@ -351,7 +351,15 @@ public class TotalAdminServiceImpl implements TotalAdminService {
     }
 
     @Override
-    public int upDateDesignMgmt(DesignEntity design){
+    public int upDateDesignMgmt(DesignEntity design, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        TotalAdminDTO totalAdminDTO = (TotalAdminDTO) session.getAttribute("admin");
+
+        String id = totalAdminDTO.getId();          // 아이디
+
+//        design.setRegId(id);
+        design.setUpdId(id);
+
         return totalAdminDAO.upDateDesignMgmt(design);
     }
 
