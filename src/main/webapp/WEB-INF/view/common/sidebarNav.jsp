@@ -236,7 +236,7 @@
                             </tr>
                             <tr>
                                 <th>이름</th>
-                                <td><input type="text" class="inputStyle1 read" value="${member.name}" name="name"></td>
+                                <td><input type="text" class="inputStyle1 read" value="${member.name}" id="updateMemName" name="name"></td>
                             </tr>
                             <tr>
                                 <th>비밀번호</th>
