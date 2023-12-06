@@ -166,6 +166,7 @@
         UPDATE
             MEMBER
         <trim prefix="SET" prefixOverrides=",">
+            <if test="name       !=null and name   !=''">, NAME = #{name}</if>
             <if test="password       !=null and password   !=''">, PASSWORD = #{password}</if>
             <if test="hp       !=null and hp   !=''">, HP = #{hp}</if>
             <if test="email       !=null and email   !=''">, EMAIL = #{email}</if>
