@@ -116,8 +116,8 @@
     </c:forEach>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/history">연혁</a>
+                <li class="nav-item active" style="background-color:#1c239a!important">
+                    <a class="nav-link" href="/history">회사소개</a>
                 </li>
 
                <c:forEach items="${menuList}" var="menu">
