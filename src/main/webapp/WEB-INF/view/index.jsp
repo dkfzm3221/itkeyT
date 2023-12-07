@@ -77,7 +77,7 @@
                                             <c:forEach items="${notice}" var="notice">
                                                 <tr style="background-color: #FFC600; color: #000000;">
                                                     <td id="noticeSeq">
-                                                        <span>공111111113232지</span>
+                                                        <span>공지</span>
                                                     </td>
                                                     <td>${notice.regId}</td>
                                                     <td>
