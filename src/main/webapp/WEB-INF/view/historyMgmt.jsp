@@ -100,8 +100,8 @@
         innerHTML += '<td><input type="text" class="form-control" id="month_' + hisSeq + '" placeholder="MM" maxlength="2"></td>';
         innerHTML += '<td><input type="text" class="form-control" id="content_' + hisSeq + '" placeholder="내용 입력"></td>';
         innerHTML += '<td style="text-align:center;width:200px">';
-        innerHTML +=    '<button class="btn btn-sm btn-info" onclick="updateHistory(hisSeq);"><i class="fa fa-list"></i> 저장</button>';
-        innerHTML +=    '<button class="btn btn-danger btn-sm" onclick="deleteHistory(hisSeq, \'N\', this);"><i class="fa fa-list"></i> 삭제</button>';
+        innerHTML +=    '<button class="btn btn-sm btn-info" onclick="updateHistory(' + hisSeq + ');"><i class="fa fa-list"></i> 저장</button>';
+        innerHTML +=    '<button class="btn btn-danger btn-sm" onclick="deleteHistory(' + hisSeq + ', \'N\', this);"><i class="fa fa-list"></i> 삭제</button>';
         innerHTML += '</td>';
 
         newRow.innerHTML = innerHTML;
@@ -117,29 +117,29 @@
        *@comment 연혁관리 수정
        *
        **/--%>
-    function updateHistory(hisSeq) {
-        let content = $("#content_" + hisSeq).val();
-        let year = $("#year_" + hisSeq).val();
-        let month = $("#month_" + hisSeq).val();
+    function updateHistory(seq) {
+        let content = $("#content_" + seq).val();
+        let year = $("#year_" + seq).val();
+        let month = $("#month_" + seq).val();
 
         let currentYear = new Date().getFullYear();
 
         if (!/^\d{4}$/.test(year) || year < 1900 || year > currentYear) {
             alert("올바른 연도를 입력하세요.");
-            $("#year_" + hisSeq).focus();
+            $("#year_" + seq).focus();
             return false;
         }
 
         let monthNumber = parseInt(month, 10);
         if (isNaN(monthNumber) || monthNumber < 1 || monthNumber > 12) {
             alert("월은 1에서 12까지의 값이어야 합니다.");
-            $("#month_" + hisSeq).focus();
+            $("#month_" + seq).focus();
             return false;
         }
 
         if (!content.trim()) {
             alert("내용을 입력하세요.");
-            $("#content_" + hisSeq).focus();
+            $("#content_" + seq).focus();
             return false;
         }
 
@@ -148,7 +148,7 @@
             type: "POST",
             url: "/totalAdmin/upDateHistoryMgmt",
             data: {
-                historySeq: hisSeq,
+                historySeq: seq,
                 year: year,
                 month: monthNumber,
                 content: content

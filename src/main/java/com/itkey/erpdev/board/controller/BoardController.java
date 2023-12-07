@@ -80,7 +80,7 @@ public class BoardController {
         session.setAttribute("noticeOne", noticeOne);
 
         // 디자인 (화면 생성할 때마다 필수로 기입)
-        List<DesignDTO> designList = bs.getDegignList();
+        List<DesignDTO> designList = bs.getDesignList();
 //        session.setAttribute("designList", designList);
         mv.addObject("designList", designList);
 
@@ -129,7 +129,7 @@ public class BoardController {
         mv.addObject("menuList", menuList);
         mv.addObject("bannerList", bannerList);
 
-        List<DesignDTO> designList = bs.getDegignList();
+        List<DesignDTO> designList = bs.getDesignList();
         mv.addObject("designList", designList);
 
         return mv;
@@ -183,7 +183,7 @@ public class BoardController {
         mv.addObject("menuList", menuList);
         mv.addObject("bannerList", bannerList);
 
-        List<DesignDTO> designList = bs.getDegignList();
+        List<DesignDTO> designList = bs.getDesignList();
         mv.addObject("designList", designList);
 
         return mv;
@@ -376,7 +376,7 @@ public class BoardController {
         mv.addObject("menuList", menuList);
         mv.addObject("bannerList", bannerList);
 
-        List<DesignDTO> designList = bs.getDegignList();
+        List<DesignDTO> designList = bs.getDesignList();
         mv.addObject("designList", designList);
 
         return mv;
@@ -403,7 +403,7 @@ public class BoardController {
         mv.addObject("menuList", menuList);
         mv.addObject("bannerList", bannerList);
 
-        List<DesignDTO> designList = bs.getDegignList();
+        List<DesignDTO> designList = bs.getDesignList();
         mv.addObject("designList", designList);
 
         return mv;

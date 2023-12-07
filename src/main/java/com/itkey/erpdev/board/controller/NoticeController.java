@@ -66,7 +66,7 @@ public class NoticeController {
         mv.addObject("menuList", menuList);
         mv.addObject("bannerList", bannerList);
 
-        List<DesignDTO> designList = bs.getDegignList();
+        List<DesignDTO> designList = bs.getDesignList();
         mv.addObject("designList", designList);
 
         return mv;
@@ -93,7 +93,7 @@ public class NoticeController {
         mv.addObject("menuList", menuList);
         mv.addObject("bannerList", bannerList);
 
-        List<DesignDTO> designList = bs.getDegignList();
+        List<DesignDTO> designList = bs.getDesignList();
         mv.addObject("designList", designList);
 
         return mv;
@@ -146,7 +146,7 @@ public class NoticeController {
         mv.addObject("menuList", menuList);
         mv.addObject("bannerList", bannerList);
 
-        List<DesignDTO> designList = bs.getDegignList();
+        List<DesignDTO> designList = bs.getDesignList();
         mv.addObject("designList", designList);
 
         return mv;
