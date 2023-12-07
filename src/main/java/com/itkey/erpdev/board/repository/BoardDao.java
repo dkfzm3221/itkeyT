@@ -46,7 +46,7 @@ public interface BoardDao {
 
     void deleteBoardReply(Board board);
 
-    List<DesignDTO> getDegignList();
+    List<DesignDTO> getDesignList();
 
     void deleteBoardFile(Board board);
 

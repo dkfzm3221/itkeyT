@@ -124,8 +124,8 @@ public class BoardDaoImpl implements BoardDao{
 
 
     @Override
-    public List<DesignDTO> getDegignList() {
-        return sql.selectList("mapper.board.getDegignList");
+    public List<DesignDTO> getDesignList() {
+        return sql.selectList("mapper.board.getDesignList");
     }
 
     @Override

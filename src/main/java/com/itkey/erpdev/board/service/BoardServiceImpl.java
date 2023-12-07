@@ -240,8 +240,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<DesignDTO> getDegignList() {
-        return dao.getDegignList();
+    public List<DesignDTO> getDesignList() {
+        return dao.getDesignList();
     }
 
     @Override
