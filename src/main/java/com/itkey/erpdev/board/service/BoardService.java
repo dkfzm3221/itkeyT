@@ -46,7 +46,7 @@ public interface BoardService {
     void deleteBoardReply(Board board);
 
     // 디자인 리스트
-    List<DesignDTO> getDegignList();
+    List<DesignDTO> getDesignList();
 
     void deleteBoardFile(Board board);
 

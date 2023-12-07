@@ -438,7 +438,7 @@
         WHERE REPLY_SEQ = #{replySeq}
     </update>
 
-    <select id="getDegignList" resultType="DesignDTO">
+    <select id="getDesignList" resultType="DesignDTO">
         SELECT
             design_seq
              , type
